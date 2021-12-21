@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Yolk/Yolk.h"
+#include "../../../src/Yolk/Yolk.h"
 
 class YK_God : public Yolk::Environment
 {

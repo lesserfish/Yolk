@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Yolk/Yolk.h"
+#include "../../../src/Yolk/Yolk.h"
 #include <functional>
 
 void  MTyA(int, int)

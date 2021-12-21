@@ -1,5 +1,3 @@
-# /YOLK/CMakeLists.txt
-
 cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED)
@@ -7,8 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED)
 project(Yolk VERSION 1.0 DESCRIPTION "Yolk library")
 
 include(external/nlohmann_json.cmake SYSTEM)
-
-add_subdirectory(Yolk)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
@@ -23,4 +19,4 @@ else()
 endif()
 
 
-target_link_libraries(${PROJECT_NAME} INTERFACE nlohmann_json::nlohmann_json yolk)
+target_link_libraries(${PROJECT_NAME} INTERFACE nlohmann_json::nlohmann_json)
