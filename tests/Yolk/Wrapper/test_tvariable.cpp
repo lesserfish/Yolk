@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Yolk/Yolk.h"
+#include "../../../src/Yolk/Yolk.h"
 
 TEST(Yolk_Test, Typed_Variable_Assignment)
 {

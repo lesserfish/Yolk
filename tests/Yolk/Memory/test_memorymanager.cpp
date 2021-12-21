@@ -1,4 +1,4 @@
-#include "../../../src/Yolk/Yolk/Yolk.h"
+#include "../../../src/Yolk/Yolk.h"
 #include <gtest/gtest.h>
 #include <vector>
 

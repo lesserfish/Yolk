@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Yolk/Yolk.h"
+#include "../../../src/Yolk/Yolk.h"
 
 TEST(Yolk_Test, Wrapper_Table_Add_Field)
 {
