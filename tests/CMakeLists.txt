@@ -18,6 +18,6 @@ add_executable(TEST ${SOURCE_FILES})
 
 target_link_libraries(TEST gtest_main Yolk nlohmann_json::nlohmann_json)
 
-include(../src/Yolk/external/nlohmann_json.cmake)
+include(../src/external/nlohmann_json.cmake)
 include(GoogleTest)
 gtest_discover_tests(TEST WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/tests)

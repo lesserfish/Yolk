@@ -1,19 +1,22 @@
-# /CMakeLists.xt
-
 cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED)
 
-project(Example)
+project(Yolk VERSION 1.0 DESCRIPTION "Yolk library")
 
-add_subdirectory(Yolk)
+include(external/nlohmann_json.cmake SYSTEM)
 
-if (EMSCRIPTEN)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
-    set(CMAKE_EXECUTABLE_SUFFIX ".html")
-endif ()
+add_library(${PROJECT_NAME} INTERFACE)
 
-add_executable(${PROJECT_NAME} main.cpp)
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+                VERSION ${PROJECT_VERSION}
+                LINKER_LANGUAGE CXX)
 
-target_link_libraries(${PROJECT_NAME} Yolk)
+if(MSVC)
+  target_compile_options(${PROJECT_NAME} INTERFACE /W4 /WX)
+else()
+  target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra -Wpedantic)
+endif()
+
+
+target_link_libraries(${PROJECT_NAME} INTERFACE nlohmann_json::nlohmann_json)
