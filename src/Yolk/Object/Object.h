@@ -66,9 +66,16 @@ namespace Yolk
         bool RegisterMethod(std::function<Out(In...)> rvalue, std::string Name);
         void DeregisterMethod(std::string Name);
 
-        bool RegisterObject(Object *object, std::string Name);
-        void DeregisterObject(std::string Name); 
+        bool RegisterObject(Object *object);
+        
+        private:
+        bool RegisterObject(Object *object, std::string Name); // <-- todo: Remove this!
+        void DeregisterObject(std::string Name);  // <-- todo: Remove this!
+        
+        protected:
         void DeregisterObject(Object *object); 
+
+        int GetObjectCount() const;
 
         bool RegisterChild(Object *, std::string Name);
         void DeregisterChild(Object *);
@@ -76,7 +83,11 @@ namespace Yolk
         
         bool ExecuteScript(std::string Script);
 
+        void IsolateSelf();
+
         void UpdateFather(Object* newFather);
+
+        virtual void DeregisterWatcher(Network* object);
 
         virtual void InformExistence(Object* object);
         
@@ -88,8 +99,8 @@ namespace Yolk
 
         private:
 
-        Name localName;
-        Name globalName;
+        const Name localName;
+        const Name globalName;
 
         Father* father;
         const Mode mode;
@@ -98,6 +109,8 @@ namespace Yolk
         Memory::MemoryBlock memoryBlock;
 
         std::vector<Object*> Children;
+
+        protected:
         std::function<void(std::string)> LogCallbackFunction;
 
     };
@@ -132,9 +145,11 @@ namespace Yolk
 
     inline Object::~Object()
     {
-        std::string Log = "[Object:" + localName+"] INFO: " + globalName + " has been destroyed.";
-        LogCallbackFunction(Log);
-
+        for(auto& object : Watchers)
+        {
+            Object *cast = static_cast<Object*>(object);
+            cast->DeregisterObject(this);
+        }
         if(Children.size() > 0)
         {
             std::string Log = "[Object:"+ localName +"] WARNING: An error has occurred! There is still a child alive during this destruction. Attempting to find adoption.";
@@ -144,23 +159,37 @@ namespace Yolk
         if(mode == Mode::Follower){
             for(auto& c : Children)
             {
-                //father->RegisterChild(c, c->GetGlobalName());
-                auto newLocalName = father->RequestNewName(c->GetLocalName(), c);
+                bool result = father->RegisterChild(c, c->GetGlobalName());
+
+                if(!result)
+                {
+                    std::string Log = "[Object:]"+localName+" CRITICAL ERROR: Failed to register child "+ c->GetGlobalName() + ". Isolating Child!";
+                    c->IsolateSelf();
+                    LogCallbackFunction(Log);
+                    continue;
+                }
+                //auto newLocalName = father->RequestNewName(c->GetLocalName(), c);
                 c->UpdateFather(father);
-                c->localName = newLocalName;
-                c->globalName = father->GetGlobalName() + "::" + newLocalName;
+                //c->localName = newLocalName;
+                //c->globalName = father->GetGlobalName() + "::" + newLocalName;
             }
         }
 
         if(mode == Mode::Follower)
             father->DeregisterChild(this);
+        
+        std::string Log = "[Object:" + localName+"] INFO: " + globalName + " has been destroyed.";
+        LogCallbackFunction(Log);
     }
 
     inline void Object::UpdateFather(Object* newFather)
     {
          father = newFather;
     }
-    
+    inline void Object::IsolateSelf()
+    {
+        // Todo!
+    }
     inline Memory::MemoryManager& Object::GetMemoryManager() const
     {
         return memoryManager;
@@ -205,7 +234,12 @@ namespace Yolk
         Children.push_back(child);
         return true;
     }
-
+    inline void Object::DeregisterWatcher(Network* object)
+    {
+        std::string Log = "[" + globalName + "] Deregistering watcher!";
+        LogCallbackFunction(Log);
+        Network::DeregisterWatcher(object);
+    }
     inline void Object::DeregisterChild(Object *child)
     {
         DeregisterObject(child);
@@ -258,6 +292,15 @@ namespace Yolk
             return manager.RegisterStatic(object);
         };
     };
+    inline int Object::GetObjectCount() const
+    {
+        return GetWatchingCount();
+    }
+    inline bool Object::RegisterObject(Object *object)
+    {
+        std::string Name = object->GetGlobalName();
+        return RegisterObject(object, Name);
+    }
     inline bool Object::RegisterObject(Object *object, std::string Name)
     {
         std::string Log;
@@ -282,6 +325,9 @@ namespace Yolk
     }
     inline void Object::DeregisterObject(Object *object)
     {
+        std::string Log = "["+ globalName +"]Requested Deregister of Object: " + object->GetLocalName();
+        LogCallbackFunction(Log);
+
         std::string Name = object->GetGlobalName();
         memoryBlock.DeleteByName(Name);
         StopWatching(object);

@@ -163,7 +163,7 @@ namespace Yolk
         }
         inline WrapperTable::WrapperSuperInfo WrapperTable::GetSuperInfo(Key id) const
         {
-            WrapperSuperInfo info = wrapperTable.at(key);
+            WrapperSuperInfo info = wrapperTable.at(id);
             return info;
         }
 

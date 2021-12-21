@@ -4,7 +4,9 @@
 class YK_God : public Yolk::Environment
 {
     public:
-    YK_God(){}
+    YK_God(){
+        this->LogCallbackFunction = [](std::string in){std::cout << in << std::endl;};
+    }
 };
 
 TEST(Yolk_Test, Object_Test_God)
@@ -120,7 +122,7 @@ TEST(Yolk_Test, Object_Adoption)
     YK_God god;
     YKDemo* a = new YKDemo("a", &god, 1);
     YKDemo* b = new YKDemo("b", a, 2);
-    YKDemo* c = new YKDemo("c", b, 3);
+    new YKDemo("c", b, 3);
 
     int v = a->GetChildValue("Environment::a::b");
     EXPECT_EQ(v, 2);
@@ -129,11 +131,7 @@ TEST(Yolk_Test, Object_Adoption)
 
     delete(b); // now c should be a child of a
 
-    std::string new_loca_name = c->GetLocalName();
-
-    EXPECT_EQ(new_loca_name, "c");
-
-    int w = a->GetChildValue("Environment::a::c");
+    int w = a->GetChildValue("Environment::a::b::c");
 
     EXPECT_EQ(w, 3);
 
@@ -211,4 +209,39 @@ TEST(Yolk_Test, Object_Memory_NotLeaking)
     delete(m7);
 
     EXPECT_EQ(god.GetMemoryManager().Size(), 0);
+}
+class Friends_Object : public Yolk::Object
+{
+    public:
+    Friends_Object(Yolk::Object& father, std::string Name) : Object(Name, &father){
+        this->LogCallbackFunction = [](std::string in){std::cout << in << std::endl;};
+    }
+    void CreateFriend(Friends_Object& object)
+    {
+        RegisterObject(&object);
+    }
+    int GetFriendcount()
+    {
+        return GetObjectCount();
+    }
+};
+TEST(Yolk_Test, Object_Register_Object)
+{
+    YK_God god;
+    Friends_Object obj_a(god, "A");
+    Friends_Object obj_b(god, "B");
+    Friends_Object *obj_c = new Friends_Object(god, "C");
+
+    obj_a.CreateFriend(obj_b);
+    obj_a.CreateFriend(*obj_c);
+
+    EXPECT_EQ(obj_a.GetFriendcount(), 2);
+
+    obj_b.CreateFriend(*obj_c);
+
+    delete(obj_c);
+
+    EXPECT_EQ(obj_a.GetFriendcount(), 1);
+    EXPECT_EQ(obj_b.GetFriendcount(), 0);
+
 }
