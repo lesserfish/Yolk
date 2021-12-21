@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED)
 project(Example)
 
 add_subdirectory(Yolk)
-add_subdirectory(Krill)
 
 if (EMSCRIPTEN)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
@@ -17,4 +16,4 @@ endif ()
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(${PROJECT_NAME} Yolk Krill)
+target_link_libraries(${PROJECT_NAME} Yolk)

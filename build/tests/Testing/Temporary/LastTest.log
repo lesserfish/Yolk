@@ -1,0 +1,1926 @@
+Start testing: Dec 21 17:57 -03
+----------------------------------------------------------
+1/71 Testing: Test_SerializableField.Serializable_Basic_A
+1/71 Test: Test_SerializableField.Serializable_Basic_A
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Test_SerializableField.Serializable_Basic_A" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Test_SerializableField.Serializable_Basic_A" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Test_SerializableField.Serializable_Basic_A
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Test_SerializableField
+[ RUN      ] Test_SerializableField.Serializable_Basic_A
+{"a":"3","b":"107","c":"147","d":"12.800000","e":"Hello buddy!","f":"[\"3\",\"7\",\"9\",\"12\"]"}
+[       OK ] Test_SerializableField.Serializable_Basic_A (0 ms)
+[----------] 1 test from Test_SerializableField (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"Test_SerializableField.Serializable_Basic_A" end time: Dec 21 17:57 -03
+"Test_SerializableField.Serializable_Basic_A" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/71 Testing: Test_SerializableField.Serializable_Basic_B
+2/71 Test: Test_SerializableField.Serializable_Basic_B
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Test_SerializableField.Serializable_Basic_B" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Test_SerializableField.Serializable_Basic_B" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Test_SerializableField.Serializable_Basic_B
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Test_SerializableField
+[ RUN      ] Test_SerializableField.Serializable_Basic_B
+[       OK ] Test_SerializableField.Serializable_Basic_B (0 ms)
+[----------] 1 test from Test_SerializableField (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Test_SerializableField.Serializable_Basic_B" end time: Dec 21 17:57 -03
+"Test_SerializableField.Serializable_Basic_B" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/71 Testing: Test_SerializableField.Serializable_Basic_C
+3/71 Test: Test_SerializableField.Serializable_Basic_C
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Test_SerializableField.Serializable_Basic_C" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Test_SerializableField.Serializable_Basic_C" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Test_SerializableField.Serializable_Basic_C
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Test_SerializableField
+[ RUN      ] Test_SerializableField.Serializable_Basic_C
+[       OK ] Test_SerializableField.Serializable_Basic_C (0 ms)
+[----------] 1 test from Test_SerializableField (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Test_SerializableField.Serializable_Basic_C" end time: Dec 21 17:57 -03
+"Test_SerializableField.Serializable_Basic_C" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/71 Testing: Test_SerializableField.Serializable_Basic_D
+4/71 Test: Test_SerializableField.Serializable_Basic_D
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Test_SerializableField.Serializable_Basic_D" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Test_SerializableField.Serializable_Basic_D" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Test_SerializableField.Serializable_Basic_D
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Test_SerializableField
+[ RUN      ] Test_SerializableField.Serializable_Basic_D
+[       OK ] Test_SerializableField.Serializable_Basic_D (0 ms)
+[----------] 1 test from Test_SerializableField (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Test_SerializableField.Serializable_Basic_D" end time: Dec 21 17:57 -03
+"Test_SerializableField.Serializable_Basic_D" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/71 Testing: Test_SerializableField.SerializerOverload
+5/71 Test: Test_SerializableField.SerializerOverload
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Test_SerializableField.SerializerOverload" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Test_SerializableField.SerializerOverload" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Test_SerializableField.SerializerOverload
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Test_SerializableField
+[ RUN      ] Test_SerializableField.SerializerOverload
+[       OK ] Test_SerializableField.SerializerOverload (0 ms)
+[----------] 1 test from Test_SerializableField (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Test_SerializableField.SerializerOverload" end time: Dec 21 17:57 -03
+"Test_SerializableField.SerializerOverload" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/71 Testing: Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register
+6/71 Test: Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register
+[       OK ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_Register" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/71 Testing: Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail
+7/71 Test: Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail
+[       OK ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/71 Testing: Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey
+8/71 Test: Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey
+[       OK ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_RegisterGetKey" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/71 Testing: Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName
+9/71 Test: Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName
+[       OK ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/71 Testing: Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey
+10/71 Test: Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey
+[       OK ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByKey" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/71 Testing: Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName
+11/71 Test: Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName
+[       OK ] Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_RegisterFieldWrapper_GetByName" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/71 Testing: Yolk_Test.MemoryBlock_Exists
+12/71 Test: Yolk_Test.MemoryBlock_Exists
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_Exists" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_Exists" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_Exists
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_Exists
+[       OK ] Yolk_Test.MemoryBlock_Exists (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_Exists" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_Exists" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/71 Testing: Yolk_Test.MemoryBlock_Delete_by_Name
+13/71 Test: Yolk_Test.MemoryBlock_Delete_by_Name
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_Delete_by_Name" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_Delete_by_Name" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_Delete_by_Name
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_Delete_by_Name
+[       OK ] Yolk_Test.MemoryBlock_Delete_by_Name (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_Delete_by_Name" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_Delete_by_Name" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/71 Testing: Yolk_Test.MemoryBlock_Delete_by_Tag
+14/71 Test: Yolk_Test.MemoryBlock_Delete_by_Tag
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_Delete_by_Tag" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_Delete_by_Tag" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_Delete_by_Tag
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_Delete_by_Tag
+[       OK ] Yolk_Test.MemoryBlock_Delete_by_Tag (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_Delete_by_Tag" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_Delete_by_Tag" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/71 Testing: Yolk_Test.MemoryBlock_RegisterMethod
+15/71 Test: Yolk_Test.MemoryBlock_RegisterMethod
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_RegisterMethod" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_RegisterMethod" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_RegisterMethod
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_RegisterMethod
+[       OK ] Yolk_Test.MemoryBlock_RegisterMethod (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_RegisterMethod" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_RegisterMethod" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/71 Testing: Yolk_Test.MemoryBlock_Combination
+16/71 Test: Yolk_Test.MemoryBlock_Combination
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryBlock_Combination" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryBlock_Combination" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryBlock_Combination
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryBlock_Combination
+[       OK ] Yolk_Test.MemoryBlock_Combination (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryBlock_Combination" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryBlock_Combination" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/71 Testing: Yolk_Test.MemoryManager_Add
+17/71 Test: Yolk_Test.MemoryManager_Add
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_Add" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_Add" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_Add
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_Add
+[       OK ] Yolk_Test.MemoryManager_Add (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_Add" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_Add" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/71 Testing: Yolk_Test.MemoryManager_Remove
+18/71 Test: Yolk_Test.MemoryManager_Remove
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_Remove" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_Remove" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_Remove
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_Remove
+[       OK ] Yolk_Test.MemoryManager_Remove (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_Remove" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_Remove" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/71 Testing: Yolk_Test.MemoryManager_Size
+19/71 Test: Yolk_Test.MemoryManager_Size
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_Size" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_Size" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_Size
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_Size
+[       OK ] Yolk_Test.MemoryManager_Size (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_Size" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_Size" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/71 Testing: Yolk_Test.MemoryManager_Size_B
+20/71 Test: Yolk_Test.MemoryManager_Size_B
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_Size_B" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_Size_B" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_Size_B
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_Size_B
+[       OK ] Yolk_Test.MemoryManager_Size_B (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_Size_B" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_Size_B" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/71 Testing: Yolk_Test.MemoryManager_Vector_test
+21/71 Test: Yolk_Test.MemoryManager_Vector_test
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_Vector_test" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_Vector_test" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_Vector_test
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_Vector_test
+[       OK ] Yolk_Test.MemoryManager_Vector_test (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_Vector_test" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_Vector_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/71 Testing: Yolk_Test.MemoryManager_LostMemory_Test
+22/71 Test: Yolk_Test.MemoryManager_LostMemory_Test
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_LostMemory_Test" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_LostMemory_Test" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_LostMemory_Test
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_LostMemory_Test
+[       OK ] Yolk_Test.MemoryManager_LostMemory_Test (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_LostMemory_Test" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_LostMemory_Test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/71 Testing: Yolk_Test.MemoryManager_CopyByValue_Dynamic
+23/71 Test: Yolk_Test.MemoryManager_CopyByValue_Dynamic
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_CopyByValue_Dynamic" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_CopyByValue_Dynamic" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_CopyByValue_Dynamic
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_CopyByValue_Dynamic
+[       OK ] Yolk_Test.MemoryManager_CopyByValue_Dynamic (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_CopyByValue_Dynamic" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_CopyByValue_Dynamic" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/71 Testing: Yolk_Test.MemoryManager_CopyByValue_Static
+24/71 Test: Yolk_Test.MemoryManager_CopyByValue_Static
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_CopyByValue_Static" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_CopyByValue_Static" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_CopyByValue_Static
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_CopyByValue_Static
+[       OK ] Yolk_Test.MemoryManager_CopyByValue_Static (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_CopyByValue_Static" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_CopyByValue_Static" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/71 Testing: Yolk_Test.MemoryManager_CopyByReference_NewEntry
+25/71 Test: Yolk_Test.MemoryManager_CopyByReference_NewEntry
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_CopyByReference_NewEntry" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_CopyByReference_NewEntry" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_CopyByReference_NewEntry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_CopyByReference_NewEntry
+[       OK ] Yolk_Test.MemoryManager_CopyByReference_NewEntry (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_CopyByReference_NewEntry" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_CopyByReference_NewEntry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/71 Testing: Yolk_Test.MemoryManager_CopyByReference_NoNewEntry
+26/71 Test: Yolk_Test.MemoryManager_CopyByReference_NoNewEntry
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.MemoryManager_CopyByReference_NoNewEntry" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.MemoryManager_CopyByReference_NoNewEntry" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.MemoryManager_CopyByReference_NoNewEntry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.MemoryManager_CopyByReference_NoNewEntry
+[       OK ] Yolk_Test.MemoryManager_CopyByReference_NoNewEntry (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.MemoryManager_CopyByReference_NoNewEntry" end time: Dec 21 17:57 -03
+"Yolk_Test.MemoryManager_CopyByReference_NoNewEntry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/71 Testing: Yolk_Test.Wrapper_Table_Add_Field
+27/71 Test: Yolk_Test.Wrapper_Table_Add_Field
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Add_Field" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Wrapper_Table_Add_Field" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Wrapper_Table_Add_Field
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Wrapper_Table_Add_Field
+[       OK ] Yolk_Test.Wrapper_Table_Add_Field (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Wrapper_Table_Add_Field" end time: Dec 21 17:57 -03
+"Yolk_Test.Wrapper_Table_Add_Field" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/71 Testing: Yolk_Test.Wrapper_Table_Add_Field_2
+28/71 Test: Yolk_Test.Wrapper_Table_Add_Field_2
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Add_Field_2" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Wrapper_Table_Add_Field_2" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Wrapper_Table_Add_Field_2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Wrapper_Table_Add_Field_2
+1 - 2
+0 - 1
+[       OK ] Yolk_Test.Wrapper_Table_Add_Field_2 (1 ms)
+[----------] 1 test from Yolk_Test (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Wrapper_Table_Add_Field_2" end time: Dec 21 17:57 -03
+"Yolk_Test.Wrapper_Table_Add_Field_2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/71 Testing: Yolk_Test.Wrapper_Table_Add_Method
+29/71 Test: Yolk_Test.Wrapper_Table_Add_Method
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Add_Method" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Wrapper_Table_Add_Method" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Wrapper_Table_Add_Method
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Wrapper_Table_Add_Method
+[       OK ] Yolk_Test.Wrapper_Table_Add_Method (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Wrapper_Table_Add_Method" end time: Dec 21 17:57 -03
+"Yolk_Test.Wrapper_Table_Add_Method" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/71 Testing: Yolk_Test.Wrapper_Table_Erase
+30/71 Test: Yolk_Test.Wrapper_Table_Erase
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Erase" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Wrapper_Table_Erase" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Wrapper_Table_Erase
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Wrapper_Table_Erase
+[       OK ] Yolk_Test.Wrapper_Table_Erase (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Wrapper_Table_Erase" end time: Dec 21 17:57 -03
+"Yolk_Test.Wrapper_Table_Erase" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/71 Testing: Yolk_Test.Wrapper_Table_Copy_Field
+31/71 Test: Yolk_Test.Wrapper_Table_Copy_Field
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Copy_Field" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Wrapper_Table_Copy_Field" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Wrapper_Table_Copy_Field
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Wrapper_Table_Copy_Field
+[       OK ] Yolk_Test.Wrapper_Table_Copy_Field (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Wrapper_Table_Copy_Field" end time: Dec 21 17:57 -03
+"Yolk_Test.Wrapper_Table_Copy_Field" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/71 Testing: Yolk_Test.Wrapper_Table_Copy_Method
+32/71 Test: Yolk_Test.Wrapper_Table_Copy_Method
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Copy_Method" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Wrapper_Table_Copy_Method" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Wrapper_Table_Copy_Method
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Wrapper_Table_Copy_Method
+
+[       OK ] Yolk_Test.Wrapper_Table_Copy_Method (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Wrapper_Table_Copy_Method" end time: Dec 21 17:57 -03
+"Yolk_Test.Wrapper_Table_Copy_Method" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/71 Testing: Yolk_Test.Object_Test_God
+33/71 Test: Yolk_Test.Object_Test_God
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Object_Test_God" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Object_Test_God" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Object_Test_God
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Object_Test_God
+[       OK ] Yolk_Test.Object_Test_God (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Object_Test_God" end time: Dec 21 17:57 -03
+"Yolk_Test.Object_Test_God" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/71 Testing: Yolk_Test.Object_Test_Child
+34/71 Test: Yolk_Test.Object_Test_Child
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Object_Test_Child" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Object_Test_Child" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Object_Test_Child
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Object_Test_Child
+[       OK ] Yolk_Test.Object_Test_Child (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Object_Test_Child" end time: Dec 21 17:57 -03
+"Yolk_Test.Object_Test_Child" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/71 Testing: Yolk_Test.Object_Adoption
+35/71 Test: Yolk_Test.Object_Adoption
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Object_Adoption" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Object_Adoption" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Object_Adoption
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Object_Adoption
+[       OK ] Yolk_Test.Object_Adoption (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Object_Adoption" end time: Dec 21 17:57 -03
+"Yolk_Test.Object_Adoption" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/71 Testing: Yolk_Test.Object_Method
+36/71 Test: Yolk_Test.Object_Method
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Object_Method" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Object_Method" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Object_Method
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Object_Method
+[       OK ] Yolk_Test.Object_Method (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Object_Method" end time: Dec 21 17:57 -03
+"Yolk_Test.Object_Method" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/71 Testing: Yolk_Test.Object_Memory_NotLeaking
+37/71 Test: Yolk_Test.Object_Memory_NotLeaking
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Object_Memory_NotLeaking" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Object_Memory_NotLeaking" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Object_Memory_NotLeaking
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Object_Memory_NotLeaking
+[       OK ] Yolk_Test.Object_Memory_NotLeaking (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Object_Memory_NotLeaking" end time: Dec 21 17:57 -03
+"Yolk_Test.Object_Memory_NotLeaking" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/71 Testing: Yolk_Test.Method_Wrapper_Test_A
+38/71 Test: Yolk_Test.Method_Wrapper_Test_A
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_A" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Method_Wrapper_Test_A" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_A
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Method_Wrapper_Test_A
+[       OK ] Yolk_Test.Method_Wrapper_Test_A (1 ms)
+[----------] 1 test from Yolk_Test (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Method_Wrapper_Test_A" end time: Dec 21 17:57 -03
+"Yolk_Test.Method_Wrapper_Test_A" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/71 Testing: Yolk_Test.Method_Wrapper_Test_B
+39/71 Test: Yolk_Test.Method_Wrapper_Test_B
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_B" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Method_Wrapper_Test_B" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_B
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Method_Wrapper_Test_B
+[       OK ] Yolk_Test.Method_Wrapper_Test_B (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Method_Wrapper_Test_B" end time: Dec 21 17:57 -03
+"Yolk_Test.Method_Wrapper_Test_B" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/71 Testing: Yolk_Test.Method_Wrapper_Test_C
+40/71 Test: Yolk_Test.Method_Wrapper_Test_C
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_C" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Method_Wrapper_Test_C" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_C
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Method_Wrapper_Test_C
+[       OK ] Yolk_Test.Method_Wrapper_Test_C (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Method_Wrapper_Test_C" end time: Dec 21 17:57 -03
+"Yolk_Test.Method_Wrapper_Test_C" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/71 Testing: Yolk_Test.Method_Wrapper_Test_D
+41/71 Test: Yolk_Test.Method_Wrapper_Test_D
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_D" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Method_Wrapper_Test_D" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_D
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Method_Wrapper_Test_D
+[       OK ] Yolk_Test.Method_Wrapper_Test_D (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Method_Wrapper_Test_D" end time: Dec 21 17:57 -03
+"Yolk_Test.Method_Wrapper_Test_D" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/71 Testing: Yolk_Test.Method_Wrapper_Test_E
+42/71 Test: Yolk_Test.Method_Wrapper_Test_E
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_E" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Method_Wrapper_Test_E" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_E
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Method_Wrapper_Test_E
+[       OK ] Yolk_Test.Method_Wrapper_Test_E (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Method_Wrapper_Test_E" end time: Dec 21 17:57 -03
+"Yolk_Test.Method_Wrapper_Test_E" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/71 Testing: Yolk_Test.Method_Wrapper_Clone
+43/71 Test: Yolk_Test.Method_Wrapper_Clone
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Clone" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Method_Wrapper_Clone" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Method_Wrapper_Clone
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Method_Wrapper_Clone
+[       OK ] Yolk_Test.Method_Wrapper_Clone (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Method_Wrapper_Clone" end time: Dec 21 17:57 -03
+"Yolk_Test.Method_Wrapper_Clone" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/71 Testing: Yolk_Test.Typed_Unwrapper_Test_A
+44/71 Test: Yolk_Test.Typed_Unwrapper_Test_A
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_A" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Unwrapper_Test_A" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_A
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Unwrapper_Test_A
+[       OK ] Yolk_Test.Typed_Unwrapper_Test_A (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Unwrapper_Test_A" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Unwrapper_Test_A" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/71 Testing: Yolk_Test.Typed_Unwrapper_Test_B
+45/71 Test: Yolk_Test.Typed_Unwrapper_Test_B
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_B" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Unwrapper_Test_B" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_B
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Unwrapper_Test_B
+[       OK ] Yolk_Test.Typed_Unwrapper_Test_B (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Unwrapper_Test_B" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Unwrapper_Test_B" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/71 Testing: Yolk_Test.Typed_Unwrapper_Test_C
+46/71 Test: Yolk_Test.Typed_Unwrapper_Test_C
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_C" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Unwrapper_Test_C" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_C
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Unwrapper_Test_C
+[       OK ] Yolk_Test.Typed_Unwrapper_Test_C (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Unwrapper_Test_C" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Unwrapper_Test_C" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/71 Testing: Yolk_Test.Typed_Unwrapper_Test_D
+47/71 Test: Yolk_Test.Typed_Unwrapper_Test_D
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_D" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Unwrapper_Test_D" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_D
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Unwrapper_Test_D
+[       OK ] Yolk_Test.Typed_Unwrapper_Test_D (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Unwrapper_Test_D" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Unwrapper_Test_D" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/71 Testing: Yolk_Test.Typed_Unwrapper_Test_E
+48/71 Test: Yolk_Test.Typed_Unwrapper_Test_E
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_E" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Unwrapper_Test_E" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_E
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Unwrapper_Test_E
+[       OK ] Yolk_Test.Typed_Unwrapper_Test_E (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Unwrapper_Test_E" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Unwrapper_Test_E" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/71 Testing: Yolk_Test.Typed_Variable_Assignment
+49/71 Test: Yolk_Test.Typed_Variable_Assignment
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Assignment" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Assignment" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Assignment
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Assignment
+[       OK ] Yolk_Test.Typed_Variable_Assignment (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Assignment" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Assignment" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/71 Testing: Yolk_Test.Typed_Variable_Assignment_B
+50/71 Test: Yolk_Test.Typed_Variable_Assignment_B
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Assignment_B" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Assignment_B" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Assignment_B
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Assignment_B
+[       OK ] Yolk_Test.Typed_Variable_Assignment_B (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Assignment_B" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Assignment_B" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/71 Testing: Yolk_Test.Typed_Variable_Assignemnt_C
+51/71 Test: Yolk_Test.Typed_Variable_Assignemnt_C
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Assignemnt_C" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Assignemnt_C" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Assignemnt_C
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Assignemnt_C
+[       OK ] Yolk_Test.Typed_Variable_Assignemnt_C (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Assignemnt_C" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Assignemnt_C" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/71 Testing: Yolk_Test.Typed_Variables_Const
+52/71 Test: Yolk_Test.Typed_Variables_Const
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variables_Const" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variables_Const" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variables_Const
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variables_Const
+Const
+Non Copyable
+[       OK ] Yolk_Test.Typed_Variables_Const (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variables_Const" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variables_Const" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/71 Testing: Yolk_Test.Typed_Variable_Copy_By_Function
+53/71 Test: Yolk_Test.Typed_Variable_Copy_By_Function
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Copy_By_Function" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Copy_By_Function" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Copy_By_Function
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Copy_By_Function
+[       OK ] Yolk_Test.Typed_Variable_Copy_By_Function (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Copy_By_Function" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Copy_By_Function" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/71 Testing: Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable
+54/71 Test: Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable
+[       OK ] Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/71 Testing: Yolk_Test.Typed_Variable_Is_Method
+55/71 Test: Yolk_Test.Typed_Variable_Is_Method
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Is_Method" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Is_Method" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Is_Method
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Is_Method
+[       OK ] Yolk_Test.Typed_Variable_Is_Method (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Is_Method" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Is_Method" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/71 Testing: Yolk_Test.Typed_Variable_Compare_A
+56/71 Test: Yolk_Test.Typed_Variable_Compare_A
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Compare_A" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Compare_A" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Compare_A
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Compare_A
+[       OK ] Yolk_Test.Typed_Variable_Compare_A (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Compare_A" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Compare_A" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/71 Testing: Yolk_Test.Typed_Variable_Compare_B
+57/71 Test: Yolk_Test.Typed_Variable_Compare_B
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Compare_B" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Compare_B" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Compare_B
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Compare_B
+[       OK ] Yolk_Test.Typed_Variable_Compare_B (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Compare_B" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Compare_B" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/71 Testing: Yolk_Test.Typed_Variable_Bind
+58/71 Test: Yolk_Test.Typed_Variable_Bind
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Bind" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Bind" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Bind
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Bind
+[       OK ] Yolk_Test.Typed_Variable_Bind (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Bind" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Bind" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/71 Testing: Yolk_Test.Typed_Variable_Create
+59/71 Test: Yolk_Test.Typed_Variable_Create
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Create" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Create" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Create
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Create
+[       OK ] Yolk_Test.Typed_Variable_Create (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Create" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Create" time elapsed: 00:00:00
+----------------------------------------------------------
+
+60/71 Testing: Yolk_Test.Typed_Variable_EqualComparison
+60/71 Test: Yolk_Test.Typed_Variable_EqualComparison
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_EqualComparison" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_EqualComparison" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_EqualComparison
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_EqualComparison
+[       OK ] Yolk_Test.Typed_Variable_EqualComparison (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_EqualComparison" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_EqualComparison" time elapsed: 00:00:00
+----------------------------------------------------------
+
+61/71 Testing: Yolk_Test.Typed_Variable_Equal_Set
+61/71 Test: Yolk_Test.Typed_Variable_Equal_Set
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Equal_Set" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Equal_Set" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Equal_Set
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Equal_Set
+[       OK ] Yolk_Test.Typed_Variable_Equal_Set (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Equal_Set" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Equal_Set" time elapsed: 00:00:00
+----------------------------------------------------------
+
+62/71 Testing: Yolk_Test.Typed_Variable_Type
+62/71 Test: Yolk_Test.Typed_Variable_Type
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Type" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Type" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Type
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Type
+[       OK ] Yolk_Test.Typed_Variable_Type (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Type" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Type" time elapsed: 00:00:00
+----------------------------------------------------------
+
+63/71 Testing: Yolk_Test.Typed_Variable_Sizeof
+63/71 Test: Yolk_Test.Typed_Variable_Sizeof
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Sizeof" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Sizeof" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Sizeof
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Sizeof
+[       OK ] Yolk_Test.Typed_Variable_Sizeof (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Sizeof" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Sizeof" time elapsed: 00:00:00
+----------------------------------------------------------
+
+64/71 Testing: Yolk_Test.Typed_Variable_SafeAs
+64/71 Test: Yolk_Test.Typed_Variable_SafeAs
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_SafeAs" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_SafeAs" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_SafeAs
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_SafeAs
+[       OK ] Yolk_Test.Typed_Variable_SafeAs (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_SafeAs" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_SafeAs" time elapsed: 00:00:00
+----------------------------------------------------------
+
+65/71 Testing: Yolk_Test.Typed_Variable_Stability_A
+65/71 Test: Yolk_Test.Typed_Variable_Stability_A
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Stability_A" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Stability_A" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Stability_A
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Stability_A
+[       OK ] Yolk_Test.Typed_Variable_Stability_A (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Stability_A" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Stability_A" time elapsed: 00:00:00
+----------------------------------------------------------
+
+66/71 Testing: Yolk_Test.Typed_Variable_Print_A
+66/71 Test: Yolk_Test.Typed_Variable_Print_A
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Print_A" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Print_A" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Print_A
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Print_A
+[       OK ] Yolk_Test.Typed_Variable_Print_A (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Print_A" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Print_A" time elapsed: 00:00:00
+----------------------------------------------------------
+
+67/71 Testing: Yolk_Test.Typed_Variable_Print_B
+67/71 Test: Yolk_Test.Typed_Variable_Print_B
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Print_B" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Typed_Variable_Print_B" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Typed_Variable_Print_B
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Typed_Variable_Print_B
+[       OK ] Yolk_Test.Typed_Variable_Print_B (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Typed_Variable_Print_B" end time: Dec 21 17:57 -03
+"Yolk_Test.Typed_Variable_Print_B" time elapsed: 00:00:00
+----------------------------------------------------------
+
+68/71 Testing: Yolk_Test.WrapperGenerator_Dynamic_Field
+68/71 Test: Yolk_Test.WrapperGenerator_Dynamic_Field
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.WrapperGenerator_Dynamic_Field" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.WrapperGenerator_Dynamic_Field" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.WrapperGenerator_Dynamic_Field
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.WrapperGenerator_Dynamic_Field
+[       OK ] Yolk_Test.WrapperGenerator_Dynamic_Field (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.WrapperGenerator_Dynamic_Field" end time: Dec 21 17:57 -03
+"Yolk_Test.WrapperGenerator_Dynamic_Field" time elapsed: 00:00:00
+----------------------------------------------------------
+
+69/71 Testing: Yolk_Test.WrapperGenerator__Static_Field
+69/71 Test: Yolk_Test.WrapperGenerator__Static_Field
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.WrapperGenerator__Static_Field" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.WrapperGenerator__Static_Field" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.WrapperGenerator__Static_Field
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.WrapperGenerator__Static_Field
+[       OK ] Yolk_Test.WrapperGenerator__Static_Field (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.WrapperGenerator__Static_Field" end time: Dec 21 17:57 -03
+"Yolk_Test.WrapperGenerator__Static_Field" time elapsed: 00:00:00
+----------------------------------------------------------
+
+70/71 Testing: Yolk_Test.WrapperGenerator__Method
+70/71 Test: Yolk_Test.WrapperGenerator__Method
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.WrapperGenerator__Method" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.WrapperGenerator__Method" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.WrapperGenerator__Method
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.WrapperGenerator__Method
+[       OK ] Yolk_Test.WrapperGenerator__Method (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.WrapperGenerator__Method" end time: Dec 21 17:57 -03
+"Yolk_Test.WrapperGenerator__Method" time elapsed: 00:00:00
+----------------------------------------------------------
+
+71/71 Testing: Yolk_Test.Wrapper_Generator_Argument
+71/71 Test: Yolk_Test.Wrapper_Generator_Argument
+Command: "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Generator_Argument" "--gtest_also_run_disabled_tests"
+Directory: /home/vchavauty/Documents/Code/Yolk/tests
+"Yolk_Test.Wrapper_Generator_Argument" start time: Dec 21 17:57 -03
+Output:
+----------------------------------------------------------
+Running main() from /home/vchavauty/Documents/Code/Yolk/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = Yolk_Test.Wrapper_Generator_Argument
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Yolk_Test
+[ RUN      ] Yolk_Test.Wrapper_Generator_Argument
+[       OK ] Yolk_Test.Wrapper_Generator_Argument (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Yolk_Test.Wrapper_Generator_Argument" end time: Dec 21 17:57 -03
+"Yolk_Test.Wrapper_Generator_Argument" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Dec 21 17:57 -03
