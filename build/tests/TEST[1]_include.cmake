@@ -1,5 +1,0 @@
-if(EXISTS "/home/vchavauty/Documents/Code/Yolk/build/tests/TEST[1]_tests.cmake")
-  include("/home/vchavauty/Documents/Code/Yolk/build/tests/TEST[1]_tests.cmake")
-else()
-  add_test(TEST_NOT_BUILT TEST_NOT_BUILT)
-endif()
