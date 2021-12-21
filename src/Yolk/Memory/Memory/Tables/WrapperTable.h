@@ -66,6 +66,7 @@ namespace Yolk
             Key Size() const;
             bool Exists(Key id) const;
             WrapperInfo GetInfo(Key id) const;
+            WrapperSuperInfo GetSuperInfo(Key id) const;
             
             
             public:
@@ -158,6 +159,11 @@ namespace Yolk
             WrapperSuperInfo value = wrapperTable.at(key);
             WrapperInfo info(value);
 
+            return info;
+        }
+        inline WrapperTable::WrapperSuperInfo WrapperTable::GetSuperInfo(Key id) const
+        {
+            WrapperSuperInfo info = wrapperTable.at(key);
             return info;
         }
 

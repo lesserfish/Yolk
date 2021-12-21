@@ -1,0 +1,67 @@
+Tokens:
+
+    Class: Keyword
+    Name: Type
+    Regex: ^int(.)$
+    Priority: 1
+
+    Repeat for:
+
+        int,
+        uint,
+        long,
+        ulong,
+        float,
+        double,
+        char,
+        byte,
+        string,
+        bool,
+        None,
+        var
+
+
+
+
+
+
+
+    
+Example of Yolk Script:
+
+    var x : uint = 0;
+    var y : uint = 18;
+
+    while(x < y){
+        var z = Self::GetScore();
+        if(z > 121.0f){
+            x = x + 1;
+        }
+        var health : int = Self::GetHealth() as int;
+
+        var stamina_cpy = Self::stamina; // Copy by value
+        var& stamina = Self::stamina; // Copy by reference 
+    }
+
+    persistent Level : int;  // Initializes a persistent variable to type int called Level if it does not exist. If it already exist, do nothing.
+    persistent Name : string = "Lucas"; // """". If it does, update it's value to "Lucas".
+    
+    persistent LastName : String = "DiCaprio";
+
+    bind LastName to Name; // Now both LastName and Name reference the same exact value
+
+    var cpy = Is(Level);  // Returns copy of variable Level if it exists, else makes cpy None
+    
+    if(!(cpy is None))
+    {
+        if(cpy is int){
+            Self::IntInvoker(cpy);
+        }
+        else
+        {
+            Self::GenericInvoker(cpy);
+        }
+    }
+
+
+
