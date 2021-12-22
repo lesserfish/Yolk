@@ -11,10 +11,10 @@ class OP:
 
 def GetMapDefinition(op : OP):
     if(op.n == 2):
-        output = "std::vector<BINARY> " + op.name.lower() + "Map;\n"
+        output = "std::map<PAIR, BINARY> " + op.name.lower() + "Map;\n"
         return output;
     elif(op.n == 1):
-        output = "std::vector<UNARY> " + op.name.lower() + "Map;\n"
+        output = "std::map<SINGLE, UNARY> " + op.name.lower() + "Map;\n"
         return output;
 
 def GetEvaluateDefinition(op : OP):
@@ -48,8 +48,9 @@ def GetRegisterFunctionCode(op : OP):
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst {1} rhsf);
                 return output;
             }};
-            BINARY binary(typeid(T), typeid(F), f);
-            {2}Map.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            {2}Map.insert(std::pair(pair, binary));
         }}
         """.format(op.name, op.operation, op.name.lower())
         return output;
@@ -69,8 +70,10 @@ def GetRegisterFunctionCode(op : OP):
                 Wrapper output = this->GetMemoryManager().AllocateMemory({1});
                 return output;
             }};
-            UNARY unary(typeid(T), f);
-            {2}Map.push_back(unary);
+            SINGLE single(typeid(T));
+            UNARY unary(f);
+
+            {2}Map.insert(std::pair(single, unary));
         }}
         """.format(op.name, tmp, op.name.lower())
         return output;
@@ -80,18 +83,19 @@ def GetEvaluateCode(op : OP):
         output = """
         Wrapper Operator::Evaluate{0}(Wrapper lhs, Wrapper rhs, bool& status_output)
         {{
-            for(auto& entry : {1}Map)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = {1}Map.find(pair);
+
+            if(find_result == {1}Map.end())
             {{
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {{
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }}
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }}
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }}
         Wrapper Operator::Evaluate{0}(Wrapper lhs, Wrapper rhs)
         {{
@@ -104,18 +108,20 @@ def GetEvaluateCode(op : OP):
         output = """
         Wrapper Operator::Evaluate{0}(Wrapper lhs, bool &status_output)
         {{
-            for(auto& entry : {1}Map)
+            SINGLE single(lhs.field->GetType());
+            auto find_result = {1}Map.find(single);
+
+            if(find_result == {1}Map.end())
             {{
-                if(std::get<0>(entry) == lhs.field->GetType())
-                {{
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs);
-                    status_output = true;
-                    return out;
-                }}
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }}
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs);
+            status_output = true;
+            return out;
+
         }}
         Wrapper Operator::Evaluate{0}(Wrapper lhs)
         {{
@@ -132,15 +138,18 @@ template = """
 #include "../Memory/MemoryManager/MemoryManager.h"
 #include <typeindex>
 #include <functional>
-
+#include <map>
+#include <typeindex>
 namespace Yolk
 {{
     namespace VM
     {{
         class Operator
         {{
-            using UNARY = std::tuple<std::type_index, std::type_index, std::function<Wrapper(Wrapper)>>;
-            using BINARY = std::tuple<std::type_index, std::type_index, std::function<Wrapper(Wrapper, Wrapper)>>;
+            using SINGLE = std::type_index;
+            using PAIR = std::pair<std::type_index, std::type_index>;
+            using UNARY = std::function<Wrapper(Wrapper)>;
+            using BINARY = std::function<Wrapper(Wrapper, Wrapper)>;
             
             public:
             Operator(Memory::MemoryManager& _manager ) : manager(_manager){{}}
@@ -198,7 +207,7 @@ for op in OPList:
 
 final_render = template.format(MapDefinitions, EvaluateDefinitions, RegisterDefinitions, EvaluateFunctions, RegisterFunctions)
 
-out_file = "./Operators.h"
+out_file = "./Operators.h_render"
 fp = open(out_file, "w")
 fp.write(final_render)
 fp.close()

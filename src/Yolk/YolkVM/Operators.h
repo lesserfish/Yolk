@@ -4,15 +4,18 @@
 #include "../Memory/MemoryManager/MemoryManager.h"
 #include <typeindex>
 #include <functional>
-
+#include <map>
+#include <typeindex>
 namespace Yolk
 {
     namespace VM
     {
         class Operator
         {
-            using UNARY = std::tuple<std::type_index, std::type_index, std::function<Wrapper(Wrapper)>>;
-            using BINARY = std::tuple<std::type_index, std::type_index, std::function<Wrapper(Wrapper, Wrapper)>>;
+            using SINGLE = std::type_index;
+            using PAIR = std::pair<std::type_index, std::type_index>;
+            using UNARY = std::function<Wrapper(Wrapper)>;
+            using BINARY = std::function<Wrapper(Wrapper, Wrapper)>;
             
             public:
             Operator(Memory::MemoryManager& _manager ) : manager(_manager){}
@@ -81,26 +84,26 @@ namespace Yolk
 			
             private:
             Memory::MemoryManager& manager;
-            std::vector<BINARY> addMap;
-			std::vector<BINARY> subtractMap;
-			std::vector<BINARY> multiplyMap;
-			std::vector<BINARY> divideMap;
-			std::vector<BINARY> moduloMap;
-			std::vector<BINARY> caddMap;
-			std::vector<BINARY> csubtractMap;
-			std::vector<BINARY> cmultiplyMap;
-			std::vector<BINARY> cdivideMap;
-			std::vector<BINARY> equalityMap;
-			std::vector<BINARY> inequalityMap;
-			std::vector<BINARY> lessthanMap;
-			std::vector<BINARY> greaterthanMap;
-			std::vector<BINARY> lessorequalthanMap;
-			std::vector<BINARY> greaterorequalthanMap;
-			std::vector<BINARY> andMap;
-			std::vector<BINARY> orMap;
-			std::vector<UNARY> plusplusMap;
-			std::vector<UNARY> lesslessMap;
-			std::vector<UNARY> negationMap;
+            std::map<PAIR, BINARY> addMap;
+			std::map<PAIR, BINARY> subtractMap;
+			std::map<PAIR, BINARY> multiplyMap;
+			std::map<PAIR, BINARY> divideMap;
+			std::map<PAIR, BINARY> moduloMap;
+			std::map<PAIR, BINARY> caddMap;
+			std::map<PAIR, BINARY> csubtractMap;
+			std::map<PAIR, BINARY> cmultiplyMap;
+			std::map<PAIR, BINARY> cdivideMap;
+			std::map<PAIR, BINARY> equalityMap;
+			std::map<PAIR, BINARY> inequalityMap;
+			std::map<PAIR, BINARY> lessthanMap;
+			std::map<PAIR, BINARY> greaterthanMap;
+			std::map<PAIR, BINARY> lessorequalthanMap;
+			std::map<PAIR, BINARY> greaterorequalthanMap;
+			std::map<PAIR, BINARY> andMap;
+			std::map<PAIR, BINARY> orMap;
+			std::map<SINGLE, UNARY> plusplusMap;
+			std::map<SINGLE, UNARY> lesslessMap;
+			std::map<SINGLE, UNARY> negationMap;
 			
         };
         inline Memory::MemoryManager& Operator::GetMemoryManager() const
@@ -110,18 +113,19 @@ namespace Yolk
         
         Wrapper Operator::EvaluateAdd(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : addMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = addMap.find(pair);
+
+            if(find_result == addMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateAdd(Wrapper lhs, Wrapper rhs)
         {
@@ -131,18 +135,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateSubtract(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : subtractMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = subtractMap.find(pair);
+
+            if(find_result == subtractMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateSubtract(Wrapper lhs, Wrapper rhs)
         {
@@ -152,18 +157,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateMultiply(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : multiplyMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = multiplyMap.find(pair);
+
+            if(find_result == multiplyMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateMultiply(Wrapper lhs, Wrapper rhs)
         {
@@ -173,18 +179,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateDivide(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : divideMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = divideMap.find(pair);
+
+            if(find_result == divideMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateDivide(Wrapper lhs, Wrapper rhs)
         {
@@ -194,18 +201,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateModulo(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : moduloMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = moduloMap.find(pair);
+
+            if(find_result == moduloMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateModulo(Wrapper lhs, Wrapper rhs)
         {
@@ -215,18 +223,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateCAdd(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : caddMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = caddMap.find(pair);
+
+            if(find_result == caddMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateCAdd(Wrapper lhs, Wrapper rhs)
         {
@@ -236,18 +245,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateCSubtract(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : csubtractMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = csubtractMap.find(pair);
+
+            if(find_result == csubtractMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateCSubtract(Wrapper lhs, Wrapper rhs)
         {
@@ -257,18 +267,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateCMultiply(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : cmultiplyMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = cmultiplyMap.find(pair);
+
+            if(find_result == cmultiplyMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateCMultiply(Wrapper lhs, Wrapper rhs)
         {
@@ -278,18 +289,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateCDivide(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : cdivideMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = cdivideMap.find(pair);
+
+            if(find_result == cdivideMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateCDivide(Wrapper lhs, Wrapper rhs)
         {
@@ -299,18 +311,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateEquality(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : equalityMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = equalityMap.find(pair);
+
+            if(find_result == equalityMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateEquality(Wrapper lhs, Wrapper rhs)
         {
@@ -320,18 +333,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : inequalityMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = inequalityMap.find(pair);
+
+            if(find_result == inequalityMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs)
         {
@@ -341,18 +355,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateLessThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : lessthanMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = lessthanMap.find(pair);
+
+            if(find_result == lessthanMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateLessThan(Wrapper lhs, Wrapper rhs)
         {
@@ -362,18 +377,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateGreaterThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : greaterthanMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = greaterthanMap.find(pair);
+
+            if(find_result == greaterthanMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateGreaterThan(Wrapper lhs, Wrapper rhs)
         {
@@ -383,18 +399,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateLessOrEqualThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : lessorequalthanMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = lessorequalthanMap.find(pair);
+
+            if(find_result == lessorequalthanMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateLessOrEqualThan(Wrapper lhs, Wrapper rhs)
         {
@@ -404,18 +421,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateGreaterOrEqualThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : greaterorequalthanMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = greaterorequalthanMap.find(pair);
+
+            if(find_result == greaterorequalthanMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateGreaterOrEqualThan(Wrapper lhs, Wrapper rhs)
         {
@@ -425,18 +443,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateAnd(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : andMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = andMap.find(pair);
+
+            if(find_result == andMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateAnd(Wrapper lhs, Wrapper rhs)
         {
@@ -446,18 +465,19 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateOr(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
-            for(auto& entry : orMap)
+            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
+            auto find_result = orMap.find(pair);
+
+            if(find_result == orMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType() && std::get<1>(entry) == rhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs, rhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs, rhs);
+            status_output = true;
+            return out;
         }
         Wrapper Operator::EvaluateOr(Wrapper lhs, Wrapper rhs)
         {
@@ -467,18 +487,20 @@ namespace Yolk
         			
         Wrapper Operator::EvaluatePlusPlus(Wrapper lhs, bool &status_output)
         {
-            for(auto& entry : plusplusMap)
+            SINGLE single(lhs.field->GetType());
+            auto find_result = plusplusMap.find(single);
+
+            if(find_result == plusplusMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs);
+            status_output = true;
+            return out;
+
         }
         Wrapper Operator::EvaluatePlusPlus(Wrapper lhs)
         {
@@ -488,18 +510,20 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateLessLess(Wrapper lhs, bool &status_output)
         {
-            for(auto& entry : lesslessMap)
+            SINGLE single(lhs.field->GetType());
+            auto find_result = lesslessMap.find(single);
+
+            if(find_result == lesslessMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs);
+            status_output = true;
+            return out;
+
         }
         Wrapper Operator::EvaluateLessLess(Wrapper lhs)
         {
@@ -509,18 +533,20 @@ namespace Yolk
         			
         Wrapper Operator::EvaluateNegation(Wrapper lhs, bool &status_output)
         {
-            for(auto& entry : negationMap)
+            SINGLE single(lhs.field->GetType());
+            auto find_result = negationMap.find(single);
+
+            if(find_result == negationMap.end())
             {
-                if(std::get<0>(entry) == lhs.field->GetType())
-                {
-                    auto f = std::get<2>(entry);
-                    Wrapper out = f(lhs);
-                    status_output = true;
-                    return out;
-                }
+                status_output = false;
+                return manager.AllocateMemory<void>();
             }
-            status_output = false;
-            return manager.AllocateMemory<void>();
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs);
+            status_output = true;
+            return out;
+
         }
         Wrapper Operator::EvaluateNegation(Wrapper lhs)
         {
@@ -539,8 +565,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst + rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            addMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            addMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -553,8 +580,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst - rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            subtractMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            subtractMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -567,8 +595,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst * rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            multiplyMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            multiplyMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -581,8 +610,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst / rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            divideMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            divideMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -595,8 +625,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst % rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            moduloMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            moduloMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -609,8 +640,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst += rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            caddMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            caddMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -623,8 +655,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst -= rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            csubtractMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            csubtractMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -637,8 +670,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst *= rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            cmultiplyMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            cmultiplyMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -651,8 +685,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst /= rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            cdivideMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            cdivideMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -665,8 +700,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst == rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            equalityMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            equalityMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -679,8 +715,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst != rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            inequalityMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            inequalityMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -693,8 +730,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst < rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            lessthanMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            lessthanMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -707,8 +745,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst > rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            greaterthanMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            greaterthanMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -721,8 +760,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst <= rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            lessorequalthanMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            lessorequalthanMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -735,8 +775,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst >= rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            greaterorequalthanMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            greaterorequalthanMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -749,8 +790,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst && rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            andMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            andMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T, typename F>
@@ -763,8 +805,9 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst || rhsf);
                 return output;
             };
-            BINARY binary(typeid(T), typeid(F), f);
-            orMap.push_back(binary);
+            PAIR pair(typeid(T), typeid(F));
+            BINARY binary(f);
+            orMap.insert(std::pair(pair, binary));
         }
         			
         template<typename T>
@@ -776,8 +819,10 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst++);
                 return output;
             };
-            UNARY unary(typeid(T), f);
-            plusplusMap.push_back(unary);
+            SINGLE single(typeid(T));
+            UNARY unary(f);
+
+            plusplusMap.insert(std::pair(single, unary));
         }
         			
         template<typename T>
@@ -789,8 +834,10 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst--);
                 return output;
             };
-            UNARY unary(typeid(T), f);
-            lesslessMap.push_back(unary);
+            SINGLE single(typeid(T));
+            UNARY unary(f);
+
+            lesslessMap.insert(std::pair(single, unary));
         }
         			
         template<typename T>
@@ -802,8 +849,10 @@ namespace Yolk
                 Wrapper output = this->GetMemoryManager().AllocateMemory(!lhst);
                 return output;
             };
-            UNARY unary(typeid(T), f);
-            negationMap.push_back(unary);
+            SINGLE single(typeid(T));
+            UNARY unary(f);
+
+            negationMap.insert(std::pair(single, unary));
         }
         			
     }
