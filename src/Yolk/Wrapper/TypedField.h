@@ -348,7 +348,7 @@ namespace Yolk
         {
             if(Data)
                 return Data->Print();
-            return "";
+            return "[None]";
         }
         inline std::type_index TypedField::GetType() const
         {

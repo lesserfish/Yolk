@@ -33,7 +33,7 @@ Example of Yolk Script:
     var x : uint = 0;
     var y : uint = 18;
     var u = 13; // <- Can estimate the type.
-
+    var w = Self::GenerateComplexStructure(); // <- Can be instantiated by generic values.
 
     while(x < y){
         var z = Self::GetScore();
@@ -55,13 +55,14 @@ Example of Yolk Script:
     persistent LastName : String = "DiCaprio";
 
     bind LastName to Name; // Now both LastName and Name reference the same exact value
+    delete LastName;
 
     persistent X = x; // Creates a persistent variable called X and copies the content of x onto X.
 
     //persistent Y; // <- Error. Needs to specify type or be initialized to some variable.
     persistent Y : int; // <- Compiles!
 
-    var cpy = Is(Level);  // Returns copy of variable Level if it exists, else makes cpy None
+    var cpy = Some(Level);  // Returns copy of variable Level if it exists, else makes cpy None
     
     if(!(cpy is None))
     {
