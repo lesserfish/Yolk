@@ -58,6 +58,8 @@ def GetRegisterFunctionCode(op : OP):
         tmp = ""
         if(op.operation == "!"):
             tmp = "!lhst"
+        elif(op.operation == "cast"):
+            tmp = "(T)lhst"
         else:
             tmp = "lhst" + op.operation
         output = """
@@ -176,10 +178,10 @@ OPList.append(OP(2, "Subtract", "-"))
 OPList.append(OP(2, "Multiply", "*"))
 OPList.append(OP(2, "Divide", "/"))
 OPList.append(OP(2, "Modulo", "%"))
-OPList.append(OP(2, "CAdd", "+="))
-OPList.append(OP(2, "CSubtract", "-="))
-OPList.append(OP(2, "CMultiply", "*="))
-OPList.append(OP(2, "CDivide", "/="))
+#OPList.append(OP(2, "CAdd", "+="))
+#OPList.append(OP(2, "CSubtract", "-="))
+#OPList.append(OP(2, "CMultiply", "*="))
+#OPList.append(OP(2, "CDivide", "/="))
 OPList.append(OP(2, "Equality", "=="))
 OPList.append(OP(2, "Inequality", "!="))
 OPList.append(OP(2, "LessThan", "<"))
@@ -188,9 +190,10 @@ OPList.append(OP(2, "LessOrEqualThan", "<="))
 OPList.append(OP(2, "GreaterOrEqualThan", ">="))
 OPList.append(OP(2, "And", "&&"))
 OPList.append(OP(2, "Or", "||"))
-OPList.append(OP(1, "PlusPlus", "++"))
-OPList.append(OP(1, "LessLess", "--"))
+#OPList.append(OP(1, "PlusPlus", "++"))
+#OPList.append(OP(1, "LessLess", "--"))
 OPList.append(OP(1, "Negation", "!"))
+#OPList.append(OP(1, "Cast", "cast"))
 
 MapDefinitions = ""
 EvaluateDefinitions = ""

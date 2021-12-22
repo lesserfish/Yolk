@@ -24,6 +24,7 @@ class Operation:
     def Push(self, e : OpType):
         self.ops.append(e)
     def Set(self, l):
+        self.ops.clear()
         for e in l:
             self.ops.append(e)
     name : str
@@ -45,17 +46,28 @@ Add = [ Operation("Add"),
         Operation("Subtract"),
         Operation("Multiply"),
         Operation("Divide"),
-        Operation("CAdd"),
-        Operation("CSubtract"),
-        Operation("CMultiply"),
-        Operation("CDivide"),
         ]
-Numeric = GetEveryCombination(["short int", "unsigned short int", "int", "unsigned int", "long int", "unsigned long int", "long long int", "unsigned long long int", "float", "double", "long double"])
+Compare = [ Operation("Equality"),
+        Operation("LessThan"),
+        Operation("GreaterThan")
+        ]
+
+Numeric = GetEveryCombination(["int", "unsigned int","long int", "unsigned long int", "float", "double"])
+Signed = GetEveryCombination(["int", "long int", "float", "double"])
+Unsigned = GetEveryCombination(["unsigned int", "unsigned long int"])
 
 content = ""
+
 for x in Add:
     x.Set(Numeric)
     content = content + x.GetString() + "\n"
+
+for x in Compare:
+    x.Set(Signed)
+    content = content + x.GetString()
+    x.Set(Unsigned)
+    content = content + x.GetString()
+
 
 output = """
     #pragma once

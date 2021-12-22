@@ -26,12 +26,12 @@ namespace Yolk
             virtual std::string Print() const { return "void"; };
             virtual HB *clone() const = 0;
             virtual void* GetVoidPointer() const{ return nullptr; };
+
         };
         template <typename T>
         struct H : public HB
         {
             using PTR = std::shared_ptr<H<T>>;
-
             H(T &_value) : value(_value), Type(typeid(_value)){}
             T& Get() const{
                 return value;
@@ -114,6 +114,7 @@ namespace Yolk
                 std::cout << Type.name() << std::endl;
             }
             const std::type_index GetType() const{
+                return typeid(T);
                 return Type;
             }
             unsigned int GetSize() const{
@@ -130,7 +131,7 @@ namespace Yolk
 
         private:
             T &value;
-            const std::type_index Type;
+            std::type_index Type;
         };
 
         TypedField();
@@ -184,6 +185,9 @@ namespace Yolk
         
         std::type_index GetType() const;
         unsigned int GetSize() const;
+
+        template<typename T>
+        void Cast();
         
         template <typename T>
         static std::shared_ptr<T> Create(T value, TypedField &ref);
@@ -361,6 +365,13 @@ namespace Yolk
             if (!Valid())
                 return 0;
             return Data->GetSize();
+        }
+        template <typename T>
+        inline void TypedField::Cast()
+        {
+            T& ref = As<T>();
+            Free();
+            Bind(ref);
         }
         template <typename T>
         inline std::shared_ptr<T> TypedField::Create(T value, TypedField &ref)
