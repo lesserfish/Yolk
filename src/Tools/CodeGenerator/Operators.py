@@ -83,7 +83,7 @@ def GetRegisterFunctionCode(op : OP):
 def GetEvaluateCode(op : OP):
     if(op.n == 2):
         output = """
-        Wrapper Operator::Evaluate{0}(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::Evaluate{0}(Wrapper lhs, Wrapper rhs, bool& status_output)
         {{
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = {1}Map.find(pair);
@@ -99,7 +99,7 @@ def GetEvaluateCode(op : OP):
             status_output = true;
             return out;
         }}
-        Wrapper Operator::Evaluate{0}(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::Evaluate{0}(Wrapper lhs, Wrapper rhs)
         {{
             bool output;
             return Evaluate{0}(lhs, rhs, output);
@@ -108,7 +108,7 @@ def GetEvaluateCode(op : OP):
         return output;
     elif(op.n == 1):
         output = """
-        Wrapper Operator::Evaluate{0}(Wrapper lhs, bool &status_output)
+        inline Wrapper Operator::Evaluate{0}(Wrapper lhs, bool &status_output)
         {{
             SINGLE single(lhs.field->GetType());
             auto find_result = {1}Map.find(single);
@@ -125,7 +125,7 @@ def GetEvaluateCode(op : OP):
             return out;
 
         }}
-        Wrapper Operator::Evaluate{0}(Wrapper lhs)
+        inline Wrapper Operator::Evaluate{0}(Wrapper lhs)
         {{
             bool output;
             return Evaluate{0}(lhs, output);
@@ -156,17 +156,59 @@ namespace Yolk
             public:
             Operator(Memory::MemoryManager& _manager ) : manager(_manager){{}}
             Memory::MemoryManager& GetMemoryManager() const;
+            template<typename F>
+            Wrapper EvaluateCast(Wrapper lhs, bool& status_output);
+            template<typename F>
+            Wrapper EvaluateCast(Wrapper lhs);
             {1}
+            template <typename T, typename F> void RegisterCast();
             {2}
             private:
             Memory::MemoryManager& manager;
+            std::map<PAIR, UNARY> castMap;
             {0}
         }};
         inline Memory::MemoryManager& Operator::GetMemoryManager() const
         {{
             return manager;
         }}
+        template<typename F>
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs, bool& status_output)
+        {{
+            PAIR pair(lhs.field->GetType(), typeid(F));
+            auto find_result = castMap.find(pair);
+
+            if(find_result == castMap.end())
+            {{
+                status_output = false;
+                return manager.AllocateMemory<void>();
+            }}
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs);
+            status_output = true;
+            return out;
+        }}
+        template<typename F>
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs)
+        {{
+            bool output;
+            return EvaluateCast<F>(lhs, output);
+        }}
         {3}
+        template<typename T, typename F>
+        inline void Operator::RegisterCast()
+        {{
+            auto f = [this](Wrapper lhs)
+            {{
+                T lhst = lhs.field->As<T>();
+                Wrapper output = this->GetMemoryManager().AllocateMemory(F(lhst));
+                return output;
+            }};
+            PAIR pair(typeid(T), typeid(F));
+            UNARY unary(f);
+            castMap.insert(std::pair(pair, unary));
+        }}
         {4}
     }}
 }}

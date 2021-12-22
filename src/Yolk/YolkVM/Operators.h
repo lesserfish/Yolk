@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include "../Wrapper/Wrapper.h"
@@ -22,6 +20,10 @@ namespace Yolk
             public:
             Operator(Memory::MemoryManager& _manager ) : manager(_manager){}
             Memory::MemoryManager& GetMemoryManager() const;
+            template<typename F>
+            Wrapper EvaluateCast(Wrapper lhs, bool& status_output);
+            template<typename F>
+            Wrapper EvaluateCast(Wrapper lhs);
             Wrapper EvaluateAdd(Wrapper lhs, Wrapper rhs, bool& status_output);
 			Wrapper EvaluateAdd(Wrapper lhs, Wrapper rhs);
 			Wrapper EvaluateSubtract(Wrapper lhs, Wrapper rhs, bool& status_output);
@@ -51,6 +53,7 @@ namespace Yolk
 			Wrapper EvaluateNegation(Wrapper lhs, bool& status_output);
 			Wrapper EvaluateNegation(Wrapper lhs);
 			
+            template <typename T, typename F> void RegisterCast();
             template <typename T, typename F> void RegisterAdd();
 			template <typename T, typename F> void RegisterSubtract();
 			template <typename T, typename F> void RegisterMultiply();
@@ -68,6 +71,7 @@ namespace Yolk
 			
             private:
             Memory::MemoryManager& manager;
+            std::map<PAIR, UNARY> castMap;
             std::map<PAIR, BINARY> addMap;
 			std::map<PAIR, BINARY> subtractMap;
 			std::map<PAIR, BINARY> multiplyMap;
@@ -88,8 +92,31 @@ namespace Yolk
         {
             return manager;
         }
+        template<typename F>
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs, bool& status_output)
+        {
+            PAIR pair(lhs.field->GetType(), typeid(F));
+            auto find_result = castMap.find(pair);
+
+            if(find_result == castMap.end())
+            {
+                status_output = false;
+                return manager.AllocateMemory<void>();
+            }
+
+            auto f = find_result->second;
+            Wrapper out = f(lhs);
+            status_output = true;
+            return out;
+        }
+        template<typename F>
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs)
+        {
+            bool output;
+            return EvaluateCast<F>(lhs, output);
+        }
         
-        Wrapper Operator::EvaluateAdd(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateAdd(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = addMap.find(pair);
@@ -105,13 +132,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateAdd(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateAdd(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateAdd(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateSubtract(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateSubtract(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = subtractMap.find(pair);
@@ -127,13 +154,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateSubtract(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateSubtract(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateSubtract(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateMultiply(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateMultiply(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = multiplyMap.find(pair);
@@ -149,13 +176,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateMultiply(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateMultiply(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateMultiply(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateDivide(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateDivide(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = divideMap.find(pair);
@@ -171,13 +198,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateDivide(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateDivide(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateDivide(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateModulo(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateModulo(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = moduloMap.find(pair);
@@ -193,13 +220,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateModulo(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateModulo(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateModulo(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateEquality(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateEquality(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = equalityMap.find(pair);
@@ -215,13 +242,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateEquality(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateEquality(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateEquality(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = inequalityMap.find(pair);
@@ -237,13 +264,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateInequality(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateLessThan(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateLessThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = lessthanMap.find(pair);
@@ -259,13 +286,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateLessThan(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateLessThan(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateLessThan(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateGreaterThan(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateGreaterThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = greaterthanMap.find(pair);
@@ -281,13 +308,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateGreaterThan(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateGreaterThan(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateGreaterThan(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateLessOrEqualThan(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateLessOrEqualThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = lessorequalthanMap.find(pair);
@@ -303,13 +330,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateLessOrEqualThan(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateLessOrEqualThan(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateLessOrEqualThan(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateGreaterOrEqualThan(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateGreaterOrEqualThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = greaterorequalthanMap.find(pair);
@@ -325,13 +352,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateGreaterOrEqualThan(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateGreaterOrEqualThan(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateGreaterOrEqualThan(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateAnd(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateAnd(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = andMap.find(pair);
@@ -347,13 +374,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateAnd(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateAnd(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateAnd(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateOr(Wrapper lhs, Wrapper rhs, bool& status_output)
+        inline Wrapper Operator::EvaluateOr(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
             auto find_result = orMap.find(pair);
@@ -369,13 +396,13 @@ namespace Yolk
             status_output = true;
             return out;
         }
-        Wrapper Operator::EvaluateOr(Wrapper lhs, Wrapper rhs)
+        inline Wrapper Operator::EvaluateOr(Wrapper lhs, Wrapper rhs)
         {
             bool output;
             return EvaluateOr(lhs, rhs, output);
         }
         			
-        Wrapper Operator::EvaluateNegation(Wrapper lhs, bool &status_output)
+        inline Wrapper Operator::EvaluateNegation(Wrapper lhs, bool &status_output)
         {
             SINGLE single(lhs.field->GetType());
             auto find_result = negationMap.find(single);
@@ -392,12 +419,25 @@ namespace Yolk
             return out;
 
         }
-        Wrapper Operator::EvaluateNegation(Wrapper lhs)
+        inline Wrapper Operator::EvaluateNegation(Wrapper lhs)
         {
             bool output;
             return EvaluateNegation(lhs, output);
         }
         			
+        template<typename T, typename F>
+        inline void Operator::RegisterCast()
+        {
+            auto f = [this](Wrapper lhs)
+            {
+                T lhst = lhs.field->As<T>();
+                Wrapper output = this->GetMemoryManager().AllocateMemory(F(lhst));
+                return output;
+            };
+            PAIR pair(typeid(T), typeid(F));
+            UNARY unary(f);
+            castMap.insert(std::pair(pair, unary));
+        }
         
         template<typename T, typename F>
         inline void Operator::RegisterAdd()

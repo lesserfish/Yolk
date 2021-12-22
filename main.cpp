@@ -13,13 +13,11 @@ int main()
 
     //op.RegisterEquality<int, double>();
     Yolk::VM::GenerateElementaryOperations(op);
-    auto a = manager.AllocateMemory<int>(7);
-    auto b = manager.AllocateMemory<double>(7.0);
-    auto c = op.EvaluateEquality(a, b);
-    std::cout << c.field->Print() << std::endl;
+    auto a = manager.AllocateMemory<unsigned int>(7);
+    auto b = manager.AllocateMemory<int>(12.0);
 
-    std::cout << a.field->GetType().name() << " - " << a.field->Print() << std::endl;
-    a.field->Cast<unsigned int>();
-    std::cout << a.field->GetType().name() << " - " << a.field->Print() << std::endl;
+    std::cout << b.field->GetType().name() << std::endl;
+    b.field->CastAs(*a.field);
+    std::cout << b.field->GetType().name() << std::endl;
 
 }

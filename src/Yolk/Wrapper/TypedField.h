@@ -26,6 +26,7 @@ namespace Yolk
             virtual std::string Print() const { return "void"; };
             virtual HB *clone() const = 0;
             virtual void* GetVoidPointer() const{ return nullptr; };
+            virtual void InvokeCast(TypedField& other) const {other.Free();};
 
         };
         template <typename T>
@@ -128,6 +129,10 @@ namespace Yolk
                 HB *out = new H<T>(value);
                 return out;
             }
+            void InvokeCast(TypedField& other) const
+            {
+                other.Cast<T>();
+            }
 
         private:
             T &value;
@@ -188,6 +193,9 @@ namespace Yolk
 
         template<typename T>
         void Cast();
+        void CastAs(TypedField& other);
+
+        void InvokeCast(TypedField& other);
         
         template <typename T>
         static std::shared_ptr<T> Create(T value, TypedField &ref);
@@ -372,6 +380,14 @@ namespace Yolk
             T& ref = As<T>();
             Free();
             Bind(ref);
+        }
+        inline void TypedField::CastAs(TypedField& other)
+        {
+            other.InvokeCast(*this);
+        }
+        inline void TypedField::InvokeCast(TypedField& other)
+        {
+            Data->InvokeCast(other);
         }
         template <typename T>
         inline std::shared_ptr<T> TypedField::Create(T value, TypedField &ref)
