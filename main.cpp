@@ -5,7 +5,10 @@
 #include <map>
 #include <typeindex>
 
-
+struct A
+{
+    char x;
+};
 int main()
 {   
     Yolk::Memory::MemoryManager manager;
@@ -14,10 +17,15 @@ int main()
     //op.RegisterEquality<int, double>();
     Yolk::VM::GenerateElementaryOperations(op);
     auto a = manager.AllocateMemory<unsigned int>(7);
-    auto b = manager.AllocateMemory<int>(12.0);
+    auto b = manager.AllocateMemory<int>(12);
 
-    std::cout << b.field->GetType().name() << std::endl;
-    b.field->CastAs(*a.field);
-    std::cout << b.field->GetType().name() << std::endl;
+    op.RegisterCast<int, float>();
+    op.RegisterCast<float, int>();
 
+    std::cout << a.field->GetType().name() << std::endl;
+    a.field->CastAs(*b.field);
+    std::cout << a.field->GetType().name() << std::endl;
+
+    //std::cout << op.EvaluateCast<A>(b).field->Print() << std::endl;
+    std::cout << op.EvaluateCast<float>(b).field->Print() << std::endl;
 }

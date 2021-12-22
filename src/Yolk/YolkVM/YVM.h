@@ -29,7 +29,8 @@ namespace Yolk
                     CLEARARG,
                     MOVMET,
                     JMP,
-                    CALL
+                    CALL,
+                    CAST
                 };
                 struct ARG
                 {
