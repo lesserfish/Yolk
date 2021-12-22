@@ -18,6 +18,7 @@ namespace Yolk
         virtual void RegisterWatcher(Network *node);
         virtual void DeregisterWatcher(Network *node);
         virtual void AlertNodeDeath(Network *node);
+        int GetWatchingCount() const;
 
     protected:
         std::vector<Network *> Watchers;
@@ -36,7 +37,10 @@ namespace Yolk
             w->AlertNodeDeath(this);
         }
     }
-
+    inline int Network::GetWatchingCount() const
+    {
+        return Watching.size();
+    }
     inline void Network::RegisterWatcher(Network *node)
     {
         if (node)

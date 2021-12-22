@@ -26,12 +26,13 @@ namespace Yolk
             virtual std::string Print() const { return "void"; };
             virtual HB *clone() const = 0;
             virtual void* GetVoidPointer() const{ return nullptr; };
+            virtual void InvokeCast(TypedField& other) const {other.Free();};
+
         };
         template <typename T>
         struct H : public HB
         {
             using PTR = std::shared_ptr<H<T>>;
-
             H(T &_value) : value(_value), Type(typeid(_value)){}
             T& Get() const{
                 return value;
@@ -114,6 +115,7 @@ namespace Yolk
                 std::cout << Type.name() << std::endl;
             }
             const std::type_index GetType() const{
+                return typeid(T);
                 return Type;
             }
             unsigned int GetSize() const{
@@ -127,10 +129,14 @@ namespace Yolk
                 HB *out = new H<T>(value);
                 return out;
             }
+            void InvokeCast(TypedField& other) const
+            {
+                other.Cast<T>();
+            }
 
         private:
             T &value;
-            const std::type_index Type;
+            std::type_index Type;
         };
 
         TypedField();
@@ -184,6 +190,12 @@ namespace Yolk
         
         std::type_index GetType() const;
         unsigned int GetSize() const;
+
+        template<typename T>
+        void Cast();
+        void CastAs(TypedField& other);
+
+        void InvokeCast(TypedField& other);
         
         template <typename T>
         static std::shared_ptr<T> Create(T value, TypedField &ref);
@@ -348,7 +360,7 @@ namespace Yolk
         {
             if(Data)
                 return Data->Print();
-            return "";
+            return "[None]";
         }
         inline std::type_index TypedField::GetType() const
         {
@@ -361,6 +373,21 @@ namespace Yolk
             if (!Valid())
                 return 0;
             return Data->GetSize();
+        }
+        template <typename T>
+        inline void TypedField::Cast()
+        {
+            T& ref = As<T>();
+            Free();
+            Bind(ref);
+        }
+        inline void TypedField::CastAs(TypedField& other)
+        {
+            other.InvokeCast(*this);
+        }
+        inline void TypedField::InvokeCast(TypedField& other)
+        {
+            Data->InvokeCast(other);
         }
         template <typename T>
         inline std::shared_ptr<T> TypedField::Create(T value, TypedField &ref)
