@@ -71,7 +71,7 @@ namespace Yolk
             
             public:
             MemoryManager& manager;
-            Table wrapperTable;
+            Table wrapperTable; // <--- If we make wrapper Table fixed size, we can probably make this super fast.
         };
 
 

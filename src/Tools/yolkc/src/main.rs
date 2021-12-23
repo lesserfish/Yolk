@@ -29,11 +29,11 @@ fn main()
         let status = output.0;
         if !status
         {
-            println!("Error message: {}", output.1);
+      //      println!("Error message: {}", output.1);
             break;
         }
-        let token = output.2;
-        println!("Token: ({0}:{1})", token.token_name.to_string(), token.token_value.to_string());
+ //       let token = output.2;
+ //       println!("Token: ({0}:{1})", token.token_name.to_string(), token.token_value.to_string());
     }
 
 }

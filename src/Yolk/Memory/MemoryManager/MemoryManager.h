@@ -223,6 +223,7 @@ namespace Yolk
             MemoryManager(
                 std::string _Name = std::to_string(MemoryIndexer::Tick()), std::function<void(std::string)> Logcallback = [](std::string) {});
             //MemoryManager(std::function<void(std::string)> Logcallback); // todo <- implement this constructor.
+            //MemoryManager(const MemoryManager &other);
             MemoryManager(MemoryManager &other);
             MemoryManager(MemoryManager *other);
             virtual ~MemoryManager();
@@ -248,7 +249,7 @@ namespace Yolk
 
         private:
             Wrapper GenerateVoidWrapper();
-            MemoryManager(const MemoryManager &) = delete;
+            //MemoryManager(const MemoryManager &) = delete;
 
             const std::string name;
             MemoryManager *Manager;
