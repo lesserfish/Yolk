@@ -211,3 +211,64 @@ TEST(Yolk_Test, MemoryBlock_Combination)
     EXPECT_EQ(block.GetFieldWrapperByName("new_hp").field->As<int>(), 5);
 
 }
+class AliasGod : public Yolk::Environment
+{
+    public:
+    AliasGod() : Environment("God") {}
+};
+class AliasFriend : public Yolk::Object
+{
+    public:
+    AliasFriend(std::string Name, Object& father, int _x) : Object(Name, &father), x(_x)
+    {
+        RegisterField(x, "x");
+        GetMemoryBlock().RegisterAlias("x", "MyPrettyVariableX");
+    }
+    void Debug(int expectation)
+    {
+        auto v = GetMemoryBlock().GetFieldWrapperByName("MyPrettyVariableX");
+        EXPECT_EQ(expectation, v.field->As<int>());
+
+    }
+    void Debug(Object* f, int expectation)
+    {
+        auto v = GetMemoryBlock().GetFieldWrapperByName(f->GetLocalName());
+        EXPECT_EQ(v.field->As<AliasFriend>().x, expectation);
+    }
+    void Debug(std::string name)
+    {
+        auto w = GetMemoryBlock().Exists(name);
+
+        EXPECT_TRUE(w);
+        
+        auto v = GetMemoryBlock().GetWrapperInfoByName(name);
+        bool r = v.status == Yolk::Memory::WrapperTable::Status::Dead;
+        EXPECT_TRUE(r);
+    }
+    void RegisterFriend(Object* f)
+    {
+        RegisterObject(f);
+        EXPECT_TRUE(GetMemoryBlock().RegisterAlias(f->GetGlobalName(), f->GetLocalName()));
+    }
+
+    int x;
+};
+TEST(Yolk_Test, MemoryBlock_Alias)
+{
+    AliasGod god;
+    AliasFriend a("objectA", god, 5);
+    AliasFriend b("objectB", god, 12);
+    AliasFriend *c = new AliasFriend("objectC", god, 121);
+    a.RegisterFriend(&b);
+    a.RegisterFriend(c);
+
+    a.Debug(5);
+    a.Debug(&b, 12);
+    a.Debug(c, 121);
+
+    std::string CAlias = c->GetLocalName();
+
+    delete(c);
+
+    a.Debug(CAlias);
+}

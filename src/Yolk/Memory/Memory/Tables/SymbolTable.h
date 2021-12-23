@@ -10,12 +10,13 @@ namespace Yolk
     {
         struct SymbolKey
         {
-            SymbolKey(std::string name = "", std::string mode = "", std::string args = "") : Name(name), Mode(mode), Args(args)
+            SymbolKey(std::string name = "", std::string mode = "", std::string args = "", bool _alias = false) : Name(name), Mode(mode), Args(args), alias(_alias)
             {
             }
             std::string Name;
             std::string Mode;
             std::string Args;
+            bool alias;
             bool operator==(const SymbolKey &key) const
             {
                 std::string c1 = Name;
@@ -59,6 +60,8 @@ namespace Yolk
 
         public:
             bool Add(Key, Value, bool Forced = false);
+            bool CreateAlias(Key, Key);
+            bool DeleteAlias(Key);
             Value Get(Key);
             bool Get(Key, Value &);
             bool Exists(Key);
@@ -82,6 +85,29 @@ namespace Yolk
                 return true;
             }
             return result.second;
+        }
+        inline bool SymbolTable::CreateAlias(Key original, Key alias)
+        {
+            if(original == Key() || alias == Key())
+                return false;
+            auto const original_value = symbolTable.find(original);
+
+            if(original_value == symbolTable.end())
+                return false; // Original name does not exist
+            
+            auto const result = symbolTable.insert(std::make_pair(alias, original_value->second));
+            return result.second;
+        }
+        inline bool SymbolTable::DeleteAlias(Key alias)
+        {
+            auto result = symbolTable.find(alias);
+            if(result == symbolTable.end())
+                return false;
+            if(!result->first.alias)
+                return false;
+
+            symbolTable.erase(result);
+            return true;
         }
         inline SymbolTable::Value SymbolTable::Get(Key key)
         {

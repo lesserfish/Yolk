@@ -142,6 +142,7 @@ namespace Yolk
         TypedField();
         TypedField(TypedField &ref);
         TypedField(const TypedField &ref);
+        ~TypedField();
         template <typename T> 
         TypedField(T &ref);
 
@@ -217,6 +218,10 @@ namespace Yolk
         {
 
             Data = new H<T>(ref);
+        }
+        inline TypedField::~TypedField()
+        {
+            Free();
         }
         template <typename T>
         inline void TypedField::Bind(T &ref)

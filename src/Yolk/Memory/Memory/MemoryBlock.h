@@ -26,6 +26,9 @@ namespace Yolk
             bool RegisterObject(std::string Name, Wrapper wrapper, Privacy privacy = Privacy::Public, bool Force = false);
             bool RegisterObject(std::string Name, Wrapper wrapper, WrapperTable::Key &outkey, Privacy privacy = Privacy::Public, bool Force = false);
 
+            bool RegisterAlias(std::string OriginalName, std::string Alias);
+            bool DeleteAlias(std::string Alias);
+
             void DeleteByName(std::string Name);
             void DeleteByWrapperKey(WrapperTable::Key);
 
@@ -74,7 +77,22 @@ namespace Yolk
               wrapperTable(_manager)
         {
         }
+        inline bool MemoryBlock::RegisterAlias(std::string OriginalName, std::string Alias)
+        {
+            auto original = GetSymbolKey(OriginalName);
+            auto alias = GetSymbolKey(Alias);
+            alias.alias = true;
 
+            return symbolTable.CreateAlias(original, alias);
+
+        }
+        inline bool MemoryBlock::DeleteAlias(std::string Alias)
+        {
+            auto alias = GetSymbolKey(Alias);
+            alias.alias = true;
+
+            return symbolTable.DeleteAlias(alias);
+        }
         inline bool MemoryBlock::RegisterWrapper(std::string Name, Wrapper wrapper, WrapperTable::Key &outkey, Privacy, bool Force)
         {
 

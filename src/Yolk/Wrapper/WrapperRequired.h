@@ -19,8 +19,8 @@ namespace Yolk
     }
     inline Wrapper::~Wrapper()
     {
-        if(field)
-            field->Free();
+        /*if(field)
+            field->Free();*/
         LookAway();
     }
     inline Wrapper &Wrapper::operator=(const Wrapper &cpy)
