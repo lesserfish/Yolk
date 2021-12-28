@@ -11,15 +11,14 @@ namespace Yolk
     {
         struct OVO
         {
+            using Byte = unsigned char;
+            using Usize = long unsigned int;
             struct Instruction
             {
                 using CHUNK = unsigned long int;
                 enum INSTRUCTION
                 {
-                    MOVA,    // Moves ARG1 onto Register A
-                    MOVB,    // Moves ARG1 onto Register B
-                    MOVC,    // Moves ARG1 onto Register C
-                    MOVD,    // Moves ARG1 onto Register D
+                    MOV,      // Moves ARG2 onto ARG1
                     MOVM,    // Moves ARG1 onto Method Register
                     CALLM,   // Invokes Method Register with current Argument Register, puts output in output Register
                     PUSHAR,  // Pushes ARG1 onto Argument Register
@@ -31,6 +30,7 @@ namespace Yolk
                     CMPLSEQ, // Compares whether ARG1 <= ARG2
                     CMPGTEQ, // Compares whether ARG1 >= ARG2
                     JNTRUE,  // Jumps to ARG1 if comparison register is true
+                    JNFALSE, // Jumps at ARG1 if comparison register is false
                     JMP,     // Unconditionally jumps to ARG1
                     ADD,     // ARG1 = ARG1 + ARG2
                     SUN,     // ARG1 = ARG1 - ARG2
@@ -39,15 +39,18 @@ namespace Yolk
                     MOD,     // ARG1 = ARG1 % ARG2
                     AND,     // ARG1 = ARG1 && ARG2 (?)
                     OR,      // ARG1 = ARG1 || ARG2 (?)
-                    CAST,    // Casts ARG1 to ARG2
-                    NAME,    // Saves wrapper in Register A to the Memory Block with name ARG2. If ARG1 = 0, then it saves onto YVM Stack. Else it saves in object.
+                    CAST,    // Casts ARG1 to ARG2. ARG2 can by a Symbol representing elementary type, or DATA with the Name of a wrapper.
+                    COPY,    // Copies the value of ARG2 onto ARG1
+                    BIND,    // Copies ARG2 by reference onto ARG1. Now, both wrappers point to the same piece of data.
+                    NAMEL,   // Stores the wrapper in ARG1 onto the memory block of YolkVM with name ARG2
+                    NAMEG   // Stores the wrapper in ARG1 onto the memory block of the object with name ARG2.
                 };
                 struct ARG
                 {
                     enum MODE
                     {
                         NONE,   // Argument is Empty
-                        SYMBOL, // Argument represents a Symbol (What the fuck is a Symbol?)
+                        SYMBOL, // Argument represents a Symbol (Which pretty much means Integer. Used only for deciding between subinstructions).
                         REG,    // Argument represents a Register
                         DATA,   // Argument represents Data
                     };
@@ -85,6 +88,8 @@ namespace Yolk
                 template<typename T>
                 Data(T _content);
                 Data(void *_content, Usize _size, Mode _mode);
+                
+                
                 static void ToContainer(std::vector<Byte> *destiny, const void *origin, Usize size);
                 static void FromContainer(void *destiny, std::vector<Byte> *origin, Usize size);
                 static Wrapper ToWrapper(Data data, Memory::MemoryManager &manager);
@@ -260,7 +265,7 @@ namespace Yolk
         {
             ToContainer(&content, _content, _size);
         }
-        inline OVO::Data::Usize OVO::Data::GetSizeFromString(void*& string)
+        inline OVO::Usize OVO::Data::GetSizeFromString(void*& string)
         {
             Usize *sizeptr = (Usize *) string;
             Usize out = *sizeptr;

@@ -160,3 +160,19 @@ TEST(Yolk_Test, MemoryManager_CopyByReference_NoNewEntry)
     EXPECT_EQ(w.field->As<int>(), 14);
     EXPECT_EQ(wcopy.field->As<int>(), 14);
 }
+TEST(Yolk_Test, MemoryManager_Delete)
+{
+    Yolk::Memory::MemoryManager manager;
+
+    Yolk::Wrapper a = manager.AllocateMemory<int>(5);
+    Yolk::Wrapper b = manager.AllocateMemory<int>(7);
+
+    int ID = b.ID;
+
+    EXPECT_EQ(manager.ChangeAudience(ID, 0), 1);
+
+    b = a;
+
+    EXPECT_EQ(manager.ChangeAudience(ID, 0), 0);
+
+}

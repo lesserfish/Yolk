@@ -27,6 +27,7 @@ namespace Yolk
             virtual HB *clone() const = 0;
             virtual void* GetVoidPointer() const{ return nullptr; };
             virtual void InvokeCast(TypedField& other) const {other.Free();};
+            virtual void InvokeBind(TypedField&) const {};
 
         };
         template <typename T>
@@ -133,6 +134,10 @@ namespace Yolk
             {
                 other.Cast<T>();
             }
+            void InvokeBind(TypedField& other) const
+            {
+                other.Bind<T>(value);
+            }
 
         private:
             T &value;
@@ -148,6 +153,7 @@ namespace Yolk
 
         template <typename T> 
         void Bind(T &ref);
+        void Bind(TypedField& other);
 
         template <typename T> 
         T &As() const;
@@ -197,6 +203,7 @@ namespace Yolk
         void CastAs(TypedField& other);
 
         void InvokeCast(TypedField& other);
+        void InvokeBind(TypedField& other);
         
         template <typename T>
         static std::shared_ptr<T> Create(T value, TypedField &ref);
@@ -228,6 +235,12 @@ namespace Yolk
         {
             Free();
             Data = new H<T>(ref);
+        }
+        inline void TypedField::Bind(TypedField& other)
+        {
+            if(!other.Valid())
+                return;
+            other.InvokeBind(*this);
         }
         template <typename T>
         inline T& TypedField::As() const
@@ -393,6 +406,12 @@ namespace Yolk
         inline void TypedField::InvokeCast(TypedField& other)
         {
             Data->InvokeCast(other);
+        }
+        inline void TypedField::InvokeBind(TypedField& other)
+        {
+            if(!Valid())
+                return;
+            Data->InvokeBind(other);
         }
         template <typename T>
         inline std::shared_ptr<T> TypedField::Create(T value, TypedField &ref)

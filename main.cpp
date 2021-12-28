@@ -5,25 +5,45 @@
 #include <cstring>
 #include <cstddef>
 
-using Data = Yolk::VM::OVO::Data;
-
+int FunctionTest(int a, float b)
+{
+    int o = a + (int)b;
+    return o;
+}
 int main()
 {
     Yolk::Memory::MemoryManager manager;
+    Yolk::Memory::MemoryBlock memblock(manager);
 
-    auto d = Data(12);
-    std::string str = Data::ToString(d);
-    auto n = Data::FromString(str);
+    auto m = Yolk::WrapperGenerator<int, int, float>::GenerateMethodWrapper(FunctionTest, manager);
+    memblock.RegisterWrapper("GetInfo", m);
 
-    std::cout << n.size << std::endl;
-    std::cout << (n.mode == Data::Mode::INT) << std::endl;
+    Yolk::Wrapper REGA(manager.GenerateVoidWrapper());
+    Yolk::Wrapper REGOUT(manager.GenerateVoidWrapper());
+    Yolk::MethodWrapper MREG(manager.GenerateVoidWrapper());
+    Yolk::ArgumentWrapper ARGREG;
 
-    auto w = Data::ToWrapper(n, manager);
-    std::cout << w.field->Print() << std::endl;
+    // var output = GetInfo(2, 3.14f);  <-- Command we are going to run.
 
-    for(auto x : str)
-    {
-        std::cout <<(unsigned short int )x;
-    }
-    std::cout << std::endl;
+    // mov REGA, 2
+    REGA = manager.AllocateMemory<int>(2);
+    // pushar REGA
+    ARGREG << REGA;
+    // mov REGA, 3.14f
+    REGA = manager.AllocateMemory<float>(7.14f);
+    // pushar REGA
+    ARGREG << REGA;
+    // movr "GetInfo"
+    MREG = memblock.GetMethodWrapperByName("GetInfo");
+    // callm
+    auto o = MREG.Invoke(ARGREG);
+    REGOUT = o.output;
+    // mov REGA, REGOUT
+    REGA = REGOUT;
+    // namel REGA, "output"
+    memblock.RegisterWrapper("output", REGA);
+
+    auto w = memblock.GetFieldWrapperByName("output");
+
+    manager.Debug();
 }

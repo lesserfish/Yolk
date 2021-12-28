@@ -272,3 +272,70 @@ TEST(Yolk_Test, MemoryBlock_Alias)
 
     a.Debug(CAlias);
 }
+
+int FunctionTest(int a, float b)
+{
+    int o = a + (int)b;
+    return o;
+}
+void GoTest(Yolk::Memory::MemoryManager& manager, Yolk::Memory::MemoryBlock& memblock)
+{
+    // Initialize Registers
+    Yolk::Wrapper REGA(manager.GenerateVoidWrapper());
+    Yolk::Wrapper REGOUT(manager.GenerateVoidWrapper());
+    Yolk::MethodWrapper MREG(manager.GenerateVoidWrapper());
+    Yolk::ArgumentWrapper ARGREG;
+
+    // var output = GetInfo(2, 3.14f);  <-- Command we are going to run.
+
+    // It's Assembly form is:
+    //mov REGA, 2
+    //pushar REGA
+    //mov REGA, 3.14
+    //pushar REGA
+    //movr "GetInfo"
+    //CALLM
+    //MOV REGA, REGOUT
+    //NAMEL REGA, "output"
+    
+    
+    // Let's GO!
+
+    // mov REGA, 2
+    REGA = manager.AllocateMemory<int>(2);
+    // pushar REGA
+    ARGREG << REGA;
+    // mov REGA, 3.14f
+    REGA = manager.AllocateMemory<float>(3.14f);
+    // pushar REGA
+    ARGREG << REGA;
+    // movr "GetInfo"
+    MREG = memblock.GetMethodWrapperByName("GetInfo");
+    // callm
+    auto o = MREG.Invoke(ARGREG);
+    REGOUT = o.output;
+    // mov REGA, REGOUT
+    REGA = REGOUT;
+    // namel REGA, "output"
+    memblock.RegisterWrapper("output", REGA);
+}
+TEST(Yolk_Test, MemoryBlock_Mini_Assembly)
+{
+    Yolk::Memory::MemoryManager manager;
+    Yolk::Memory::MemoryBlock memblock(manager);
+
+    auto m = Yolk::WrapperGenerator<int, int, float>::GenerateMethodWrapper(FunctionTest, manager);
+
+    memblock.RegisterWrapper("GetInfo", m);
+    GoTest(manager, memblock);
+
+    EXPECT_EQ(manager.Size(), 2);
+    auto w = memblock.GetFieldWrapperByName("output");
+    EXPECT_TRUE(w.field->Valid());
+    EXPECT_EQ(w.field->As<int>(), 5);
+
+    // Checking no leakage of memory
+
+    EXPECT_EQ(manager.ChangeAudience(m.ID, 0), 2); // m and the one in MemBlock
+    EXPECT_EQ(manager.ChangeAudience(w.ID, 0), 2); // w and the one in MemBlock
+}

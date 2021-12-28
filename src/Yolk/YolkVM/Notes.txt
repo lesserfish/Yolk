@@ -8,12 +8,26 @@ This translates to:
     PUSHAR, REGA        ;  
     PUSHM, 2            ;  ARG1 = [DATA, 2]
     CALLM
-    MOV REG, OUT        ;  ARG1 = [REG, 0], ARG2 = [REG, 6]
-    NAME 0, 3           ;  ARG1 = [SYMBOL, 0], ARG2 = [DATA, 3]
+    MOV REGA, OUT        ;  ARG1 = [REG, 0], ARG2 = [REG, 6]
+    NAMEL 0, 3           ;  ARG1 = [SYMBOL, 0], ARG2 = [DATA, 3]
 
     _Data:
     pos 0: [Mode = INT, Size = sizeof(INT), Content = 2]
     pos 1: [Mode = FLOAT, Size = sizeof(FLOAT), Content = 3.14f]
     pos 2: [Mode = STRING, Size = 7, Content = "GetInfo"]
     pos 3: [Mode = STRING, Size = 6, Content = "output]
-    
+
+
+   Let's write this without splitting Data and Instructions. Assume that the Data will be split during compilation time.
+
+
+    var output = GetInfo(2, 3.14f);
+
+    mov REGA, 2             ;   REGA = manager.AllocateMemory<int>(2)
+    pushar REGA             ;   ARGREG.push_back(REGA);
+    mov REGA, 3.14          ;   REGA = manager.AllocateMemory<float>(3.14);
+    pushar REGA             ;   ARGREG.push_back(REGA);
+    movr "GetInfo"          ;   MREG = MemoryBlock.GetMethodWrapperByName("GetInfo");
+    CALLM                   ;   auto o = MREG.Invoke(ARGREG); /* check ok */ REGOUT = o.output;
+    MOV REGA, REGOUT        ;   REGA = REGOUT;
+    NAMEL REGA, "output"    ;   MemoryBlock.RegisterFieldWrapperByName(REGA, "output"); 
