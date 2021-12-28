@@ -6,6 +6,7 @@
 #include "../Wrapper/ArgumentWrapper.h"
 #include "../Memory/Memory/MemoryBlock.h"
 #include "../Memory/MemoryManager/MemoryManager.h"
+#include "Operators.h"
 #include <unordered_map>
 
 namespace Yolk

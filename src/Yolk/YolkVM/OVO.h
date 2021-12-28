@@ -18,12 +18,15 @@ namespace Yolk
                 using CHUNK = unsigned long int;
                 enum INSTRUCTION
                 {
-                    MOV,      // Moves ARG2 onto ARG1
+                    MOV,     // Moves ARG2 onto ARG1. ARG1 is a Register. ARG2 is either a Register or a Data consisting of the name of a Wrapper.
+                    SET,     // Sets ARG1 equal to ARG2. ARG1 is a Register. ARG2 is either a symbol consisting of the data type, or DATA consisting of its value.
+                    CLONE,   // ARG1 is a new wrapper with new Typed Field with same value as ARG2
                     MOVM,    // Moves ARG1 onto Method Register
                     CALLM,   // Invokes Method Register with current Argument Register, puts output in output Register
                     PUSHAR,  // Pushes ARG1 onto Argument Register
                     POPAR,   // Pops Argument Register onto ARG1
                     CLRAR,   // Clears Argument Register
+                    CMP,     // ARG1 == true? (as a wrapper).
                     CMPEQ,   // Compares whether ARG1 equals ARG2
                     CMPLS,   // Compares whether ARG1 < ARG2
                     CMPGT,   // Compares whether ARG1 > ARG2
@@ -41,7 +44,6 @@ namespace Yolk
                     OR,      // ARG1 = ARG1 || ARG2 (?)
                     CAST,    // Casts ARG1 to ARG2. ARG2 can by a Symbol representing elementary type, or DATA with the Name of a wrapper.
                     COPY,    // Copies the value of ARG2 onto ARG1
-                    BIND,    // Copies ARG2 by reference onto ARG1. Now, both wrappers point to the same piece of data.
                     NAMEL,   // Stores the wrapper in ARG1 onto the memory block of YolkVM with name ARG2
                     NAMEG   // Stores the wrapper in ARG1 onto the memory block of the object with name ARG2.
                 };

@@ -156,10 +156,8 @@ namespace Yolk
             public:
             Operator(Memory::MemoryManager& _manager ) : manager(_manager){{}}
             Memory::MemoryManager& GetMemoryManager() const;
-            template<typename F>
-            Wrapper EvaluateCast(Wrapper lhs, bool& status_output);
-            template<typename F>
-            Wrapper EvaluateCast(Wrapper lhs);
+            Wrapper EvaluateCast(Wrapper lhs, std::type_index F, bool& status_output);
+            Wrapper EvaluateCast(Wrapper lhs, std::type_index F);
             {1}
             template <typename T, typename F> void RegisterCast();
             {2}
@@ -172,10 +170,9 @@ namespace Yolk
         {{
             return manager;
         }}
-        template<typename F>
-        inline Wrapper Operator::EvaluateCast(Wrapper lhs, bool& status_output)
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs, std::type_index F bool& status_output)
         {{
-            PAIR pair(lhs.field->GetType(), typeid(F));
+            PAIR pair(lhs.field->GetType(), F);
             auto find_result = castMap.find(pair);
 
             if(find_result == castMap.end())
@@ -189,11 +186,10 @@ namespace Yolk
             status_output = true;
             return out;
         }}
-        template<typename F>
-        inline Wrapper Operator::EvaluateCast(Wrapper lhs)
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs, std::type_index F)
         {{
             bool output;
-            return EvaluateCast<F>(lhs, output);
+            return EvaluateCast(lhs, F, output);
         }}
         {3}
         template<typename T, typename F>
