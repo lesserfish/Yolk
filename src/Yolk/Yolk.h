@@ -13,3 +13,4 @@
 #include "Memory/Memory/Tables/WrapperTable.h"
 #include "Object/Object.h"
 #include "Environment/Environment.h"
+#include "YolkVM/YVM.h"

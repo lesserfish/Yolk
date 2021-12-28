@@ -31,6 +31,7 @@ namespace Yolk
             ID = cpy.ID;
             field = std::make_shared<TypedField>(*cpy.field);
             wType = cpy.wType;
+            manager.ChangeAudience(ID, +1);
             return *this;
         }
         return *this;

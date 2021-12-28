@@ -246,9 +246,10 @@ namespace Yolk
             void RegisterLogcallbackFunction(std::function<void(std::string)> Logcallback);
             Identifier Size() const;
             const std::string Name() const;
+            
+            Wrapper GenerateVoidWrapper();
 
         private:
-            Wrapper GenerateVoidWrapper();
             //MemoryManager(const MemoryManager &) = delete;
 
             const std::string name;

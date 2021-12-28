@@ -1,0 +1,19 @@
+    var output = GetInfo(2, 3.14f);
+
+This translates to:
+
+    MOV REGA, 0         ;  ARG1 = [REG, 0], ARG2 = [DATA, 0]
+    PUSHAR REGA        ;  ARG1 = [REG, 0]
+    MOV REGA, 1         ;  ARG1 = [REG, 0], ARG2 = [DATA, 1]
+    PUSHAR, REGA        ;  
+    PUSHM, 2            ;  ARG1 = [DATA, 2]
+    CALLM
+    MOV REG, OUT        ;  ARG1 = [REG, 0], ARG2 = [REG, 6]
+    NAME 0, 3           ;  ARG1 = [SYMBOL, 0], ARG2 = [DATA, 3]
+
+    _Data:
+    pos 0: [Mode = INT, Size = sizeof(INT), Content = 2]
+    pos 1: [Mode = FLOAT, Size = sizeof(FLOAT), Content = 3.14f]
+    pos 2: [Mode = STRING, Size = 7, Content = "GetInfo"]
+    pos 3: [Mode = STRING, Size = 6, Content = "output]
+    
