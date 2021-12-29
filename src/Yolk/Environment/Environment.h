@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Memory/MemoryManager/MemoryManager.h"
-#include "../Object/NewObject.h"
+#include "../Object/Object.h"
 #include <string>
 
 namespace Yolk

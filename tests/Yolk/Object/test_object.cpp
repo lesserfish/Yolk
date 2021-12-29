@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/Yolk.h"
-//#include "../../../src/Yolk/Object/NewObject.h"
+//#include "../../../src/Yolk/Object/Object.h"
 //#include "../../../src/Yolk/Environment/Environment.h"
 
 class YK_God : public Yolk::Environment

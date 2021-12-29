@@ -1,7 +1,7 @@
 
 //#include "../../../src/Yolk/Yolk.h"
-#include "../../../src/Yolk/Memory/Memory/NewMemoryBlock.h"
-#include "../../../src/Yolk/Memory/Memory/Tables/NewWrapperTable.h"
+#include "../../../src/Yolk/Memory/Memory/MemoryBlock.h"
+#include "../../../src/Yolk/Memory/Memory/Tables/WrapperTable.h"
 #include "../../../src/Yolk/Wrapper/WrapperGenerator.h"
 #include <gtest/gtest.h>
 #include <vector>

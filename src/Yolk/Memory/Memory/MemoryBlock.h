@@ -1,9 +1,7 @@
 #pragma once
 
-#include "Tables/WrapperTable.h"
 #include "Tables/SymbolTable.h"
-#include "../MemoryManager/MemoryManager.h"
-#include <typeindex>
+#include "Tables/WrapperTable.h"
 
 namespace Yolk
 {
@@ -12,96 +10,108 @@ namespace Yolk
 
         class MemoryBlock
         {
-        public:
         private:
             SymbolKey GetSymbolKey(std::string Name);
 
         public:
-            bool RegisterWrapper(std::string Name, Wrapper wrapper, Privacy privacy = Privacy::Public, bool Force = false);
-            bool RegisterWrapper(std::string Name, MethodWrapper wrapper, Privacy privacy = Privacy::Public, bool Force = false);
 
-            bool RegisterWrapper(std::string Name, Wrapper wrapper, WrapperTable::Key &outkey, Privacy privacy = Privacy::Public, bool Force = false);
-            bool RegisterWrapper(std::string Name, MethodWrapper wrapper, WrapperTable::Key &outkey, Privacy privacy = Privacy::Public, bool Force = false);
-
-            bool RegisterObject(std::string Name, Wrapper wrapper, Privacy privacy = Privacy::Public, bool Force = false);
-            bool RegisterObject(std::string Name, Wrapper wrapper, WrapperTable::Key &outkey, Privacy privacy = Privacy::Public, bool Force = false);
-
-            bool RegisterAlias(std::string OriginalName, std::string Alias);
-            bool DeleteAlias(std::string Alias);
+            struct RegisterOutput
+            {
+                WrapperKey wrapperKey;
+                bool ok;
+            };
+            struct FriendRegisterOutput
+            {
+                bool ok;
+            };
+            struct FieldOutput
+            {
+                Wrapper wrapper;
+                bool ok;
+            };
+            struct MethodOutput
+            {
+                MethodWrapper wrapper;
+                bool ok;
+            };
+            struct KeyOutput
+            {
+                WrapperKey key;
+                bool ok;
+            };
+            RegisterOutput RegisterWrapper(std::string Name, Wrapper wrapper, bool Force = false);
+            RegisterOutput RegisterWrapper(std::string Name, MethodWrapper wrapper, bool Force = false);
+            FriendRegisterOutput RegisterFriend(std::string , SymbolTable&);
 
             void DeleteByName(std::string Name);
-            void DeleteByWrapperKey(WrapperTable::Key);
+            void DeleteByWrapperKey(WrapperKey);
+            void DeleteFriend(std::string Name);
 
-            Wrapper GetFieldWrapperByWrapperKey(WrapperTable::Key key);
-            MethodWrapper GetMethodWrapperByWrapperKey(WrapperTable::Key key);
-            Wrapper GetObjectWrapperByWrapperKey(WrapperTable::Key key);
+            FieldOutput GetFieldWrapperByWrapperKey(WrapperKey key);
+            MethodOutput GetMethodWrapperByWrapperKey(WrapperKey key);
 
-            Wrapper GetFieldWrapperByName(std::string Name);
-            MethodWrapper GetMethodWrapperByName(std::string Name);
-            Wrapper GetObjectWrapperByName(std::string Name);
+            FieldOutput GetFieldWrapperByName(std::string Name);
+            MethodOutput GetMethodWrapperByName(std::string Name);
 
-            WrapperTable::WrapperInfo GetWrapperInfoByName(std::string Name);
-            WrapperTable::WrapperInfo GetWrapperInfoByWrapperKey(WrapperTable::Key key);
+            WrapperInfo GetWrapperInfoByName(std::string Name);
+            WrapperInfo GetWrapperInfoByWrapperKey(WrapperKey key);
 
-            WrapperTable::Key GetWrapperKeyByName(std::string Name);
-            bool GetWrapperKeyByName(std::string Name, WrapperTable::Key &out);
-            bool Exists(std::string Name);
+            KeyOutput GetWrapperKeyByName(std::string Name);
 
-            MemoryBlock(
-                MemoryManager &_manager, std::string _name = "", Privacy pMode = Privacy::Public, std::function<void(std::string)> LogCallback = [](std::string) {});
+            SymbolTable& GetSymbolTable();
 
-            void Debug()
-            {
-            }
+            MemoryBlock(MemoryManager &_manager, WrapperTable& _wrapperTable, std::function<void(std::string)> LogCallback = [](std::string){});
+            ~MemoryBlock();
 
         private:
-            MemoryManager &memoryManager;
-            std::string holderName;
-            Privacy PrivacyMode;
-            std::function<void(std::string)> LogCallbackFunction;
+            MemoryManager& memoryManager;
+            WrapperTable& wrapperTable;
             SymbolTable symbolTable;
-            WrapperTable wrapperTable;
+            std::function<void(std::string)> LogCallbackFunction;
+            std::string holderName;
         };
 
+        
+        inline MemoryBlock::MemoryBlock(MemoryManager &_manager, WrapperTable& _wrapperTable, std::function<void(std::string)> LogCallback)
+            :   memoryManager(_manager),
+                wrapperTable(_wrapperTable),
+                LogCallbackFunction(LogCallback),
+                holderName("")
+        {
+        }
+        inline MemoryBlock::~MemoryBlock()
+        {
+            auto all_symbols = symbolTable.GetAll();
+
+            for(auto entry : all_symbols)
+            {
+                auto key = entry.key;
+                DeleteByWrapperKey(key);
+            }
+        }
         inline SymbolKey MemoryBlock::GetSymbolKey(std::string Name)
         {
-            SymbolKey out(Name);
-            return out;
+            SymbolKey symbolKey(Name);
+            return symbolKey;
+        }
+        inline MemoryBlock::FriendRegisterOutput MemoryBlock::RegisterFriend(std::string name, SymbolTable& st)
+        {
+            bool out = symbolTable.AddFriend(name, &st);
+            return FriendRegisterOutput{out};
+        }
+        inline void MemoryBlock::DeleteFriend(std::string Name)
+        {
+            symbolTable.DeleteFriend(Name);
         }
 
-        inline MemoryBlock::MemoryBlock(MemoryManager &_manager, std::string _name, Privacy pMode, std::function<void(std::string)> LogCallback)
-            : memoryManager(_manager),
-              holderName(_name),
-              PrivacyMode(pMode),
-              LogCallbackFunction(LogCallback),
-              wrapperTable(_manager)
+        inline MemoryBlock::RegisterOutput MemoryBlock::RegisterWrapper(std::string Name, Wrapper wrapper, bool Force)
         {
-        }
-        inline bool MemoryBlock::RegisterAlias(std::string OriginalName, std::string Alias)
-        {
-            auto original = GetSymbolKey(OriginalName);
-            auto alias = GetSymbolKey(Alias);
-            alias.alias = true;
-
-            return symbolTable.CreateAlias(original, alias);
-
-        }
-        inline bool MemoryBlock::DeleteAlias(std::string Alias)
-        {
-            auto alias = GetSymbolKey(Alias);
-            alias.alias = true;
-
-            return symbolTable.DeleteAlias(alias);
-        }
-        inline bool MemoryBlock::RegisterWrapper(std::string Name, Wrapper wrapper, WrapperTable::Key &outkey, Privacy, bool Force)
-        {
-
             std::string Log = "";
             SymbolKey symbol_key = GetSymbolKey(Name);
+            
+            SymbolTable::Result result = symbolTable.Get(symbol_key);
 
-            SymbolTable::Value out_value;
-            bool keyExists = symbolTable.Get(symbol_key, out_value);
-
+            bool keyExists = result.ok;
             if (keyExists)
             {
                 if (Force)
@@ -109,7 +119,7 @@ namespace Yolk
                     Log = "[Memory Block:" + holderName + "] WARNING: Attempted to register a field wrapper [" + Name + " - " + wrapper.field->GetType().name() + "] but a key already with that named already existed. Forcing it!";
                     LogCallbackFunction(Log);
 
-                    WrapperTable::Key wrapper_key = out_value;
+                    WrapperKey wrapper_key = result.value.key;
                     wrapperTable.Erase(wrapper_key);
                     symbolTable.Delete(symbol_key);
                 }
@@ -117,28 +127,26 @@ namespace Yolk
                 {
                     Log = "[Memory Block:" + holderName + "] WARNING: Attempted to register a field wrapper [" + Name + " - " + wrapper.field->GetType().name() + "] but a key already with that named already existed. Returning!";
                     LogCallbackFunction(Log);
-                    return false;
+                    return RegisterOutput { result.value.key, false};
                 }
             }
 
-            SymbolTable::Value new_wrapper_key = wrapperTable.Add(wrapper);
+            WrapperKey new_wrapper_key = wrapperTable.Add(wrapper);
             symbolTable.Add(symbol_key, new_wrapper_key);
 
             Log = "[Memory Block:" + holderName + "] INFO: A Field wrapper [" + Name + " - " + wrapper.field->GetType().name() + " ] was successfully registered in the memory block! Wrapper Key = " + std::to_string(new_wrapper_key) + ".";
             LogCallbackFunction(Log);
 
-            outkey = new_wrapper_key;
-
-            return true;
+            return RegisterOutput { new_wrapper_key, true };
         }
-        inline bool MemoryBlock::RegisterWrapper(std::string Name, MethodWrapper wrapper, WrapperTable::Key &outkey, Privacy, bool Force)
+        inline MemoryBlock::RegisterOutput MemoryBlock::RegisterWrapper(std::string Name, MethodWrapper wrapper, bool Force)
         {
             std::string Log = "";
             SymbolKey symbol_key = GetSymbolKey(Name);
+            
+            SymbolTable::Result result = symbolTable.Get(symbol_key);
 
-            SymbolTable::Value out_value;
-            bool keyExists = symbolTable.Get(symbol_key, out_value);
-
+            bool keyExists = result.ok;
             if (keyExists)
             {
                 if (Force)
@@ -146,7 +154,7 @@ namespace Yolk
                     Log = "[Memory Block:" + holderName + "] WARNING: Attempted to register a method wrapper [" + Name + " - " + wrapper.field->GetType().name() + "] but a key already with that named already existed. Forcing it!";
                     LogCallbackFunction(Log);
 
-                    WrapperTable::Key wrapper_key = out_value;
+                    WrapperKey wrapper_key = result.value.key;
                     wrapperTable.Erase(wrapper_key);
                     symbolTable.Delete(symbol_key);
                 }
@@ -154,90 +162,36 @@ namespace Yolk
                 {
                     Log = "[Memory Block:" + holderName + "] WARNING: Attempted to register a method wrapper [" + Name + " - " + wrapper.field->GetType().name() + "] but a key already with that named already existed. Returning!";
                     LogCallbackFunction(Log);
-
-                    return false;
+                    return RegisterOutput { result.value.key, false};
                 }
             }
 
-            SymbolTable::Value new_wrapper_key = wrapperTable.Add(wrapper);
+            WrapperKey new_wrapper_key = wrapperTable.Add(wrapper);
             symbolTable.Add(symbol_key, new_wrapper_key);
 
             Log = "[Memory Block:" + holderName + "] INFO: A Method wrapper [" + Name + " - " + wrapper.field->GetType().name() + " ] was successfully registered in the memory block! Wrapper Key = " + std::to_string(new_wrapper_key) + ".";
             LogCallbackFunction(Log);
 
-            outkey = new_wrapper_key;
-
-            return true;
-        }
-        inline bool MemoryBlock::RegisterObject(std::string Name, Wrapper wrapper, WrapperTable::Key &outkey, Privacy, bool Force)
-        {
-            std::string Log = "";
-            SymbolKey symbol_key = GetSymbolKey(Name);
-
-            SymbolTable::Value out_value;
-            bool keyExists = symbolTable.Get(symbol_key, out_value);
-
-            if (keyExists)
-            {
-                if (Force)
-                {
-                    Log = "[Memory Block:" + holderName + "] WARNING: Attempted to register an object wrapper [" + Name + " - " + wrapper.field->GetType().name() + "] but a key already with that named already existed. Forcing it!";
-                    LogCallbackFunction(Log);
-
-                    WrapperTable::Key wrapper_key = out_value;
-                    wrapperTable.Erase(wrapper_key);
-                    symbolTable.Delete(symbol_key);
-                }
-                else
-                {
-                    Log = "[Memory Block:" + holderName + "] WARNING: Attempted to register an object wrapper [" + Name + " - " + wrapper.field->GetType().name() + "] but a key already with that named already existed. Returning!";
-                    LogCallbackFunction(Log);
-                    return false;
-                }
-            }
-
-            SymbolTable::Value new_wrapper_key = wrapperTable.Add(wrapper);
-            symbolTable.Add(symbol_key, new_wrapper_key);
-
-            Log = "[Memory Block:" + holderName + "] INFO: An object wrapper [" + Name + " - " + wrapper.field->GetType().name() + " ] was successfully registered in the memory block! Wrapper Key = " + std::to_string(new_wrapper_key) + ".";
-            LogCallbackFunction(Log);
-
-            outkey = new_wrapper_key;
-
-            return true;
-        }
-        inline bool MemoryBlock::RegisterWrapper(std::string Name, Wrapper wrapper, Privacy privacy, bool Force)
-        {
-            WrapperTable::Key tmp;
-            return RegisterWrapper(Name, wrapper, tmp, privacy, Force);
-        }
-        inline bool MemoryBlock::RegisterWrapper(std::string Name, MethodWrapper wrapper, Privacy privacy, bool Force)
-        {
-            WrapperTable::Key tmp;
-            return RegisterWrapper(Name, wrapper, tmp, privacy, Force);
-        }
-        inline bool MemoryBlock::RegisterObject(std::string Name, Wrapper wrapper, Privacy privacy, bool Force)
-        {
-            WrapperTable::Key tmp;
-            return RegisterObject(Name, wrapper, tmp, privacy, Force);
+            return RegisterOutput { new_wrapper_key, true };
         }
         inline void MemoryBlock::DeleteByName(std::string Name)
         {
 
             std::string Log = "";
+
             SymbolKey symbol_key = GetSymbolKey(Name);
+            SymbolValue out_value;
+            
+            SymbolTable::Result result = symbolTable.Get(symbol_key);
 
-            SymbolTable::Value out_value;
-            bool keyExists = symbolTable.Get(symbol_key, out_value);
-
-            if (!keyExists)
+            if (!result.ok)
             {
                 Log = "[Memory Block:" + holderName + "] WARNING: Attempted to delete a key with name " + Name + " from the memory block but the key does not exist!";
                 LogCallbackFunction(Log);
                 return;
             }
 
-            WrapperTable::Key key = out_value;
+            WrapperKey key = result.value.key;
 
             wrapperTable.Erase(key);
             symbolTable.Delete(symbol_key);
@@ -245,14 +199,15 @@ namespace Yolk
             Log = "[Memory Block:" + holderName + "] INFO: Deleting a wrapper with name " + Name + " from the memory block.";
             LogCallbackFunction(Log);
         }
-        inline void MemoryBlock::DeleteByWrapperKey(WrapperTable::Key wrapper_key)
+        inline void MemoryBlock::DeleteByWrapperKey(WrapperKey wrapper_key)
         {
             std::string Log = "";
-            SymbolTable::Value symbol_value = wrapper_key;
-            SymbolTable::Key symbol_key;
-            bool keyExists = symbolTable.Find(symbol_value, symbol_key);
+            
+            SymbolValue symbol_value(wrapper_key);
 
-            if (!keyExists)
+            SymbolTable::FindResult result = symbolTable.Find(symbol_value);
+
+            if (!result.ok)
             {
                 Log = "[Memory Block:" + holderName + "] WARNING: Attempted to delete a key with wrapper key " + std::to_string(wrapper_key) + " from the memory block but the key does not exist!";
                 LogCallbackFunction(Log);
@@ -260,102 +215,73 @@ namespace Yolk
             }
 
             wrapperTable.Erase(wrapper_key);
-            symbolTable.Delete(symbol_key);
+            symbolTable.Delete(result.key);
 
             Log = "[Memory Block:" + holderName + "] INFO: Deleting a wrapper with wrapper key " + std::to_string(wrapper_key) + " from the memory block.";
             LogCallbackFunction(Log);
         }
 
-        inline Wrapper MemoryBlock::GetFieldWrapperByWrapperKey(WrapperTable::Key key)
+        inline MemoryBlock::FieldOutput MemoryBlock::GetFieldWrapperByWrapperKey(WrapperKey key)
         {
+            if(!wrapperTable.Exists(key))
+                return FieldOutput{ memoryManager.GenerateVoidWrapper(), false};
             Wrapper out = wrapperTable.CopyField(key);
-            return out;
+            return FieldOutput {out, true};
         }
-        inline MethodWrapper MemoryBlock::GetMethodWrapperByWrapperKey(WrapperTable::Key key)
+        inline MemoryBlock::MethodOutput MemoryBlock::GetMethodWrapperByWrapperKey(WrapperKey key)
         {
+            if(!wrapperTable.Exists(key))
+                return MethodOutput{MethodWrapper(memoryManager.GenerateVoidWrapper()), false};
             MethodWrapper out = wrapperTable.CopyMethod(key);
-            return out;
+            return MethodOutput {out, true};
         }
-        inline Wrapper MemoryBlock::GetObjectWrapperByWrapperKey(WrapperTable::Key key)
+        inline MemoryBlock::FieldOutput MemoryBlock::GetFieldWrapperByName(std::string Name)
         {
-            Wrapper out = wrapperTable.CopyObject(key);
-            return out;
+            SymbolKey symbol_key = GetSymbolKey(Name);
+
+            SymbolTable::Result result = symbolTable.Get(symbol_key);
+
+            if (!result.ok)
+                return FieldOutput { memoryManager.GenerateVoidWrapper(), false};
+            return FieldOutput { wrapperTable.CopyField(result.value.key), true};
         }
-        inline Wrapper MemoryBlock::GetFieldWrapperByName(std::string Name)
+        inline MemoryBlock::MethodOutput MemoryBlock::GetMethodWrapperByName(std::string Name)
         {
-            SymbolTable::Key symbol_key = GetSymbolKey(Name);
+            SymbolKey symbol_key = GetSymbolKey(Name);
 
-            WrapperTable::Key wrapper_key;
-            bool keyExists = symbolTable.Get(symbol_key, wrapper_key);
+            SymbolTable::Result result = symbolTable.Get(symbol_key);
 
-            if (!keyExists)
-                return memoryManager.AllocateMemory<void>();
-
-            return wrapperTable.CopyField(wrapper_key);
+            if (!result.ok)
+                return MethodOutput { MethodWrapper(memoryManager.GenerateVoidWrapper()), false};
+            return MethodOutput { wrapperTable.CopyMethod(result.value.key), true};
         }
-        inline MethodWrapper MemoryBlock::GetMethodWrapperByName(std::string Name)
+        inline WrapperInfo MemoryBlock::GetWrapperInfoByName(std::string Name)
         {
+            SymbolKey symbol_key = GetSymbolKey(Name);
 
-            SymbolTable::Key symbol_key = GetSymbolKey(Name);
+            SymbolTable::Result result = symbolTable.Get(symbol_key);
 
-            WrapperTable::Key wrapper_key;
-            bool keyExists = symbolTable.Get(symbol_key, wrapper_key);
-
-            if (!keyExists)
-                return memoryManager.AllocateMemory<void>();
-
-            return wrapperTable.CopyMethod(wrapper_key);
-        }
-        inline Wrapper MemoryBlock::GetObjectWrapperByName(std::string Name)
-        {
-            SymbolTable::Key symbol_key = GetSymbolKey(Name);
-
-            WrapperTable::Key wrapper_key;
-            bool keyExists = symbolTable.Get(symbol_key, wrapper_key);
-
-            if (!keyExists)
-                return memoryManager.AllocateMemory<void>();
-
-            return wrapperTable.CopyObject(wrapper_key);
-        }
-        inline WrapperTable::WrapperInfo MemoryBlock::GetWrapperInfoByName(std::string Name)
-        {
-            SymbolTable::Key symbol_key = GetSymbolKey(Name);
-
-            WrapperTable::Key wrapper_key;
-            bool keyExists = symbolTable.Get(symbol_key, wrapper_key);
-
-            if (!keyExists)
+            if (!result.ok)
             {
-                return WrapperTable::WrapperInfo(WrapperType::FieldWrapper, typeid(void), WrapperTable::Status::Dead, -1, Privacy::Public);
+                return WrapperInfo(WrapperType::FieldWrapper, false, 0);
             }
 
-            return wrapperTable.GetInfo(wrapper_key);
+            return wrapperTable.GetInfo(result.value.key);
         }
-
-        inline WrapperTable::WrapperInfo MemoryBlock::GetWrapperInfoByWrapperKey(WrapperTable::Key key)
+        inline WrapperInfo MemoryBlock::GetWrapperInfoByWrapperKey(WrapperKey key)
         {
             return wrapperTable.GetInfo(key);
         }
-
-        inline WrapperTable::Key MemoryBlock::GetWrapperKeyByName(std::string Name)
+        inline MemoryBlock::KeyOutput MemoryBlock::GetWrapperKeyByName(std::string Name)
         {
-            SymbolTable::Key symbol_key = GetSymbolKey(Name);
-            return symbolTable.Get(symbol_key);
+            SymbolKey symbol_key = GetSymbolKey(Name);
+            SymbolTable::Result result = symbolTable.Get(symbol_key);
+
+            return KeyOutput {result.value.key, result.ok};
         }
-        inline bool MemoryBlock::GetWrapperKeyByName(std::string Name, WrapperTable::Key &out)
+        inline SymbolTable& MemoryBlock::GetSymbolTable()
         {
-            SymbolTable::Key symbol_key = GetSymbolKey(Name);
-            return symbolTable.Get(symbol_key, out);
-        }
-
-        inline bool MemoryBlock::Exists(std::string Name)
-        {
-            SymbolTable::Key key = GetSymbolKey(Name);
-            SymbolTable::Value tmp;
-            bool out = symbolTable.Get(key, tmp);
-
-            return out;
+            return symbolTable;
         }
     }
 }

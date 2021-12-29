@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Memory/Memory/Tables/NewSymbolTable.h"
+#include "../../../src/Yolk/Memory/Memory/Tables/SymbolTable.h"
 
 TEST(Yolk_Memory, SymbolTable_Basic)
 {

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Memory/Memory/Tables/NewWrapperTable.h"
+#include "../../../src/Yolk/Memory/Memory/Tables/WrapperTable.h"
 #include "../../../src/Yolk/Wrapper/WrapperGenerator.h"
 
 TEST(Yolk_Test, Wrapper_Table_Add_Field)

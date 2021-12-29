@@ -4,7 +4,7 @@
 #include "../Wrapper/Wrapper.h"
 #include "../Wrapper/MethodWrapper.h"
 #include "../Wrapper/ArgumentWrapper.h"
-#include "../Memory/Memory/NewMemoryBlock.h"
+#include "../Memory/Memory/MemoryBlock.h"
 #include "../Memory/MemoryManager/MemoryManager.h"
 #include "Operators.h"
 #include <unordered_map>
