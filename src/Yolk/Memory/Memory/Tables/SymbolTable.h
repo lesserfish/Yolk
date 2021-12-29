@@ -75,12 +75,12 @@ namespace Yolk
         public:
             SymbolTable();
             SymbolTable(Pointer);
-            SymbolTable(const SymbolTable&);
-            SymbolTable& operator=(const SymbolTable& other);
+            SymbolTable(const SymbolTable &);
+            SymbolTable &operator=(const SymbolTable &other);
             ~SymbolTable();
 
             void BranchDown();
-            void BranchUp();
+            std::vector<std::pair<SymbolKey, SymbolValue>> BranchUp();
 
             // API Interface
             Level GetLevel() const;
@@ -100,7 +100,7 @@ namespace Yolk
             void Debug();
 
             FriendResult GetFriend(std::string);
-            bool AddFriend(std::string , Pointer);
+            bool AddFriend(std::string, Pointer);
             void DeleteFriend(std::string);
 
         private:
@@ -111,15 +111,16 @@ namespace Yolk
             Pointer Child;
             std::unordered_map<std::string, Pointer> Friends;
             std::unordered_map<SymbolKey, SymbolValue> Table;
+            std::vector<std::pair<SymbolKey, SymbolValue>> LocalTable;
         };
 
         inline SymbolTable::SymbolTable() : level(0), self(this), Father(this), Child(nullptr), Friends(), Table() {}
-        inline SymbolTable::SymbolTable(Pointer _Father) : level(_Father->level + 1), self(this), Father(_Father), Child(nullptr), Friends(_Father->Friends), Table(_Father->Table){}
-        inline SymbolTable::SymbolTable(const SymbolTable& other) : level(0), Father(this), Child(nullptr), Friends(), Table()
+        inline SymbolTable::SymbolTable(Pointer _Father) : level(_Father->level + 1), self(this), Father(_Father), Child(nullptr), Friends(_Father->Friends), Table(_Father->Table) {}
+        inline SymbolTable::SymbolTable(const SymbolTable &other) : level(0), Father(this), Child(nullptr), Friends(), Table()
         {
             Clone(other, *this);
         }
-        inline SymbolTable& SymbolTable::operator=(const SymbolTable& other)
+        inline SymbolTable &SymbolTable::operator=(const SymbolTable &other)
         {
             ClearAll();
             Clone(other, *this);
@@ -139,21 +140,29 @@ namespace Yolk
             self->Child = new SymbolTable(self);
             self = self->Child;
         }
-        inline void SymbolTable::BranchUp()
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::BranchUp()
         {
+            std::vector<std::pair<SymbolKey, SymbolValue>> out;
             if (GetLevel() == 0)
-                return;
+                return out;
+
+            out = self->LocalTable;
             self = self->Father;
 
             delete self->Child;
             self->Child = nullptr;
+
+            return out;
         }
         inline bool SymbolTable::Add(SymbolKey key, SymbolValue value)
         {
             if (key == SymbolKey())
                 return false;
-            ;
+
             auto const result = self->Table.insert(std::make_pair(key, value));
+
+            if (result.second)
+                self->LocalTable.push_back(std::make_pair(key, value));
             return result.second;
         }
         inline bool SymbolTable::GlobalAdd(SymbolKey key, SymbolValue value)
@@ -223,7 +232,7 @@ namespace Yolk
         inline std::vector<SymbolValue> SymbolTable::GetAll()
         {
             std::vector<SymbolValue> out;
-            for(auto it = Table.begin(); it != Table.end(); it++)
+            for (auto it = Table.begin(); it != Table.end(); it++)
             {
                 out.push_back(it->second);
             }
@@ -231,6 +240,7 @@ namespace Yolk
         }
         inline void SymbolTable::Debug()
         {
+            std::cout << "----------------------------------\nBeggining Debug:\n\n";
             Pointer p = self;
             while (p->level != 0)
             {
@@ -244,19 +254,32 @@ namespace Yolk
                 {
                     std::cout << ": " << i.first.Name << " - " << i.second.key << std::endl;
                 };
+
+                std::cout << "Local Table: ";
+                for (auto i : p->LocalTable)
+                {
+                    std::cout << i.first.Name << ":" << i.second.key << "\t";
+                }
+                std::cout << "\n";
                 p = p->Father;
             }
             std::cout << "\nLevel: " << p->level << std::endl;
             std::string flog = p->Father == p ? "Is his own father\n" : "Has a father\n";
             std::string clog = p->Child ? "Has a child\n" : "Does not have a child\n";
             std::cout << flog << clog << std::endl
-                          << "Table: \n";
-            
-            
+                      << "Table: ";
+
             for (auto i : p->Table)
             {
                 std::cout << ": " << i.first.Name << " - " << i.second.key << std::endl;
             }
+            std::cout << "Local Table: \n";
+            for (auto i : p->LocalTable)
+            {
+                std::cout << i.first.Name << ":" << i.second.key << "\t";
+            }
+            std::cout << "\n";
+            std::cout << "---------------------------------------\n";
         }
         inline void SymbolTable::ClearAll()
         {
@@ -311,9 +334,9 @@ namespace Yolk
         inline SymbolTable::FriendResult SymbolTable::GetFriend(std::string Name)
         {
             auto out = Friends.find(Name);
-            if(out == Friends.end())
-                return FriendResult {nullptr, false};
-            return FriendResult { out->second, true };
+            if (out == Friends.end())
+                return FriendResult{nullptr, false};
+            return FriendResult{out->second, true};
         }
     }
 }

@@ -190,3 +190,32 @@ TEST(Yolk_Memory, SymbolTable_Clear)
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("B")));
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("C")));
 }
+TEST(Yolk_Memory, SymbolTable_BranchUp)
+{
+    Yolk::Memory::SymbolTable systable;
+    systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12));
+    systable.Add(Yolk::Memory::SymbolKey("B"), Yolk::Memory::SymbolValue(17));
+    systable.Add(Yolk::Memory::SymbolKey("C"), Yolk::Memory::SymbolValue(22));
+    systable.Debug();
+
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A2"), Yolk::Memory::SymbolValue(15));
+    systable.Debug();
+
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A3"), Yolk::Memory::SymbolValue(5));
+    systable.Add(Yolk::Memory::SymbolKey("B3"), Yolk::Memory::SymbolValue(1));
+    systable.Debug();
+
+    auto t1 = systable.BranchUp();
+
+    EXPECT_EQ(t1.size(), 2);
+    EXPECT_EQ(t1.at(0).second.key, 5);
+    EXPECT_EQ(t1.at(1).second.key, 1);
+
+    auto t2 = systable.BranchUp();
+
+    EXPECT_EQ(t2.size(), 1);
+
+    EXPECT_EQ(t2.at(0).second.key, 15);
+}
