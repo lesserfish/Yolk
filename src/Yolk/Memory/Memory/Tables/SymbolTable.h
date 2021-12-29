@@ -94,8 +94,8 @@ namespace Yolk
             FindResult Find(SymbolValue);
             std::vector<SymbolValue> GetAll();
 
-            void ClearAll();
-            void ClearChildren();
+            std::vector<std::pair<SymbolKey, SymbolValue>> ClearAll();
+            std::vector<std::pair<SymbolKey, SymbolValue>> ClearChildren(bool toggle_recursion = false);
             static void Clone(const SymbolTable &origin, SymbolTable &destiny);
             void Debug();
 
@@ -177,6 +177,7 @@ namespace Yolk
             } while (p->level != 0);
 
             out = out && p->Table.insert(std::make_pair(key, value)).second;
+            p->LocalTable.push_back(std::make_pair(key, value));
             return out;
         }
         inline SymbolTable::Result SymbolTable::Get(SymbolKey key)
@@ -281,26 +282,36 @@ namespace Yolk
             std::cout << "\n";
             std::cout << "---------------------------------------\n";
         }
-        inline void SymbolTable::ClearAll()
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::ClearAll()
         {
+            std::vector<std::pair<SymbolKey, SymbolValue>> out = LocalTable;
+
             while (GetLevel() != 0)
             {
-                BranchUp(); // Delete all downward branches.
+                auto extension = BranchUp(); // Delete all downward branches.
+                out.insert(out.begin(), extension.begin(), extension.end());
             }
             self->Table.clear();
+
+            return out;
         }
-        inline void SymbolTable::ClearChildren()
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::ClearChildren(bool toggle_recursion)
         {
+            std::vector<std::pair<SymbolKey, SymbolValue>> out;
+            if(toggle_recursion)
+                out = LocalTable;
             if (Child)
             {
-                Child->ClearChildren();
+                auto extension = Child->ClearChildren(true);
+                out.insert(out.end(), extension.begin(), extension.end());
             }
             delete Child;
             Child = nullptr;
+
+            return out;
         }
-        inline void SymbolTable::Clone(const SymbolTable &origin, SymbolTable &destiny)
+        inline void SymbolTable::Clone(const SymbolTable &origin, SymbolTable &destiny) // This breaks stuff. Should not be used.
         {
-            std::cout << "Cloning!\n";
             destiny.ClearChildren();
 
             if (origin.level == 0)
@@ -321,6 +332,7 @@ namespace Yolk
 
             destiny.Table = origin.Table;
             destiny.Friends = origin.Friends;
+            destiny.LocalTable = origin.LocalTable;
         }
         inline bool SymbolTable::AddFriend(std::string name, Pointer p)
         {

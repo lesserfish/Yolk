@@ -219,3 +219,57 @@ TEST(Yolk_Memory, SymbolTable_BranchUp)
 
     EXPECT_EQ(t2.at(0).second.key, 15);
 }
+TEST(Yolk_Memory, SymbolTable_ClearChildren)
+{
+    Yolk::Memory::SymbolTable systable;
+    systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12));
+    systable.Add(Yolk::Memory::SymbolKey("B"), Yolk::Memory::SymbolValue(17));
+    systable.Add(Yolk::Memory::SymbolKey("C"), Yolk::Memory::SymbolValue(22));
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A2"), Yolk::Memory::SymbolValue(15));
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A3"), Yolk::Memory::SymbolValue(5));
+    systable.Add(Yolk::Memory::SymbolKey("B3"), Yolk::Memory::SymbolValue(1));
+
+    auto w = systable.ClearChildren();
+
+    EXPECT_EQ(w.size(), 3);
+}
+TEST(Yolk_Memory, SymbolTable_ClearAll)
+{
+    Yolk::Memory::SymbolTable systable;
+    systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12));
+    systable.Add(Yolk::Memory::SymbolKey("B"), Yolk::Memory::SymbolValue(17));
+    systable.Add(Yolk::Memory::SymbolKey("C"), Yolk::Memory::SymbolValue(22));
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A2"), Yolk::Memory::SymbolValue(15));
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A3"), Yolk::Memory::SymbolValue(5));
+    systable.Add(Yolk::Memory::SymbolKey("B3"), Yolk::Memory::SymbolValue(1));
+
+    auto w = systable.ClearAll();
+
+    EXPECT_EQ(w.size(), 6);
+}
+TEST(Yolk_Memory, SymboLTable_GlobalAll)
+{
+    Yolk::Memory::SymbolTable systable;
+    systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12));
+    systable.Add(Yolk::Memory::SymbolKey("B"), Yolk::Memory::SymbolValue(17));
+    systable.Add(Yolk::Memory::SymbolKey("C"), Yolk::Memory::SymbolValue(22));
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A2"), Yolk::Memory::SymbolValue(15));
+    systable.BranchDown();
+    systable.Add(Yolk::Memory::SymbolKey("A3"), Yolk::Memory::SymbolValue(5));
+    systable.Add(Yolk::Memory::SymbolKey("B3"), Yolk::Memory::SymbolValue(1));
+    systable.GlobalAdd(Yolk::Memory::SymbolKey("A4"), Yolk::Memory::SymbolValue(10));
+
+    auto t1 = systable.BranchUp();
+    auto t2 = systable.BranchUp();
+    auto t3 = systable.ClearAll();
+
+    EXPECT_EQ(t1.size(), 2); // A3, B3
+    EXPECT_EQ(t2.size(), 1); // A2
+    EXPECT_EQ(t3.size(), 4); // A, B, C, A4
+
+}
