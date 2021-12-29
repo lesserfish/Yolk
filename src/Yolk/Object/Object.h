@@ -43,7 +43,7 @@ namespace Yolk
         public:
 
         //protected:
-        Object(Name _Name, Memory::MemoryManager& manager, ObjectOptions options = ObjectOptions());
+        Object(Name _Name, Memory::MemoryManager& manager, Memory::WrapperTable& _wrapperTable, ObjectOptions options = ObjectOptions());
         Object(Name _Name, Father *_Father, ObjectOptions options = ObjectOptions());
         
         virtual ~Object();
@@ -55,6 +55,7 @@ namespace Yolk
         Name GetGlobalName() const;
 
         Memory::MemoryManager& GetMemoryManager() const;
+        Memory::WrapperTable& GetWrapperTable() const;
         virtual Memory::MemoryBlock& GetMemoryBlock();
         
         protected:

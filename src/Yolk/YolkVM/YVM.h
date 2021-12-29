@@ -4,7 +4,7 @@
 #include "../Wrapper/Wrapper.h"
 #include "../Wrapper/MethodWrapper.h"
 #include "../Wrapper/ArgumentWrapper.h"
-#include "../Memory/Memory/MemoryBlock.h"
+#include "../Memory/Memory/NewMemoryBlock.h"
 #include "../Memory/MemoryManager/MemoryManager.h"
 #include "Operators.h"
 #include <unordered_map>
@@ -16,12 +16,13 @@ namespace Yolk
         class YVM
         {
             public:
-            YVM(Memory::MemoryManager& _manager);
+            YVM(Memory::MemoryManager& _manager, Memory::WrapperTable& _wrapperTable);
 
             public:
 
             // Memory Manager
             Memory::MemoryManager& manager;
+            Memory::WrapperTable& wrapperTable;
             
             // Memory Block
             Memory::MemoryBlock stackMemory; // <- Stores scoped variables
@@ -38,9 +39,10 @@ namespace Yolk
             
         };
 
-        inline YVM::YVM(Memory::MemoryManager& _manager) : 
+        inline YVM::YVM(Memory::MemoryManager& _manager, Memory::WrapperTable& _wrapperTable) : 
                 manager(_manager), 
-                stackMemory(manager, "YVM"),
+                wrapperTable(_wrapperTable),
+                stackMemory(manager, wrapperTable),
                 rega(manager.GenerateVoidWrapper()),
                 regb(manager.GenerateVoidWrapper()),
                 regc(manager.GenerateVoidWrapper()),

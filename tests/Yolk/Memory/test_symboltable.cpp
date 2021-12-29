@@ -134,19 +134,22 @@ TEST(Yolk_Memory, SymbolTable_Clone)
 }
 TEST(Yolk_Memory, SymbolTable_Clear)
 {
-
+    std::cout << "A!\n";
     Yolk::Memory::SymbolTable systable;
     systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12));
     systable.Add(Yolk::Memory::SymbolKey("B"), Yolk::Memory::SymbolValue(17));
     systable.Add(Yolk::Memory::SymbolKey("C"), Yolk::Memory::SymbolValue(22));
+    std::cout << "B!\n";
     systable.BranchDown();
     systable.Add(Yolk::Memory::SymbolKey("A2"), Yolk::Memory::SymbolValue(15));
+    std::cout << "C!\n";
     systable.BranchDown();
     systable.Add(Yolk::Memory::SymbolKey("A3"), Yolk::Memory::SymbolValue(5));
     systable.Add(Yolk::Memory::SymbolKey("B3"), Yolk::Memory::SymbolValue(1));
 
+    std::cout << "D!\n";
     Yolk::Memory::SymbolTable copytable(systable);
-
+    std::cout << "E!\n";
     systable.ClearAll();
 
     EXPECT_EQ(systable.GetLevel(), 0);
@@ -158,6 +161,7 @@ TEST(Yolk_Memory, SymbolTable_Clear)
     EXPECT_FALSE(systable.Exists(Yolk::Memory::SymbolKey("B")));
     EXPECT_FALSE(systable.Exists(Yolk::Memory::SymbolKey("C")));
 
+    std::cout << "F!\n";
     systable = copytable;
 
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("A3")));
@@ -167,6 +171,7 @@ TEST(Yolk_Memory, SymbolTable_Clear)
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("B")));
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("C")));
 
+    std::cout << "G!\n";
     systable.BranchUp();
     EXPECT_FALSE(systable.Exists(Yolk::Memory::SymbolKey("A3")));
     EXPECT_FALSE(systable.Exists(Yolk::Memory::SymbolKey("B3")));
@@ -175,6 +180,7 @@ TEST(Yolk_Memory, SymbolTable_Clear)
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("B")));
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("C")));
 
+    std::cout << "H!\n";
     systable.BranchUp();
 
     EXPECT_FALSE(systable.Exists(Yolk::Memory::SymbolKey("A3")));

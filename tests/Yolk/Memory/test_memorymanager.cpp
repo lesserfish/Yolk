@@ -1,4 +1,5 @@
-#include "../../../src/Yolk/Yolk.h"
+#include "../../../src/Yolk/Memory/MemoryManager/MemoryManager.h"
+#include "../../../src/Yolk/Wrapper/WrapperRequired.h"
 #include <gtest/gtest.h>
 #include <vector>
 

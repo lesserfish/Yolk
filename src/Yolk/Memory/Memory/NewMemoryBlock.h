@@ -20,6 +20,10 @@ namespace Yolk
                 WrapperKey wrapperKey;
                 bool ok;
             };
+            struct FriendRegisterOutput
+            {
+                bool ok;
+            };
             struct FieldOutput
             {
                 Wrapper wrapper;
@@ -37,9 +41,11 @@ namespace Yolk
             };
             RegisterOutput RegisterWrapper(std::string Name, Wrapper wrapper, bool Force = false);
             RegisterOutput RegisterWrapper(std::string Name, MethodWrapper wrapper, bool Force = false);
+            FriendRegisterOutput RegisterFriend(std::string , SymbolTable&);
 
             void DeleteByName(std::string Name);
             void DeleteByWrapperKey(WrapperKey);
+            void DeleteFriend(std::string Name);
 
             FieldOutput GetFieldWrapperByWrapperKey(WrapperKey key);
             MethodOutput GetMethodWrapperByWrapperKey(WrapperKey key);
@@ -55,6 +61,7 @@ namespace Yolk
             SymbolTable& GetSymbolTable();
 
             MemoryBlock(MemoryManager &_manager, WrapperTable& _wrapperTable, std::function<void(std::string)> LogCallback = [](std::string){});
+            ~MemoryBlock();
 
         private:
             MemoryManager& memoryManager;
@@ -72,11 +79,31 @@ namespace Yolk
                 holderName("")
         {
         }
+        inline MemoryBlock::~MemoryBlock()
+        {
+            auto all_symbols = symbolTable.GetAll();
+
+            for(auto entry : all_symbols)
+            {
+                auto key = entry.key;
+                DeleteByWrapperKey(key);
+            }
+        }
         inline SymbolKey MemoryBlock::GetSymbolKey(std::string Name)
         {
             SymbolKey symbolKey(Name);
             return symbolKey;
         }
+        inline MemoryBlock::FriendRegisterOutput MemoryBlock::RegisterFriend(std::string name, SymbolTable& st)
+        {
+            bool out = symbolTable.AddFriend(name, &st);
+            return FriendRegisterOutput{out};
+        }
+        inline void MemoryBlock::DeleteFriend(std::string Name)
+        {
+            symbolTable.DeleteFriend(Name);
+        }
+
         inline MemoryBlock::RegisterOutput MemoryBlock::RegisterWrapper(std::string Name, Wrapper wrapper, bool Force)
         {
             std::string Log = "";

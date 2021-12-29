@@ -66,6 +66,11 @@ namespace Yolk
                 SymbolValue value;
                 bool ok;
             };
+            struct FriendResult
+            {
+                Pointer result;
+                bool ok;
+            };
 
         public:
             SymbolTable();
@@ -87,11 +92,16 @@ namespace Yolk
             void GlobalDelete(SymbolKey);
             void Delete(std::vector<SymbolKey>);
             FindResult Find(SymbolValue);
+            std::vector<SymbolValue> GetAll();
 
             void ClearAll();
             void ClearChildren();
             static void Clone(const SymbolTable &origin, SymbolTable &destiny);
             void Debug();
+
+            FriendResult GetFriend(std::string);
+            bool AddFriend(std::string , Pointer);
+            void DeleteFriend(std::string);
 
         private:
         protected:
@@ -210,6 +220,15 @@ namespace Yolk
             FindResult out{SymbolKey(), false};
             return out;
         }
+        inline std::vector<SymbolValue> SymbolTable::GetAll()
+        {
+            std::vector<SymbolValue> out;
+            for(auto it = Table.begin(); it != Table.end(); it++)
+            {
+                out.push_back(it->second);
+            }
+            return out;
+        }
         inline void SymbolTable::Debug()
         {
             Pointer p = self;
@@ -258,6 +277,7 @@ namespace Yolk
         }
         inline void SymbolTable::Clone(const SymbolTable &origin, SymbolTable &destiny)
         {
+            std::cout << "Cloning!\n";
             destiny.ClearChildren();
 
             if (origin.level == 0)
@@ -278,6 +298,22 @@ namespace Yolk
 
             destiny.Table = origin.Table;
             destiny.Friends = origin.Friends;
+        }
+        inline bool SymbolTable::AddFriend(std::string name, Pointer p)
+        {
+            bool out = Friends.insert(std::pair(name, p)).second;
+            return out;
+        }
+        inline void SymbolTable::DeleteFriend(std::string name)
+        {
+            Friends.erase(name);
+        }
+        inline SymbolTable::FriendResult SymbolTable::GetFriend(std::string Name)
+        {
+            auto out = Friends.find(Name);
+            if(out == Friends.end())
+                return FriendResult {nullptr, false};
+            return FriendResult { out->second, true };
         }
     }
 }
