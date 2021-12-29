@@ -12,7 +12,8 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-FILE(GLOB SOURCE_FILES Serializer/*.cpp Yolk/Memory/*.cpp Yolk/Wrapper/*.cpp Yolk/Wrapper/*.cpp Yolk/Object/*.cpp Yolk/YolkVM/*.cpp)
+#FILE(GLOB SOURCE_FILES Serializer/*.cpp Yolk/Memory/*.cpp Yolk/Wrapper/*.cpp Yolk/Wrapper/*.cpp Yolk/Object/*.cpp Yolk/YolkVM/*.cpp)
+FILE(GLOB SOURCE_FILES Yolk/Memory/test_symboltable.cpp Yolk/Memory/test_wrappertable.cpp Yolk/Memory/test_memoryblock.cpp)
 add_executable(TEST ${SOURCE_FILES})
 
 

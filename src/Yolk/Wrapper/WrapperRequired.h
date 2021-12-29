@@ -36,4 +36,10 @@ namespace Yolk
         }
         return *this;
     }
+    inline void Wrapper::Free()
+    {
+        LookAway();
+        ID = 0;
+        field->Free();
+    }
 }

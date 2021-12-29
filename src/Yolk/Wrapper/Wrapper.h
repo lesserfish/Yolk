@@ -30,6 +30,7 @@ namespace Yolk
         Wrapper(const Wrapper &copy);
         Wrapper(Identifier _ID, TypedField::Pointer _field, Memory::MemoryManager &manager, WrapperType _wtype = WrapperType::FieldWrapper);
         Wrapper &operator=(const Wrapper &copy);
+        void Free();
 
         Identifier ID;
         TypedField::Pointer field;

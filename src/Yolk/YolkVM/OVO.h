@@ -45,7 +45,9 @@ namespace Yolk
                     CAST,    // Casts ARG1 to ARG2. ARG2 can by a Symbol representing elementary type, or DATA with the Name of a wrapper.
                     COPY,    // Copies the value of ARG2 onto ARG1
                     NAMEL,   // Stores the wrapper in ARG1 onto the memory block of YolkVM with name ARG2
-                    NAMEG   // Stores the wrapper in ARG1 onto the memory block of the object with name ARG2.
+                    NAMEG,   // Stores the wrapper in ARG1 onto the memory block of the object with name ARG2.
+                    BRUP,    // Branches up
+                    BRDW,    // Branches down
                 };
                 struct ARG
                 {

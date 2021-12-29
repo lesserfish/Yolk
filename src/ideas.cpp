@@ -276,3 +276,176 @@ int main()
         }
     }
 }
+
+int FunctionTest(int a, float b)
+{
+    int o = a + (int)b;
+    return o;
+}
+int main()
+{
+    Yolk::Memory::MemoryManager manager;
+
+    auto w1 = manager.AllocateMemory<int>(7);      // <---- This is on Memory Block
+    auto w2 = manager.AllocateMemory<float>(12.1);//  <---- This is also on Memory Block
+
+    // Problem: How to change reg such that w1 now points to the same piece of data as w2?
+    // I could make w1 = w2, but YVM is a register based machine. It can't directly touch w1 or w2
+
+    // Alternative 1: Erase w1 from memory. Copy w2 to reg. Store reg on memory with the same name as w1.
+
+    // Alternative 2? Why is this necessary? References should be a different type than normal variables. This makes no sense.
+    // 
+    // Extending on this:
+    // Perhaps a reference should be defined as:
+    // var& reference = Variable;
+    //
+    // How is this coded? 
+    //
+    // Like this:
+
+    // Okay! Do we support pointers then? What happens if we want a reference to point to another variable. For example:
+    // var& reference = &w1;
+    // reference = 12; // Changes the value of w1,
+    // reference = &w2; // Reference now points to w2
+    // reference = 13; // w1 = 12 but w2 = 13;
+    // Let's just not do this.
+    // It's too complicated.
+    // For now, simple basic variables and references should work fine.
+    // Why would we even need pointers.
+    //
+    // Summarizing:
+    // var& a = w1;          Translates to:
+    // 
+    // REGA = manager.CopyByReference(w1);
+    // memblock.RegisterFieldByName("a", REGA);
+    //
+    // Which is written in Assembly as:
+    //
+    // mov REGA, w1
+    // NAMEL REGA, "a"
+    //
+    //
+    // var a = w1;           Translates to:
+    //
+    // REGA = manager.CopyByValue(w1);
+    // memblock.RegisterFieldByName("a", REGA);
+    //
+    // Which is written in Assembly as:
+    //
+    // clone REGA, w1
+    // NAMEL REGA, "a"
+    //
+    //
+    // var a : int;
+    // a = w1;          Translates to:
+    //
+    // REGA = manager.AllocateMemory<int>();
+    // memblock.RegisterFieldByName("a", REGA);
+    // REGA = memblock.GetFieldByName("a");
+    // REGA.field->Copy(*w1.field);
+    //
+    //
+    // Which is written in Assembly as:
+    // 
+    // set REGA, INT
+    // namel REGA, "a"
+    // mov REGA, "a"
+    // copy REGA, w1
+    //
+    //
+    //
+    // We have used the following instructions for this:
+    //
+    // mov, clone, set, namel, copy, 
+    //
+    //
+    // var x = w1 as float;
+    // Translates to:
+    //
+    // mov REGA, w1
+    // cast REGA, float
+    // namel REGA, "x"
+
+
+
+}
+
+
+
+/*
+The new Memory Block needs to be:
+
+    Compatible with the Old Memory Block.
+    Forget about privacy stuff.
+    Extendable horizontally:
+        When one registers an object, what one actually does is extend the memory block horizontally.
+        It contains several maps to other memory blocks, each with an assigned name.
+    Extendable vertically:
+        One can branch the memory block, generating another one with the same entries. Modifying an entry which were in the original memory block should affect the original one, however, adding new should not add to the original one.
+
+    
+    Example:
+
+    MemoryBlock memoryBlock;
+    memoryBlock.RegisterField("Health", HealthField);
+
+    memoryBlock.Link(Enemy.memoryBlock);
+
+    memoryBlock.GetFieldWrapper("Enemy::Health");  // Works!
+
+    memoryBlock.Unlink(Enemy.memoryBlock);
+
+    memoryBlock.GetFieldWrapper("Enemy::Health"); // Fails!
+
+    MemoryBlock newBlock = memoryBlock.Branch();
+
+    newBlock.GetFieldWrapper("Health").field->Copy(121); // Workd! Health is now 121
+
+    newBlock.RegisterField("Status", Status);
+
+    memoryBlock.GetFieldWrapper("Status"); // Fails!
+
+    newBlock.Father.RegisterField("OP", OP);
+
+    memoryBlock.GetFieldWrapper("OP"); // Works!
+
+    newBlock.Destroy();
+
+
+    How to do this:
+
+    It's gonna be a huge, tremendous pain the ass, but....
+
+    There is no reason why every object should have it's own Wrapper table.
+
+    There should be only one Wrapper table, mantained by the Environment.
+
+    A Memory Block should contain:
+        It's own Symbol Table
+        Maps to other Symbol Tables.
+
+    With this, the YVM, would work the following way:
+
+    When an object Object asks for something to be executed:
+
+    YVM Branches the Objects Memory Block.
+
+    Every time a { } clause is encountered, the Memory Block Branches downwards. When the code exits the branch, the Memory Block branches upwards again.
+
+    Perhaps, branching should not create a new Memory Block.
+
+    So... YVM Copies the Objects Memory Block.
+
+    Branching downwards means setting a variable
+
+    level = level + 1;
+
+    And then every time you register a wrapper, it is registered under that level.
+
+    Branching upwawrds means deleting every wrapper at level level, and doing level = level - 1;
+
+    This is definitely safer.
+
+
+*/
