@@ -26,6 +26,11 @@ namespace Yolk
                 Static
             };
 
+            struct CopyByValueOutput
+            {
+                int status;
+                Wrapper wrapper;
+            };
         private:
             struct AbstractData
             {
@@ -236,7 +241,7 @@ namespace Yolk
             template <typename T>
             Wrapper RegisterStatic(T &value);
 
-            Wrapper CopyByValue(Wrapper original);
+            CopyByValueOutput CopyByValue(Wrapper original);
             Wrapper CopyByReference(Wrapper original, bool new_entry = false);
 
             AudienceCount ChangeAudience(Identifier _id, AudienceCount difference = 0);
@@ -341,11 +346,10 @@ namespace Yolk
             Manager->AllocatedMemory.insert(std::pair(id, new_static));
             return output;
         }
-
-        inline Wrapper MemoryManager::CopyByValue(Wrapper original)
+        inline MemoryManager::CopyByValueOutput MemoryManager::CopyByValue(Wrapper original)
         {
             if(original.wType != WrapperType::FieldWrapper)
-                return GenerateVoidWrapper();
+                return CopyByValueOutput{ -1, GenerateVoidWrapper()};
 
                 
             Identifier originalId = original.ID;
@@ -353,7 +357,7 @@ namespace Yolk
             auto it = Manager->AllocatedMemory.find(originalId);
 
             if(it == Manager->AllocatedMemory.end())
-                return GenerateVoidWrapper();
+                return CopyByValueOutput{ -2 , GenerateVoidWrapper()};
 
             
             Identifier id = MemoryIndexer::Tick();
@@ -366,7 +370,7 @@ namespace Yolk
             LogCallbackFunction(Log);
                     
             Manager->AllocatedMemory.insert(std::pair(id, new_copy));
-            return output;
+            return CopyByValueOutput{ 0, output};
             
         }
         inline Wrapper MemoryManager::CopyByReference(Wrapper original, bool new_entry)

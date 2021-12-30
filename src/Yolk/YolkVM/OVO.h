@@ -48,6 +48,9 @@ namespace Yolk
                     NAMEG,   // Stores the wrapper in ARG1 onto the memory block of the object with name ARG2.
                     BRUP,    // Branches up
                     BRDW,    // Branches down
+                    BRHZ,    // Branches horizontally
+                    ZERO,    // Does nothing
+                    HALT     // Stops the processor.
                 };
                 struct ARG
                 {
@@ -72,6 +75,7 @@ namespace Yolk
                 using Usize = long unsigned int;
                 enum Mode : Byte
                 {
+                    VOID,
                     INT,
                     UINT,
                     LONG,
@@ -81,8 +85,7 @@ namespace Yolk
                     BOOL,
                     CHAR,
                     UCHAR,
-                    STRING,
-                    VOID
+                    STRING
                 };
                 std::vector<Byte> content;
                 Usize size;

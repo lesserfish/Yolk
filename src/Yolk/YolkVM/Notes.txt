@@ -51,7 +51,8 @@ Let's do some more, just for the hell of it:
 
 This whole thing becomes:
 
-    namel INT, "x"  ; 0x0
+    mov REGA, INT
+    namel REGA, "x" ; 0x0
     mov REGB, 5     ; 0x1
     mov REGA, "x"   ; 0x2
     COPY REGA, REGB ; 0x3

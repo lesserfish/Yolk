@@ -14,3 +14,4 @@
 #include "Object/Object.h"
 #include "Environment/Environment.h"
 #include "YolkVM/YVM.h"
+#include "YolkVM/Elementary.h"
