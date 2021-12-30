@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 #include "Wrapper/TypedField.h"
 #include "Wrapper/Wrapper.h"
 #include "Memory/MemoryManager/MemoryManager.h"
@@ -9,7 +11,7 @@
 #include "Wrapper/ArgumentUnwrapper.h"
 #include "Wrapper/WrapperGenerator.h"
 #include "Memory/Memory/MemoryBlock.h"
-#include "Memory/Memory/Tables/SymbolTable.h"
-#include "Memory/Memory/Tables/WrapperTable.h"
 #include "Object/Object.h"
 #include "Environment/Environment.h"
+#include "YolkVM/YVM.h"
+#include "YolkVM/Elementary.h"

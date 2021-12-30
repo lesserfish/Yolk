@@ -1,9 +1,11 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Yolk.h"
+#include "../../../src/Yolk/Memory/Memory/Tables/WrapperTable.h"
+#include "../../../src/Yolk/Wrapper/WrapperGenerator.h"
 
 TEST(Yolk_Test, Wrapper_Table_Add_Field)
 {
     Yolk::Memory::MemoryManager manager;
+
     auto i1 = manager.AllocateMemory<int>(12);
     auto i2 = manager.AllocateMemory<float>(3.14);
 

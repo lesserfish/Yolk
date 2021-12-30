@@ -156,10 +156,8 @@ namespace Yolk
             public:
             Operator(Memory::MemoryManager& _manager ) : manager(_manager){{}}
             Memory::MemoryManager& GetMemoryManager() const;
-            template<typename F>
-            Wrapper EvaluateCast(Wrapper lhs, bool& status_output);
-            template<typename F>
-            Wrapper EvaluateCast(Wrapper lhs);
+            Wrapper EvaluateCast(Wrapper lhs, std::type_index F, bool& status_output);
+            Wrapper EvaluateCast(Wrapper lhs, std::type_index F);
             {1}
             template <typename T, typename F> void RegisterCast();
             {2}
@@ -172,10 +170,9 @@ namespace Yolk
         {{
             return manager;
         }}
-        template<typename F>
-        inline Wrapper Operator::EvaluateCast(Wrapper lhs, bool& status_output)
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs, std::type_index F, bool& status_output)
         {{
-            PAIR pair(lhs.field->GetType(), typeid(F));
+            PAIR pair(lhs.field->GetType(), F);
             auto find_result = castMap.find(pair);
 
             if(find_result == castMap.end())
@@ -189,11 +186,10 @@ namespace Yolk
             status_output = true;
             return out;
         }}
-        template<typename F>
-        inline Wrapper Operator::EvaluateCast(Wrapper lhs)
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs, std::type_index F)
         {{
             bool output;
-            return EvaluateCast<F>(lhs, output);
+            return EvaluateCast(lhs, F, output);
         }}
         {3}
         template<typename T, typename F>
@@ -225,7 +221,7 @@ OPList.append(OP(2, "Modulo", "%"))
 #OPList.append(OP(2, "CMultiply", "*="))
 #OPList.append(OP(2, "CDivide", "/="))
 OPList.append(OP(2, "Equality", "=="))
-OPList.append(OP(2, "Inequality", "!="))
+#OPList.append(OP(2, "Inequality", "!="))
 OPList.append(OP(2, "LessThan", "<"))
 OPList.append(OP(2, "GreaterThan", ">"))
 OPList.append(OP(2, "LessOrEqualThan", "<="))
@@ -234,7 +230,7 @@ OPList.append(OP(2, "And", "&&"))
 OPList.append(OP(2, "Or", "||"))
 #OPList.append(OP(1, "PlusPlus", "++"))
 #OPList.append(OP(1, "LessLess", "--"))
-OPList.append(OP(1, "Negation", "!"))
+#OPList.append(OP(1, "Negation", "!"))
 #OPList.append(OP(1, "Cast", "cast"))
 
 MapDefinitions = ""

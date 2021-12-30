@@ -271,6 +271,21 @@ TEST(Yolk_Test, Typed_Variable_SafeAs)
     x.SafeAs<int>(b);
     EXPECT_EQ(b, 5);
 }
+TEST(Yolk_Test, Typed_Variable_BindToTypedVariable)
+{
+    int xi = 5;
+    int yi = 12;
+    Yolk::TypedField x = xi;
+    Yolk::TypedField y = yi;
+
+    y.Bind(x);
+
+    EXPECT_EQ(y.As<int>(), 5);
+
+    y.Copy(121);
+
+    EXPECT_EQ(xi, 121);
+}
 TEST(Yolk_Test, Typed_Variable_Stability_A)
 {
     Yolk::TypedField x;

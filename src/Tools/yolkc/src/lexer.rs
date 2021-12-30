@@ -2,6 +2,7 @@
 use regex::Regex;
 
 #[derive(Clone)]
+#[repr(C)]
 pub struct Token
 {
     pub token_name : String,
@@ -31,7 +32,7 @@ pub struct Derivation
 {
     token_name : String,
     token_class : String,
-    derivation_regex : String,
+    derivation_regex : Regex,
 }
 impl Derivation
 {
@@ -39,7 +40,7 @@ impl Derivation
     {
         let derivation = Derivation {   token_name : name.to_string(),
                                         token_class : class.to_string(),
-                                        derivation_regex : regex.to_string()};
+                                        derivation_regex : Regex::new(&regex.to_string()).unwrap()};
         return derivation;
     }
     pub fn accepts(&self, input : &String) -> (bool, Token)
@@ -50,8 +51,7 @@ impl Derivation
             return (false, Token::generic());
         }
 
-        let derivation_rule = Regex::new(&self.derivation_regex).unwrap();
-        let match_result = derivation_rule.is_match(input);
+        let match_result = self.derivation_regex.is_match(input);
 
         if !match_result {
             return (false, Token::generic());

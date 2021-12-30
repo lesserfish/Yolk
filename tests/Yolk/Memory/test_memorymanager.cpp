@@ -1,4 +1,5 @@
-#include "../../../src/Yolk/Yolk.h"
+#include "../../../src/Yolk/Memory/MemoryManager/MemoryManager.h"
+#include "../../../src/Yolk/Wrapper/WrapperRequired.h"
 #include <gtest/gtest.h>
 #include <vector>
 
@@ -105,12 +106,12 @@ TEST(Yolk_Test, MemoryManager_CopyByValue_Dynamic)
     auto wcopy = manager.CopyByValue(w);
 
     EXPECT_EQ(manager.Size(), 2);
-    EXPECT_EQ(wcopy.field->As<int>(), 12);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
 
-    wcopy.field->Copy(14);
+    wcopy.wrapper.field->Copy(14);
     
     EXPECT_EQ(w.field->As<int>(), 12);
-    EXPECT_EQ(wcopy.field->As<int>(), 14);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
 }
 TEST(Yolk_Test, MemoryManager_CopyByValue_Static)
 {
@@ -121,12 +122,12 @@ TEST(Yolk_Test, MemoryManager_CopyByValue_Static)
     auto wcopy = manager.CopyByValue(w);
 
     EXPECT_EQ(manager.Size(), 2);
-    EXPECT_EQ(wcopy.field->As<int>(), 12);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
 
-    wcopy.field->Copy(14);
+    wcopy.wrapper.field->Copy(14);
     
     EXPECT_EQ(w.field->As<int>(), 12);
-    EXPECT_EQ(wcopy.field->As<int>(), 14);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
 }
 TEST(Yolk_Test, MemoryManager_CopyByReference_NewEntry)
 {
@@ -159,4 +160,20 @@ TEST(Yolk_Test, MemoryManager_CopyByReference_NoNewEntry)
     
     EXPECT_EQ(w.field->As<int>(), 14);
     EXPECT_EQ(wcopy.field->As<int>(), 14);
+}
+TEST(Yolk_Test, MemoryManager_Delete)
+{
+    Yolk::Memory::MemoryManager manager;
+
+    Yolk::Wrapper a = manager.AllocateMemory<int>(5);
+    Yolk::Wrapper b = manager.AllocateMemory<int>(7);
+
+    int ID = b.ID;
+
+    EXPECT_EQ(manager.ChangeAudience(ID, 0), 1);
+
+    b = a;
+
+    EXPECT_EQ(manager.ChangeAudience(ID, 0), 0);
+
 }

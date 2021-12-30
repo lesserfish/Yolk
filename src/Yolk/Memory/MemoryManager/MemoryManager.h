@@ -4,6 +4,7 @@
 #include "../../Wrapper/TypedField.h"
 #include "../../Wrapper/Wrapper.h"
 #include <vector>
+#include <map>
 #include <memory>
 #include <typeindex>
 #include <sstream>
@@ -25,6 +26,11 @@ namespace Yolk
                 Static
             };
 
+            struct CopyByValueOutput
+            {
+                int status;
+                Wrapper wrapper;
+            };
         private:
             struct AbstractData
             {
@@ -42,6 +48,7 @@ namespace Yolk
                 virtual AbstractData::Pointer CreateCopyByReference(Identifier id) = 0;
             };
             using MemoryArray = std::vector<AbstractData::Pointer>;
+            using MemoryMap = std::map<Identifier, AbstractData::Pointer>;
 
             template <typename T>
             struct DynamicData : public AbstractData
@@ -220,7 +227,8 @@ namespace Yolk
         public:
             MemoryManager(
                 std::string _Name = std::to_string(MemoryIndexer::Tick()), std::function<void(std::string)> Logcallback = [](std::string) {});
-            //MemoryManager(std::function<void(std::string)> Logcallback);
+            //MemoryManager(std::function<void(std::string)> Logcallback); // todo <- implement this constructor.
+            //MemoryManager(const MemoryManager &other);
             MemoryManager(MemoryManager &other);
             MemoryManager(MemoryManager *other);
             virtual ~MemoryManager();
@@ -233,7 +241,7 @@ namespace Yolk
             template <typename T>
             Wrapper RegisterStatic(T &value);
 
-            Wrapper CopyByValue(Wrapper original);
+            CopyByValueOutput CopyByValue(Wrapper original);
             Wrapper CopyByReference(Wrapper original, bool new_entry = false);
 
             AudienceCount ChangeAudience(Identifier _id, AudienceCount difference = 0);
@@ -243,15 +251,16 @@ namespace Yolk
             void RegisterLogcallbackFunction(std::function<void(std::string)> Logcallback);
             Identifier Size() const;
             const std::string Name() const;
+            
+            Wrapper GenerateVoidWrapper();
 
         private:
-            Wrapper GenerateVoidWrapper();
-            MemoryManager(const MemoryManager &) = delete;
+            //MemoryManager(const MemoryManager &) = delete;
 
             const std::string name;
             MemoryManager *Manager;
             std::function<void(std::string)> LogCallbackFunction;
-            MemoryArray AllocatedMemory;
+            MemoryMap AllocatedMemory;
         };
 
         inline MemoryManager::MemoryManager(std::string _Name, std::function<void(std::string)> LogCallback) : name(_Name), Manager(this), LogCallbackFunction(LogCallback)
@@ -290,7 +299,7 @@ namespace Yolk
 
             Wrapper output(id, new_tfield, *this);
 
-            Manager->AllocatedMemory.push_back(new_data);
+            Manager->AllocatedMemory.insert(std::pair(id, new_data));
             return output;
         }
 
@@ -313,7 +322,7 @@ namespace Yolk
 
             Wrapper output(id, new_tfield, *this);
 
-            Manager->AllocatedMemory.push_back(new_data);
+            Manager->AllocatedMemory.insert(std::pair(id, new_data));
 
             return output;
         }
@@ -334,108 +343,96 @@ namespace Yolk
 
             Wrapper output(id, new_tfield, *this);
 
-            Manager->AllocatedMemory.push_back(new_static);
+            Manager->AllocatedMemory.insert(std::pair(id, new_static));
             return output;
         }
-
-        inline Wrapper MemoryManager::CopyByValue(Wrapper original)
+        inline MemoryManager::CopyByValueOutput MemoryManager::CopyByValue(Wrapper original)
         {
             if(original.wType != WrapperType::FieldWrapper)
-                return GenerateVoidWrapper();
+                return CopyByValueOutput{ -1, GenerateVoidWrapper()};
 
                 
             Identifier originalId = original.ID;
 
-            for (auto &memory : AllocatedMemory)
-            {
-                if (memory->GetID() == originalId)
-                {
-                    Identifier id = MemoryIndexer::Tick();
-                    AbstractData::Pointer new_copy = memory->CreateCopyByValue(id);
-                    TypedField::Pointer new_tfield = new_copy->GenerateOwnTypedField();
+            auto it = Manager->AllocatedMemory.find(originalId);
 
-                    Wrapper output(id, new_tfield, *this);
+            if(it == Manager->AllocatedMemory.end())
+                return CopyByValueOutput{ -2 , GenerateVoidWrapper()};
 
-                    std::string Log = "[Memory Manager] INFO: Copying Wrapper by value to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
-                    LogCallbackFunction(Log);
+            
+            Identifier id = MemoryIndexer::Tick();
+            AbstractData::Pointer new_copy = it->second->CreateCopyByValue(id);
+            TypedField::Pointer new_tfield = new_copy->GenerateOwnTypedField();
+
+            Wrapper output(id, new_tfield, *this);
+
+            std::string Log = "[Memory Manager] INFO: Copying Wrapper by value to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
+            LogCallbackFunction(Log);
                     
-                    Manager->AllocatedMemory.push_back(new_copy);
-                    return output;
-                }
-            }
-
-            return GenerateVoidWrapper();
+            Manager->AllocatedMemory.insert(std::pair(id, new_copy));
+            return CopyByValueOutput{ 0, output};
+            
         }
         inline Wrapper MemoryManager::CopyByReference(Wrapper original, bool new_entry)
         {
             if(!new_entry)
                 return original;
-        
+                
             Identifier originalId = original.ID;
 
-            for (auto &memory : AllocatedMemory)
-            {
-                if (memory->GetID() == originalId)
-                {
-                    Identifier id = MemoryIndexer::Tick();
-                    AbstractData::Pointer new_copy = memory->CreateCopyByReference(id);
-                    TypedField::Pointer new_tfield = new_copy->GenerateOwnTypedField();
+            auto it = Manager->AllocatedMemory.find(originalId);
 
-                    Wrapper output(id, new_tfield, *this);
+            if(it == Manager->AllocatedMemory.end())
+                return GenerateVoidWrapper();
 
-                    std::string Log = "[Memory Manager] INFO: Copying Wrapper by reference to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
-                    LogCallbackFunction(Log);
+            
+            Identifier id = MemoryIndexer::Tick();
+            AbstractData::Pointer new_copy = it->second->CreateCopyByReference(id);
+            TypedField::Pointer new_tfield = new_copy->GenerateOwnTypedField();
+
+            Wrapper output(id, new_tfield, *this);
+
+            std::string Log = "[Memory Manager] INFO: Copying Wrapper by value to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
+            LogCallbackFunction(Log);
                     
-                    Manager->AllocatedMemory.push_back(new_copy);
-                    return output;
-                }
-            }
-
-            return GenerateVoidWrapper();
+            Manager->AllocatedMemory.insert(std::pair(id, new_copy));
+            return output;
         }
         inline MemoryManager::AudienceCount MemoryManager::ChangeAudience(Identifier _id, AudienceCount difference)
         {
-            for (MemoryArray::iterator it = Manager->AllocatedMemory.begin(); it != Manager->AllocatedMemory.end(); it++)
+            auto it = Manager->AllocatedMemory.find(_id);
+            if(it == Manager->AllocatedMemory.end())
+                return 0;
+
+            int updatedScore = it->second->ChangeAudience(difference);
+            if(updatedScore == 0)
             {
-                if (_id == (*it)->GetID())
+                std::string Log = "[Memory Manager] INFO: The audience of " + std::to_string(_id) + " [" + it->second->GetType().name() + " , " + it->second->Print() + "] has reached zero. Deleting it!";
+                LogCallbackFunction(Log);
+
+                Manager->AllocatedMemory.erase(it);
+
+                if(Manager->Size() == 0)
                 {
-                    int updatedScored = (*it)->ChangeAudience(difference);
-
-                    if (updatedScored == 0)
-                    {
-                        std::string Log = "[Memory Manager] INFO: The audience of " + std::to_string(_id) + " [" + (*it)->GetType().name() + " , " + (*it)->Print() + "] has reached zero. Deleting it!";
-                        LogCallbackFunction(Log);
-                        Manager->AllocatedMemory.erase(it);
-
-                        if (Manager->Size() == 0)
-                        {
-                            Log = "[Memory Manager] INFO: Memory table empty!";
-                            LogCallbackFunction(Log);
-                        }
-                    }
-                    return updatedScored;
+                    Log = "[Memory Manager] INFO: Memory table empty!";
+                    LogCallbackFunction(Log);
                 }
             }
-            return 0;
+            return updatedScore;
         }
 
         inline bool MemoryManager::Exists(Identifier _id) const
         {
-            for (MemoryArray::iterator it = Manager->AllocatedMemory.begin(); it != Manager->AllocatedMemory.end(); it++)
-            {
-                if (_id == (*it)->GetID())
-                {
-                    return true;
-                }
-            }
-            return false;
+            if(Manager->AllocatedMemory.find(_id) == Manager->AllocatedMemory.end())
+                return false;
+            return true;
         }
 
         inline void MemoryManager::Debug()
         {
-            for (auto &m : Manager->AllocatedMemory)
+            for(auto m = Manager->AllocatedMemory.begin(); m != Manager->AllocatedMemory.end(); m++)
             {
-                m->Debug();
+                m->second->Debug();
             }
         }
 
@@ -467,10 +464,7 @@ namespace Yolk
             std::string Log = "[Memory Manager] INFO: Requested void allocation. Returning default TypedField wrapper.";
             LogCallbackFunction(Log);
 
-            MemoryManager::Identifier id = MemoryIndexer::Tick();
-            TypedField::Pointer new_field = std::make_shared<TypedField>();
-            Wrapper wrapper(id, new_field, *this);
-
+            Wrapper wrapper = GenerateVoidWrapper();
             return wrapper;
         }
     }

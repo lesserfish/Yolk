@@ -133,3 +133,57 @@ TEST(Yolk_Test, Method_Wrapper_Clone)
 
     EXPECT_TRUE(wrap.IsValid());
 }
+TEST(Yolk_Test, Method_Wrapper_By_Reference)
+{
+    Yolk::Memory::MemoryManager manager;
+    auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(MTyB, manager);
+
+    auto i1 = manager.AllocateMemory<int>(7);
+    auto i2 = manager.AllocateMemory<int>(5);
+
+    Yolk::ArgumentWrapper a;
+    a << i1 << i2;
+
+    Yolk::MethodWrapper m(fa);
+    
+    EXPECT_EQ(manager.ChangeAudience(fa.ID, 0), 2);
+    auto out = m.Invoke(a);
+
+    EXPECT_TRUE(out.ok);
+
+    EXPECT_EQ(out.output.field->As<int>(), 12);
+
+}
+TEST(Yolk_Test, Method_Wrapper_By_Equality)
+{
+    Yolk::Memory::MemoryManager manager;
+    auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(MTyB, manager);
+    auto fb = Yolk::WrapperGenerator<float, float, int>::GenerateMethodWrapper(MTyC, manager);
+
+    auto i1 = manager.AllocateMemory<int>(7);
+    auto i2 = manager.AllocateMemory<int>(5);
+    auto f1 = manager.AllocateMemory<float>(3.12f);
+
+    Yolk::ArgumentWrapper a;
+    a << i1 << i2;
+
+    Yolk::MethodWrapper m = Yolk::MethodWrapper(manager.GenerateVoidWrapper());
+
+    m = fa;
+    auto out = m.Invoke(a);
+    EXPECT_EQ(manager.ChangeAudience(fa.ID, 0), 2);
+    EXPECT_EQ(manager.ChangeAudience(fb.ID, 0), 1);
+    EXPECT_TRUE(out.ok);
+    EXPECT_EQ(out.output.field->As<int>(), 12);
+
+
+    m = fb;
+    a.clear();
+    a << f1 << i1;
+    out = m.Invoke(a);
+
+    EXPECT_EQ(manager.ChangeAudience(fa.ID, 0), 1);
+    EXPECT_EQ(manager.ChangeAudience(fb.ID, 0), 2);
+    EXPECT_TRUE(out.ok);
+    EXPECT_FLOAT_EQ(out.output.field->As<float>(), -3.88);
+}

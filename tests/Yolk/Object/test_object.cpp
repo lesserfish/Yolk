@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/Yolk.h"
+//#include "../../../src/Yolk/Object/Object.h"
+//#include "../../../src/Yolk/Environment/Environment.h"
 
 class YK_God : public Yolk::Environment
 {
@@ -48,28 +50,47 @@ class YKPlayer : public Yolk::Object
 
     void SetHealth(int newHealth)
     {
-        GetMemoryBlock().GetFieldWrapperByName("Health").field->Copy(newHealth);
+        GetMemoryBlock().GetFieldWrapperByName("Health").wrapper.field->Copy(newHealth);
     }
 
     int GetHealth()
     {
-        return GetMemoryBlock().GetFieldWrapperByName("Health").field->As<int>();
+        return GetMemoryBlock().GetFieldWrapperByName("Health").wrapper.field->As<int>();
     }
 
     void SetPos(int x, int y)
     {
-        GetMemoryBlock().GetObjectWrapperByName("Environment::Player::Position").field->As<Object>().GetMemoryBlock().GetFieldWrapperByName("x").field->Copy(x);
-        GetMemoryBlock().GetObjectWrapperByName("Environment::Player::Position").field->As<Object>().GetMemoryBlock().GetFieldWrapperByName("y").field->Copy(y);
+        auto p = GetMemoryBlock().GetSymbolTable().GetFriend("Position");
+        EXPECT_TRUE(p.ok);
+        auto xid = p.result->Get(Yolk::Memory::SymbolKey("x"));
+        auto yid = p.result->Get(Yolk::Memory::SymbolKey("y"));
+        EXPECT_TRUE(xid.ok);
+        EXPECT_TRUE(yid.ok);
+        auto t1 = GetWrapperTable().CopyField(xid.value.key).field->Copy(x);
+        auto t2 = GetWrapperTable().CopyField(yid.value.key).field->Copy(y);
+
+        EXPECT_TRUE(t1);
+        EXPECT_TRUE(t2);
     }
 
     int GetPosX()
     {
-        return GetMemoryBlock().GetObjectWrapperByName("Environment::Player::Position").field->As<YKVec2>().PublicGetMemoryBlock().GetFieldWrapperByName("x").field->As<int>();
+        auto p = GetMemoryBlock().GetSymbolTable().GetFriend("Position");
+        EXPECT_TRUE(p.ok);
+        auto xid = p.result->Get(Yolk::Memory::SymbolKey("x"));
+        EXPECT_TRUE(xid.ok);
+        int w = GetWrapperTable().CopyField(xid.value.key).field->As<int>();
+        return w;
     }
 
     int GetPosY()
     {
-        return GetMemoryBlock().GetObjectWrapperByName("Environment::Player::Position").field->As<YKVec2>().PublicGetMemoryBlock().GetFieldWrapperByName("y").field->As<int>();
+        auto p = GetMemoryBlock().GetSymbolTable().GetFriend("Position");
+        EXPECT_TRUE(p.ok);
+        auto xid = p.result->Get(Yolk::Memory::SymbolKey("y"));
+        EXPECT_TRUE(xid.ok);
+        int w = GetWrapperTable().CopyField(xid.value.key).field->As<int>();
+        return w;
     }
 
 };
@@ -103,39 +124,6 @@ TEST(Yolk_Test, Object_Test_Child)
     EXPECT_EQ(t6, -7);
 }
 
-class YKDemo : public Yolk::Object
-{
-    public:
-    YKDemo(std::string Name, Yolk::Object* father, int v) : Object(Name, father), value(v) {
-        RegisterField(value, "value");
-    }
-
-    int GetChildValue(std::string Name)
-    {
-        int o = GetMemoryBlock().GetObjectWrapperByName(Name).field->As<YKDemo>().value;
-        return o;
-    }
-    int value;
-};
-TEST(Yolk_Test, Object_Adoption)
-{
-    YK_God god;
-    YKDemo* a = new YKDemo("a", &god, 1);
-    YKDemo* b = new YKDemo("b", a, 2);
-    new YKDemo("c", b, 3);
-
-    int v = a->GetChildValue("Environment::a::b");
-    EXPECT_EQ(v, 2);
-    int u = b->GetChildValue("Environment::a::b::c");
-    EXPECT_EQ(u, 3);
-
-    delete(b); // now c should be a child of a
-
-    int w = a->GetChildValue("Environment::a::b::c");
-
-    EXPECT_EQ(w, 3);
-
-}
 
 class MethodDemo : public Yolk::Object
 {
@@ -147,12 +135,12 @@ class MethodDemo : public Yolk::Object
 
     void ChangeValue(int new_value)
     {
-        GetMemoryBlock().GetFieldWrapperByName("value").field->Copy(new_value);
+        GetMemoryBlock().GetFieldWrapperByName("value").wrapper.field->Copy(new_value);
     }
     int EvaluateSum(Yolk::Wrapper x, Yolk::Wrapper y)
     {
         auto p = Yolk::WrapperGenerator<>::GenerateArgumentWrapper(x, y);
-        auto result = GetMemoryBlock().GetMethodWrapperByName("Sum").Invoke(p);
+        auto result = GetMemoryBlock().GetMethodWrapperByName("Sum").wrapper.Invoke(p);
 
         EXPECT_TRUE(result.ok);
         return result.output.field->As<int>();
@@ -187,7 +175,8 @@ TEST(Yolk_Test, Object_Method)
 TEST(Yolk_Test, Object_Memory_NotLeaking)
 {
     YK_God god;
-    MethodDemo *m1 = new MethodDemo(&god, 1);  // Registers one object, one method and one field. 
+    god.GetMemoryManager().Debug();
+    MethodDemo *m1 = new MethodDemo(&god, 1);  // Registers one one method and one field. 
     MethodDemo *m2 = new MethodDemo(&god, 1);  //
     MethodDemo *m3 = new MethodDemo(&god, 1);  //
     MethodDemo *m4 = new MethodDemo(&god, 1);  //
@@ -195,14 +184,14 @@ TEST(Yolk_Test, Object_Memory_NotLeaking)
     MethodDemo *m6 = new MethodDemo(&god, 1);  //
     MethodDemo *m7 = new MethodDemo(&god, 1);  // * 7
 
-    EXPECT_EQ(god.GetMemoryManager().Size(), 7 * 3);
+    EXPECT_EQ(god.GetMemoryManager().Size(), 7*2 );
 
     delete(m1);
     delete(m2);
     delete(m3);
     delete(m4);
 
-    EXPECT_EQ(god.GetMemoryManager().Size(), 3*3);
+    EXPECT_EQ(god.GetMemoryManager().Size(), 3*2);
 
     delete(m5);
     delete(m6);

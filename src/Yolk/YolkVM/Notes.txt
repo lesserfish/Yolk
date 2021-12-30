@@ -1,0 +1,151 @@
+    var output = GetInfo(2, 3.14f);
+
+This translates to:
+
+    MOV REGA, 0         ;  ARG1 = [REG, 0], ARG2 = [DATA, 0]
+    PUSHAR REGA        ;  ARG1 = [REG, 0]
+    MOV REGA, 1         ;  ARG1 = [REG, 0], ARG2 = [DATA, 1]
+    PUSHAR, REGA        ;  
+    PUSHM, 2            ;  ARG1 = [DATA, 2]
+    CALLM
+    MOV REGA, OUT        ;  ARG1 = [REG, 0], ARG2 = [REG, 6]
+    NAMEL 0, 3           ;  ARG1 = [SYMBOL, 0], ARG2 = [DATA, 3]
+
+    _Data:
+    pos 0: [Mode = INT, Size = sizeof(INT), Content = 2]
+    pos 1: [Mode = FLOAT, Size = sizeof(FLOAT), Content = 3.14f]
+    pos 2: [Mode = STRING, Size = 7, Content = "GetInfo"]
+    pos 3: [Mode = STRING, Size = 6, Content = "output]
+
+
+   Let's write this without splitting Data and Instructions. Assume that the Data will be split during compilation time.
+
+
+    var output = GetInfo(2, 3.14f);
+
+    mov REGA, 2             ;   REGA = manager.AllocateMemory<int>(2)
+    pushar REGA             ;   ARGREG.push_back(REGA);
+    mov REGA, 3.14          ;   REGA = manager.AllocateMemory<float>(3.14);
+    pushar REGA             ;   ARGREG.push_back(REGA);
+    movr "GetInfo"          ;   MREG = MemoryBlock.GetMethodWrapperByName("GetInfo");
+    CALLM                   ;   auto o = MREG.Invoke(ARGREG); /* check ok */ REGOUT = o.output;
+    MOV REGA, REGOUT        ;   REGA = REGOUT;
+    NAMEL REGA, "output"    ;   MemoryBlock.RegisterFieldWrapperByName(REGA, "output"); 
+
+
+
+Let's do some more, just for the hell of it:
+
+    var x : int = 5;
+    var y = 3.14f;
+
+    var out = MyFunc(x, y);
+
+    if(out <= 3)
+    {
+        var z = x:
+        z *= 10;
+
+        Attack(z);
+    }
+
+This whole thing becomes:
+
+    mov REGA, INT
+    namel REGA, "x" ; 0x0
+    mov REGB, 5     ; 0x1
+    mov REGA, "x"   ; 0x2
+    COPY REGA, REGB ; 0x3
+    mov REGA, 3.14f ; 0x4
+    namel REGA, "y" ; 0x5
+    clrar           ; 0x6
+    mov REGA, "x"   ; 0x7
+    pushar REGA     ; 0x8
+    mov REGA, "y"   ; 0x9
+    pushar REGA     ; 0xA
+    movm "MyFunc"   ; 0xB
+    callm           ; 0xC
+    mov REGA, REGOUT; 0xD
+    namel REGA,"out"; 0xE
+    mov REGA, "out" ; 0xF
+    mov REGB, 3     ; 0x10
+    cmplq REGA, REGB; 0x11
+    jnfalse 0x20    ; 0x12
+    brdw            ; 0x13
+    clone REGA, "x" ; 0x14
+    namel REGA, "z" ; 0x15
+    clone REGA, "z" ; 0x16
+    mul REGA, 10    ; 0x17
+    mov REGB, REGA  ; 0x18
+    mov REGA, "z"   ; 0x19
+    copy REGA, REGB ; 0x1A
+    clrar           ; 0x1B
+    pushar REGA     ; 0x1C
+    movm "Attack"   ; 0x1D
+    callm           ; 0x1E
+    brup            : 0x1F
+    ...             ; 0x20
+
+
+
+Questions about the previous translation:
+
+    z = z + x;
+
+    clone REGA, "z" ;
+    mov REGB, "x"   ;
+    add REGA, REGB  ; REGA = z + x
+    mov REGB, "z"   ; 
+    copy REGB, REGA ; z = z + x
+
+
+??? Like this?
+
+Other questions: Can we do this?
+
+    copy "x", REGA
+
+Or do we have to do this?
+
+    mov REGB, "x"
+    copy REGB, REGA
+
+??
+
+    add REGA, "x"
+
+Or
+
+    mov REGB, "x"
+    add REGA, REGB
+
+
+The Second set of instructions would be further translated as:
+
+    auto o = symbolTable.Get("x");
+    ok = o.ok;
+    regb = wrapperTable.CopyField(o.key);
+    
+    bool ok = false;
+    rega = operator.evaluatesum(rega, regb, ok);
+
+The First set of instructions would be further translated as:
+
+    - The same Thing -
+
+Let's begin by making the smallest instruction set possible, and if needed we can expand it later on.
+
+
+
+    MOV REGX, VAL
+
+    moves the Wrapper VAL onto Register x
+
+    COPY REGX, VAL
+    
+    copies the value of Wrapper VAL onto REG X (and therefore, onto whatever wrapper is currently bind to REGX)
+
+    CLONE REGX, VAL
+
+    REGX is now a new wrapper created by cloning the wrapper VAL by value
+
