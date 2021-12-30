@@ -38,6 +38,8 @@ namespace Yolk
                     JNTRUE,  // Jumps to ARG1 if comparison register is true
                     JNFALSE, // Jumps at ARG1 if comparison register is false
                     JMP,     // Unconditionally jumps to ARG1
+                    CALL,
+                    RET,
                     ADD,     // ARG1 = ARG1 + ARG2
                     SUN,     // ARG1 = ARG1 - ARG2
                     MUL,     // ARG1 = ARG1 * ARG2
