@@ -9,7 +9,7 @@ int main()
 
     auto wrap = manager.AllocateMemory<int>(-1);
     memblock.RegisterWrapper("myVariable", wrap);
-
+    
     Yolk::VM::YVM vm(manager, wtable);
     Yolk::VM::Elementary::GenerateElementaryOperations(vm.opHandler);
 

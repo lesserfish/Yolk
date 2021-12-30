@@ -4,6 +4,7 @@
 #include "../Memory/MemoryManager/MemoryManager.h"
 #include <array>
 #include <cstring>
+#include <deque>
 
 namespace Yolk
 {
