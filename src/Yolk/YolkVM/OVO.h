@@ -27,6 +27,8 @@ namespace Yolk
                     PUSHAR,  // Pushes ARG1 onto Argument Register
                     POPAR,   // Pops Argument Register onto ARG1
                     CLRAR,   // Clears Argument Register
+                    PUSH,    // Pushes to Stack
+                    POP,     // Pops from Stack
                     CMP,     // ARG1 == true? (as a wrapper).
                     CMPEQ,   // Compares whether ARG1 equals ARG2
                     CMPLS,   // Compares whether ARG1 < ARG2

@@ -50,6 +50,8 @@ namespace Yolk
             void I_CALLM();
             void I_PUSHAR(OVO::Instruction::ARG arg1);
             void I_POPAR(OVO::Instruction::ARG arg1);
+            void I_PUSH(OVO::Instruction::ARG arg1);
+            void I_POP(OVO::Instruction::ARG arg1);
             void I_CLRAR();
             void I_CMP(OVO::Instruction::ARG arg1);
             void I_CMPEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
@@ -61,6 +63,8 @@ namespace Yolk
             void I_JNTRUE(OVO::Instruction::ARG arg1);
             void I_JNFALSE(OVO::Instruction::ARG arg1);
             void I_JMP(OVO::Instruction::ARG arg1);
+            void I_CALL(OVO::Instruction::ARG arg1);
+            void I_RET();
             void I_ADD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
             void I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
             void I_MUL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
@@ -93,6 +97,7 @@ namespace Yolk
             bool SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref);
             bool ValidInstruction(OVO::Usize position);
             void JumpToInstruction(OVO::Usize position);
+            OVO::Usize CurrentInstruction();
 
             // Data:
             
@@ -122,6 +127,7 @@ namespace Yolk
             MethodWrapper mreg;     // Method Wrapper Register
             bool cmpreg;            // Comparison Register
             ArgumentWrapper argreg; // Argument Wrapper Register
+            std::deque<Wrapper> stack;
             std::deque<OVO::Instruction>::iterator instructionPointer; // InstructionPointer
         };
     }

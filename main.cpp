@@ -3,6 +3,7 @@
 
 int main()
 {
+
     Yolk::Memory::MemoryManager manager;
     Yolk::Memory::WrapperTable wtable(manager);
     Yolk::Memory::MemoryBlock memblock(manager, wtable);
@@ -45,11 +46,11 @@ int main()
     vm.Debug();
 
     // CMPEQ REGA, REGB
-    std::cout << "\n\tCMPEQ REGA, REGB\n\n";
+    std::cout << "\n\tCMPNEQ REGA, REGB\n\n";
     arg1.value = 0x0;
     arg2.value = 0x1;
 
-    vm.I_CMPEQ(arg1, arg2);
+    vm.I_CMPNEQ(arg1, arg2);
     manager.Debug();
     std::cout << "\n";
     vm.Debug();

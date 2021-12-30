@@ -5,22 +5,22 @@ namespace Yolk
     namespace VM
     {
         YVM::YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable) : manager(_manager),
-                                                                                                wrapperTable(_wrapperTable),
-                                                                                                opHandler(manager),
-                                                                                                rega(manager.GenerateVoidWrapper()),
-                                                                                                regb(manager.GenerateVoidWrapper()),
-                                                                                                regc(manager.GenerateVoidWrapper()),
-                                                                                                regd(manager.GenerateVoidWrapper()),
-                                                                                                regout(manager.GenerateVoidWrapper()),
-                                                                                                mreg(manager.GenerateVoidWrapper()),
-                                                                                                cmpreg(false),
-                                                                                                argreg(),
-                                                                                                instructionPointer({})
+                                                                                         wrapperTable(_wrapperTable),
+                                                                                         opHandler(manager),
+                                                                                         rega(manager.GenerateVoidWrapper()),
+                                                                                         regb(manager.GenerateVoidWrapper()),
+                                                                                         regc(manager.GenerateVoidWrapper()),
+                                                                                         regd(manager.GenerateVoidWrapper()),
+                                                                                         regout(manager.GenerateVoidWrapper()),
+                                                                                         mreg(manager.GenerateVoidWrapper()),
+                                                                                         cmpreg(false),
+                                                                                         argreg(),
+                                                                                         instructionPointer({})
         {
         }
 
         // Helper Functions
-        
+
         bool YVM::SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref)
         {
             switch (chunk)
@@ -37,6 +37,9 @@ namespace Yolk
             case 0x3:
                 ref = &regd;
                 return true;
+            case 0x4:
+                ref = &regout;
+                return true;
             default:
                 return false;
             }
@@ -47,7 +50,10 @@ namespace Yolk
         }
         void YVM::JumpToInstruction(OVO::Usize)
         {
-
+        }
+        OVO::Usize YVM::CurrentInstruction()
+        {
+            return 0;
         }
         void YVM::ThrowException(int status, std::string Message)
         {
@@ -68,11 +74,11 @@ namespace Yolk
             std::cout << "REGD: " << regd.field->Print() << std::endl;
             std::cout << "MREG: ";
             std::cout << mreg.GetOutType().name() << "( ";
-            for(auto i : mreg.GetInType())
+            for (auto i : mreg.GetInType())
                 std::cout << i.name() << " ";
             std::cout << ")\n";
             std::cout << "ARGREG: [";
-            for(auto i : argreg)
+            for (auto i : argreg)
                 std::cout << i.field->Print() << " ";
             std::cout << "]\n";
             std::cout << "CMPREG: " << (cmpreg ? "TRUE" : "FALSE") << std::endl;
@@ -80,9 +86,7 @@ namespace Yolk
 
         // API Functions
 
-
         // Instructions
-
 
         void YVM::I_MOV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -175,7 +179,7 @@ namespace Yolk
                     return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
 
                 bool copy_result = regx->field->Copy(*(regy->field));
-                if(!copy_result)
+                if (!copy_result)
                     return ThrowException(exception_shift + 0x04, "Failed to copy content onto register.");
                 return;
             }
@@ -190,7 +194,7 @@ namespace Yolk
 
                 bool copy_result = regx->field->Copy(*(tmp.field));
 
-                if(!copy_result)
+                if (!copy_result)
                     return ThrowException(exception_shift + 0x04, "Failed to copy content onto register.");
                 return;
             }
@@ -401,6 +405,54 @@ namespace Yolk
         {
             argreg.clear();
             return;
+        }
+        void YVM::I_PUSH(OVO::Instruction::ARG arg1)
+        {
+            const int exception_shift = 0x9;
+            Wrapper *regx;
+
+            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+
+            bool selection = SelectRegister(arg1.value, regx);
+            if (!selection)
+                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+
+            stack.push_back(*regx);
+        }
+        void YVM::I_POP(OVO::Instruction::ARG arg1)
+        {
+            const int exception_shift = 0x9;
+            if (arg1.mode == OVO::Instruction::ARG::MODE::SYMBOL)
+            {
+                Wrapper *regx;
+
+                if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+
+                bool selection = SelectRegister(arg1.value, regx);
+                if (!selection)
+                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+
+                if (argreg.size() == 0)
+                {
+                    *regx = manager.GenerateVoidWrapper();
+                    return;
+                }
+
+                Wrapper wrapper = stack.at(stack.size() - 1);
+                *regx = wrapper;
+
+                stack.pop_back();
+                return;
+            }
+            else if (arg1.mode == OVO::Instruction::ARG::MODE::NONE)
+            {
+                if (stack.size() == 0)
+                    return;
+                stack.pop_back();
+                return;
+            }
         }
         void YVM::I_CMP(OVO::Instruction::ARG arg1)
         {
@@ -779,16 +831,70 @@ namespace Yolk
             const int exception_shift = 0x00;
             if (cmpreg)
             {
-                if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                    return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
-                OVO::Usize position = arg1.value;
+                switch (arg1.mode)
+                {
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    Wrapper *regx;
 
-                bool check_jump = ValidInstruction(position);
+                    bool selection = SelectRegister(arg1.value, regx);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
 
-                if (!check_jump)
-                    return ThrowException(exception_shift + 0x02, "JUMP Position outside valid range.");
-                
-                JumpToInstruction(position);
+                    if (!regx->field->Valid())
+                        return ThrowException(exception_shift + 0x4, "Register is void!");
+
+                    if (regx->field->GetType() == typeid(unsigned long int))
+                    {
+                        unsigned long int position = regx->field->As<unsigned long int>();
+                        JumpToInstruction(position);
+                        return;
+                    }
+                    bool cast_result = false;
+
+                    Wrapper wrap = opHandler.EvaluateCast(*regx, typeid(unsigned long int));
+
+                    if (!cast_result)
+                        return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                    unsigned long int position = wrap.field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg1.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    OVO::Data data = result.data;
+
+                    Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+
+                    if (!tmp.field->Valid())
+                        return ThrowException(exception_shift + 0x4, "Register is void!");
+
+                    if (tmp.field->GetType() == typeid(unsigned long int))
+                    {
+                        unsigned long int position = tmp.field->As<unsigned long int>();
+                        JumpToInstruction(position);
+                        return;
+                    }
+                    bool cast_result = false;
+
+                    Wrapper wrap = opHandler.EvaluateCast(tmp, typeid(unsigned long int));
+
+                    if (!cast_result)
+                        return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                    unsigned long int position = wrap.field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                }
+                }
             }
         }
         void YVM::I_JNFALSE(OVO::Instruction::ARG arg1)
@@ -796,31 +902,240 @@ namespace Yolk
             const int exception_shift = 0x00;
             if (!cmpreg)
             {
-                if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                    return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
-                OVO::Usize position = arg1.value;
+                switch (arg1.mode)
+                {
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    Wrapper *regx;
 
-                bool check_jump = ValidInstruction(position);
+                    bool selection = SelectRegister(arg1.value, regx);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
 
-                if (!check_jump)
-                    return ThrowException(exception_shift + 0x02, "JUMP Position outside valid range.");
+                    if (!regx->field->Valid())
+                        return ThrowException(exception_shift + 0x4, "Register is void!");
 
-                JumpToInstruction(position);
+                    if (regx->field->GetType() == typeid(unsigned long int))
+                    {
+                        unsigned long int position = regx->field->As<unsigned long int>();
+                        JumpToInstruction(position);
+                        return;
+                    }
+                    bool cast_result = false;
+
+                    Wrapper wrap = opHandler.EvaluateCast(*regx, typeid(unsigned long int));
+
+                    if (!cast_result)
+                        return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                    unsigned long int position = wrap.field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg1.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    OVO::Data data = result.data;
+
+                    Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+
+                    if (!tmp.field->Valid())
+                        return ThrowException(exception_shift + 0x4, "Register is void!");
+
+                    if (tmp.field->GetType() == typeid(unsigned long int))
+                    {
+                        unsigned long int position = tmp.field->As<unsigned long int>();
+                        JumpToInstruction(position);
+                        return;
+                    }
+                    bool cast_result = false;
+
+                    Wrapper wrap = opHandler.EvaluateCast(tmp, typeid(unsigned long int));
+
+                    if (!cast_result)
+                        return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                    unsigned long int position = wrap.field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                }
+                }
             }
         }
         void YVM::I_JMP(OVO::Instruction::ARG arg1)
         {
             const int exception_shift = 0x00;
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
-            OVO::Usize position = arg1.value;
+            switch (arg1.mode)
+            {
+            case OVO::Instruction::ARG::MODE::SYMBOL:
+            {
+                Wrapper *regx;
 
-            bool check_jump = ValidInstruction(position);
+                bool selection = SelectRegister(arg1.value, regx);
+                if (!selection)
+                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
 
-            if (!check_jump)
-                return ThrowException(exception_shift + 0x02, "JUMP Position outside valid range.");
+                if (!regx->field->Valid())
+                    return ThrowException(exception_shift + 0x4, "Register is void!");
+
+                if (regx->field->GetType() == typeid(unsigned long int))
+                {
+                    unsigned long int position = regx->field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                bool cast_result = false;
+
+                Wrapper wrap = opHandler.EvaluateCast(*regx, typeid(unsigned long int));
+
+                if (!cast_result)
+                    return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                unsigned long int position = wrap.field->As<unsigned long int>();
+                JumpToInstruction(position);
+                return;
+            }
+            case OVO::Instruction::ARG::MODE::DATA:
+            {
+                auto result = RetrieveData(arg1.value);
+                if (!result.ok)
+                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                OVO::Data data = result.data;
+
+                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+
+                if (!tmp.field->Valid())
+                    return ThrowException(exception_shift + 0x4, "Register is void!");
+
+                if (tmp.field->GetType() == typeid(unsigned long int))
+                {
+                    unsigned long int position = tmp.field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                bool cast_result = false;
+
+                Wrapper wrap = opHandler.EvaluateCast(tmp, typeid(unsigned long int));
+
+                if (!cast_result)
+                    return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                unsigned long int position = wrap.field->As<unsigned long int>();
+                JumpToInstruction(position);
+                return;
+            }
+            default:
+            {
+                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+            }
+            }
+        }
+        void YVM::I_CALL(OVO::Instruction::ARG arg1)
+        {
+            const int exception_shift = 0x00;
+
+            auto current_instruction = manager.AllocateMemory<unsigned long int>(CurrentInstruction());
+            stack.push_back(current_instruction);
+
+            switch (arg1.mode)
+            {
+            case OVO::Instruction::ARG::MODE::SYMBOL:
+            {
+                Wrapper *regx;
+
+                bool selection = SelectRegister(arg1.value, regx);
+                if (!selection)
+                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+
+                if (!regx->field->Valid())
+                    return ThrowException(exception_shift + 0x4, "Register is void!");
+
+                if (regx->field->GetType() == typeid(unsigned long int))
+                {
+                    unsigned long int position = regx->field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                bool cast_result = false;
+
+                Wrapper wrap = opHandler.EvaluateCast(*regx, typeid(unsigned long int));
+
+                if (!cast_result)
+                    return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                unsigned long int position = wrap.field->As<unsigned long int>();
+                JumpToInstruction(position);
+                return;
+            }
+            case OVO::Instruction::ARG::MODE::DATA:
+            {
+                auto result = RetrieveData(arg1.value);
+                if (!result.ok)
+                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                OVO::Data data = result.data;
+
+                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+
+                if (!tmp.field->Valid())
+                    return ThrowException(exception_shift + 0x4, "Register is void!");
+
+                if (tmp.field->GetType() == typeid(unsigned long int))
+                {
+                    unsigned long int position = tmp.field->As<unsigned long int>();
+                    JumpToInstruction(position);
+                    return;
+                }
+                bool cast_result = false;
+
+                Wrapper wrap = opHandler.EvaluateCast(tmp, typeid(unsigned long int));
+
+                if (!cast_result)
+                    return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
+
+                unsigned long int position = wrap.field->As<unsigned long int>();
+                JumpToInstruction(position);
+                return;
+            }
+            default:
+            {
+                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+            }
+            }
+        }
+        void YVM::I_RET()
+        {
+            const int exception_shift = 0x00;
+            auto previous_instruction = stack.at(stack.size() - 1);
+            stack.pop_back();
+
+            if(!previous_instruction.field->Valid())
+                return ThrowException(exception_shift + 0x01, "Can't return to a void position");
+
+            if(previous_instruction.field->GetType() == typeid(unsigned long int))
+            {
+                unsigned long int position = previous_instruction.field->As<unsigned long int>();
+                JumpToInstruction(position);
+                return;
+            }
+
+            bool cast_result = false;
+
+            Wrapper wrap = opHandler.EvaluateCast(previous_instruction, typeid(unsigned long int));
+
+            if(!cast_result)
+                return ThrowException(exception_shift + 0x02, "Failed to get return address from top of stack.");
+
+            unsigned long int position = wrap.field->As<unsigned long int>();
 
             JumpToInstruction(position);
+
+
         }
         void YVM::I_ADD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -848,11 +1163,10 @@ namespace Yolk
 
             Wrapper tmp = opHandler.EvaluateAdd(*regx, *regy, can_add);
 
-            if(!can_add)
+            if (!can_add)
                 return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
-
         }
         void YVM::I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -880,7 +1194,7 @@ namespace Yolk
 
             Wrapper tmp = opHandler.EvaluateSubtract(*regx, *regy, can_sub);
 
-            if(!can_sub)
+            if (!can_sub)
                 return ThrowException(exception_shift + 0x05, "Operator - is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
@@ -911,7 +1225,7 @@ namespace Yolk
 
             Wrapper tmp = opHandler.EvaluateMultiply(*regx, *regy, can_mul);
 
-            if(!can_mul)
+            if (!can_mul)
                 return ThrowException(exception_shift + 0x05, "Operator * is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
@@ -942,7 +1256,7 @@ namespace Yolk
 
             Wrapper tmp = opHandler.EvaluateDivide(*regx, *regy, can_div);
 
-            if(!can_div)
+            if (!can_div)
                 return ThrowException(exception_shift + 0x05, "Operator / is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
@@ -973,7 +1287,7 @@ namespace Yolk
 
             Wrapper tmp = opHandler.EvaluateModulo(*regx, *regy, can_mod);
 
-            if(!can_mod)
+            if (!can_mod)
                 return ThrowException(exception_shift + 0x05, "Operator % is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
@@ -1004,7 +1318,7 @@ namespace Yolk
 
             Wrapper tmp = opHandler.EvaluateAnd(*regx, *regy, can_and);
 
-            if(!can_and)
+            if (!can_and)
                 return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
@@ -1035,7 +1349,7 @@ namespace Yolk
 
             Wrapper tmp = opHandler.EvaluateOr(*regx, *regy, can_or);
 
-            if(!can_or)
+            if (!can_or)
                 return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
@@ -1052,7 +1366,7 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            if(!regx->field->Valid())
+            if (!regx->field->Valid())
                 return ThrowException(exception_shift + 0x02, "Cannot cast from void!");
             switch (arg2.mode)
             {
@@ -1068,7 +1382,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(int), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1077,7 +1391,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(unsigned int), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1086,7 +1400,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(long), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1095,7 +1409,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(unsigned long), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1104,7 +1418,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(float), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1113,7 +1427,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(double), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1122,7 +1436,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(bool), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1131,7 +1445,7 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(char), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1140,16 +1454,17 @@ namespace Yolk
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(unsigned char), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
-                    return;;
+                    return;
+                    ;
                 }
                 case 0x0A:
                 {
                     bool cast_result = false;
                     Wrapper wrapper = opHandler.EvaluateCast(*regx, typeid(std::string), cast_result);
-                    if(!cast_result)
+                    if (!cast_result)
                         return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                     *regx = wrapper;
                     return;
@@ -1185,13 +1500,12 @@ namespace Yolk
 
                 Wrapper original = wrapperTable.CopyField(symbol_result.value.key);
 
-                if(!original.field->Valid())
+                if (!original.field->Valid())
                     return ThrowException(exception_shift + 0x03, "Cannot cast to void!");
 
-                
                 bool cast_result = false;
-                Wrapper wrapper = opHandler.EvaluateCast(*regx, original.field->GetType() , cast_result);
-                if(!cast_result)
+                Wrapper wrapper = opHandler.EvaluateCast(*regx, original.field->GetType(), cast_result);
+                if (!cast_result)
                     return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
                 *regx = wrapper;
                 return;
@@ -1214,7 +1528,7 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            if(!regx->field->Valid())
+            if (!regx->field->Valid())
                 return ThrowException(exception_shift + 0x02, "Cannot cast from void!");
             switch (arg2.mode)
             {
@@ -1283,7 +1597,7 @@ namespace Yolk
 
                 Wrapper original = wrapperTable.CopyField(symbol_result.value.key);
 
-                if(!original.field->Valid())
+                if (!original.field->Valid())
                     return ThrowException(exception_shift + 0x03, "Cannot cast to void!");
 
                 regx->field->CastAs(*(original.field));
@@ -1307,7 +1621,7 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            if(arg2.mode != OVO::Instruction::ARG::MODE::DATA)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::DATA)
                 return ThrowException(exception_shift + 0x02, "NAMEL arguments do not fit standard!");
 
             auto result = RetrieveData(arg2.value);
@@ -1323,14 +1637,13 @@ namespace Yolk
             auto reg_out = wrapperTable.Add(*regx);
             bool check = workingSymTable->Add(Memory::SymbolKey(wrapperName), Memory::SymbolValue(reg_out));
 
-            if(!check)
+            if (!check)
             {
                 wrapperTable.Erase(reg_out);
                 return ThrowException(exception_shift + 0x06, "Failed to register the wrapper. That name is already in use.");
             }
 
             return;
-
         }
         void YVM::I_NAMEG(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -1344,7 +1657,7 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            if(arg2.mode != OVO::Instruction::ARG::MODE::DATA)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::DATA)
                 return ThrowException(exception_shift + 0x02, "NAMEL arguments do not fit standard!");
 
             auto result = RetrieveData(arg2.value);
@@ -1360,7 +1673,7 @@ namespace Yolk
             auto reg_out = wrapperTable.Add(*regx);
             bool check = workingSymTable->GlobalAdd(Memory::SymbolKey(wrapperName), Memory::SymbolValue(reg_out));
 
-            if(!check)
+            if (!check)
             {
                 wrapperTable.Erase(reg_out);
                 return ThrowException(exception_shift + 0x06, "Failed to register the wrapper. That name is already in use.");
@@ -1372,7 +1685,7 @@ namespace Yolk
         {
             auto wrapper_list = workingSymTable->BranchUp();
 
-            for(auto wrapper : wrapper_list)
+            for (auto wrapper : wrapper_list)
             {
                 wrapperTable.Erase(wrapper.second.key);
             }
@@ -1384,7 +1697,7 @@ namespace Yolk
         void YVM::I_BRHR(OVO::Instruction::ARG arg1)
         {
             const int exception_shift = 0x0;
-            if(arg1.mode != OVO::Instruction::ARG::MODE::DATA)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::DATA)
                 return ThrowException(exception_shift + 0x02, "NAMEL arguments do not fit standard!");
 
             auto result = RetrieveData(arg1.value);
@@ -1399,9 +1712,9 @@ namespace Yolk
 
             auto friend_result = workingSymTable->GetFriend(friendName);
 
-            if(!friend_result.ok)
+            if (!friend_result.ok)
                 return ThrowException(exception_shift + 0x06, "Could not find Object " + friendName + ".");
-            
+
             workingSymTable = friend_result.result;
         }
         void YVM::I_RSBR()
