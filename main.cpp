@@ -12,9 +12,6 @@ int main()
 
     Yolk::VM::YVM vm(manager, wtable);
     Yolk::VM::Elementary::GenerateElementaryOperations(vm.opHandler);
-    vm.opHandler.RegisterAdd<float, float>();
-    vm.opHandler.RegisterCast<int, float>();
-    vm.opHandler.RegisterCast<float, int>();
 
     vm.symTable = &memblock.GetSymbolTable();
     vm.workingSymTable = &memblock.GetSymbolTable();

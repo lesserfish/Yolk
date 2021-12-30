@@ -18,9 +18,29 @@ namespace Yolk
         class YVM
         {
         public:
-            YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable);
+            // Structrs
+
+            enum class Status
+            {
+                RUNNING,
+                HALTED,
+                ERROR,
+                COMPLETED
+            };
+            struct DataOutput
+            {
+                OVO::Data data;
+                bool ok;
+            };
 
         public:
+            
+            // Functions:
+
+            // Constructor
+
+            YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable);
+            
             // Instructions
 
             void I_MOV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
@@ -59,37 +79,34 @@ namespace Yolk
             void I_ZERO();
             void I_HALT();
 
-            // Required before it can be run.
+            // API
 
-            OVO *ovo;                         // Algorithm we are going to be running
-            Memory::SymbolTable *symTable; // Symbol Table of the object requesting the algorithm to be run.
-            Memory::SymbolTable *workingSymTable;
+            
 
-            // Internal Status
 
-            enum class Status
-            {
-                RUNNING,
-                HALTED,
-                ERROR,
-                COMPLETED
-            };
-
-            bool Running;
-            Status status;
-            std::string Message;
-
-            struct DataOutput
-            {
-                OVO::Data data;
-                bool ok;
-            };
+            
+            // Helper Functions
+            
             void Debug();
             void ThrowException(int status, std::string Message);
             DataOutput RetrieveData(OVO::Instruction::CHUNK id);
             bool SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref);
             bool ValidInstruction(OVO::Usize position);
 
+            // Data:
+            
+            // Internal Data
+            
+            bool Running;
+            Status status;
+            std::string Message;           
+
+            // API Data
+
+            OVO *ovo;                         // Algorithm we are going to be running
+            Memory::SymbolTable *symTable; // Symbol Table of the object requesting the algorithm to be run.
+            Memory::SymbolTable *workingSymTable;
+            
             // Memory
             Memory::MemoryManager &manager;     // Needed so we can create new wrappers
             Memory::WrapperTable &wrapperTable; // Needed so we can register and delete wrappers
@@ -104,7 +121,6 @@ namespace Yolk
             MethodWrapper mreg;     // Method Wrapper Register
             bool cmpreg;            // Comparison Register
             ArgumentWrapper argreg; // Argument Wrapper Register
-
             OVO::Usize InstructionPointer; // Instruction Pointer
         };
 
@@ -118,10 +134,13 @@ namespace Yolk
                                                                                                 regout(manager.GenerateVoidWrapper()),
                                                                                                 mreg(manager.GenerateVoidWrapper()),
                                                                                                 cmpreg(false),
-                                                                                                argreg()
+                                                                                                argreg(),
+                                                                                                InstructionPointer(0)
         {
         }
 
+        // Helper Functions
+        
         inline bool YVM::SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref)
         {
             switch (chunk)
@@ -163,6 +182,13 @@ namespace Yolk
             std::cout << "REGB: " << regb.field->Print() << std::endl;
             std::cout << "CMPREG: " << (cmpreg ? "TRUE" : "FALSE") << std::endl;
         }
+
+        // API Functions
+
+
+        // Instructions
+
+
         inline void YVM::I_MOV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
             // Moves wrapper associated to arg2 onto arg1

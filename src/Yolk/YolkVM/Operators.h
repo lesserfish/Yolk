@@ -34,8 +34,6 @@ namespace Yolk
 			Wrapper EvaluateModulo(Wrapper lhs, Wrapper rhs);
 			Wrapper EvaluateEquality(Wrapper lhs, Wrapper rhs, bool& status_output);
 			Wrapper EvaluateEquality(Wrapper lhs, Wrapper rhs);
-			Wrapper EvaluateInequality(Wrapper lhs, Wrapper rhs, bool& status_output);
-			Wrapper EvaluateInequality(Wrapper lhs, Wrapper rhs);
 			Wrapper EvaluateLessThan(Wrapper lhs, Wrapper rhs, bool& status_output);
 			Wrapper EvaluateLessThan(Wrapper lhs, Wrapper rhs);
 			Wrapper EvaluateGreaterThan(Wrapper lhs, Wrapper rhs, bool& status_output);
@@ -48,8 +46,6 @@ namespace Yolk
 			Wrapper EvaluateAnd(Wrapper lhs, Wrapper rhs);
 			Wrapper EvaluateOr(Wrapper lhs, Wrapper rhs, bool& status_output);
 			Wrapper EvaluateOr(Wrapper lhs, Wrapper rhs);
-			Wrapper EvaluateNegation(Wrapper lhs, bool& status_output);
-			Wrapper EvaluateNegation(Wrapper lhs);
 			
             template <typename T, typename F> void RegisterCast();
             template <typename T, typename F> void RegisterAdd();
@@ -58,14 +54,12 @@ namespace Yolk
 			template <typename T, typename F> void RegisterDivide();
 			template <typename T, typename F> void RegisterModulo();
 			template <typename T, typename F> void RegisterEquality();
-			template <typename T, typename F> void RegisterInequality();
 			template <typename T, typename F> void RegisterLessThan();
 			template <typename T, typename F> void RegisterGreaterThan();
 			template <typename T, typename F> void RegisterLessOrEqualThan();
 			template <typename T, typename F> void RegisterGreaterOrEqualThan();
 			template <typename T, typename F> void RegisterAnd();
 			template <typename T, typename F> void RegisterOr();
-			template <typename T> void RegisterNegation();
 			
             private:
             Memory::MemoryManager& manager;
@@ -76,14 +70,12 @@ namespace Yolk
 			std::map<PAIR, BINARY> divideMap;
 			std::map<PAIR, BINARY> moduloMap;
 			std::map<PAIR, BINARY> equalityMap;
-			std::map<PAIR, BINARY> inequalityMap;
 			std::map<PAIR, BINARY> lessthanMap;
 			std::map<PAIR, BINARY> greaterthanMap;
 			std::map<PAIR, BINARY> lessorequalthanMap;
 			std::map<PAIR, BINARY> greaterorequalthanMap;
 			std::map<PAIR, BINARY> andMap;
 			std::map<PAIR, BINARY> orMap;
-			std::map<SINGLE, UNARY> negationMap;
 			
         };
         inline Memory::MemoryManager& Operator::GetMemoryManager() const
@@ -244,28 +236,6 @@ namespace Yolk
             return EvaluateEquality(lhs, rhs, output);
         }
         			
-        inline Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs, bool& status_output)
-        {
-            PAIR pair(lhs.field->GetType(), rhs.field->GetType());
-            auto find_result = inequalityMap.find(pair);
-
-            if(find_result == inequalityMap.end())
-            {
-                status_output = false;
-                return manager.AllocateMemory<void>();
-            }
-
-            auto f = find_result->second;
-            Wrapper out = f(lhs, rhs);
-            status_output = true;
-            return out;
-        }
-        inline Wrapper Operator::EvaluateInequality(Wrapper lhs, Wrapper rhs)
-        {
-            bool output;
-            return EvaluateInequality(lhs, rhs, output);
-        }
-        			
         inline Wrapper Operator::EvaluateLessThan(Wrapper lhs, Wrapper rhs, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), rhs.field->GetType());
@@ -398,29 +368,6 @@ namespace Yolk
             return EvaluateOr(lhs, rhs, output);
         }
         			
-        inline Wrapper Operator::EvaluateNegation(Wrapper lhs, bool &status_output)
-        {
-            SINGLE single(lhs.field->GetType());
-            auto find_result = negationMap.find(single);
-
-            if(find_result == negationMap.end())
-            {
-                status_output = false;
-                return manager.AllocateMemory<void>();
-            }
-
-            auto f = find_result->second;
-            Wrapper out = f(lhs);
-            status_output = true;
-            return out;
-
-        }
-        inline Wrapper Operator::EvaluateNegation(Wrapper lhs)
-        {
-            bool output;
-            return EvaluateNegation(lhs, output);
-        }
-        			
         template<typename T, typename F>
         inline void Operator::RegisterCast()
         {
@@ -526,21 +473,6 @@ namespace Yolk
         }
         			
         template<typename T, typename F>
-        inline void Operator::RegisterInequality()
-        {
-            auto f = [this](Wrapper lhs, Wrapper rhs)
-            {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
-                Wrapper output = this->GetMemoryManager().AllocateMemory(lhst != rhsf);
-                return output;
-            };
-            PAIR pair(typeid(T), typeid(F));
-            BINARY binary(f);
-            inequalityMap.insert(std::pair(pair, binary));
-        }
-        			
-        template<typename T, typename F>
         inline void Operator::RegisterLessThan()
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
@@ -628,21 +560,6 @@ namespace Yolk
             PAIR pair(typeid(T), typeid(F));
             BINARY binary(f);
             orMap.insert(std::pair(pair, binary));
-        }
-        			
-        template<typename T>
-        inline void Operator::RegisterNegation()
-        {
-            auto f = [this](Wrapper lhs)
-            {
-                T lhst = lhs.field->As<T>();
-                Wrapper output = this->GetMemoryManager().AllocateMemory(!lhst);
-                return output;
-            };
-            SINGLE single(typeid(T));
-            UNARY unary(f);
-
-            negationMap.insert(std::pair(single, unary));
         }
         			
     }
