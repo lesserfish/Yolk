@@ -1,4 +1,4 @@
-/*    #include "Elementary.h"
+    #include "Elementary.h"
     namespace Yolk
     {
         namespace VM
@@ -615,9 +615,6 @@
 					op.RegisterAnd<bool,bool>();
 
 					op.RegisterOr<bool,bool>();
-
-
                 }
         }
     }
-*/

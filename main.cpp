@@ -1,4 +1,5 @@
-#include "src/Yolk/Yolk.h"
+#include "src/Yolk/YolkVM/YVM.h"
+#include "src/Yolk/YolkVM/Elementary.h"
 #include <iostream>
 
 int main()

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Yolk.h"
+#include "../../../src/Yolk/YolkVM/OVO.h"
 
 using Data = Yolk::VM::OVO::Data;
 
