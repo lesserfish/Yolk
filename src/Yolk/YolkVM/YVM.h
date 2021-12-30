@@ -131,7 +131,7 @@ namespace Yolk
             std::deque<Wrapper> stack;
             std::deque<OVO::Instruction>::iterator instructionPointer; // InstructionPointer
         };
-        inline YVM::YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable) : manager(_manager),
+        /*inline YVM::YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable) : manager(_manager),
                                                                                          wrapperTable(_wrapperTable),
                                                                                          opHandler(manager),
                                                                                          rega(manager.GenerateVoidWrapper()),
@@ -1862,6 +1862,6 @@ namespace Yolk
             Running = false;
             status = Status::HALTED;
             Message = "Received Halt instruction!";
-        }
+        }*/
     }
 }

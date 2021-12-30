@@ -1,4 +1,4 @@
-/*    #include "Elementary.h"
+    #include "Elementary.h"
     namespace Yolk
     {
         namespace VM
@@ -618,4 +618,3 @@
                 }
         }
     }
-*/

@@ -8,7 +8,7 @@
             {
                 static void GenerateElementaryOperations(Yolk::VM::Operator& op);
             };
-                inline void Elementary::GenerateElementaryOperations(Yolk::VM::Operator& op)
+               /* inline void Elementary::GenerateElementaryOperations(Yolk::VM::Operator& op)
                 {
                     op.RegisterAdd<int,int>();
 					op.RegisterAdd<int,unsigned int>();
@@ -622,6 +622,6 @@
 					op.RegisterOr<bool,bool>();
 
 
-                }
+                }*/
         }
     }
