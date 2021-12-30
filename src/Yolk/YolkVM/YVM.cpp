@@ -1,4 +1,4 @@
-#include "YVM.h"
+/*#include "YVM.h"
 
 namespace Yolk
 {
@@ -1737,4 +1737,4 @@ namespace Yolk
             Message = "Received Halt instruction!";
         }
     }
-}
+}*/
