@@ -53,6 +53,7 @@ namespace Yolk
             void I_PUSH(OVO::Instruction::ARG arg1);
             void I_POP(OVO::Instruction::ARG arg1);
             void I_CLRAR();
+            void I_CLEAR();
             void I_CMP(OVO::Instruction::ARG arg1);
             void I_CMPEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
             void I_CMPNEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);

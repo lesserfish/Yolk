@@ -454,6 +454,11 @@ namespace Yolk
                 return;
             }
         }
+        void YVM::I_CLEAR()
+        {
+            stack.clear();
+            return;
+        }
         void YVM::I_CMP(OVO::Instruction::ARG arg1)
         {
             const int exception_shift = 0x9;
