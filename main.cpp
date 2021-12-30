@@ -11,7 +11,7 @@ int main()
     memblock.RegisterWrapper("myVariable", wrap);
 
     Yolk::VM::YVM vm(manager, wtable);
-    Yolk::VM::GenerateElementaryOperations(vm.opHandler);
+    Yolk::VM::Elementary::GenerateElementaryOperations(vm.opHandler);
     vm.opHandler.RegisterAdd<float, float>();
     vm.opHandler.RegisterCast<int, float>();
     vm.opHandler.RegisterCast<float, int>();

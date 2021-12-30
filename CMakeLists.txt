@@ -8,7 +8,7 @@ project(Example)
 
 add_subdirectory(src)
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
 add_executable(${PROJECT_NAME} main.cpp)
 

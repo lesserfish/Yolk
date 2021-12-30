@@ -4,7 +4,7 @@
     {
         namespace VM
         {
-
+			struct Elementary{
             static void GenerateElementaryOperations(Yolk::VM::Operator& op)
             {
                 	op.RegisterAdd<int,unsigned int>();
@@ -175,5 +175,6 @@
 	op.RegisterGreaterThan<unsigned long int,unsigned int>();
 
             }
-        }
+        };
+		}
     }

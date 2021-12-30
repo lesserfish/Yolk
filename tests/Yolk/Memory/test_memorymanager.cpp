@@ -106,12 +106,12 @@ TEST(Yolk_Test, MemoryManager_CopyByValue_Dynamic)
     auto wcopy = manager.CopyByValue(w);
 
     EXPECT_EQ(manager.Size(), 2);
-    EXPECT_EQ(wcopy.field->As<int>(), 12);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
 
-    wcopy.field->Copy(14);
+    wcopy.wrapper.field->Copy(14);
     
     EXPECT_EQ(w.field->As<int>(), 12);
-    EXPECT_EQ(wcopy.field->As<int>(), 14);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
 }
 TEST(Yolk_Test, MemoryManager_CopyByValue_Static)
 {
@@ -122,12 +122,12 @@ TEST(Yolk_Test, MemoryManager_CopyByValue_Static)
     auto wcopy = manager.CopyByValue(w);
 
     EXPECT_EQ(manager.Size(), 2);
-    EXPECT_EQ(wcopy.field->As<int>(), 12);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
 
-    wcopy.field->Copy(14);
+    wcopy.wrapper.field->Copy(14);
     
     EXPECT_EQ(w.field->As<int>(), 12);
-    EXPECT_EQ(wcopy.field->As<int>(), 14);
+    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
 }
 TEST(Yolk_Test, MemoryManager_CopyByReference_NewEntry)
 {
