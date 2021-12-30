@@ -20,7 +20,7 @@ int main()
     Yolk::VM::OVO::Instruction::ARG arg2;
 
     // MOV REGA. "myVariable"
-    std::cout << "MOV REGA, myVariable\n";
+    std::cout << "\n\tMOV REGA, myVariable\n";
     arg1.mode = Yolk::VM::OVO::Instruction::ARG::MODE::SYMBOL;
     arg1.value = 0x0;   // REGA
     arg2.mode = Yolk::VM::OVO::Instruction::ARG::MODE::DATA;
@@ -28,11 +28,11 @@ int main()
 
     vm.I_MOV(arg1, arg2);
     manager.Debug();
+    std::cout << "\n";
     vm.Debug();
-    std::cout << "...\n";
 
     // CLONE REGB, INT
-    std::cout << "CLONE REGB, INT\n";
+    std::cout << "\n\tCLONE REGB, FLOAT\n\n";
     arg1.mode = Yolk::VM::OVO::Instruction::ARG::MODE::SYMBOL;
     arg1.value = 0x01;
     arg2.mode = Yolk::VM::OVO::Instruction::ARG::MODE::SYMBOL;
@@ -41,36 +41,36 @@ int main()
     vm.I_CLONE(arg1, arg2);
 
     manager.Debug();
+    std::cout << "\n";
     vm.Debug();
-    std::cout << "...\n";
 
     // CMPEQ REGA, REGB
-    std::cout << "CMPEQ REGA, REGB\n";
+    std::cout << "\n\tCMPEQ REGA, REGB\n\n";
     arg1.value = 0x0;
     arg2.value = 0x1;
 
     vm.I_CMPEQ(arg1, arg2);
     manager.Debug();
+    std::cout << "\n";
     vm.Debug();
-    std::cout << "...\n";
 
     // ADD REGB, REGA
-    std::cout << "ADD REGB, REGA\n";
+    std::cout << "\n\tADD REGB, REGA\n\n";
     vm.I_ADD(arg2, arg1);
     manager.Debug();
+    std::cout << "\n";
     vm.Debug();
-    std::cout << "...\n";
     
     // ADD REGB, REGB
-    std::cout << "ADD REGB, REGB\n";
+    std::cout << "\n\tADD REGB, REGB\n\n";
     
     vm.I_ADD(arg2, arg1);
     manager.Debug();
+    std::cout << "\n";
     vm.Debug();
-    std::cout << "...\n";
 
     // CAST REGB, INT
-    std::cout << "CAST REGB, INT\n";
+    std::cout << "\n\tCAST REGB, INT\n\n";
 
     arg1.value = 0x1; // REGB
     arg2.value = 0x1; // INT
@@ -78,18 +78,18 @@ int main()
     vm.I_CAST(arg1, arg2);
 
     manager.Debug();
+    std::cout << "\n";
     vm.Debug();
-    std::cout << "...\n";
 
     // COPY REGA, REGB
-    std::cout << "COPY REGA, REGB\n";
+    std::cout << "\n\tCOPY REGA, REGB\n\n";
 
     arg1.value = 0x0;
     arg2.value = 0x1;
     vm.I_COPY(arg1, arg2);
     
     manager.Debug();
+    std::cout << "\n";
     vm.Debug();
-    std::cout << "...\n";
 
 }

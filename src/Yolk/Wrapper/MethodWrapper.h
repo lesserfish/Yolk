@@ -135,10 +135,14 @@ namespace Yolk
     }
     inline std::vector<std::type_index> MethodWrapper::GetInType() const
     {
+        if(!invoker)
+            return {};
         return invoker->GetInType();
     }
     inline std::type_index MethodWrapper::GetOutType() const
     {
+        if(!invoker)
+            return typeid(void);
         return invoker->GetOutType();
     }
     inline MethodWrapper::~MethodWrapper()

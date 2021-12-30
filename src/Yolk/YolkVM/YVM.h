@@ -92,6 +92,7 @@ namespace Yolk
             DataOutput RetrieveData(OVO::Instruction::CHUNK id);
             bool SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref);
             bool ValidInstruction(OVO::Usize position);
+            void JumpToInstruction(OVO::Usize position);
 
             // Data:
             
@@ -103,9 +104,9 @@ namespace Yolk
 
             // API Data
 
-            OVO *ovo;                         // Algorithm we are going to be running
-            Memory::SymbolTable *symTable; // Symbol Table of the object requesting the algorithm to be run.
-            Memory::SymbolTable *workingSymTable;
+            OVO ovo;                         // Algorithm we are going to be running
+            Memory::SymbolTable *symTable;   // Symbol Table of the object requesting the algorithm to be run.
+            Memory::SymbolTable *workingSymTable; // 
             
             // Memory
             Memory::MemoryManager &manager;     // Needed so we can create new wrappers
@@ -121,7 +122,7 @@ namespace Yolk
             MethodWrapper mreg;     // Method Wrapper Register
             bool cmpreg;            // Comparison Register
             ArgumentWrapper argreg; // Argument Wrapper Register
-            OVO::Usize InstructionPointer; // Instruction Pointer
+            std::deque<OVO::Instruction>::iterator instructionPointer; // InstructionPointer
         };
 
         inline YVM::YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable) : manager(_manager),
@@ -135,7 +136,7 @@ namespace Yolk
                                                                                                 mreg(manager.GenerateVoidWrapper()),
                                                                                                 cmpreg(false),
                                                                                                 argreg(),
-                                                                                                InstructionPointer(0)
+                                                                                                instructionPointer({})
         {
         }
 
@@ -165,6 +166,10 @@ namespace Yolk
         {
             return true;
         }
+        inline void YVM::JumpToInstruction(OVO::Usize)
+        {
+
+        }
         inline void YVM::ThrowException(int status, std::string Message)
         {
             std::cout << "ERROR (" + std::to_string(status) + "): " << Message << std::endl;
@@ -180,6 +185,17 @@ namespace Yolk
         {
             std::cout << "REGA: " << rega.field->Print() << std::endl;
             std::cout << "REGB: " << regb.field->Print() << std::endl;
+            std::cout << "REGC: " << regc.field->Print() << std::endl;
+            std::cout << "REGD: " << regd.field->Print() << std::endl;
+            std::cout << "MREG: ";
+            std::cout << mreg.GetOutType().name() << "( ";
+            for(auto i : mreg.GetInType())
+                std::cout << i.name() << " ";
+            std::cout << ")\n";
+            std::cout << "ARGREG: [";
+            for(auto i : argreg)
+                std::cout << i.field->Print() << " ";
+            std::cout << "]\n";
             std::cout << "CMPREG: " << (cmpreg ? "TRUE" : "FALSE") << std::endl;
         }
 
@@ -892,8 +908,8 @@ namespace Yolk
 
                 if (!check_jump)
                     return ThrowException(exception_shift + 0x02, "JUMP Position outside valid range.");
-
-                InstructionPointer = position;
+                
+                JumpToInstruction(position);
             }
         }
         inline void YVM::I_JNFALSE(OVO::Instruction::ARG arg1)
@@ -910,7 +926,7 @@ namespace Yolk
                 if (!check_jump)
                     return ThrowException(exception_shift + 0x02, "JUMP Position outside valid range.");
 
-                InstructionPointer = position;
+                JumpToInstruction(position);
             }
         }
         inline void YVM::I_JMP(OVO::Instruction::ARG arg1)
@@ -925,7 +941,7 @@ namespace Yolk
             if (!check_jump)
                 return ThrowException(exception_shift + 0x02, "JUMP Position outside valid range.");
 
-            InstructionPointer = position;
+            JumpToInstruction(position);
         }
         inline void YVM::I_ADD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
