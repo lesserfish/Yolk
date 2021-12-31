@@ -65,7 +65,7 @@ namespace Yolk
 
                 HandleInstruction(*current_instruction);
 
-                if(instructionPointer == ovo.InstructionSet.end())
+                if(instructionPointer == ovo.InstructionSet.end() && Running)
                 {
                     Running = false;
                     instructionPointer = ovo.InstructionSet.end();
@@ -98,10 +98,12 @@ namespace Yolk
 
                 auto current_instruction = instructionPointer;
                 instructionPointer++;
+                
+                //PrintInstruction(*current_instruction);
 
                 HandleInstruction(*current_instruction);
 
-                if(instructionPointer == ovo.InstructionSet.end())
+                if(instructionPointer == ovo.InstructionSet.end() && Running)
                 {
                     Running = false;
                     instructionPointer = ovo.InstructionSet.end();
@@ -111,6 +113,8 @@ namespace Yolk
                 }
 
             }
+
+            //Debug();
             return;
         }
 
@@ -548,6 +552,10 @@ namespace Yolk
                 {
                     return "I_HALT";
                 }
+                case OVO::Instruction::INSTRUCTION::NEW:
+                {
+                    return "I_NEW";
+                }
                 default:
                 {
                     return "UNKNOWN";
@@ -607,16 +615,16 @@ namespace Yolk
             // Usage
             // 1. MOV REGX, REGY
             // 2. MOV REX, data   where data contains an std::string with the name of a variable
-            const int exception_shift = 0x0;
+            const int exception_shift = 1;
 
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
@@ -626,7 +634,7 @@ namespace Yolk
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 *regx = *regy;
 
@@ -636,24 +644,24 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 3, "DATA could not be found!");
                 OVO::Data data = result.data;
                 if (data.mode != OVO::Data::Mode::STRING)
-                    return ThrowException(exception_shift + 0x05, "MOV arguments do not fit standard!");
+                    return ThrowException(exception_shift + 4, "MOV arguments do not fit standard!");
 
                 std::string wrapperName = data.ToWrapper(data, manager).field->As<std::string>();
 
                 auto symbol_result = workingSymTable->Get(Yolk::Memory::SymbolKey(wrapperName));
 
                 if (!symbol_result.ok)
-                    return ThrowException(exception_shift + 0x6, "Could not find variable named \"" + wrapperName + "\".");
+                    return ThrowException(exception_shift + 5, "Could not find variable named \"" + wrapperName + "\".");
 
                 auto wrapper_info = wrapperTable.GetInfo(symbol_result.value.key);
 
                 if (!wrapper_info.alive)
-                    return ThrowException(exception_shift + 0x07, "Could not find variable named \"" + wrapperName + "\". It has already been deleted.");
+                    return ThrowException(exception_shift + 6, "Could not find variable named \"" + wrapperName + "\". It has already been deleted.");
                 if (wrapper_info.wrapperType != WrapperType::FieldWrapper)
-                    return ThrowException(exception_shift + 0x8, "Wrapper named \"" + wrapperName + "\" is a not field!");
+                    return ThrowException(exception_shift + 7, "Wrapper named \"" + wrapperName + "\" is a not field!");
 
                 *regx = wrapperTable.CopyField(symbol_result.value.key);
 
@@ -661,7 +669,7 @@ namespace Yolk
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 8, "MOV arguments do not fit standard!");
             }
             }
         }
@@ -671,16 +679,16 @@ namespace Yolk
             // 1. COPY REGA, REGB
             // 2. COPY REGA, data  where data contains an elementary value
 
-            const int exception_shift = 0x0;
+            const int exception_shift = 9;
 
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
@@ -690,18 +698,18 @@ namespace Yolk
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 bool copy_result = regx->field->Copy(*(regy->field));
                 if (!copy_result)
-                    return ThrowException(exception_shift + 0x04, "Failed to copy content onto register.");
+                    return ThrowException(exception_shift + 3, "Failed to copy content onto register.");
                 return;
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 4, "DATA could not be found!");
                 OVO::Data data = result.data;
 
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
@@ -716,18 +724,18 @@ namespace Yolk
                 Wrapper cast = opHandler.EvaluateCast(tmp, regx->field->GetType());
 
                 if(!cast_result)    
-                    ThrowException(exception_shift + 0x04, "Failed to copy content onto register.");
+                    ThrowException(exception_shift + 5, "Failed to copy content onto register.");
 
                 copy_result = regx->field->Copy(*(cast.field));
 
                 if(!copy_result)
-                    ThrowException(exception_shift + 0x04, "Failed to copy content onto register.");
+                    ThrowException(exception_shift + 6, "Failed to copy content onto register.");
                
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 7, "MOV arguments do not fit standard!");
             }
             }
         }
@@ -737,15 +745,15 @@ namespace Yolk
             // CLONE REGX, REGY
             // CLONE REGX, data where data contains an elementary value
 
-            const int exception_shift = 0x9;
+            const int exception_shift = 18;
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
@@ -756,14 +764,14 @@ namespace Yolk
                 selection = SelectRegister(arg2.value, regy);
                 
                 if (!selection)
-                    return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
                 
                 auto copy_result = manager.CopyByValue(*regy);
 
                 if(copy_result.status == -1)
-                    return ThrowException(exception_shift + 0x02, "Failed copy by value! Not a field");
+                    return ThrowException(exception_shift + 3, "Failed copy by value! Not a field");
                 if(copy_result.status == -2)
-                    return ThrowException(exception_shift + 0x02, "Failed copy by value! Not in memory!");
+                    return ThrowException(exception_shift + 4, "Failed copy by value! Not in memory!");
                 
                 *regx = copy_result.wrapper;
                 return;
@@ -773,7 +781,7 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+                    return ThrowException(exception_shift + 5, "DATA could not be found!");
                 OVO::Data data = result.data;
 
                 auto wrapper = data.ToWrapper(data, manager);
@@ -781,16 +789,16 @@ namespace Yolk
                 auto copy_result = manager.CopyByValue(wrapper);
 
                 if(copy_result.status == -1)
-                    return ThrowException(exception_shift + 0x02, "Failed copy by value! Not a field");
+                    return ThrowException(exception_shift + 6, "Failed copy by value! Not a field");
                 if(copy_result.status == -2)
-                    return ThrowException(exception_shift + 0x02, "Failed copy by value! Not in memory!");
+                    return ThrowException(exception_shift + 7, "Failed copy by value! Not in memory!");
                 
                 *regx = copy_result.wrapper;
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x0B, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 8, "MOV arguments do not fit standard!");
             }
             }
         }
@@ -798,20 +806,20 @@ namespace Yolk
         {
             // Usage:
             // NEW REGX, symbol where symbol represents the index of an elementary type
-            const int exception_shift = 0x0;
+            const int exception_shift = 27;
 
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
             
             
             if(arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x1, "New Arguments do not fit standard!");
+                return ThrowException(exception_shift + 2, "New Arguments do not fit standard!");
             
             switch (arg2.value)
             {
@@ -849,7 +857,7 @@ namespace Yolk
                 *regx = manager.AllocateMemory<std::string>("");
                 return;
             default:
-                return ThrowException(exception_shift + 0x03, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 3, "MOV arguments do not fit standard!");
             }
         }
         void YVM::I_MOVM(OVO::Instruction::ARG arg1)
@@ -858,26 +866,26 @@ namespace Yolk
             // MOVM data, where data contains the std::string of a method
             const int exception_shift = 0xAA;
             if (arg1.mode != OVO::Instruction::ARG::MODE::DATA)
-                return ThrowException(exception_shift + 0x1, "MOVM arguments do not fit standard!");
+                return ThrowException(exception_shift + 4, "MOVM arguments do not fit standard!");
 
             auto result = RetrieveData(arg1.value);
 
             if (!result.ok)
-                return ThrowException(exception_shift + 0x02, "DATA could not be found!");
+                return ThrowException(exception_shift + 5, "DATA could not be found!");
 
             std::string method_name = OVO::Data::ToWrapper(result.data, manager).field->As<std::string>();
 
             auto symbol_result = workingSymTable->Get(Yolk::Memory::SymbolKey(method_name));
 
             if (!symbol_result.ok)
-                return ThrowException(exception_shift + 0x03, "Could not find method named \"" + method_name + "\".");
+                return ThrowException(exception_shift + 6, "Could not find method named \"" + method_name + "\".");
 
             auto wrapper_info = wrapperTable.GetInfo(symbol_result.value.key);
 
             if (!wrapper_info.alive)
-                return ThrowException(exception_shift + 0x03, "Could not find method named \"" + method_name + "\". It has already been deleted.");
+                return ThrowException(exception_shift + 7, "Could not find method named \"" + method_name + "\". It has already been deleted.");
             if (wrapper_info.wrapperType != WrapperType::MethodWrapper)
-                return ThrowException(exception_shift + 0x04, "Wrapper named \"" + method_name + "\" is not a method.");
+                return ThrowException(exception_shift + 8, "Wrapper named \"" + method_name + "\" is not a method.");
 
             MethodWrapper func = wrapperTable.CopyMethod(symbol_result.value.key);
 
@@ -889,14 +897,15 @@ namespace Yolk
         {
             // Usage:
             // CALLM
-            const int exception_shift = 0x00;
+            const int exception_shift = 36;
+            
             if (!mreg.IsValid())
-                return ThrowException(exception_shift + 0x01, "Method register is not valid.");
+                return ThrowException(exception_shift + 0, "Method register is not valid.");
 
             auto result = mreg.Invoke(argreg);
 
             if (!result.ok)
-                return ThrowException(exception_shift + 0x02, "Failed to invoke method: " + result.Message);
+                return ThrowException(exception_shift + 1, "Failed to invoke method: " + result.Message);
 
             regout = result.output;
         }
@@ -904,15 +913,15 @@ namespace Yolk
         {
             // Usage:
             // PUSHAR REGX
-            const int exception_shift = 0x9;
+            const int exception_shift = 2;
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 3, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 4, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             argreg.push_back(*regx);
         }
@@ -921,14 +930,14 @@ namespace Yolk
             // Usage:
             // 1. POPAR REGX
             // 2. POPAR
-            const int exception_shift = 0x9;
+            const int exception_shift = 41;
             if (arg1.mode == OVO::Instruction::ARG::MODE::REG)
             {
                 Wrapper *regx;
 
                 bool selection = SelectRegister(arg1.value, regx);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                    return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
                 if (argreg.size() == 0)
                 {
@@ -961,15 +970,15 @@ namespace Yolk
         {
             // Usage:
             // PUSH REGX
-            const int exception_shift = 0x9;
+            const int exception_shift = 43;
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             stack.push_back(*regx);
         }
@@ -978,14 +987,14 @@ namespace Yolk
             // Usage:
             // 1. POP REGX
             // 2. POP
-            const int exception_shift = 0x9;
+            const int exception_shift = 45;
             if (arg1.mode == OVO::Instruction::ARG::MODE::REG)
             {
                 Wrapper *regx;
 
                 bool selection = SelectRegister(arg1.value, regx);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                    return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
                 if (stack.size() == 0)
                 {
@@ -1020,18 +1029,18 @@ namespace Yolk
             // Usage:
             // CMP REGX
 
-            const int exception_shift = 0x9;
+            const int exception_shift = 46;
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard!");
 
             if (!regx->field->Valid())
-                return ThrowException(exception_shift + 0x03, "Wrapper is not valid!");
+                return ThrowException(exception_shift + 2, "Wrapper is not valid!");
 
             // Todo: More checks in here. Not everything can be cast as bool.
             // Ideally, one can create a method in the Typed Field where it returns an error if the type can not be cast to bool.
@@ -1043,16 +1052,16 @@ namespace Yolk
             // Usage:
             // 1. CMPEQ REGX, REGY
             // 2. CMPEQ REGX, data where data contains an elementary value
-            const int exception_shift = 0x0;
+            const int exception_shift = 49;
 
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
@@ -1062,7 +1071,7 @@ namespace Yolk
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 if (regy->field->GetType() == regx->field->GetType())
                 {
@@ -1073,7 +1082,7 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, *regy, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 3, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
                 cmpreg = cmp_result.field->As<bool>();
                 return;
@@ -1082,7 +1091,7 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 4, "DATA could not be found!");
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
@@ -1095,14 +1104,14 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, tmp, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 5, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
 
                 cmpreg = cmp_result.field->As<bool>();
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 6, "MOV arguments do not fit standard!");
             }
             }
         }
@@ -1111,16 +1120,16 @@ namespace Yolk
             // Usage:
             // CMPNEQ REGX, REGY
             // CMPNEQ REGX, data where data contains an elementary type
-            const int exception_shift = 0x0;
+            const int exception_shift = 56;
 
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
@@ -1130,7 +1139,7 @@ namespace Yolk
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 if (regy->field->GetType() == regx->field->GetType())
                 {
@@ -1141,7 +1150,7 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, *regy, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 3, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
                 cmpreg = !cmp_result.field->As<bool>();
                 return;
@@ -1150,7 +1159,7 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 4, "DATA could not be found!");
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
@@ -1163,14 +1172,14 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, tmp, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 5, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
 
                 cmpreg = !cmp_result.field->As<bool>();
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 6, "MOV arguments do not fit standard!");
             }
             }
         }
@@ -1179,16 +1188,16 @@ namespace Yolk
             // Usage:
             // CMPLS REGX, REGY
             // CMPLS REGX, data where data contains an elementary value
-            const int exception_shift = 0x0;
+            const int exception_shift = 63;
 
             Wrapper *regx;
 
             if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
@@ -1198,13 +1207,13 @@ namespace Yolk
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateLessThan(*regx, *regy, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator < is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 3, "Operator < is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
                 cmpreg = cmp_result.field->As<bool>();
                 return;

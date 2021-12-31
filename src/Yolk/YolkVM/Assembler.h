@@ -21,15 +21,18 @@ namespace Yolk
                 int position;
                 std::string Name;
             };
+
             static OVO Assemble(std::string source);
             static OVO::Instruction::INSTRUCTION InstructionFromString(std::string input);
             static std::vector<std::string> CreateSymbolTable(std::vector<std::string>& Lines, std::vector<Symbol>& Table);
             static void SplitLine(std::string Line, std::string &Instruction, std::string& arg1, std::string& arg2);
             static void HandleInput(std::string ins, std::string arg1, std::string arg2, OVO& ovo);
+            static OVO::Instruction::ARG HandleArg(std::string , OVO& ovo);
             static void RenderArg(std::string& arg, std::vector<Symbol>& Table);
             static int RegisterFromString(std::string);
             static int TypeFromString(std::string);
-            static int GetMode(std::string);
+            static int PushData(std::string, OVO& );
+            static OVO::Instruction::ARG::MODE GetMode(std::string);
         };
 
         std::vector<std::string> Assembler::CreateSymbolTable(std::vector<std::string>& Lines, std::vector<Symbol>& Table)
@@ -104,6 +107,8 @@ namespace Yolk
         }
         OVO Assembler::Assemble(std::string source)
         {
+            Memory::MemoryManager manager;
+
             OVO ovo;
             std::vector<std::string> Lines;
 
@@ -119,7 +124,7 @@ namespace Yolk
 
             for(auto Line : Lines)
             {
-                std::cout << "Handling line: " << Line << std::endl;
+                //std::cout << "Handling line: " << Line << std::endl;
                 std::string lins;
                 std::string ar1;
                 std::string ar2;
@@ -131,18 +136,30 @@ namespace Yolk
                 
                 HandleInput(lins, ar1, ar2, ovo);
             }
-            
+
+            /*std::cout << "Data: \n";
+            int i = 0;
+            for(auto d : ovo.DataSet)
+            {
+                std::cout << ".  " << i << ": " <<OVO::Data::ToWrapper(d, manager).field->Print() << std::endl;
+                i++;
+            }*/
             return ovo;
         }
-        int Assembler::GetMode(std::string in)
+        OVO::Instruction::ARG::MODE Assembler::GetMode(std::string in)
         {
-            // Supported Types: int, double, 
-            if(std::regex_match(in.c_str(), std::regex("d*")))
-                return 0; // int
-            else if(std::regex_match(in.c_str(), std::regex("d*.d*")))
-                return 1; // double
-            else
-                return 2; // name
+            int check_reg = RegisterFromString(in);
+            if(check_reg >= 0)
+                return OVO::Instruction::ARG::MODE::REG;
+            
+            for(auto it = in.begin(); it != in.end(); it++)
+            {
+                if(*it == ':')
+                {
+                    return OVO::Instruction::ARG::MODE::DATA;
+                }
+            }
+            return OVO::Instruction::ARG::MODE::SYMBOL;
         }
         void Assembler::RenderArg(std::string& arg, std::vector<Symbol>& Table)
         {
@@ -185,10 +202,151 @@ namespace Yolk
             if(arupper == "UCHAR") return 0x9;
             if(arupper == "STR") return 0xa;
 
+            return -1;
+        }
+        int Assembler::PushData(std::string in, OVO& ovo)
+        {
+            std::string type = "";
+            auto it = in.begin();
+            for(; it != in.end(); it++)
+            {
+                if(*it == ':')
+                {
+                    it++;
+                    break;
+                }
+                type.insert(type.end(), *it);
+            }
+            std::string content = in.substr(it - in.begin(), in.end() - it);
+
+            if(type == "i32")
+            {
+                int value = std::atoi(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
+            else if(type == "u32")
+            {
+                unsigned int value = std::atoi(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
+            else if(type == "i64")
+            {
+                long value = std::atol(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
+            else if(type == "u64")
+            {
+
+                unsigned long value = std::atol(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
+            else if(type == "flt")
+            {
+
+                float value = std::atof(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
+            else if(type == "dbl")
+            {
+                double value = std::atof(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+
+            }
+            else if(type == "chr")
+            {
+                char value =(char) std::atoi(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
+            else if(type == "uchr")
+            {
+
+                unsigned char value =(unsigned char) std::atoi(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
+            else if(type == "bool")
+            {
+                
+                bool value = (bool) std::atoi(content.c_str());
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+
+            }
+            else if(type == "str")
+            {
+                std::string value = content;
+                int output = ovo.DataSet.size();
+                ovo.DataSet.push_back(OVO::Data::GenerateData(value));
+                return output;
+            }
             return 0;
+        }
+        OVO::Instruction::ARG Assembler::HandleArg(std::string ar, OVO& ovo)
+        {
+            if(ar == "")
+            {
+                return OVO::Instruction::ARG { OVO::Instruction::ARG::MODE::NONE, 0};
+            }
+            OVO::Instruction::ARG argout;
+            auto mode1 = GetMode(ar);
+            
+            if(mode1 == OVO::Instruction::ARG::MODE::REG)
+            {
+                int reg = RegisterFromString(ar);
+                argout.mode = mode1;
+                argout.value = reg;
+            }
+            else if(mode1 == OVO::Instruction::ARG::MODE::DATA)
+            {
+                int data = PushData(ar, ovo);
+                argout.mode = mode1;
+                argout.value = data;
+            }
+            else if(mode1 == OVO::Instruction::ARG::MODE::SYMBOL)
+            {
+                int sym = TypeFromString(ar);
+                if(sym < 0)
+                {
+                    sym = std::atoi(ar.c_str());
+                }
+
+                argout.mode = mode1;
+                argout.value = sym;
+
+            }
+
+            return argout;
         }
         void Assembler::HandleInput(std::string ins, std::string ar1, std::string ar2, OVO& ovo)
         {
+            OVO::Instruction new_instruction;
+
+            new_instruction.instruction = InstructionFromString(ins);
+            new_instruction.arg1 = HandleArg(ar1, ovo);
+            new_instruction.arg2 = HandleArg(ar2, ovo);
+
+            /*std::cout << ".  Instruction: " <<YVM::GetInstructionName(new_instruction.instruction) << std::endl;
+            std::cout << ".  Arg1: " << new_instruction.arg1.mode << " : " << new_instruction.arg1.value << std::endl;
+            std::cout << ".  Arg2: " << new_instruction.arg2.mode << " : " << new_instruction.arg2.value << std::endl;
+            std::cout << std::endl;*/
+            ovo.InstructionSet.push_back(new_instruction);
+
         }
         OVO::Instruction::INSTRUCTION Assembler::InstructionFromString(std::string input)
         {
@@ -348,6 +506,10 @@ namespace Yolk
             if (input == "HALT")
             {
                 return OVO::Instruction::INSTRUCTION::HALT;
+            }
+            if (input == "NEW")
+            {
+                return OVO::Instruction::INSTRUCTION::NEW;
             }
             return OVO::Instruction::INSTRUCTION::ZERO;
         }
