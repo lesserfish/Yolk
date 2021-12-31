@@ -372,6 +372,13 @@ namespace Yolk
             out.data = ovo.DataSet.at(position);
             return out;
         }
+        void YVM::PrintOVO()
+        {
+            for(auto i : ovo.InstructionSet)
+            {
+                PrintInstruction(i);
+            }
+        }
         void YVM::PrintInstruction(OVO::Instruction instruction)
         {
 

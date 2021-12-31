@@ -107,10 +107,12 @@ namespace Yolk
             
             void Debug();
             void PrintInstruction(OVO::Instruction instruction);
-
+            static std::string GetInstructionName(OVO::Instruction::INSTRUCTION i);
+            void PrintOVO();
+            
+            
             protected:
 
-            std::string GetInstructionName(OVO::Instruction::INSTRUCTION i);
             std::string GetValue(OVO::Instruction::ARG::MODE s, OVO::Instruction::CHUNK chunk);
 
             void ThrowException(int status, std::string Message);
