@@ -471,4 +471,4 @@ namespace Yolk
 
 }
 
-//#include "../../Wrapper/WrapperRequired.h"
+#include "../../Wrapper/WrapperRequired.h"

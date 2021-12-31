@@ -79,7 +79,6 @@ namespace Yolk
         }
         void YVM::Run(OVO _ovo, Memory::SymbolTable& _symTable)
         {
-            std::cout << "Starting...\n";
             ovo = _ovo;
             symTable = &_symTable;
             workingSymTable = &_symTable;

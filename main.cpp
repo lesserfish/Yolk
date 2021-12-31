@@ -39,6 +39,7 @@ int main()
     auto ovo = Yolk::VM::Assembler::Assemble(Content);
 
     Yolk::Memory::MemoryManager manager;
+
     Yolk::Memory::WrapperTable wtable(manager);
     Yolk::Memory::MemoryBlock memblock(manager, wtable);
 

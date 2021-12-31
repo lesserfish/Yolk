@@ -116,8 +116,8 @@ namespace Yolk
                 std::cout << Type.name() << std::endl;
             }
             const std::type_index GetType() const{
-                return typeid(T);
-                return Type;
+                //return typeid(T);
+                return Type;        // <-- Faster
             }
             unsigned int GetSize() const{
                 return sizeof(value);
@@ -159,6 +159,8 @@ namespace Yolk
         T &As() const;
         template <typename T> 
         bool SafeAs(T &output) const;
+        template <typename T>
+        T& FastAs() const;
         
         template <typename T> 
         void Set(T const &value);
@@ -245,6 +247,10 @@ namespace Yolk
         template <typename T>
         inline T& TypedField::As() const
         {
+            //return FastAs<T>();
+
+            // Todo: What about this?
+
             H<T> *cast = static_cast<H<T> *>(Data);
             return cast->Get();
         }
@@ -260,6 +266,12 @@ namespace Yolk
             H<T> *cast = static_cast<H<T> *>(Data);
             output = cast->Get();
             return true;
+        }
+        template <typename T>
+        inline T& TypedField::FastAs() const
+        {
+            H<T> *cast = reinterpret_cast<H<T> *>(Data);
+            return cast->Get();
         }
         template <typename T>
         inline void TypedField::Set(T const &value) // Sets the value without changing reference
