@@ -2,8 +2,9 @@
 #include "src/Yolk/Wrapper/WrapperGenerator.h"
 #include "src/Yolk/YolkVM/Assembler.h"
 #include <iostream>
+#include <chrono>
 
-void Print(unsigned long x)
+void Print(int x)
 {
     std::cout << "Result: " << x << std::endl;
 }
@@ -22,11 +23,11 @@ int main()
 
     std::string Content = 
     "MOVM str:Print\n"
-    "CLONE REGA, u64:1\n"
-    "CLONE REGC, u64:0\n"
-    "NEW REGB, UINT\n"
+    "CLONE REGA, i32:1\n"
+    "CLONE REGC, i32:0\n"
+    "NEW REGB, INT\n"
     ".loop_begin:\n"
-    "CMPEQ REGB, u64:100000\n"
+    "CMPEQ REGB, i32:100000\n"
     "JNTRUE .loop_end\n"
     "ADD REGB, REGA\n"
     "ADD REGC, REGB\n"
@@ -41,14 +42,18 @@ int main()
     Yolk::Memory::WrapperTable wtable(manager);
     Yolk::Memory::MemoryBlock memblock(manager, wtable);
 
-    auto w = Yolk::WrapperGenerator<void, unsigned long>::GenerateMethodWrapper(Print, manager);
+    auto w = Yolk::WrapperGenerator<void,int>::GenerateMethodWrapper(Print, manager);
     memblock.RegisterWrapper("Print", w);
 
     Yolk::VM::YVM vm(manager, wtable);
     Yolk::VM::Elementary::GenerateElementaryOperations(vm.GetOpHandler());
 
-    vm.Run(ovo, memblock.GetSymbolTable());
+    std::chrono::steady_clock Clock;
 
+    auto start = Clock.now();
+    vm.Run(ovo, memblock.GetSymbolTable());
+    auto stop = Clock.now();
+    std::cout << "Timer: " << std::chrono::duration<double, std::micro>(stop - start).count() << std::endl;
     std::cout << vm.GetMessage() << std::endl << vm.GetClock() << std::endl;
 
 
