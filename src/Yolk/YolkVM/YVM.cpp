@@ -676,8 +676,9 @@ namespace Yolk
         void YVM::I_COPY(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
             // Usage:
-            // 1. COPY REGA, REGB
-            // 2. COPY REGA, data  where data contains an elementary value
+            // 1. COPY REGX, REGY
+            // 2. COPY REGX, data  where data contains an elementary value
+            // 3- COPY REGX, symbol where symbol contains the index of an elementary type
 
             const int exception_shift = 9;
 
@@ -733,6 +734,47 @@ namespace Yolk
                
                 return;
             }
+            case OVO::Instruction::ARG::MODE::SYMBOL:
+            {
+                switch (arg2.value)
+                {
+                case 0x00:
+                    *regx = manager.GenerateVoidWrapper();
+                    return;
+                case 0x01:
+                    *regx = manager.AllocateMemory<int>(0);
+                    return;
+                case 0x02:
+                    *regx = manager.AllocateMemory<unsigned int>(0);
+                    return;
+                case 0x03:
+                    *regx = manager.AllocateMemory<long>(0);
+                    return;
+                case 0x04:
+                    *regx = manager.AllocateMemory<unsigned long>(0);
+                    return;
+                case 0x05:
+                    *regx = manager.AllocateMemory<float>(0);
+                    return;
+                case 0x06:
+                    *regx = manager.AllocateMemory<double>(0);
+                    return;
+                case 0x07:
+                    *regx = manager.AllocateMemory<bool>(0);
+                    return;
+                case 0x08:
+                    *regx = manager.AllocateMemory<char>(0);
+                    return;
+                case 0x09:
+                    *regx = manager.AllocateMemory<unsigned char>(0);
+                    return;
+                case 0x0A:
+                    *regx = manager.AllocateMemory<std::string>("");
+                    return;
+                default:
+                    return ThrowException(exception_shift + 3, "MOV arguments do not fit standard!");
+                }
+            }
             default:
             {
                 return ThrowException(exception_shift + 7, "MOV arguments do not fit standard!");
@@ -744,6 +786,7 @@ namespace Yolk
             // Usage:
             // CLONE REGX, REGY
             // CLONE REGX, data where data contains an elementary value
+            // CLONE REGX, symbol where symbol contains the type of an elementary value
 
             const int exception_shift = 18;
             Wrapper *regx;
@@ -795,6 +838,47 @@ namespace Yolk
                 
                 *regx = copy_result.wrapper;
                 return;
+            }
+            case OVO::Instruction::ARG::MODE::SYMBOL:
+            {
+                switch (arg2.value)
+                {
+                case 0x00:
+                    *regx = manager.GenerateVoidWrapper();
+                    return;
+                case 0x01:
+                    *regx = manager.AllocateMemory<int>(0);
+                    return;
+                case 0x02:
+                    *regx = manager.AllocateMemory<unsigned int>(0);
+                    return;
+                case 0x03:
+                    *regx = manager.AllocateMemory<long>(0);
+                    return;
+                case 0x04:
+                    *regx = manager.AllocateMemory<unsigned long>(0);
+                    return;
+                case 0x05:
+                    *regx = manager.AllocateMemory<float>(0);
+                    return;
+                case 0x06:
+                    *regx = manager.AllocateMemory<double>(0);
+                    return;
+                case 0x07:
+                    *regx = manager.AllocateMemory<bool>(0);
+                    return;
+                case 0x08:
+                    *regx = manager.AllocateMemory<char>(0);
+                    return;
+                case 0x09:
+                    *regx = manager.AllocateMemory<unsigned char>(0);
+                    return;
+                case 0x0A:
+                    *regx = manager.AllocateMemory<std::string>("");
+                    return;
+                default:
+                    return ThrowException(exception_shift + 3, "MOV arguments do not fit standard!");
+                }
             }
             default:
             {
