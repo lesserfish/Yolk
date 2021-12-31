@@ -1,4 +1,5 @@
 #include "YVM.h"
+#include <chrono>
 
 namespace Yolk
 {
@@ -89,16 +90,18 @@ namespace Yolk
             Message = "Started!";
             clock = 0;
 
+            std::chrono::steady_clock Clock;
+
             JumpToInstruction(0);
 
             while(Running)
             {
                 clock++;
+ //               auto b = Clock.now();
 
                 auto current_instruction = instructionPointer;
                 instructionPointer++;
                 
-                //PrintInstruction(*current_instruction);
 
                 HandleInstruction(*current_instruction);
 
@@ -110,6 +113,11 @@ namespace Yolk
                     Message = "Instruction pointer left valid scope!";
                     break;
                 }
+
+//                auto e = Clock.now();
+                
+//                PrintInstruction(*current_instruction);
+//                std::cout << (e - b).count() << std::endl;
 
             }
 
@@ -1881,8 +1889,8 @@ namespace Yolk
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
@@ -1890,8 +1898,8 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             selection = SelectRegister(arg2.value, regy);
             if (!selection)

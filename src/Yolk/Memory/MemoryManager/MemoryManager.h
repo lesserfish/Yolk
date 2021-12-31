@@ -5,6 +5,7 @@
 #include "../../Wrapper/Wrapper.h"
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <typeindex>
 #include <sstream>
@@ -47,8 +48,7 @@ namespace Yolk
                 virtual AbstractData::Pointer CreateCopyByValue(Identifier id) = 0;
                 virtual AbstractData::Pointer CreateCopyByReference(Identifier id) = 0;
             };
-            using MemoryArray = std::vector<AbstractData::Pointer>;
-            using MemoryMap = std::map<Identifier, AbstractData::Pointer>;
+            using MemoryMap = std::unordered_map<Identifier, AbstractData::Pointer>;
 
             template <typename T>
             struct DynamicData : public AbstractData
@@ -287,8 +287,8 @@ namespace Yolk
 
             Identifier id = MemoryIndexer::Tick();
 
-            Log = "[Memory Manager] INFO: Allocating memory for type: (" + std::string(typeid(T).name()) + "), with identifier = " + std::to_string(id) + ".";
-            LogCallbackFunction(Log);
+            //Log = "[Memory Manager] INFO: Allocating memory for type: (" + std::string(typeid(T).name()) + "), with identifier = " + std::to_string(id) + ".";
+            //LogCallbackFunction(Log);
 
             AbstractData::Pointer new_data = std::make_shared<DynamicData<T>>(id);
 
@@ -306,7 +306,7 @@ namespace Yolk
         template <typename T>
         inline Wrapper MemoryManager::AllocateMemory(T tvalue)
         {
-            std::string Log = "";
+            //std::string Log = "";
 
             Identifier id = MemoryIndexer::Tick();
 
@@ -317,8 +317,8 @@ namespace Yolk
 
             TypedField::Pointer new_tfield = new_data->GenerateOwnTypedField();
 
-            Log = "[Memory Manager] INFO: Allocating memory for type: (" + std::string(typeid(T).name()) + "), with identifier = " + std::to_string(id) + ". Initialized value: " + new_tfield->Print() + ".";
-            LogCallbackFunction(Log);
+            //Log = "[Memory Manager] INFO: Allocating memory for type: (" + std::string(typeid(T).name()) + "), with identifier = " + std::to_string(id) + ". Initialized value: " + new_tfield->Print() + ".";
+            //LogCallbackFunction(Log);
 
             Wrapper output(id, new_tfield, *this);
 
@@ -338,8 +338,8 @@ namespace Yolk
 
             TypedField::Pointer new_tfield = new_static->GenerateOwnTypedField();
 
-            std::string Log = "[Memory Manager] INFO: Registering static value to memory with type: (" + std::string(typeid(T).name()) + "), with identifier = " + std::to_string(id) + ". Initialized value: " + new_tfield->Print() + ".";
-            LogCallbackFunction(Log);
+            //std::string Log = "[Memory Manager] INFO: Registering static value to memory with type: (" + std::string(typeid(T).name()) + "), with identifier = " + std::to_string(id) + ". Initialized value: " + new_tfield->Print() + ".";
+            //LogCallbackFunction(Log);
 
             Wrapper output(id, new_tfield, *this);
 
@@ -365,9 +365,9 @@ namespace Yolk
             TypedField::Pointer new_tfield = new_copy->GenerateOwnTypedField();
 
             Wrapper output(id, new_tfield, *this);
-
-            std::string Log = "[Memory Manager] INFO: Copying Wrapper by value to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
-            LogCallbackFunction(Log);
+//
+  //          std::string Log = "[Memory Manager] INFO: Copying Wrapper by value to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
+    //        LogCallbackFunction(Log);
                     
             Manager->AllocatedMemory.insert(std::pair(id, new_copy));
             return CopyByValueOutput{ 0, output};
@@ -392,8 +392,8 @@ namespace Yolk
 
             Wrapper output(id, new_tfield, *this);
 
-            std::string Log = "[Memory Manager] INFO: Copying Wrapper by value to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
-            LogCallbackFunction(Log);
+        //    std::string Log = "[Memory Manager] INFO: Copying Wrapper by value to memory with type: (" + std::string(original.field->GetType().name()) + "), with identifier = " + std::to_string(originalId) + ". Copied value: " + new_tfield->Print() + ".";
+          //  LogCallbackFunction(Log);
                     
             Manager->AllocatedMemory.insert(std::pair(id, new_copy));
             return output;
@@ -407,16 +407,16 @@ namespace Yolk
             int updatedScore = it->second->ChangeAudience(difference);
             if(updatedScore == 0)
             {
-                std::string Log = "[Memory Manager] INFO: The audience of " + std::to_string(_id) + " [" + it->second->GetType().name() + " , " + it->second->Print() + "] has reached zero. Deleting it!";
-                LogCallbackFunction(Log);
+              //  std::string Log = "[Memory Manager] INFO: The audience of " + std::to_string(_id) + " [" + it->second->GetType().name() + " , " + it->second->Print() + "] has reached zero. Deleting it!";
+                //LogCallbackFunction(Log);
 
                 Manager->AllocatedMemory.erase(it);
 
-                if(Manager->Size() == 0)
-                {
-                    Log = "[Memory Manager] INFO: Memory table empty!";
-                    LogCallbackFunction(Log);
-                }
+        //        if(Manager->Size() == 0)
+          //      {
+       //             Log = "[Memory Manager] INFO: Memory table empty!";
+         //           LogCallbackFunction(Log);
+            //    }
             }
             return updatedScore;
         }
@@ -461,8 +461,8 @@ namespace Yolk
         template <>
         inline Wrapper MemoryManager::AllocateMemory<void>()
         {
-            std::string Log = "[Memory Manager] INFO: Requested void allocation. Returning default TypedField wrapper.";
-            LogCallbackFunction(Log);
+      //      std::string Log = "[Memory Manager] INFO: Requested void allocation. Returning default TypedField wrapper.";
+        //    LogCallbackFunction(Log);
 
             Wrapper wrapper = GenerateVoidWrapper();
             return wrapper;

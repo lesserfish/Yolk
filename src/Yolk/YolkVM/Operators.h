@@ -386,7 +386,7 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs)
             {
-                T lhst = lhs.field->As<T>();
+                T lhst = lhs.field->FastAs<T>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(F(lhst));
                 return output;
             };
@@ -400,8 +400,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst + rhsf);
                 return output;
             };
@@ -415,8 +415,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst - rhsf);
                 return output;
             };
@@ -430,8 +430,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst * rhsf);
                 return output;
             };
@@ -445,8 +445,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst / rhsf);
                 return output;
             };
@@ -460,8 +460,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst % rhsf);
                 return output;
             };
@@ -475,8 +475,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst == rhsf);
                 return output;
             };
@@ -490,8 +490,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst < rhsf);
                 return output;
             };
@@ -505,8 +505,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst > rhsf);
                 return output;
             };
@@ -520,8 +520,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst <= rhsf);
                 return output;
             };
@@ -535,8 +535,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst >= rhsf);
                 return output;
             };
@@ -550,8 +550,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst && rhsf);
                 return output;
             };
@@ -565,8 +565,8 @@ namespace Yolk
         {
             auto f = [this](Wrapper lhs, Wrapper rhs)
             {
-                T lhst = lhs.field->As<T>();
-                F rhsf = rhs.field->As<F>();
+                T lhst = lhs.field->FastAs<T>();
+                F rhsf = rhs.field->FastAs<F>();
                 Wrapper output = this->GetMemoryManager().AllocateMemory(lhst || rhsf);
                 return output;
             };
