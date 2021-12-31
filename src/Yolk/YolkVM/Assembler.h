@@ -191,12 +191,12 @@ namespace Yolk
             std::transform(arupper.begin(), arupper.end(), arupper.begin(), ::toupper);
 
             if(arupper == "VOID") return 0x0;
-            if(arupper == "INT") return 0x1;
-            if(arupper == "UINT") return 0x2;
-            if(arupper == "LONG") return 0x3;
-            if(arupper == "ULONG") return 0x4;
-            if(arupper == "FLOAT") return 0x5;
-            if(arupper == "DOUBLE") return 0x6;
+            if(arupper == "I32") return 0x1;
+            if(arupper == "U32") return 0x2;
+            if(arupper == "I64") return 0x3;
+            if(arupper == "U64") return 0x4;
+            if(arupper == "FLT") return 0x5;
+            if(arupper == "DBL") return 0x6;
             if(arupper == "BOOL") return 0x7;
             if(arupper == "CHAR") return 0x8;
             if(arupper == "UCHAR") return 0x9;

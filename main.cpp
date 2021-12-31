@@ -23,17 +23,18 @@ int main()
     std::string Content = 
     "MOVM str:Print\n"
     "CLONE REGA, i64:1\n"
-    "CLONE REGC, i64:0\n"
-    "CLONE REGB, LONG\n"
+    "CLONE REGC, i64\n"
+    "CLONE REGB, i64\n"
     ".loop_begin:\n"
-    "CMPEQ REGB, i64:100000\n"
+    "CMPEQ REGB, i64:10000\n"
     "JNTRUE .loop_end\n"
     "ADD REGB, REGA\n"
     "ADD REGC, REGB\n"
     "JMP .loop_begin\n"
     ".loop_end:\n"
     "PUSHAR REGC\n"
-    "CALLM\n";
+    "CALLM\n"
+    "HALT\n";
 
     auto ovo = Yolk::VM::Assembler::Assemble(Content);
 

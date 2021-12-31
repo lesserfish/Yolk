@@ -1958,7 +1958,8 @@ namespace Yolk
             if (!can_add)
                 return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            //regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Copy(*tmp.field, true);
         }
         void YVM::I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -1994,7 +1995,7 @@ namespace Yolk
             if (!can_sub)
                 return ThrowException(exception_shift + 0x05, "Operator - is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_MUL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2030,7 +2031,7 @@ namespace Yolk
             if (!can_mul)
                 return ThrowException(exception_shift + 0x05, "Operator * is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_DIV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2063,7 +2064,7 @@ namespace Yolk
             if (!can_div)
                 return ThrowException(exception_shift + 0x05, "Operator / is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_MOD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2096,7 +2097,7 @@ namespace Yolk
             if (!can_mod)
                 return ThrowException(exception_shift + 0x05, "Operator % is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_AND(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2129,7 +2130,7 @@ namespace Yolk
             if (!can_and)
                 return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_OR(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2162,7 +2163,7 @@ namespace Yolk
             if (!can_or)
                 return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Set(tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Copy(tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_CAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
