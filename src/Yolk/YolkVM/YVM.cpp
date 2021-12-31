@@ -90,19 +90,17 @@ namespace Yolk
             Message = "Started!";
             clock = 0;
 
-            std::chrono::steady_clock Clock;
+//            std::chrono::steady_clock Clock;
 
             JumpToInstruction(0);
 
             while(Running)
             {
                 clock++;
- //               auto b = Clock.now();
 
                 auto current_instruction = instructionPointer;
                 instructionPointer++;
-                
-
+            
                 HandleInstruction(*current_instruction);
 
                 if(instructionPointer == ovo.InstructionSet.end() && Running)
@@ -113,12 +111,6 @@ namespace Yolk
                     Message = "Instruction pointer left valid scope!";
                     break;
                 }
-
-//                auto e = Clock.now();
-                
-//                PrintInstruction(*current_instruction);
-//                std::cout << (e - b).count() << std::endl;
-
             }
 
             //Debug();
@@ -1147,8 +1139,8 @@ namespace Yolk
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
@@ -1183,8 +1175,10 @@ namespace Yolk
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
                     return ThrowException(exception_shift + 4, "DATA could not be found!");
+                
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+
 
                 if (tmp.field->GetType() == regx->field->GetType())
                 {
@@ -1215,8 +1209,8 @@ namespace Yolk
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
@@ -1251,6 +1245,7 @@ namespace Yolk
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
                     return ThrowException(exception_shift + 4, "DATA could not be found!");
+
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
@@ -1300,6 +1295,12 @@ namespace Yolk
                 if (!selection)
                     return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
+                if(regx->field->GetType() == regy->field->GetType())
+                {
+                    cmpreg = regx->field->CompareLess(*regy->field);
+                    return;
+                }
+
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateLessThan(*regx, *regy, can_evaluate);
 
@@ -1317,6 +1318,11 @@ namespace Yolk
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
+                if(regx->field->GetType() == tmp.field->GetType())
+                {
+                    cmpreg = regx->field->CompareLess(*tmp.field);
+                    return;
+                }
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateLessThan(*regx, tmp, can_evaluate);
 
@@ -1358,6 +1364,13 @@ namespace Yolk
                 if (!selection)
                     return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
 
+
+
+                if(regx->field->GetType() == regy->field->GetType())
+                {
+                    cmpreg = regx->field->CompareGreater(*regy->field);
+                    return;
+                }
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateGreaterThan(*regx, *regy, can_evaluate);
 
@@ -1374,6 +1387,13 @@ namespace Yolk
                     return ThrowException(exception_shift + 0x4, "DATA could not be found!");
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+
+
+                if(regx->field->GetType() == tmp.field->GetType())
+                {
+                    cmpreg = regx->field->CompareGreater(*tmp.field);
+                    return;
+                }
 
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateGreaterThan(*regx, tmp, can_evaluate);
@@ -1416,6 +1436,12 @@ namespace Yolk
                 if (!selection)
                     return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
 
+
+                if(regx->field->GetType() == regy->field->GetType())
+                {
+                    cmpreg = regx->field->CompareLessEqual(*regy->field);
+                    return;
+                }
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateLessOrEqualThan(*regx, *regy, can_evaluate);
 
@@ -1433,6 +1459,11 @@ namespace Yolk
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
+                if(regx->field->GetType() == tmp.field->GetType())
+                {
+                    cmpreg = regx->field->CompareLessEqual(*tmp.field);
+                    return;
+                }
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateLessOrEqualThan(*regx, tmp, can_evaluate);
 
@@ -1474,6 +1505,12 @@ namespace Yolk
                 if (!selection)
                     return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
 
+                if(regx->field->GetType() == regy->field->GetType())
+                {
+                    cmpreg = regx->field->CompareGreaterEqual(*regy->field);
+                    return;
+                }
+
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateGreaterOrEqualThan(*regx, *regy, can_evaluate);
 
@@ -1490,6 +1527,12 @@ namespace Yolk
                     return ThrowException(exception_shift + 0x4, "DATA could not be found!");
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+
+                if(regx->field->GetType() == tmp.field->GetType())
+                {
+                    cmpreg = regx->field->CompareGreaterEqual(*tmp.field);
+                    return;
+                }
 
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateGreaterOrEqualThan(*regx, tmp, can_evaluate);
@@ -1905,14 +1948,17 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            bool can_add = false;
+            bool can_add = regx->field->TryAdd(*(regy->field));
+
+            if(can_add)
+                return;
 
             Wrapper tmp = opHandler.EvaluateAdd(*regx, *regy, can_add);
 
             if (!can_add)
                 return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -1938,14 +1984,17 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            bool can_sub = false;
+            bool can_sub = regx->field->TrySub(*(regy->field));
+
+            if(can_sub)
+                return;
 
             Wrapper tmp = opHandler.EvaluateSubtract(*regx, *regy, can_sub);
 
             if (!can_sub)
                 return ThrowException(exception_shift + 0x05, "Operator - is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_MUL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -1971,14 +2020,17 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            bool can_mul = false;
+            bool can_mul = regx->field->TryMul(*(regy->field));
+
+            if(can_mul)
+                return;
 
             Wrapper tmp = opHandler.EvaluateMultiply(*regx, *regy, can_mul);
 
             if (!can_mul)
                 return ThrowException(exception_shift + 0x05, "Operator * is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_DIV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2004,14 +2056,14 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            bool can_div = false;
+            bool can_div = regx->field->TryDiv(*regy->field);
 
             Wrapper tmp = opHandler.EvaluateDivide(*regx, *regy, can_div);
 
             if (!can_div)
                 return ThrowException(exception_shift + 0x05, "Operator / is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_MOD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2037,14 +2089,14 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            bool can_mod = false;
+            bool can_mod = regx->field->TryMod(*regy->field);
 
             Wrapper tmp = opHandler.EvaluateModulo(*regx, *regy, can_mod);
 
             if (!can_mod)
                 return ThrowException(exception_shift + 0x05, "Operator % is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_AND(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2070,14 +2122,14 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            bool can_and = false;
+            bool can_and = regx->field->TryAnd(*regy->field);
 
             Wrapper tmp = opHandler.EvaluateAnd(*regx, *regy, can_and);
 
             if (!can_and)
                 return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Set(*tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_OR(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2103,14 +2155,14 @@ namespace Yolk
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            bool can_or = false;
+            bool can_or = regx->field->TryOr(*regy->field);
 
             Wrapper tmp = opHandler.EvaluateOr(*regx, *regy, can_or);
 
             if (!can_or)
                 return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+            regx->field->Set(tmp.field); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
         void YVM::I_CAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {

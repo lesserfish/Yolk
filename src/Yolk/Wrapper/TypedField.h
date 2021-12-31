@@ -22,12 +22,25 @@ namespace Yolk
             virtual const std::type_index GetType() const { return typeid(void);};
             virtual unsigned int GetSize() const { return 0;};
             virtual bool Copy(HB *, bool) {return false;};
-            virtual bool Compare(HB *) const { return false; };
             virtual std::string Print() const { return "void"; };
             virtual HB *clone() const = 0;
             virtual void* GetVoidPointer() const{ return nullptr; };
             virtual void InvokeCast(TypedField& other) const {other.Free();};
             virtual void InvokeBind(TypedField&) const {};
+            virtual bool Compare(HB *) const { return false; };
+            virtual bool CompareLess(HB *) const { return false;}
+            virtual bool CompareGreater(HB *) const { return false;}
+            virtual bool CompareLessEqual(HB *) const { return false;}
+            virtual bool CompareGreaterEqual(HB *) const { return false;}
+            virtual bool TryAdd(HB *){return false;}
+            virtual bool TrySub(HB *){return false;}
+            virtual bool TryMul(HB *){return false;}
+            virtual bool TryDiv(HB *){return false;}
+            virtual bool TryMod(HB *){return false;}
+            virtual bool TryAnd(HB *){return false;}
+            virtual bool TryOr(HB *){return false;}
+
+
 
         };
         template <typename T>
@@ -71,16 +84,20 @@ namespace Yolk
             }
             bool Compare(HB *other) const
             {
+                
+                if(other->GetType() != Type)
+                    return false;
+                
+                
                 constexpr bool hasComparison = requires(T t){
                     t == t;
                 };
 
-                if (other->GetType() != GetType()) return false;
                 H<T> *cast = static_cast<H<T> *>(other);
 
                 if constexpr (hasComparison)
                 {
-                    return cast->Get() == value;
+                    return cast->value == value;
                 }
                 else
                 {
@@ -97,6 +114,200 @@ namespace Yolk
                     }
                     return eq;
                 }
+            }
+            bool CompareLess(HB *other) const { 
+                if(other->GetType() != Type)
+                    return false;
+                
+                
+                constexpr bool hasComparison = requires(T t){
+                    t < t;
+                };
+
+                H<T> *cast = static_cast<H<T> *>(other);
+
+                if constexpr (hasComparison)
+                {
+                    return cast->value < value;
+                }
+                return false;
+            }
+            bool CompareGreater(HB *other) const { 
+                if(other->GetType() != Type)
+                    return false;
+                
+                
+                constexpr bool hasComparison = requires(T t){
+                    t > t;
+                };
+
+                H<T> *cast = static_cast<H<T> *>(other);
+
+                if constexpr (hasComparison)
+                {
+                    return cast->value > value;
+                }
+                return false;
+            }
+            bool CompareLessEqual(HB *other) const { 
+                if(other->GetType() != Type)
+                    return false;
+                
+                
+                constexpr bool hasComparison = requires(T t){
+                    t <= t;
+                };
+
+                H<T> *cast = static_cast<H<T> *>(other);
+
+                if constexpr (hasComparison)
+                {
+                    return cast->value <= value;
+                }
+                return false;
+            }
+            bool CompareGreaterEqual(HB *other) const {
+                if(other->GetType() != Type)
+                    return false;
+                
+                
+                constexpr bool hasComparison = requires(T t){
+                    t >= t;
+                };
+
+                H<T> *cast = static_cast<H<T> *>(other);
+
+                if constexpr (hasComparison)
+                {
+                    return cast->value >= value;
+                }
+                return false;
+            }
+            bool TryAdd(HB *other)
+            {
+                if(other->GetType() != Type)
+                    return false;
+                
+                constexpr bool canSum = requires(T t)
+                {
+                    t = t + t;
+                };
+
+                if constexpr (canSum)
+                {
+                    H<T> *cast = static_cast<H<T> *>(other);
+                    value = value + cast->value;
+                    return true;
+                }
+                return false;
+            }
+            bool TrySub(HB *other)
+            {
+                if(other->GetType() != Type)
+                    return false;
+                
+                constexpr bool canSub = requires(T t)
+                {
+                    t = t - t;
+                };
+
+                if constexpr (canSub)
+                {
+                    H<T> *cast = static_cast<H<T> *>(other);
+                    value = value - cast->value;
+                    return true;
+                }
+                return false;
+            }
+            bool TryMul(HB *other)
+            {
+                if(other->GetType() != Type)
+                    return false;
+                
+                constexpr bool canMul = requires(T t)
+                {
+                    t = t * t;
+                };
+
+                if constexpr (canMul)
+                {
+                    H<T> *cast = static_cast<H<T> *>(other);
+                    value = value * cast->value;
+                    return true;
+                }
+                return false;
+            }
+            bool TryDiv(HB *other)
+            {
+                if(other->GetType() != Type)
+                    return false;
+                
+                constexpr bool canDiv = requires(T t)
+                {
+                    t = t / t;
+                };
+
+                if constexpr (canDiv)
+                {
+                    H<T> *cast = static_cast<H<T> *>(other);
+                    value = value / cast->value;
+                    return true;
+                }
+                return false;
+            }
+            bool TryMod(HB *other)
+            {
+                if(other->GetType() != Type)
+                    return false;
+                
+                constexpr bool canMod = requires(T t)
+                {
+                    t = t % t;
+                };
+
+                if constexpr (canMod)
+                {
+                    H<T> *cast = static_cast<H<T> *>(other);
+                    value = value % cast->value;
+                    return true;
+                }
+                return false;
+            }
+            bool TryAnd(HB *other)
+            {
+                if(other->GetType() != Type)
+                    return false;
+                
+                constexpr bool canAnd = requires(T t)
+                {
+                    t = t && t;
+                };
+
+                if constexpr (canAnd)
+                {
+                    H<T> *cast = static_cast<H<T> *>(other);
+                    value = value && cast->value;
+                    return true;
+                }
+                return false;
+            }
+            bool TryOr(HB *other)
+            {
+                if(other->GetType() != Type)
+                    return false;
+                
+                constexpr bool canOr = requires(T t)
+                {
+                    t = t || t;
+                };
+
+                if constexpr (canOr)
+                {
+                    H<T> *cast = static_cast<H<T> *>(other);
+                    value = value || cast->value;
+                    return true;
+                }
+                return false;
             }
             std::string Print() const
             {
@@ -177,6 +388,10 @@ namespace Yolk
         bool operator=(T &ref);
         
         bool Compare(TypedField &other) const;
+        bool CompareLess(TypedField &other) const; 
+        bool CompareGreater(TypedField &other) const;
+        bool CompareLessEqual(TypedField &other) const;
+        bool CompareGreaterEqual(TypedField &other) const;
         template <typename T>
         bool Compare(T &&other) const;
 
@@ -206,6 +421,14 @@ namespace Yolk
 
         void InvokeCast(TypedField& other);
         void InvokeBind(TypedField& other);
+
+        bool TryAdd(TypedField& other);
+        bool TrySub(TypedField& other);
+        bool TryMul(TypedField& other);
+        bool TryDiv(TypedField& other);
+        bool TryMod(TypedField& other);
+        bool TryAnd(TypedField& other);
+        bool TryOr(TypedField& other);
         
         template <typename T>
         static std::shared_ptr<T> Create(T value, TypedField &ref);
@@ -332,6 +555,30 @@ namespace Yolk
                 return false;
             return Data->Compare(other.Data);
         }
+        inline bool TypedField::CompareLess(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareLess(other.Data);
+        }
+        inline bool TypedField::CompareGreater(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareGreater(other.Data);
+        }
+        inline bool TypedField::CompareLessEqual(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareLessEqual(other.Data);
+        }
+        inline bool TypedField::CompareGreaterEqual(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareGreaterEqual(other.Data);
+        }
         template <typename T>
         bool inline TypedField::Compare(T &&other) const
         {
@@ -432,5 +679,41 @@ namespace Yolk
             ref.Bind(*new_value);
             return new_value;
         }
+        inline bool TypedField::TryAdd(TypedField& other){
+            if(!Valid())
+                return false;
+            return Data->TryAdd(other.Data);
+        }
+        inline bool TypedField::TrySub(TypedField& other){
+            if(!Valid())
+                return false;
+            return Data->TrySub(other.Data);
+        }
+        inline bool TypedField::TryMul(TypedField& other){
+            if(!Valid())
+                return false;
+            return Data->TryMul(other.Data);
+        }
+        inline bool TypedField::TryDiv(TypedField& other){
+            if(!Valid())
+                return false;
+            return Data->TryDiv(other.Data);
+        }
+        inline bool TypedField::TryMod(TypedField& other){
+            if(!Valid())
+                return false;
+            return Data->TryMod(other.Data);
+        }
+        inline bool TypedField::TryAnd(TypedField& other){
+            if(!Valid())
+                return false;
+            return Data->TryAnd(other.Data);
+        }
+        inline bool TypedField::TryOr(TypedField& other){
+            if(!Valid())
+                return false;
+            return Data->TryOr(other.Data);
+        }
+        
 
 }
