@@ -11,7 +11,7 @@ namespace Yolk
     inline Wrapper::Wrapper(const Wrapper &cpy)
         : ID(cpy.ID), field(std::make_shared<TypedField>(*cpy.field)), manager(cpy.manager), wType(cpy.wType)
     {
-            manager.ChangeAudience(ID, +1);
+        manager.ChangeAudience(ID, +1);
     }
     inline void Wrapper::LookAway()
     {
@@ -25,15 +25,11 @@ namespace Yolk
     }
     inline Wrapper &Wrapper::operator=(const Wrapper &cpy)
     {
-        if(cpy.manager.Name() == manager.Name())
-        {
-            LookAway();
-            ID = cpy.ID;
-            field = std::make_shared<TypedField>(*cpy.field);
-            wType = cpy.wType;
-            manager.ChangeAudience(ID, +1);
-            return *this;
-        }
+        LookAway();
+        ID = cpy.ID;
+        field = std::make_shared<TypedField>(*cpy.field);
+        wType = cpy.wType;
+        manager.ChangeAudience(ID, +1);
         return *this;
     }
     inline void Wrapper::Free()

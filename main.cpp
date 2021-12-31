@@ -10,7 +10,6 @@ void Print(int x)
 }
 int main()
 {
-
     // TODO: INC and DEC instructions. Should have the form
     // INC REGX
     // DEC REGX
@@ -49,13 +48,7 @@ int main()
     Yolk::VM::YVM vm(manager, wtable);
     Yolk::VM::Elementary::GenerateElementaryOperations(vm.GetOpHandler());
 
-    std::chrono::steady_clock Clock;
-
-    auto start = Clock.now();
     vm.Run(ovo, memblock.GetSymbolTable());
-    auto stop = Clock.now();
-    std::cout << "Timer: " << std::chrono::duration<double, std::micro>(stop - start).count() << std::endl;
-    std::cout << vm.GetMessage() << std::endl << vm.GetClock() << std::endl;
-
+    std::cout << vm.GetMessage() << std::endl << "Clock: " << vm.GetClock() << std::endl;
 
 }

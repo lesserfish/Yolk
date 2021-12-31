@@ -4,8 +4,21 @@
 #include "../Memory/MemoryManager/MemoryManager.h"
 #include <typeindex>
 #include <functional>
-#include <map>
+#include <unordered_map>
 #include <typeindex>
+
+
+namespace std
+{
+    template<>
+    struct hash<std::pair<std::type_index, std::type_index>>
+    {
+        size_t operator()(const std::pair<std::type_index, std::type_index>& pair) const
+        {
+            return pair.first.hash_code() + pair.second.hash_code();
+        }
+    };
+}
 namespace Yolk
 {
     namespace VM
@@ -63,19 +76,19 @@ namespace Yolk
 			
             private:
             Memory::MemoryManager& manager;
-            std::map<PAIR, UNARY> castMap;
-            std::map<PAIR, BINARY> addMap;
-			std::map<PAIR, BINARY> subtractMap;
-			std::map<PAIR, BINARY> multiplyMap;
-			std::map<PAIR, BINARY> divideMap;
-			std::map<PAIR, BINARY> moduloMap;
-			std::map<PAIR, BINARY> equalityMap;
-			std::map<PAIR, BINARY> lessthanMap;
-			std::map<PAIR, BINARY> greaterthanMap;
-			std::map<PAIR, BINARY> lessorequalthanMap;
-			std::map<PAIR, BINARY> greaterorequalthanMap;
-			std::map<PAIR, BINARY> andMap;
-			std::map<PAIR, BINARY> orMap;
+            std::unordered_map<PAIR, UNARY> castMap;
+            std::unordered_map<PAIR, BINARY> addMap;
+			std::unordered_map<PAIR, BINARY> subtractMap;
+			std::unordered_map<PAIR, BINARY> multiplyMap;
+			std::unordered_map<PAIR, BINARY> divideMap;
+			std::unordered_map<PAIR, BINARY> moduloMap;
+			std::unordered_map<PAIR, BINARY> equalityMap;
+			std::unordered_map<PAIR, BINARY> lessthanMap;
+			std::unordered_map<PAIR, BINARY> greaterthanMap;
+			std::unordered_map<PAIR, BINARY> lessorequalthanMap;
+			std::unordered_map<PAIR, BINARY> greaterorequalthanMap;
+			std::unordered_map<PAIR, BINARY> andMap;
+			std::unordered_map<PAIR, BINARY> orMap;
 			
         };
         inline Memory::MemoryManager& Operator::GetMemoryManager() const
