@@ -22,6 +22,7 @@ namespace Yolk
 
             enum class Status
             {
+                PENDING,
                 RUNNING,
                 HALTED,
                 ERROR,
@@ -41,11 +42,14 @@ namespace Yolk
 
             YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable);
             
-            // Instructions
+            private:
 
+            // Instructions
+            void HandleInstruction(OVO::Instruction);
             void I_MOV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
             void I_COPY(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
             void I_CLONE(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
+            void I_NEW(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
             void I_MOVM(OVO::Instruction::ARG arg1);
             void I_CALLM();
             void I_PUSHAR(OVO::Instruction::ARG arg1);
@@ -85,14 +89,30 @@ namespace Yolk
             void I_HALT();
 
             // API
+            public:
 
-            
-
-
+            Operator& GetOpHandler();
+            void SetUp(OVO, Memory::SymbolTable& );
+            void SetSymTable(Memory::SymbolTable& symTable);
+            void SetOvo(OVO);
+            void Tick();
+            void Run();
+            void Run(OVO , Memory::SymbolTable& );
+            Status GetStatus() const;
+            std::string GetMessage() const;
+            unsigned long int GetException() const;
+            unsigned long int GetClock() const;
             
             // Helper Functions
             
             void Debug();
+            void PrintInstruction(OVO::Instruction instruction);
+
+            protected:
+
+            std::string GetInstructionName(OVO::Instruction::INSTRUCTION i);
+            std::string GetValue(OVO::Instruction::ARG::MODE s, OVO::Instruction::CHUNK chunk);
+
             void ThrowException(int status, std::string Message);
             DataOutput RetrieveData(OVO::Instruction::CHUNK id);
             bool SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref);
@@ -104,9 +124,11 @@ namespace Yolk
             
             // Internal Data
             
-            bool Running;
-            Status status;
-            std::string Message;           
+            bool Running = false;
+            Status status = Status::PENDING;
+            std::string Message;
+            unsigned long int exceptionStatus;
+            unsigned int clock = 0;
 
             // API Data
 

@@ -2,9 +2,12 @@
 #include "src/Yolk/YolkVM/Elementary.h"
 #include <iostream>
 
+using Instruction = Yolk::VM::OVO::Instruction;
+using Arg = Yolk::VM::OVO::Instruction::ARG;
+using Data = Yolk::VM::OVO::Data;
+
 int main()
 {
-
     Yolk::Memory::MemoryManager manager;
     Yolk::Memory::WrapperTable wtable(manager);
     Yolk::Memory::MemoryBlock memblock(manager, wtable);
@@ -13,85 +16,22 @@ int main()
     memblock.RegisterWrapper("myVariable", wrap);
     
     Yolk::VM::YVM vm(manager, wtable);
-    Yolk::VM::Elementary::GenerateElementaryOperations(vm.opHandler);
+    Yolk::VM::Elementary::GenerateElementaryOperations(vm.GetOpHandler());
 
-    vm.symTable = &memblock.GetSymbolTable();
-    vm.workingSymTable = &memblock.GetSymbolTable();
+    Yolk::VM::OVO ovo;
+    ovo.InstructionSet.push_back(Instruction{Instruction::INSTRUCTION::MOV, Arg{ Arg::MODE::REG, 0x0}, Arg { Arg::MODE::DATA, 0x0}}); // MOV REGA, myVariable
+    ovo.InstructionSet.push_back(Instruction{Instruction::INSTRUCTION::NEW, Arg{ Arg::MODE::REG, 0x1}, Arg { Arg::MODE::SYMBOL, 0x05}}); // CLONE REGB, FLOAT
+    ovo.InstructionSet.push_back(Instruction{Instruction::INSTRUCTION::CMPNEQ, Arg{ Arg::MODE::REG, 0x0}, Arg { Arg::MODE::REG, 0x1}}); // CMPNEQ REG0, REGB
+    ovo.InstructionSet.push_back(Instruction{Instruction::INSTRUCTION::ADD, Arg{ Arg::MODE::REG, 0x1}, Arg { Arg::MODE::REG, 0x0}}); // ADD REGB, REGA
+    ovo.InstructionSet.push_back(Instruction{Instruction::INSTRUCTION::ADD, Arg{ Arg::MODE::REG, 0x1}, Arg { Arg::MODE::REG, 0x1}}); // ADD REGB, REGB
+    ovo.InstructionSet.push_back(Instruction{Instruction::INSTRUCTION::CAST, Arg{ Arg::MODE::REG, 0x1}, Arg { Arg::MODE::SYMBOL, 0x1}}); // CAST REGB, INT
+    ovo.InstructionSet.push_back(Instruction{Instruction::INSTRUCTION::COPY, Arg{ Arg::MODE::REG, 0x0}, Arg { Arg::MODE::REG, 0x1}}); // COPY REGA, REGB
 
-    Yolk::VM::OVO::Instruction::ARG arg1;
-    Yolk::VM::OVO::Instruction::ARG arg2;
+    ovo.DataSet.push_back(Data::GenerateData(std::string("myVariable")));
 
-    // MOV REGA. "myVariable"
-    std::cout << "\n\tMOV REGA, myVariable\n";
-    arg1.mode = Yolk::VM::OVO::Instruction::ARG::MODE::SYMBOL;
-    arg1.value = 0x0;   // REGA
-    arg2.mode = Yolk::VM::OVO::Instruction::ARG::MODE::DATA;
-    arg2.value = 0x0;
+    vm.Run(ovo, memblock.GetSymbolTable());
 
-    vm.I_MOV(arg1, arg2);
-    manager.Debug();
-    std::cout << "\n";
+    std::cout << vm.GetMessage() << std::endl;
+    std::cout << vm.GetClock() << std::endl;
     vm.Debug();
-
-    // CLONE REGB, INT
-    std::cout << "\n\tCLONE REGB, FLOAT\n\n";
-    arg1.mode = Yolk::VM::OVO::Instruction::ARG::MODE::SYMBOL;
-    arg1.value = 0x01;
-    arg2.mode = Yolk::VM::OVO::Instruction::ARG::MODE::SYMBOL;
-    arg2.value = 0x05;
-
-    vm.I_CLONE(arg1, arg2);
-
-    manager.Debug();
-    std::cout << "\n";
-    vm.Debug();
-
-    // CMPEQ REGA, REGB
-    std::cout << "\n\tCMPNEQ REGA, REGB\n\n";
-    arg1.value = 0x0;
-    arg2.value = 0x1;
-
-    vm.I_CMPNEQ(arg1, arg2);
-    manager.Debug();
-    std::cout << "\n";
-    vm.Debug();
-
-    // ADD REGB, REGA
-    std::cout << "\n\tADD REGB, REGA\n\n";
-    vm.I_ADD(arg2, arg1);
-    manager.Debug();
-    std::cout << "\n";
-    vm.Debug();
-    
-    // ADD REGB, REGB
-    std::cout << "\n\tADD REGB, REGB\n\n";
-    
-    vm.I_ADD(arg2, arg1);
-    manager.Debug();
-    std::cout << "\n";
-    vm.Debug();
-
-    // CAST REGB, INT
-    std::cout << "\n\tCAST REGB, INT\n\n";
-
-    arg1.value = 0x1; // REGB
-    arg2.value = 0x1; // INT
-
-    vm.I_CAST(arg1, arg2);
-
-    manager.Debug();
-    std::cout << "\n";
-    vm.Debug();
-
-    // COPY REGA, REGB
-    std::cout << "\n\tCOPY REGA, REGB\n\n";
-
-    arg1.value = 0x0;
-    arg2.value = 0x1;
-    vm.I_COPY(arg1, arg2);
-    
-    manager.Debug();
-    std::cout << "\n";
-    vm.Debug();
-
 }
