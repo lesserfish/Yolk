@@ -1,161 +1,10 @@
-#pragma once
-
-#include "OVO.h"
-#include "Operators.h"
-#include "../Wrapper/Wrapper.h"
-#include "../Wrapper/MethodWrapper.h"
-#include "../Wrapper/ArgumentWrapper.h"
-#include "../Memory/Memory/MemoryBlock.h"
-#include "../Memory/MemoryManager/MemoryManager.h"
-#include "Operators.h"
-#include <unordered_map>
-#include <string>
+#include "YVM.h"
 
 namespace Yolk
 {
     namespace VM
     {
-        class YVM
-        {
-        public:
-            // Structrs
-
-            enum class Status
-            {
-                PENDING,
-                RUNNING,
-                HALTED,
-                ERROR,
-                COMPLETED
-            };
-            struct DataOutput
-            {
-                OVO::Data data;
-                bool ok;
-            };
-
-        public:
-            
-            // Functions:
-
-            // Constructor
-
-            YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable);
-            
-            private:
-
-            // Instructions
-            void HandleInstruction(OVO::Instruction);
-            void I_MOV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_COPY(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_CLONE(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_NEW(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_MOVM(OVO::Instruction::ARG arg1);
-            void I_CALLM();
-            void I_PUSHAR(OVO::Instruction::ARG arg1);
-            void I_POPAR(OVO::Instruction::ARG arg1);
-            void I_PUSH(OVO::Instruction::ARG arg1);
-            void I_POP(OVO::Instruction::ARG arg1);
-            void I_CLRAR();
-            void I_CLEAR();
-            void I_CMP(OVO::Instruction::ARG arg1);
-            void I_CMPEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_CMPNEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_CMPLS(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_CMPGT(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_CMPLSEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_CMPGTEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_JNTRUE(OVO::Instruction::ARG arg1);
-            void I_JNFALSE(OVO::Instruction::ARG arg1);
-            void I_JMP(OVO::Instruction::ARG arg1);
-            void I_CALL(OVO::Instruction::ARG arg1);
-            void I_RET();
-            void I_ADD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_MUL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_DIV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_MOD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_AND(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_OR(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_CAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_RECAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_NAMEL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_NAMEG(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2);
-            void I_BRUP();
-            void I_BRDW();
-            void I_BRHR(OVO::Instruction::ARG arg1);
-            void I_RSBR();
-            void I_ZERO();
-            void I_HALT();
-
-            // API
-            public:
-
-            Operator& GetOpHandler();
-            void SetUp(OVO, Memory::SymbolTable& );
-            void SetSymTable(Memory::SymbolTable& symTable);
-            void SetOvo(OVO);
-            void Tick();
-            void Run();
-            void Run(OVO , Memory::SymbolTable& );
-            Status GetStatus() const;
-            std::string GetMessage() const;
-            unsigned long int GetException() const;
-            unsigned long int GetClock() const;
-            
-            // Helper Functions
-            
-            void Debug();
-            void PrintInstruction(OVO::Instruction instruction);
-            static std::string GetInstructionName(OVO::Instruction::INSTRUCTION i);
-            void PrintOVO();
-            
-            
-            protected:
-
-            std::string GetValue(OVO::Instruction::ARG::MODE s, OVO::Instruction::CHUNK chunk);
-
-            void ThrowException(int status, std::string Message);
-            DataOutput RetrieveData(OVO::Instruction::CHUNK id);
-            bool SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref);
-            bool ValidInstruction(OVO::Usize position);
-            void JumpToInstruction(OVO::Usize position);
-            OVO::Usize CurrentInstruction();
-
-            // Data:
-            
-            // Internal Data
-            
-            bool Running = false;
-            Status status = Status::PENDING;
-            std::string Message;
-            unsigned long int exceptionStatus;
-            unsigned int clock = 0;
-
-            // API Data
-
-            OVO ovo;                         // Algorithm we are going to be running
-            Memory::SymbolTable *symTable;   // Symbol Table of the object requesting the algorithm to be run.
-            Memory::SymbolTable *workingSymTable; // 
-            
-            // Memory
-            Memory::MemoryManager &manager;     // Needed so we can create new wrappers
-            Memory::WrapperTable &wrapperTable; // Needed so we can register and delete wrappers
-            Operator opHandler;                 // Needed so we can perform operations between elementary types.
-
-            // Registers
-            Wrapper rega;           // Wrapper Register A
-            Wrapper regb;           // Wrapper Register B
-            Wrapper regc;           // Wrapper Register C
-            Wrapper regd;           // Wrapper Register D
-            Wrapper regout;         // Wrapper Register for Method Output
-            MethodWrapper mreg;     // Method Wrapper Register
-            bool cmpreg;            // Comparison Register
-            ArgumentWrapper argreg; // Argument Wrapper Register
-            std::deque<Wrapper> stack;
-            std::deque<OVO::Instruction>::iterator instructionPointer; // InstructionPointer
-        };
-        /*inline YVM::YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable) : manager(_manager),
+        YVM::YVM(Memory::MemoryManager &_manager, Memory::WrapperTable &_wrapperTable) : manager(_manager),
                                                                                          wrapperTable(_wrapperTable),
                                                                                          opHandler(manager),
                                                                                          rega(manager.GenerateVoidWrapper()),
@@ -170,9 +19,296 @@ namespace Yolk
         {
         }
 
-        // Helper Functions
+        // API
 
-        inline bool YVM::SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref)
+        void YVM::SetUp(OVO _ovo, Memory::SymbolTable& _symTable)
+        {
+            ovo = _ovo;
+            symTable = &_symTable;
+            instructionPointer = ovo.InstructionSet.begin();
+        }
+        void YVM::SetSymTable(Memory::SymbolTable& _symTable)
+        {
+            symTable = &_symTable;
+        }
+        void YVM::SetOvo(OVO _ovo)
+        {
+            ovo = _ovo;
+            instructionPointer = ovo.InstructionSet.begin();
+        }
+        void YVM::Tick()
+        {
+            if(instructionPointer == ovo.InstructionSet.end())
+                return;
+            clock++;
+
+            auto current_instruction = instructionPointer;
+            instructionPointer++;
+
+            HandleInstruction(*current_instruction);
+        }
+        void YVM::Run()
+        {
+            Running = true;
+            status = Status::RUNNING;
+            Message = "Started!";
+            clock = 0;
+
+            JumpToInstruction(0);
+
+            while(Running)
+            {
+                clock++;
+                
+                auto current_instruction = instructionPointer;
+                instructionPointer++;
+
+                HandleInstruction(*current_instruction);
+
+                if(instructionPointer == ovo.InstructionSet.end() && Running)
+                {
+                    Running = false;
+                    instructionPointer = ovo.InstructionSet.end();
+                    status = Status::HALTED;
+                    Message = "Instruction pointer left valid scope!";
+                    break;
+                }
+
+            }
+            return;
+        }
+        void YVM::Run(OVO _ovo, Memory::SymbolTable& _symTable)
+        {
+            std::cout << "Starting...\n";
+            ovo = _ovo;
+            symTable = &_symTable;
+            workingSymTable = &_symTable;
+            instructionPointer = ovo.InstructionSet.begin();
+
+            Running = true;
+            status = Status::RUNNING;
+            Message = "Started!";
+            clock = 0;
+
+            JumpToInstruction(0);
+
+            while(Running)
+            {
+                clock++;
+
+                auto current_instruction = instructionPointer;
+                instructionPointer++;
+                
+                //PrintInstruction(*current_instruction);
+
+                HandleInstruction(*current_instruction);
+
+                if(instructionPointer == ovo.InstructionSet.end() && Running)
+                {
+                    Running = false;
+                    instructionPointer = ovo.InstructionSet.end();
+                    status = Status::HALTED;
+                    Message = "Instruction pointer left valid scope!";
+                    break;
+                }
+
+            }
+
+            //Debug();
+            return;
+        }
+
+        Operator& YVM::GetOpHandler()
+        {
+            return opHandler;
+        }
+        YVM::Status YVM::GetStatus() const
+        {
+            return status;
+        }
+        std::string YVM::GetMessage() const
+        {
+            return Message;
+        }
+        unsigned long int YVM::GetException() const
+        {
+            return exceptionStatus;
+        }
+        unsigned long int YVM::GetClock() const
+        {
+            return clock;
+        }
+        // Helper Functions
+        void YVM::HandleInstruction(OVO::Instruction instruction)
+        {
+            const int exception_shift = 0x0;
+            switch(instruction.instruction)
+            {
+                case OVO::Instruction::INSTRUCTION::MOV: 
+                {
+                    return I_MOV(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::CLONE: 
+                {
+                    return I_CLONE(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::NEW:
+                {
+                    return I_NEW(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::MOVM: 
+                {
+                    return I_MOVM(instruction.arg1);
+                } 
+                case OVO::Instruction::INSTRUCTION::CALLM: 
+                {
+                    return I_CALLM();
+                }
+                case OVO::Instruction::INSTRUCTION::PUSHAR: 
+                {
+                    return I_PUSHAR(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::POPAR: 
+                {
+                    return I_POPAR(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::CLRAR: 
+                {
+                    return I_CLRAR();
+                }
+                case OVO::Instruction::INSTRUCTION::PUSH: 
+                {
+                    return I_PUSH(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::POP: 
+                {
+                    return I_POP(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::CLEAR: 
+                {
+                    return I_CLEAR();
+                }
+                case OVO::Instruction::INSTRUCTION::CMP: 
+                {
+                    return I_CMP(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::CMPEQ: 
+                {
+                    return I_CMPEQ(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::CMPNEQ: 
+                {
+                    return I_CMPNEQ(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::CMPLS: 
+                {
+                    return I_CMPLS(instruction.arg1, instruction.arg2);
+                } 
+                case OVO::Instruction::INSTRUCTION::CMPGT: 
+                {
+                    return I_CMPGT(instruction.arg1, instruction.arg2);
+                } 
+                case OVO::Instruction::INSTRUCTION::CMPLSEQ: 
+                {
+                    return I_CMPLSEQ(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::CMPGTEQ: 
+                {
+                    return I_CMPGTEQ(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::JNTRUE: 
+                {
+                    return I_JNTRUE(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::JNFALSE: 
+                {
+                    return I_JNFALSE(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::JMP: 
+                {
+                    return I_JMP(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::CALL: 
+                {
+                    return I_CALL(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::RET: 
+                {
+                    return I_RET();
+                }
+                case OVO::Instruction::INSTRUCTION::ADD: 
+                {
+                    return I_ADD(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::SUB: 
+                {
+                    return I_SUB(instruction.arg1, instruction.arg2);
+                } 
+                case OVO::Instruction::INSTRUCTION::MUL: 
+                {
+                    return I_MUL(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::DIV: 
+                {
+                    return I_DIV(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::MOD: 
+                {
+                    return I_MOD(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::AND: 
+                {
+                    return I_AND(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::OR: 
+                {
+                    return I_OR(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::CAST: 
+                {
+                    return I_CAST(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::COPY: 
+                {
+                    return I_COPY(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::NAMEL: 
+                {
+                    return I_NAMEL(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::NAMEG: 
+                {
+                    return I_NAMEG(instruction.arg1, instruction.arg2);
+                }
+                case OVO::Instruction::INSTRUCTION::BRUP: 
+                {
+                    return I_BRUP();
+                }
+                case OVO::Instruction::INSTRUCTION::BRDW:
+                {
+                    return I_BRDW();
+                }
+                case OVO::Instruction::INSTRUCTION::BRHZ: 
+                {
+                    return I_BRHR(instruction.arg1);
+                }
+                case OVO::Instruction::INSTRUCTION::RSBR:
+                {
+                    return I_RSBR();
+                }
+                case OVO::Instruction::INSTRUCTION::ZERO: 
+                {
+                    return I_ZERO();
+                }
+                case OVO::Instruction::INSTRUCTION::HALT: 
+                {
+                    return I_HALT();
+                }
+                default:
+                    return ThrowException(exception_shift + 0x1, "Unknown instruction!");
+            }
+        }
+        bool YVM::SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref)
         {
             switch (chunk)
             {
@@ -195,29 +331,264 @@ namespace Yolk
                 return false;
             }
         }
-        inline bool YVM::ValidInstruction(OVO::Usize)
+        bool YVM::ValidInstruction(OVO::Usize position)
         {
+            if(position >= ovo.InstructionSet.size()){
+                return false;
+            }
+
             return true;
         }
-        inline void YVM::JumpToInstruction(OVO::Usize)
+        void YVM::JumpToInstruction(OVO::Usize position)
         {
+            if(!ValidInstruction(position))
+            {
+                Running = false;
+                instructionPointer = ovo.InstructionSet.end();
+                status = Status::HALTED;
+                Message = "Instruction pointer left valid scope!";
+                return;
+            }
+            instructionPointer = ovo.InstructionSet.begin() + position;
         }
-        inline OVO::Usize YVM::CurrentInstruction()
+        OVO::Usize YVM::CurrentInstruction()
         {
-            return 0;
+            OVO::Usize position = instructionPointer - ovo.InstructionSet.begin();
+            return position;
         }
-        inline void YVM::ThrowException(int status, std::string Message)
+        void YVM::ThrowException(int exception_status, std::string _Message)
         {
-            std::cout << "ERROR (" + std::to_string(status) + "): " << Message << std::endl;
+            std::string exception =  "Exception Thrown (" + std::to_string(exception_status) + "): " + _Message + ".";
+            Running = false;
+            status = Status::ERROR;
+            exceptionStatus = exception_status;
+            Message = exception;
         }
-        inline YVM::DataOutput YVM::RetrieveData(OVO::Instruction::CHUNK)
+        YVM::DataOutput YVM::RetrieveData(OVO::Instruction::CHUNK position)
         {
             DataOutput out;
+
+            if(position >= ovo.DataSet.size())
+            {
+                return DataOutput {OVO::Data(), false};
+            }
             out.ok = true;
-            out.data = OVO::Data::GenerateData(std::string("myVariable"));
+            out.data = ovo.DataSet.at(position);
             return out;
         }
-        inline void YVM::Debug()
+        void YVM::PrintOVO()
+        {
+            for(auto i : ovo.InstructionSet)
+            {
+                PrintInstruction(i);
+            }
+        }
+        void YVM::PrintInstruction(OVO::Instruction instruction)
+        {
+
+        std::string out = GetInstructionName(instruction.instruction) + "  " + 
+                            GetValue(instruction.arg1.mode, instruction.arg1.value) +  " , " +
+                            GetValue(instruction.arg2.mode, instruction.arg2.value);  
+
+            std::cout << "\t\t" << out << std::endl;   
+        }
+        std::string YVM::GetInstructionName(OVO::Instruction::INSTRUCTION i)
+        {
+            switch(i)
+            {
+                case OVO::Instruction::INSTRUCTION::MOV: 
+                {
+                    return "I_MOV";
+                }
+                case OVO::Instruction::INSTRUCTION::CLONE: 
+                {
+                    return "I_CLONE";
+                }
+                case OVO::Instruction::INSTRUCTION::MOVM: 
+                {
+                    return "I_MOVM";
+                } 
+                case OVO::Instruction::INSTRUCTION::CALLM: 
+                {
+                    return "I_CALLM";
+                }
+                case OVO::Instruction::INSTRUCTION::PUSHAR: 
+                {
+                    return "I_PUSHAR";
+                }
+                case OVO::Instruction::INSTRUCTION::POPAR: 
+                {
+                    return "I_POPAR";
+                }
+                case OVO::Instruction::INSTRUCTION::CLRAR: 
+                {
+                    return "I_CLRAR";
+                }
+                case OVO::Instruction::INSTRUCTION::PUSH: 
+                {
+                    return "I_PUSH";
+                }
+                case OVO::Instruction::INSTRUCTION::POP: 
+                {
+                    return "I_POP";
+                }
+                case OVO::Instruction::INSTRUCTION::CLEAR: 
+                {
+                    return "I_CLEAR";
+                }
+                case OVO::Instruction::INSTRUCTION::CMP: 
+                {
+                    return "I_CMP";
+                }
+                case OVO::Instruction::INSTRUCTION::CMPEQ: 
+                {
+                    return "I_CMPEQ";
+                }
+                case OVO::Instruction::INSTRUCTION::CMPNEQ: 
+                {
+                    return "I_CMPNEQ";
+                }
+                case OVO::Instruction::INSTRUCTION::CMPLS: 
+                {
+                    return "I_CMPLS";
+                } 
+                case OVO::Instruction::INSTRUCTION::CMPGT: 
+                {
+                    return "I_CMPGT";
+                } 
+                case OVO::Instruction::INSTRUCTION::CMPLSEQ: 
+                {
+                    return "I_CMPLSEQ";
+                }
+                case OVO::Instruction::INSTRUCTION::CMPGTEQ: 
+                {
+                    return "I_CMPGTEQ";
+                }
+                case OVO::Instruction::INSTRUCTION::JNTRUE: 
+                {
+                    return "I_JNTRUE";
+                }
+                case OVO::Instruction::INSTRUCTION::JNFALSE: 
+                {
+                    return "I_JNFALSE";
+                }
+                case OVO::Instruction::INSTRUCTION::JMP: 
+                {
+                    return "I_JMP";
+                }
+                case OVO::Instruction::INSTRUCTION::CALL: 
+                {
+                    return "I_CALL";
+                }
+                case OVO::Instruction::INSTRUCTION::RET: 
+                {
+                    return "I_RET";
+                }
+                case OVO::Instruction::INSTRUCTION::ADD: 
+                {
+                    return "I_ADD";
+                }
+                case OVO::Instruction::INSTRUCTION::SUB: 
+                {
+                    return "I_SUB";
+                } 
+                case OVO::Instruction::INSTRUCTION::MUL: 
+                {
+                    return "I_MUL";
+                }
+                case OVO::Instruction::INSTRUCTION::DIV: 
+                {
+                    return "I_DIV";
+                }
+                case OVO::Instruction::INSTRUCTION::MOD: 
+                {
+                    return "I_MOD";
+                }
+                case OVO::Instruction::INSTRUCTION::AND: 
+                {
+                    return "I_AND";
+                }
+                case OVO::Instruction::INSTRUCTION::OR: 
+                {
+                    return "I_OR";
+                }
+                case OVO::Instruction::INSTRUCTION::CAST: 
+                {
+                    return "I_CAST";
+                }
+                case OVO::Instruction::INSTRUCTION::COPY: 
+                {
+                    return "I_COPY";
+                }
+                case OVO::Instruction::INSTRUCTION::NAMEL: 
+                {
+                    return "I_NAMEL";
+                }
+                case OVO::Instruction::INSTRUCTION::NAMEG: 
+                {
+                    return "I_NAMEG";
+                }
+                case OVO::Instruction::INSTRUCTION::BRUP: 
+                {
+                    return "I_BRUP";
+                }
+                case OVO::Instruction::INSTRUCTION::BRDW:
+                {
+                    return "I_BRDW";
+                }
+                case OVO::Instruction::INSTRUCTION::BRHZ: 
+                {
+                    return "I_BRHR";
+                }
+                case OVO::Instruction::INSTRUCTION::RSBR:
+                {
+                    return "I_RSBR";
+                }
+                case OVO::Instruction::INSTRUCTION::ZERO: 
+                {
+                    return "I_ZERO";
+                }
+                case OVO::Instruction::INSTRUCTION::HALT: 
+                {
+                    return "I_HALT";
+                }
+                case OVO::Instruction::INSTRUCTION::NEW:
+                {
+                    return "I_NEW";
+                }
+                default:
+                {
+                    return "UNKNOWN";
+                }
+                }
+        }
+        std::string YVM::GetValue(OVO::Instruction::ARG::MODE s, OVO::Instruction::CHUNK chunk)
+        {
+                switch(s)
+                {
+                    case OVO::Instruction::ARG::MODE::SYMBOL:
+                    {
+                        return std::to_string(chunk);
+                    }
+                    case OVO::Instruction::ARG::MODE::REG:
+                    {
+                        return std::to_string(chunk);
+                    }
+                    case OVO::Instruction::ARG::MODE::DATA:
+                    {
+                        auto d = RetrieveData(chunk);
+                        if(!d.ok)
+                            return "[None]";
+                        Wrapper w = OVO::Data::ToWrapper(d.data, manager);
+                        return w.field->Print();
+                    }
+                    default:
+                    {
+                        return "";
+                    }
+                }
+        }
+        void YVM::Debug()
         {
             std::cout << "REGA: " << rega.field->Print() << std::endl;
             std::cout << "REGB: " << regb.field->Print() << std::endl;
@@ -239,35 +610,31 @@ namespace Yolk
 
         // Instructions
 
-        inline void YVM::I_MOV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_MOV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
-            // Moves wrapper associated to arg2 onto arg1
-            // Usage:
-            //
-            // MOV REGX, REGY; Where REGX and REGY are of type SYMBOL and whose value represent which register they represent.
-            // MOV REGX, NAME; Where REGX is one of type SYMBOL and whose value represent which data is being target, and NAME is of type DATA and whose value is an integer to a position in the Data segment containing a string with the name of the wrapper to be moved onto the register.
-            //
-
-            const int exception_shift = 0x0;
+            // Usage
+            // 1. MOV REGX, REGY
+            // 2. MOV REX, data   where data contains an std::string with the name of a variable
+            const int exception_shift = 1;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 *regx = *regy;
 
@@ -277,24 +644,24 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 3, "DATA could not be found!");
                 OVO::Data data = result.data;
                 if (data.mode != OVO::Data::Mode::STRING)
-                    return ThrowException(exception_shift + 0x05, "MOV arguments do not fit standard!");
+                    return ThrowException(exception_shift + 4, "MOV arguments do not fit standard!");
 
                 std::string wrapperName = data.ToWrapper(data, manager).field->As<std::string>();
 
                 auto symbol_result = workingSymTable->Get(Yolk::Memory::SymbolKey(wrapperName));
 
                 if (!symbol_result.ok)
-                    return ThrowException(exception_shift + 0x6, "Could not find variable named \"" + wrapperName + "\".");
+                    return ThrowException(exception_shift + 5, "Could not find variable named \"" + wrapperName + "\".");
 
                 auto wrapper_info = wrapperTable.GetInfo(symbol_result.value.key);
 
                 if (!wrapper_info.alive)
-                    return ThrowException(exception_shift + 0x07, "Could not find variable named \"" + wrapperName + "\". It has already been deleted.");
+                    return ThrowException(exception_shift + 6, "Could not find variable named \"" + wrapperName + "\". It has already been deleted.");
                 if (wrapper_info.wrapperType != WrapperType::FieldWrapper)
-                    return ThrowException(exception_shift + 0x8, "Wrapper named \"" + wrapperName + "\" is a not field!");
+                    return ThrowException(exception_shift + 7, "Wrapper named \"" + wrapperName + "\" is a not field!");
 
                 *regx = wrapperTable.CopyField(symbol_result.value.key);
 
@@ -302,188 +669,223 @@ namespace Yolk
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 8, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_COPY(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_COPY(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
-            const int exception_shift = 0x0;
+            // Usage:
+            // 1. COPY REGA, REGB
+            // 2. COPY REGA, data  where data contains an elementary value
+
+            const int exception_shift = 9;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 bool copy_result = regx->field->Copy(*(regy->field));
                 if (!copy_result)
-                    return ThrowException(exception_shift + 0x04, "Failed to copy content onto register.");
+                    return ThrowException(exception_shift + 3, "Failed to copy content onto register.");
                 return;
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 4, "DATA could not be found!");
                 OVO::Data data = result.data;
 
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
                 bool copy_result = regx->field->Copy(*(tmp.field));
 
-                if (!copy_result)
-                    return ThrowException(exception_shift + 0x04, "Failed to copy content onto register.");
+                if (copy_result)
+                    return;
+
+                bool cast_result = false;
+
+                Wrapper cast = opHandler.EvaluateCast(tmp, regx->field->GetType());
+
+                if(!cast_result)    
+                    ThrowException(exception_shift + 5, "Failed to copy content onto register.");
+
+                copy_result = regx->field->Copy(*(cast.field));
+
+                if(!copy_result)
+                    ThrowException(exception_shift + 6, "Failed to copy content onto register.");
+               
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 7, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_CLONE(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CLONE(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
             // Usage:
-            //
-            // CLONE REGX, TYPE;  Where REGX is of type SYMBOL and whose value represent which register is being target, and TYPE is of type SYMBOL and whose value represent which type is being target. Current types are: 0x0 VOID, 0x1 INT, 0x2 UINT, 0x3 LONG, 0x4 ULONG, 0x5 FLOAT, 0x6 DOUBLE, 0x7 BOOL, 0x8 CHAR, 0x9 UCHAR, 0xA STRING
-            //
-            // CLONE REGX, NAME; Where REGX is one of type SYMBOL and whose value represent which data is being target, and NAME is of type DATA and whose value is an integer to a position in the Data segment containing a string with the name of the wrapper to be moved onto the register.
-            //
-            //
+            // CLONE REGX, REGY
+            // CLONE REGX, data where data contains an elementary value
 
-            const int exception_shift = 0x9;
+            const int exception_shift = 18;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
-                switch (arg2.value)
-                {
-                case 0x00:
-                    *regx = manager.GenerateVoidWrapper();
-                    return;
-                case 0x01:
-                    *regx = manager.AllocateMemory<int>(0);
-                    return;
-                case 0x02:
-                    *regx = manager.AllocateMemory<unsigned int>(0);
-                    return;
-                case 0x03:
-                    *regx = manager.AllocateMemory<long>(0);
-                    return;
-                case 0x04:
-                    *regx = manager.AllocateMemory<unsigned long>(0);
-                    return;
-                case 0x05:
-                    *regx = manager.AllocateMemory<float>(0);
-                    return;
-                case 0x06:
-                    *regx = manager.AllocateMemory<double>(0);
-                    return;
-                case 0x07:
-                    *regx = manager.AllocateMemory<bool>(0);
-                    return;
-                case 0x08:
-                    *regx = manager.AllocateMemory<char>(0);
-                    return;
-                case 0x09:
-                    *regx = manager.AllocateMemory<unsigned char>(0);
-                    return;
-                case 0x0A:
-                    *regx = manager.AllocateMemory<std::string>("");
-                    return;
-                default:
-                    return ThrowException(exception_shift + 0x03, "MOV arguments do not fit standard!");
-                }
+                Wrapper *regy;
+
+                selection = SelectRegister(arg2.value, regy);
+                
+                if (!selection)
+                    return ThrowException(exception_shift + 2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                
+                auto copy_result = manager.CopyByValue(*regy);
+
+                if(copy_result.status == -1)
+                    return ThrowException(exception_shift + 3, "Failed copy by value! Not a field");
+                if(copy_result.status == -2)
+                    return ThrowException(exception_shift + 4, "Failed copy by value! Not in memory!");
+                
+                *regx = copy_result.wrapper;
+                return;
+
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+                    return ThrowException(exception_shift + 5, "DATA could not be found!");
                 OVO::Data data = result.data;
-                if (data.mode != OVO::Data::Mode::STRING)
-                    return ThrowException(exception_shift + 0x05, "MOV arguments do not fit standard!");
 
-                std::string wrapperName = data.ToWrapper(data, manager).field->As<std::string>();
+                auto wrapper = data.ToWrapper(data, manager);
 
-                auto symbol_result = symTable->Get(Yolk::Memory::SymbolKey(wrapperName));
+                auto copy_result = manager.CopyByValue(wrapper);
 
-                if (!symbol_result.ok)
-                    return ThrowException(exception_shift + 0x06, "Could not find variable named \"" + wrapperName + "\".");
-
-                auto wrapper_info = wrapperTable.GetInfo(symbol_result.value.key);
-
-                if (!wrapper_info.alive)
-                    return ThrowException(exception_shift + 0x07, "Could not find variable named \"" + wrapperName + "\". It has already been deleted.");
-                if (wrapper_info.wrapperType != WrapperType::FieldWrapper)
-                    return ThrowException(exception_shift + 0x08, "Wrapper named \"" + wrapperName + "\" is not a field.");
-
-                Wrapper original = wrapperTable.CopyField(symbol_result.value.key);
-
-                auto cbv_out = manager.CopyByValue(original);
-
-                if (cbv_out.status == -1)
-                    return ThrowException(exception_shift + 0x09, "Attempted to copy a method wrapper by value!");
-                else if (cbv_out.status == -2)
-                    return ThrowException(exception_shift + 0x0A, "Could not find object in memory!");
-
-                *regx = cbv_out.wrapper;
-
+                if(copy_result.status == -1)
+                    return ThrowException(exception_shift + 6, "Failed copy by value! Not a field");
+                if(copy_result.status == -2)
+                    return ThrowException(exception_shift + 7, "Failed copy by value! Not in memory!");
+                
+                *regx = copy_result.wrapper;
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x0B, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 8, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_MOVM(OVO::Instruction::ARG arg1)
+        void YVM::I_NEW(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // NEW REGX, symbol where symbol represents the index of an elementary type
+            const int exception_shift = 27;
+
+            Wrapper *regx;
+
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
+
+            bool selection = SelectRegister(arg1.value, regx);
+            if (!selection)
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            
+            
+            if(arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+                return ThrowException(exception_shift + 2, "New Arguments do not fit standard!");
+            
+            switch (arg2.value)
+            {
+            case 0x00:
+                *regx = manager.GenerateVoidWrapper();
+                return;
+            case 0x01:
+                *regx = manager.AllocateMemory<int>(0);
+                return;
+            case 0x02:
+                *regx = manager.AllocateMemory<unsigned int>(0);
+                return;
+            case 0x03:
+                *regx = manager.AllocateMemory<long>(0);
+                return;
+            case 0x04:
+                *regx = manager.AllocateMemory<unsigned long>(0);
+                return;
+            case 0x05:
+                *regx = manager.AllocateMemory<float>(0);
+                return;
+            case 0x06:
+                *regx = manager.AllocateMemory<double>(0);
+                return;
+            case 0x07:
+                *regx = manager.AllocateMemory<bool>(0);
+                return;
+            case 0x08:
+                *regx = manager.AllocateMemory<char>(0);
+                return;
+            case 0x09:
+                *regx = manager.AllocateMemory<unsigned char>(0);
+                return;
+            case 0x0A:
+                *regx = manager.AllocateMemory<std::string>("");
+                return;
+            default:
+                return ThrowException(exception_shift + 3, "MOV arguments do not fit standard!");
+            }
+        }
+        void YVM::I_MOVM(OVO::Instruction::ARG arg1)
+        {
+            // Usage:
+            // MOVM data, where data contains the std::string of a method
             const int exception_shift = 0xAA;
             if (arg1.mode != OVO::Instruction::ARG::MODE::DATA)
-                return ThrowException(exception_shift + 0x1, "MOVM arguments do not fit standard!");
+                return ThrowException(exception_shift + 4, "MOVM arguments do not fit standard!");
 
             auto result = RetrieveData(arg1.value);
 
             if (!result.ok)
-                return ThrowException(exception_shift + 0x02, "DATA could not be found!");
+                return ThrowException(exception_shift + 5, "DATA could not be found!");
 
             std::string method_name = OVO::Data::ToWrapper(result.data, manager).field->As<std::string>();
 
             auto symbol_result = workingSymTable->Get(Yolk::Memory::SymbolKey(method_name));
 
             if (!symbol_result.ok)
-                return ThrowException(exception_shift + 0x03, "Could not find method named \"" + method_name + "\".");
+                return ThrowException(exception_shift + 6, "Could not find method named \"" + method_name + "\".");
 
             auto wrapper_info = wrapperTable.GetInfo(symbol_result.value.key);
 
             if (!wrapper_info.alive)
-                return ThrowException(exception_shift + 0x03, "Could not find method named \"" + method_name + "\". It has already been deleted.");
+                return ThrowException(exception_shift + 7, "Could not find method named \"" + method_name + "\". It has already been deleted.");
             if (wrapper_info.wrapperType != WrapperType::MethodWrapper)
-                return ThrowException(exception_shift + 0x04, "Wrapper named \"" + method_name + "\" is not a method.");
+                return ThrowException(exception_shift + 8, "Wrapper named \"" + method_name + "\" is not a method.");
 
             MethodWrapper func = wrapperTable.CopyMethod(symbol_result.value.key);
 
@@ -491,46 +893,51 @@ namespace Yolk
 
             return;
         }
-        inline void YVM::I_CALLM()
+        void YVM::I_CALLM()
         {
-            const int exception_shift = 0x00;
+            // Usage:
+            // CALLM
+            const int exception_shift = 36;
+            
             if (!mreg.IsValid())
-                return ThrowException(exception_shift + 0x01, "Method register is not valid.");
+                return ThrowException(exception_shift + 0, "Method register is not valid.");
 
             auto result = mreg.Invoke(argreg);
 
             if (!result.ok)
-                return ThrowException(exception_shift + 0x02, "Failed to invoke method: " + result.Message);
+                return ThrowException(exception_shift + 1, "Failed to invoke method: " + result.Message);
 
             regout = result.output;
         }
-        inline void YVM::I_PUSHAR(OVO::Instruction::ARG arg1)
+        void YVM::I_PUSHAR(OVO::Instruction::ARG arg1)
         {
-            const int exception_shift = 0x9;
+            // Usage:
+            // PUSHAR REGX
+            const int exception_shift = 2;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 3, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 4, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             argreg.push_back(*regx);
         }
-        inline void YVM::I_POPAR(OVO::Instruction::ARG arg1)
+        void YVM::I_POPAR(OVO::Instruction::ARG arg1)
         {
-            const int exception_shift = 0x9;
-            if (arg1.mode == OVO::Instruction::ARG::MODE::SYMBOL)
+            // Usage:
+            // 1. POPAR REGX
+            // 2. POPAR
+            const int exception_shift = 41;
+            if (arg1.mode == OVO::Instruction::ARG::MODE::REG)
             {
                 Wrapper *regx;
 
-                if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
-
                 bool selection = SelectRegister(arg1.value, regx);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                    return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
                 if (argreg.size() == 0)
                 {
@@ -552,40 +959,44 @@ namespace Yolk
                 return;
             }
         }
-        inline void YVM::I_CLRAR()
+        void YVM::I_CLRAR()
         {
+            // Usage:
+            // CLRAR
             argreg.clear();
             return;
         }
-        inline void YVM::I_PUSH(OVO::Instruction::ARG arg1)
+        void YVM::I_PUSH(OVO::Instruction::ARG arg1)
         {
-            const int exception_shift = 0x9;
+            // Usage:
+            // PUSH REGX
+            const int exception_shift = 43;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             stack.push_back(*regx);
         }
-        inline void YVM::I_POP(OVO::Instruction::ARG arg1)
+        void YVM::I_POP(OVO::Instruction::ARG arg1)
         {
-            const int exception_shift = 0x9;
-            if (arg1.mode == OVO::Instruction::ARG::MODE::SYMBOL)
+            // Usage:
+            // 1. POP REGX
+            // 2. POP
+            const int exception_shift = 45;
+            if (arg1.mode == OVO::Instruction::ARG::MODE::REG)
             {
                 Wrapper *regx;
 
-                if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
-
                 bool selection = SelectRegister(arg1.value, regx);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+                    return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
-                if (argreg.size() == 0)
+                if (stack.size() == 0)
                 {
                     *regx = manager.GenerateVoidWrapper();
                     return;
@@ -605,54 +1016,62 @@ namespace Yolk
                 return;
             }
         }
-        inline void YVM::I_CLEAR()
+        void YVM::I_CLEAR()
         {
+            // Usage:
+            // CLEAR
+
             stack.clear();
             return;
         }
-        inline void YVM::I_CMP(OVO::Instruction::ARG arg1)
+        void YVM::I_CMP(OVO::Instruction::ARG arg1)
         {
-            const int exception_shift = 0x9;
+            // Usage:
+            // CMP REGX
+
+            const int exception_shift = 46;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard!");
 
             if (!regx->field->Valid())
-                return ThrowException(exception_shift + 0x03, "Wrapper is not valid!");
+                return ThrowException(exception_shift + 2, "Wrapper is not valid!");
 
             // Todo: More checks in here. Not everything can be cast as bool.
             // Ideally, one can create a method in the Typed Field where it returns an error if the type can not be cast to bool.
             cmpreg = regx->field->As<bool>();
             return;
         }
-        inline void YVM::I_CMPEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CMPEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
-
-            const int exception_shift = 0x0;
+            // Usage:
+            // 1. CMPEQ REGX, REGY
+            // 2. CMPEQ REGX, data where data contains an elementary value
+            const int exception_shift = 49;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 if (regy->field->GetType() == regx->field->GetType())
                 {
@@ -663,7 +1082,7 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, *regy, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 3, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
                 cmpreg = cmp_result.field->As<bool>();
                 return;
@@ -672,7 +1091,7 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 4, "DATA could not be found!");
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
@@ -685,40 +1104,42 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, tmp, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 5, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
 
                 cmpreg = cmp_result.field->As<bool>();
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 6, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_CMPNEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CMPNEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
-
-            const int exception_shift = 0x0;
+            // Usage:
+            // CMPNEQ REGX, REGY
+            // CMPNEQ REGX, data where data contains an elementary type
+            const int exception_shift = 56;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 if (regy->field->GetType() == regx->field->GetType())
                 {
@@ -729,7 +1150,7 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, *regy, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 3, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
                 cmpreg = !cmp_result.field->As<bool>();
                 return;
@@ -738,7 +1159,7 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 4, "DATA could not be found!");
                 OVO::Data data = result.data;
                 Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
@@ -751,45 +1172,48 @@ namespace Yolk
                 Wrapper cmp_result = opHandler.EvaluateEquality(*regx, tmp, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 5, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
 
                 cmpreg = !cmp_result.field->As<bool>();
                 return;
             }
             default:
             {
-                return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
+                return ThrowException(exception_shift + 6, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_CMPLS(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CMPLS(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
-            const int exception_shift = 0x0;
+            // Usage:
+            // CMPLS REGX, REGY
+            // CMPLS REGX, data where data contains an elementary value
+            const int exception_shift = 63;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                return ThrowException(exception_shift + 1, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
                 selection = SelectRegister(arg2.value, regy);
                 if (!selection)
-                    return ThrowException(exception_shift + 0x3, "MOV arguments do not find standard!");
+                    return ThrowException(exception_shift + 2, "MOV arguments do not find standard!");
 
                 bool can_evaluate = false;
                 Wrapper cmp_result = opHandler.EvaluateLessThan(*regx, *regy, can_evaluate);
 
                 if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator < is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    return ThrowException(exception_shift + 3, "Operator < is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
                 cmpreg = cmp_result.field->As<bool>();
                 return;
@@ -817,13 +1241,16 @@ namespace Yolk
             }
             }
         }
-        inline void YVM::I_CMPGT(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CMPGT(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // CMPGT REGX, REGX
+            // CMPGT REGX, data where data contains an elementary value
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -832,7 +1259,7 @@ namespace Yolk
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
@@ -872,13 +1299,16 @@ namespace Yolk
             }
             }
         }
-        inline void YVM::I_CMPLSEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CMPLSEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // CMPLSEQ REGX, REGY
+            // CMPLSEQ REGX, data where data contains an elementary value
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -887,7 +1317,7 @@ namespace Yolk
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
@@ -927,13 +1357,16 @@ namespace Yolk
             }
             }
         }
-        inline void YVM::I_CMPGTEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CMPGTEQ(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // CMPGTEQ REGX, REGY
+            // CMPGTEQ REGX, data where data contains an elementary type
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -942,7 +1375,7 @@ namespace Yolk
 
             switch (arg2.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regy;
 
@@ -982,14 +1415,18 @@ namespace Yolk
             }
             }
         }
-        inline void YVM::I_JNTRUE(OVO::Instruction::ARG arg1)
+        void YVM::I_JNTRUE(OVO::Instruction::ARG arg1)
         {
+            // Usage:
+            // JNTRUE REGX
+            // JNTRUE data where data contains the position of the jump
+            // JNTRUE symbol where symbol contains the value for the jump
             const int exception_shift = 0x00;
             if (cmpreg)
             {
                 switch (arg1.mode)
                 {
-                case OVO::Instruction::ARG::MODE::SYMBOL:
+                case OVO::Instruction::ARG::MODE::REG:
                 {
                     Wrapper *regx;
 
@@ -1043,7 +1480,16 @@ namespace Yolk
                         return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
 
                     unsigned long int position = wrap.field->As<unsigned long int>();
+
                     JumpToInstruction(position);
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    unsigned long int position = arg1.value;
+
+                    JumpToInstruction(position);
+
                     return;
                 }
                 default:
@@ -1053,14 +1499,18 @@ namespace Yolk
                 }
             }
         }
-        inline void YVM::I_JNFALSE(OVO::Instruction::ARG arg1)
+        void YVM::I_JNFALSE(OVO::Instruction::ARG arg1)
         {
+            // Usage:
+            // JNFALSE REGX
+            // JNFALSE data where data contains the position of the jump
+            // JNFALSE symbol where symbol contains the value for the jump
             const int exception_shift = 0x00;
             if (!cmpreg)
             {
                 switch (arg1.mode)
                 {
-                case OVO::Instruction::ARG::MODE::SYMBOL:
+                case OVO::Instruction::ARG::MODE::REG:
                 {
                     Wrapper *regx;
 
@@ -1117,6 +1567,14 @@ namespace Yolk
                     JumpToInstruction(position);
                     return;
                 }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    unsigned long int position = arg1.value;
+
+                    JumpToInstruction(position);
+
+                    return;
+                }
                 default:
                 {
                     return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
@@ -1124,12 +1582,16 @@ namespace Yolk
                 }
             }
         }
-        inline void YVM::I_JMP(OVO::Instruction::ARG arg1)
+        void YVM::I_JMP(OVO::Instruction::ARG arg1)
         {
+            // Usage:
+            // JMP REGX
+            // JMP data where data contains the position of the jump
+            // JMP symbol where symbol contains the value for the jump
             const int exception_shift = 0x00;
             switch (arg1.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regx;
 
@@ -1186,22 +1648,33 @@ namespace Yolk
                 JumpToInstruction(position);
                 return;
             }
+            case OVO::Instruction::ARG::MODE::SYMBOL:
+            {
+                unsigned long int position = arg1.value;
+
+                JumpToInstruction(position);
+
+                return;
+            }
             default:
             {
                 return ThrowException(exception_shift + 0x9, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_CALL(OVO::Instruction::ARG arg1)
+        void YVM::I_CALL(OVO::Instruction::ARG arg1)
         {
+            // Usage:
+            // CALL REGX
+            // CALL data where data contains the position of the jump
+            // CALL symbol where symbol contains the value for the jump
             const int exception_shift = 0x00;
 
             auto current_instruction = manager.AllocateMemory<unsigned long int>(CurrentInstruction());
-            stack.push_back(current_instruction);
 
             switch (arg1.mode)
             {
-            case OVO::Instruction::ARG::MODE::SYMBOL:
+            case OVO::Instruction::ARG::MODE::REG:
             {
                 Wrapper *regx;
 
@@ -1215,6 +1688,8 @@ namespace Yolk
                 if (regx->field->GetType() == typeid(unsigned long int))
                 {
                     unsigned long int position = regx->field->As<unsigned long int>();
+                    
+                    stack.push_back(current_instruction);
                     JumpToInstruction(position);
                     return;
                 }
@@ -1226,6 +1701,8 @@ namespace Yolk
                     return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
 
                 unsigned long int position = wrap.field->As<unsigned long int>();
+                
+                stack.push_back(current_instruction);
                 JumpToInstruction(position);
                 return;
             }
@@ -1244,6 +1721,8 @@ namespace Yolk
                 if (tmp.field->GetType() == typeid(unsigned long int))
                 {
                     unsigned long int position = tmp.field->As<unsigned long int>();
+                    
+                    stack.push_back(current_instruction);
                     JumpToInstruction(position);
                     return;
                 }
@@ -1255,7 +1734,18 @@ namespace Yolk
                     return ThrowException(exception_shift + 0x5, "Can't convert register to unsigned long int.");
 
                 unsigned long int position = wrap.field->As<unsigned long int>();
+                
+                stack.push_back(current_instruction);
                 JumpToInstruction(position);
+                return;
+            }
+            case OVO::Instruction::ARG::MODE::SYMBOL:
+            {
+                unsigned long int position = arg1.value;
+
+                stack.push_back(current_instruction);
+                JumpToInstruction(position);
+
                 return;
             }
             default:
@@ -1264,15 +1754,21 @@ namespace Yolk
             }
             }
         }
-        inline void YVM::I_RET()
+        void YVM::I_RET()
         {
+            // Usage:
+            // RET
+
             const int exception_shift = 0x00;
+            if(stack.size() == 0)
+                return ThrowException(exception_shift + 0x1, "Stack is Empty. Can't return.");
+
             auto previous_instruction = stack.at(stack.size() - 1);
             stack.pop_back();
 
             if(!previous_instruction.field->Valid())
                 return ThrowException(exception_shift + 0x01, "Can't return to a void position");
-
+            
             if(previous_instruction.field->GetType() == typeid(unsigned long int))
             {
                 unsigned long int position = previous_instruction.field->As<unsigned long int>();
@@ -1289,17 +1785,20 @@ namespace Yolk
 
             unsigned long int position = wrap.field->As<unsigned long int>();
 
+
             JumpToInstruction(position);
 
 
         }
-        inline void YVM::I_ADD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_ADD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // ADD REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1308,7 +1807,7 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             selection = SelectRegister(arg2.value, regy);
@@ -1324,13 +1823,15 @@ namespace Yolk
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
-        inline void YVM::I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // SUB REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1339,7 +1840,7 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             selection = SelectRegister(arg2.value, regy);
@@ -1355,13 +1856,15 @@ namespace Yolk
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
-        inline void YVM::I_MUL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_MUL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // MUL REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1370,7 +1873,7 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             selection = SelectRegister(arg2.value, regy);
@@ -1386,13 +1889,15 @@ namespace Yolk
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
-        inline void YVM::I_DIV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_DIV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage
+            // DIV REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1401,7 +1906,7 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             selection = SelectRegister(arg2.value, regy);
@@ -1417,13 +1922,15 @@ namespace Yolk
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
-        inline void YVM::I_MOD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_MOD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // MOD REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1432,7 +1939,7 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             selection = SelectRegister(arg2.value, regy);
@@ -1448,13 +1955,15 @@ namespace Yolk
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
-        inline void YVM::I_AND(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_AND(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // AND REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1463,7 +1972,7 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             selection = SelectRegister(arg2.value, regy);
@@ -1479,13 +1988,15 @@ namespace Yolk
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
-        inline void YVM::I_OR(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_OR(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // OR REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1494,7 +2005,7 @@ namespace Yolk
 
             Wrapper *regy;
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
 
             selection = SelectRegister(arg2.value, regy);
@@ -1510,12 +2021,16 @@ namespace Yolk
 
             *regx = tmp; // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
         }
-        inline void YVM::I_CAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_CAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // CAST REGX, REGY
+            // CAST REGX, symbol where symbol contains the index of an elementary type
+            // CAST REGX, data where data contains the string 
             const int exception_shift = 0x9;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1526,6 +2041,27 @@ namespace Yolk
                 return ThrowException(exception_shift + 0x02, "Cannot cast from void!");
             switch (arg2.mode)
             {
+            case OVO::Instruction::ARG::MODE::REG:
+            {
+
+                Wrapper *regy;
+
+                bool selection = SelectRegister(arg2.value, regy);
+                if (!selection)
+                    return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+
+                if (!regy->field->Valid())
+                    return ThrowException(exception_shift + 0x02, "Cannot cast to void!");
+                
+                bool cast_result = false;
+                Wrapper wrapper = opHandler.EvaluateCast(*regx, regy->field->GetType(), cast_result);
+
+                if (!cast_result)
+                    return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
+                
+                *regx = wrapper;
+                return;
+            }
             case OVO::Instruction::ARG::MODE::SYMBOL:
             {
                 switch (arg2.value)
@@ -1631,53 +2167,18 @@ namespace Yolk
                 }
                 }
             }
-            case OVO::Instruction::ARG::MODE::DATA:
-            {
-                auto result = RetrieveData(arg2.value);
-                if (!result.ok)
-                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
-                OVO::Data data = result.data;
-                if (data.mode != OVO::Data::Mode::STRING)
-                    return ThrowException(exception_shift + 0x05, "MOV arguments do not fit standard!");
-
-                std::string wrapperName = data.ToWrapper(data, manager).field->As<std::string>();
-
-                auto symbol_result = workingSymTable->Get(Yolk::Memory::SymbolKey(wrapperName));
-
-                if (!symbol_result.ok)
-                    return ThrowException(exception_shift + 0x06, "Could not find variable named \"" + wrapperName + "\".");
-
-                auto wrapper_info = wrapperTable.GetInfo(symbol_result.value.key);
-
-                if (!wrapper_info.alive)
-                    return ThrowException(exception_shift + 0x07, "Could not find variable named \"" + wrapperName + "\". It has already been deleted.");
-                if (wrapper_info.wrapperType != WrapperType::FieldWrapper)
-                    return ThrowException(exception_shift + 0x08, "Wrapper named \"" + wrapperName + "\" is not a field.");
-
-                Wrapper original = wrapperTable.CopyField(symbol_result.value.key);
-
-                if (!original.field->Valid())
-                    return ThrowException(exception_shift + 0x03, "Cannot cast to void!");
-
-                bool cast_result = false;
-                Wrapper wrapper = opHandler.EvaluateCast(*regx, original.field->GetType(), cast_result);
-                if (!cast_result)
-                    return ThrowException(exception_shift + 0x04, "Cannot cast between the two types");
-                *regx = wrapper;
-                return;
-            }
             default:
             {
                 return ThrowException(exception_shift + 0x0B, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_RECAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_RECAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
             const int exception_shift = 0x9;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1688,6 +2189,20 @@ namespace Yolk
                 return ThrowException(exception_shift + 0x02, "Cannot cast from void!");
             switch (arg2.mode)
             {
+            case OVO::Instruction::ARG::MODE::REG:
+            {
+                Wrapper *regy;
+
+                bool selection = SelectRegister(arg2.value, regy);
+                if (!selection)
+                    return ThrowException(exception_shift + 0x02, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+
+                if (!regy->field->Valid())
+                    return ThrowException(exception_shift + 0x02, "Cannot cast to void!");
+                
+                regx->field->CastAs(*(regy->field));                
+                return;
+            }
             case OVO::Instruction::ARG::MODE::SYMBOL:
             {
                 switch (arg2.value)
@@ -1728,49 +2243,20 @@ namespace Yolk
                     return ThrowException(exception_shift + 0x03, "MOV arguments do not fit standard!");
                 }
             }
-            case OVO::Instruction::ARG::MODE::DATA:
-            {
-                auto result = RetrieveData(arg2.value);
-                if (!result.ok)
-                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
-                OVO::Data data = result.data;
-                if (data.mode != OVO::Data::Mode::STRING)
-                    return ThrowException(exception_shift + 0x05, "MOV arguments do not fit standard!");
-
-                std::string wrapperName = data.ToWrapper(data, manager).field->As<std::string>();
-
-                auto symbol_result = workingSymTable->Get(Yolk::Memory::SymbolKey(wrapperName));
-
-                if (!symbol_result.ok)
-                    return ThrowException(exception_shift + 0x06, "Could not find variable named \"" + wrapperName + "\".");
-
-                auto wrapper_info = wrapperTable.GetInfo(symbol_result.value.key);
-
-                if (!wrapper_info.alive)
-                    return ThrowException(exception_shift + 0x07, "Could not find variable named \"" + wrapperName + "\". It has already been deleted.");
-                if (wrapper_info.wrapperType != WrapperType::FieldWrapper)
-                    return ThrowException(exception_shift + 0x08, "Wrapper named \"" + wrapperName + "\" is not a field.");
-
-                Wrapper original = wrapperTable.CopyField(symbol_result.value.key);
-
-                if (!original.field->Valid())
-                    return ThrowException(exception_shift + 0x03, "Cannot cast to void!");
-
-                regx->field->CastAs(*(original.field));
-                return;
-            }
             default:
             {
                 return ThrowException(exception_shift + 0x0B, "MOV arguments do not fit standard!");
             }
             }
         }
-        inline void YVM::I_NAMEL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_NAMEL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // NAMEL regx, data where data contains the std::string of a name
             const int exception_shift = 0x9;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1801,12 +2287,14 @@ namespace Yolk
 
             return;
         }
-        inline void YVM::I_NAMEG(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
+        void YVM::I_NAMEG(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
+            // Usage:
+            // NAMEG regx, data where data contains the std::string of a name
             const int exception_shift = 0x9;
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::SYMBOL)
+            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
                 return ThrowException(exception_shift + 0x01, "MOV arguments do not fit standard!");
 
             bool selection = SelectRegister(arg1.value, regx);
@@ -1837,8 +2325,10 @@ namespace Yolk
 
             return;
         }
-        inline void YVM::I_BRUP()
+        void YVM::I_BRUP()
         {
+            // Usage:
+            // BRUP
             auto wrapper_list = workingSymTable->BranchUp();
 
             for (auto wrapper : wrapper_list)
@@ -1846,12 +2336,16 @@ namespace Yolk
                 wrapperTable.Erase(wrapper.second.key);
             }
         }
-        inline void YVM::I_BRDW()
+        void YVM::I_BRDW()
         {
+            // Usage:
+            // BRDW
             workingSymTable->BranchDown();
         }
-        inline void YVM::I_BRHR(OVO::Instruction::ARG arg1)
+        void YVM::I_BRHR(OVO::Instruction::ARG arg1)
         {
+            // Usage:
+            // BRHR data where data consist of a std::string with the name of a friend
             const int exception_shift = 0x0;
             if (arg1.mode != OVO::Instruction::ARG::MODE::DATA)
                 return ThrowException(exception_shift + 0x02, "NAMEL arguments do not fit standard!");
@@ -1873,19 +2367,25 @@ namespace Yolk
 
             workingSymTable = friend_result.result;
         }
-        inline void YVM::I_RSBR()
+        void YVM::I_RSBR()
         {
+            // Usage:
+            // RSBR
             workingSymTable = symTable;
         }
-        inline void YVM::I_ZERO()
+        void YVM::I_ZERO()
         {
+            // Usage:
+            // ZERO
             return;
         }
-        inline void YVM::I_HALT()
+        void YVM::I_HALT()
         {
+            // Usage:
+            // HALT
             Running = false;
             status = Status::HALTED;
             Message = "Received Halt instruction!";
-        }*/
+        }
     }
 }

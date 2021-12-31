@@ -4,6 +4,7 @@
 #include "../Memory/MemoryManager/MemoryManager.h"
 #include <array>
 #include <cstring>
+#include <deque>
 
 namespace Yolk
 {
@@ -19,15 +20,19 @@ namespace Yolk
                 enum INSTRUCTION
                 {
                     MOV,     // Moves ARG2 onto ARG1. ARG1 is a Register. ARG2 is either a Register or a Data consisting of the name of a Wrapper.
-                    SET,     // Sets ARG1 equal to ARG2. ARG1 is a Register. ARG2 is either a symbol consisting of the data type, or DATA consisting of its value.
                     CLONE,   // ARG1 is a new wrapper with new Typed Field with same value as ARG2
                     MOVM,    // Moves ARG1 onto Method Register
+                    NEW,
                     CALLM,   // Invokes Method Register with current Argument Register, puts output in output Register
                     PUSHAR,  // Pushes ARG1 onto Argument Register
                     POPAR,   // Pops Argument Register onto ARG1
                     CLRAR,   // Clears Argument Register
+                    PUSH,    // Pushes to Stack
+                    POP,     // Pops from Stack
+                    CLEAR,   // Clear Stack
                     CMP,     // ARG1 == true? (as a wrapper).
                     CMPEQ,   // Compares whether ARG1 equals ARG2
+                    CMPNEQ,
                     CMPLS,   // Compares whether ARG1 < ARG2
                     CMPGT,   // Compares whether ARG1 > ARG2
                     CMPLSEQ, // Compares whether ARG1 <= ARG2
@@ -35,8 +40,10 @@ namespace Yolk
                     JNTRUE,  // Jumps to ARG1 if comparison register is true
                     JNFALSE, // Jumps at ARG1 if comparison register is false
                     JMP,     // Unconditionally jumps to ARG1
+                    CALL,
+                    RET,
                     ADD,     // ARG1 = ARG1 + ARG2
-                    SUN,     // ARG1 = ARG1 - ARG2
+                    SUB,     // ARG1 = ARG1 - ARG2
                     MUL,     // ARG1 = ARG1 * ARG2
                     DIV,     // ARG1 = ARG1 / ARG2
                     MOD,     // ARG1 = ARG1 % ARG2
@@ -49,6 +56,7 @@ namespace Yolk
                     BRUP,    // Branches up
                     BRDW,    // Branches down
                     BRHZ,    // Branches horizontally
+                    RSBR,
                     ZERO,    // Does nothing
                     HALT     // Stops the processor.
                 };
@@ -58,7 +66,7 @@ namespace Yolk
                     {
                         NONE,   // Argument is Empty
                         SYMBOL, // Argument represents a Symbol (Which pretty much means Integer. Used only for deciding between subinstructions).
-                        REG,    // Argument represents a Register
+                        REG,
                         DATA,   // Argument represents Data
                     };
                     MODE mode; // Mode of the argument

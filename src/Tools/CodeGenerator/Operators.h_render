@@ -83,7 +83,7 @@ namespace Yolk
         {
             return manager;
         }
-        inline Wrapper Operator::EvaluateCast(Wrapper lhs, std::type_index F bool& status_output)
+        inline Wrapper Operator::EvaluateCast(Wrapper lhs, std::type_index F, bool& status_output)
         {
             PAIR pair(lhs.field->GetType(), F);
             auto find_result = castMap.find(pair);

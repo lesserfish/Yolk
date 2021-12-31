@@ -1,14 +1,9 @@
-    #pragma once
-    #include "Operators.h"
+    #include "Elementary.h"
     namespace Yolk
     {
         namespace VM
         {
-            struct Elementary
-            {
-                static void GenerateElementaryOperations(Yolk::VM::Operator& op);
-            };
-               /* inline void Elementary::GenerateElementaryOperations(Yolk::VM::Operator& op)
+                void Elementary::GenerateElementaryOperations(Yolk::VM::Operator& op)
                 {
                     op.RegisterAdd<int,int>();
 					op.RegisterAdd<int,unsigned int>();
@@ -620,8 +615,6 @@
 					op.RegisterAnd<bool,bool>();
 
 					op.RegisterOr<bool,bool>();
-
-
-                }*/
+                }
         }
     }
