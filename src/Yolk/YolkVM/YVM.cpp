@@ -1172,7 +1172,7 @@ namespace Yolk
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
-                auto result = RetrieveData(arg2.value);
+                /*auto result = RetrieveData(arg2.value);
                 if (!result.ok)
                     return ThrowException(exception_shift + 4, "DATA could not be found!");
                 
@@ -1192,6 +1192,16 @@ namespace Yolk
                     return ThrowException(exception_shift + 5, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
 
                 cmpreg = cmp_result.field->As<bool>();
+                return;*/
+            }
+            case OVO::Instruction::ARG::MODE::SYMBOL:
+            {
+                long value = arg2.value;
+                int comparison = regx->field->Compare(value);
+
+                if(comparison < 0)
+                    return ThrowException(exception_shift + 5, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                cmpreg = comparison;
                 return;
             }
             default:
@@ -1938,28 +1948,186 @@ namespace Yolk
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            switch(arg2.mode)
+            {
+                case OVO::Instruction::ARG::MODE::REG:
+                {
+                    Wrapper *regy;
 
-            Wrapper *regy;
+                    /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                        return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
-            /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
+                    selection = SelectRegister(arg2.value, regy);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            selection = SelectRegister(arg2.value, regy);
-            if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    bool can_add = regx->field->TryAdd(*(regy->field));
 
-            bool can_add = regx->field->TryAdd(*(regy->field));
+                    if(can_add)
+                        return;
 
-            if(can_add)
-                return;
+                    Wrapper tmp = opHandler.EvaluateAdd(*regx, *regy, can_add);
 
-            Wrapper tmp = opHandler.EvaluateAdd(*regx, *regy, can_add);
+                    if (!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            if (!can_add)
-                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    regx->field->Copy(*tmp.field, true);
 
-            //regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
-            regx->field->Copy(*tmp.field, true);
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    long value = arg2.value;
+                    bool can_add = regx->field->TryAdd(std::forward<long>(value));
+
+                    if(!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg2.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
+                    OVO::Data data = result.data;
+
+                    switch(data.mode)
+                    {
+                        case OVO::Data::Mode::INT:
+                        {
+                            int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and int");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UINT:
+                        {
+                            unsigned int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uint");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::LONG:
+                        {
+
+                            long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::ULONG:
+                        {
+
+                            unsigned long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and unsigned long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::FLOAT:
+                        {
+
+                            float value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and float");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::DOUBLE:
+                        {
+                            double value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and double");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::CHAR:
+                        {
+                            char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and char");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UCHAR:
+                        {
+                            unsigned char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uchar");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::BOOL:
+                        {
+                            bool value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and bool");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::STRING:
+                        {
+                            std::string value = "";
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAdd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and string");
+                            
+                            return;
+                        }
+                        default:
+                        {
+                            return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                        }
+                    }
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x07, "Failed!");
+                }
+            }
         }
         void YVM::I_SUB(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -1969,33 +2137,180 @@ namespace Yolk
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            switch(arg2.mode)
+            {
+                case OVO::Instruction::ARG::MODE::REG:
+                {
+                    Wrapper *regy;
 
-            Wrapper *regy;
+                    /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                        return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                    selection = SelectRegister(arg2.value, regy);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            selection = SelectRegister(arg2.value, regy);
-            if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    bool can_add = regx->field->TrySub(*(regy->field));
 
-            bool can_sub = regx->field->TrySub(*(regy->field));
+                    if(can_add)
+                        return;
 
-            if(can_sub)
-                return;
+                    Wrapper tmp = opHandler.EvaluateSubtract(*regx, *regy, can_add);
 
-            Wrapper tmp = opHandler.EvaluateSubtract(*regx, *regy, can_sub);
+                    if (!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            if (!can_sub)
-                return ThrowException(exception_shift + 0x05, "Operator - is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    regx->field->Copy(*tmp.field, true);
 
-            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    long value = arg2.value;
+                    bool can_add = regx->field->TrySub(std::forward<long>(value));
+
+                    if(!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg2.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
+                    OVO::Data data = result.data;
+
+                    switch(data.mode)
+                    {
+                        case OVO::Data::Mode::INT:
+                        {
+                            int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and int");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UINT:
+                        {
+                            unsigned int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uint");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::LONG:
+                        {
+
+                            long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::ULONG:
+                        {
+
+                            unsigned long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and unsigned long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::FLOAT:
+                        {
+
+                            float value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and float");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::DOUBLE:
+                        {
+                            double value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and double");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::CHAR:
+                        {
+                            char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and char");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UCHAR:
+                        {
+                            unsigned char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uchar");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::BOOL:
+                        {
+                            bool value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TrySub(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and bool");
+                            
+                            return;
+                        }
+                        default:
+                        {
+                            return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                        }
+                    }
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x07, "Failed!");
+                }
+            }
         }
         void YVM::I_MUL(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2005,66 +2320,363 @@ namespace Yolk
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            switch(arg2.mode)
+            {
+                case OVO::Instruction::ARG::MODE::REG:
+                {
+                    Wrapper *regy;
 
-            Wrapper *regy;
+                    /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                        return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                    selection = SelectRegister(arg2.value, regy);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            selection = SelectRegister(arg2.value, regy);
-            if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    bool can_add = regx->field->TryMul(*(regy->field));
 
-            bool can_mul = regx->field->TryMul(*(regy->field));
+                    if(can_add)
+                        return;
 
-            if(can_mul)
-                return;
+                    Wrapper tmp = opHandler.EvaluateMultiply(*regx, *regy, can_add);
 
-            Wrapper tmp = opHandler.EvaluateMultiply(*regx, *regy, can_mul);
+                    if (!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            if (!can_mul)
-                return ThrowException(exception_shift + 0x05, "Operator * is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    regx->field->Copy(*tmp.field, true);
 
-            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    long value = arg2.value;
+                    bool can_add = regx->field->TryMul(std::forward<long>(value));
+
+                    if(!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg2.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
+                    OVO::Data data = result.data;
+
+                    switch(data.mode)
+                    {
+                        case OVO::Data::Mode::INT:
+                        {
+                            int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and int");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UINT:
+                        {
+                            unsigned int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uint");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::LONG:
+                        {
+
+                            long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::ULONG:
+                        {
+
+                            unsigned long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and unsigned long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::FLOAT:
+                        {
+
+                            float value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and float");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::DOUBLE:
+                        {
+                            double value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and double");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::CHAR:
+                        {
+                            char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and char");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UCHAR:
+                        {
+                            unsigned char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uchar");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::BOOL:
+                        {
+                            bool value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMul(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and bool");
+                            
+                            return;
+                        }
+                        default:
+                        {
+                            return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                        }
+                    }
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x07, "Failed!");
+                }
+            }
         }
         void YVM::I_DIV(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
-            // Usage
-            // DIV REGX, REGY
+            // Usage:
+            // MUL REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            switch(arg2.mode)
+            {
+                case OVO::Instruction::ARG::MODE::REG:
+                {
+                    Wrapper *regy;
 
-            Wrapper *regy;
+                    /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                        return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                    selection = SelectRegister(arg2.value, regy);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            selection = SelectRegister(arg2.value, regy);
-            if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    bool can_add = regx->field->TryDiv(*(regy->field));
 
-            bool can_div = regx->field->TryDiv(*regy->field);
+                    if(can_add)
+                        return;
 
-            Wrapper tmp = opHandler.EvaluateDivide(*regx, *regy, can_div);
+                    Wrapper tmp = opHandler.EvaluateDivide(*regx, *regy, can_add);
 
-            if (!can_div)
-                return ThrowException(exception_shift + 0x05, "Operator / is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    if (!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+                    regx->field->Copy(*tmp.field, true);
+
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    long value = arg2.value;
+                    bool can_add = regx->field->TryDiv(std::forward<long>(value));
+
+                    if(!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg2.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
+                    OVO::Data data = result.data;
+
+                    switch(data.mode)
+                    {
+                        case OVO::Data::Mode::INT:
+                        {
+                            int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and int");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UINT:
+                        {
+                            unsigned int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uint");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::LONG:
+                        {
+
+                            long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::ULONG:
+                        {
+
+                            unsigned long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and unsigned long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::FLOAT:
+                        {
+
+                            float value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and float");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::DOUBLE:
+                        {
+                            double value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and double");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::CHAR:
+                        {
+                            char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and char");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UCHAR:
+                        {
+                            unsigned char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uchar");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::BOOL:
+                        {
+                            bool value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryDiv(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and bool");
+                            
+                            return;
+                        }
+                        default:
+                        {
+                            return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                        }
+                    }
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x07, "Failed!");
+                }
+            }
         }
         void YVM::I_MOD(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2074,30 +2686,180 @@ namespace Yolk
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            switch(arg2.mode)
+            {
+                case OVO::Instruction::ARG::MODE::REG:
+                {
+                    Wrapper *regy;
 
-            Wrapper *regy;
+                    /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                        return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                    selection = SelectRegister(arg2.value, regy);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            selection = SelectRegister(arg2.value, regy);
-            if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    bool can_add = regx->field->TryMod(*(regy->field));
 
-            bool can_mod = regx->field->TryMod(*regy->field);
+                    if(can_add)
+                        return;
 
-            Wrapper tmp = opHandler.EvaluateModulo(*regx, *regy, can_mod);
+                    Wrapper tmp = opHandler.EvaluateModulo(*regx, *regy, can_add);
 
-            if (!can_mod)
-                return ThrowException(exception_shift + 0x05, "Operator % is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    if (!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+                    regx->field->Copy(*tmp.field, true);
+
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    long value = arg2.value;
+                    bool can_add = regx->field->TryMod(std::forward<long>(value));
+
+                    if(!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg2.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
+                    OVO::Data data = result.data;
+
+                    switch(data.mode)
+                    {
+                        case OVO::Data::Mode::INT:
+                        {
+                            int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and int");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UINT:
+                        {
+                            unsigned int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uint");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::LONG:
+                        {
+
+                            long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::ULONG:
+                        {
+
+                            unsigned long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and unsigned long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::FLOAT:
+                        {
+
+                            float value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and float");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::DOUBLE:
+                        {
+                            double value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and double");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::CHAR:
+                        {
+                            char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and char");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UCHAR:
+                        {
+                            unsigned char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uchar");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::BOOL:
+                        {
+                            bool value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryMod(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and bool");
+                            
+                            return;
+                        }
+                        default:
+                        {
+                            return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                        }
+                    }
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x07, "Failed!");
+                }
+            }
         }
         void YVM::I_AND(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
@@ -2107,63 +2869,363 @@ namespace Yolk
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            switch(arg2.mode)
+            {
+                case OVO::Instruction::ARG::MODE::REG:
+                {
+                    Wrapper *regy;
 
-            Wrapper *regy;
+                    /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                        return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                    selection = SelectRegister(arg2.value, regy);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            selection = SelectRegister(arg2.value, regy);
-            if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    bool can_add = regx->field->TryAnd(*(regy->field));
 
-            bool can_and = regx->field->TryAnd(*regy->field);
+                    if(can_add)
+                        return;
 
-            Wrapper tmp = opHandler.EvaluateAnd(*regx, *regy, can_and);
+                    Wrapper tmp = opHandler.EvaluateAnd(*regx, *regy, can_add);
 
-            if (!can_and)
-                return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    if (!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Copy(*tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+                    regx->field->Copy(*tmp.field, true);
+
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    long value = arg2.value;
+                    bool can_add = regx->field->TryAnd(std::forward<long>(value));
+
+                    if(!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg2.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
+                    OVO::Data data = result.data;
+
+                    switch(data.mode)
+                    {
+                        case OVO::Data::Mode::INT:
+                        {
+                            int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and int");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UINT:
+                        {
+                            unsigned int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uint");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::LONG:
+                        {
+
+                            long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::ULONG:
+                        {
+
+                            unsigned long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and unsigned long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::FLOAT:
+                        {
+
+                            float value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and float");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::DOUBLE:
+                        {
+                            double value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and double");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::CHAR:
+                        {
+                            char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and char");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UCHAR:
+                        {
+                            unsigned char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uchar");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::BOOL:
+                        {
+                            bool value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and bool");
+                            
+                            return;
+                        }
+                        default:
+                        {
+                            return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                        }
+                    }
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x07, "Failed!");
+                }
+            }
         }
         void YVM::I_OR(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {
             // Usage:
-            // OR REGX, REGY
+            // AND REGX, REGY
             const int exception_shift = 0x0;
 
             Wrapper *regx;
 
-            if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+            /*if (arg1.mode != OVO::Instruction::ARG::MODE::REG)
+                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
             bool selection = SelectRegister(arg1.value, regx);
             if (!selection)
                 return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+            switch(arg2.mode)
+            {
+                case OVO::Instruction::ARG::MODE::REG:
+                {
+                    Wrapper *regy;
 
-            Wrapper *regy;
+                    /*if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
+                        return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");*/
 
-            if (arg2.mode != OVO::Instruction::ARG::MODE::REG)
-                return ThrowException(exception_shift + 0x1, "MOV arguments do not fit standard!");
+                    selection = SelectRegister(arg2.value, regy);
+                    if (!selection)
+                        return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
 
-            selection = SelectRegister(arg2.value, regy);
-            if (!selection)
-                return ThrowException(exception_shift + 0x2, "MOV arguments do not fit standard! Current value is: " + std::to_string(arg1.value) + ".");
+                    bool can_add = regx->field->TryAnd(*(regy->field));
 
-            bool can_or = regx->field->TryOr(*regy->field);
+                    if(can_add)
+                        return;
 
-            Wrapper tmp = opHandler.EvaluateOr(*regx, *regy, can_or);
+                    Wrapper tmp = opHandler.EvaluateAnd(*regx, *regy, can_add);
 
-            if (!can_or)
-                return ThrowException(exception_shift + 0x05, "Operator & is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
+                    if (!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(regy->field->GetType().name()) + ".");
 
-            regx->field->Copy(tmp.field, true); // Todo: Is this correct? Should we copy the value of the sum to regx? Or copy it as a new wrapper?
+                    regx->field->Copy(*tmp.field, true);
+
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::SYMBOL:
+                {
+                    long value = arg2.value;
+                    bool can_add = regx->field->TryAnd(std::forward<long>(value));
+
+                    if(!can_add)
+                        return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                    return;
+                }
+                case OVO::Instruction::ARG::MODE::DATA:
+                {
+                    auto result = RetrieveData(arg2.value);
+                    if (!result.ok)
+                        return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
+                    OVO::Data data = result.data;
+
+                    switch(data.mode)
+                    {
+                        case OVO::Data::Mode::INT:
+                        {
+                            int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and int");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UINT:
+                        {
+                            unsigned int value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uint");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::LONG:
+                        {
+
+                            long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::ULONG:
+                        {
+
+                            unsigned long value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and unsigned long");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::FLOAT:
+                        {
+
+                            float value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and float");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::DOUBLE:
+                        {
+                            double value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and double");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::CHAR:
+                        {
+                            char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and char");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::UCHAR:
+                        {
+                            unsigned char value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and uchar");
+                            
+                            return;
+                        }
+                        case OVO::Data::Mode::BOOL:
+                        {
+                            bool value = 0;
+                            OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                            auto can_add = regx->field->TryAnd(value);
+
+                            if(!can_add)
+                                return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and bool");
+                            
+                            return;
+                        }
+                        default:
+                        {
+                            return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                        }
+                    }
+                }
+                default:
+                {
+                    return ThrowException(exception_shift + 0x07, "Failed!");
+                }
+            }
         }
         void YVM::I_CAST(OVO::Instruction::ARG arg1, OVO::Instruction::ARG arg2)
         {

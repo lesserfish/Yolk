@@ -40,6 +40,73 @@ namespace Yolk
             virtual bool TryAnd(HB *){return false;}
             virtual bool TryOr(HB *){return false;}
 
+            virtual int Compare(long) const {return -1;}
+virtual bool TryAdd(int) {return false;}
+virtual bool TryAdd(long) {return false;}
+virtual bool TryAdd(unsigned int) {return false;}
+virtual bool TryAdd(unsigned long) {return false;}
+virtual bool TryAdd(float) {return false;}
+virtual bool TryAdd(double) {return false;}
+virtual bool TryAdd(char) {return false;}
+virtual bool TryAdd(unsigned char) {return false;}
+virtual bool TryAdd(bool) {return false;}
+virtual bool TryAdd(std::string) {return false;}
+virtual bool TrySub(int) {return false;}
+virtual bool TrySub(long) {return false;}
+virtual bool TrySub(unsigned int) {return false;}
+virtual bool TrySub(unsigned long) {return false;}
+virtual bool TrySub(float) {return false;}
+virtual bool TrySub(double) {return false;}
+virtual bool TrySub(char) {return false;}
+virtual bool TrySub(unsigned char) {return false;}
+virtual bool TrySub(bool) {return false;}
+virtual bool TryMul(int) {return false;}
+virtual bool TryMul(long) {return false;}
+virtual bool TryMul(unsigned int) {return false;}
+virtual bool TryMul(unsigned long) {return false;}
+virtual bool TryMul(float) {return false;}
+virtual bool TryMul(double) {return false;}
+virtual bool TryMul(char) {return false;}
+virtual bool TryMul(unsigned char) {return false;}
+virtual bool TryMul(bool) {return false;}
+virtual bool TryDiv(int) {return false;}
+virtual bool TryDiv(long) {return false;}
+virtual bool TryDiv(unsigned int) {return false;}
+virtual bool TryDiv(unsigned long) {return false;}
+virtual bool TryDiv(float) {return false;}
+virtual bool TryDiv(double) {return false;}
+virtual bool TryDiv(char) {return false;}
+virtual bool TryDiv(unsigned char) {return false;}
+virtual bool TryDiv(bool) {return false;}
+virtual bool TryMod(int) {return false;}
+virtual bool TryMod(long) {return false;}
+virtual bool TryMod(unsigned int) {return false;}
+virtual bool TryMod(unsigned long) {return false;}
+virtual bool TryMod(float) {return false;}
+virtual bool TryMod(double) {return false;}
+virtual bool TryMod(char) {return false;}
+virtual bool TryMod(unsigned char) {return false;}
+virtual bool TryMod(bool) {return false;}
+virtual bool TryAnd(int) {return false;}
+virtual bool TryAnd(long) {return false;}
+virtual bool TryAnd(unsigned int) {return false;}
+virtual bool TryAnd(unsigned long) {return false;}
+virtual bool TryAnd(float) {return false;}
+virtual bool TryAnd(double) {return false;}
+virtual bool TryAnd(char) {return false;}
+virtual bool TryAnd(unsigned char) {return false;}
+virtual bool TryAnd(bool) {return false;}
+virtual bool TryOr(int) {return false;}
+virtual bool TryOr(long) {return false;}
+virtual bool TryOr(unsigned int) {return false;}
+virtual bool TryOr(unsigned long) {return false;}
+virtual bool TryOr(float) {return false;}
+virtual bool TryOr(double) {return false;}
+virtual bool TryOr(char) {return false;}
+virtual bool TryOr(unsigned char) {return false;}
+virtual bool TryOr(bool) {return false;}
+
+
 
 
         };
@@ -224,6 +291,7 @@ namespace Yolk
                 if(other->GetType() != Type)
                     return false;
                 
+                constexpr bool is_bool = std::is_same<bool, T>::value || std::is_same<bool&, T>::value;
                 constexpr bool canMul = requires(T t)
                 {
                     t = t * t;
@@ -232,7 +300,10 @@ namespace Yolk
                 if constexpr (canMul)
                 {
                     H<T> *cast = static_cast<H<T> *>(other);
-                    value = value * cast->value;
+                    if constexpr(is_bool)
+                        value = value && cast->value;
+                    else
+                        value = value * cast->value;
                     return true;
                 }
                 return false;
@@ -350,6 +421,252 @@ namespace Yolk
                 other.Bind<T>(value);
             }
 
+            int Compare(long other) const
+            {
+                constexpr bool is_unsigned = std::is_unsigned<T>::value;
+                if constexpr(is_unsigned)
+                    return CompareHelper((unsigned long) other);
+                else
+                    return CompareHelper(other);
+            }
+//            bool TryAdd(long other) {return AddHelper<long>(other);}
+            template<typename F>
+            int CompareHelper(F other) const
+            {
+                constexpr bool has_comparison = requires(T t)
+                {
+                    t == other;
+                };
+
+                if constexpr(has_comparison)
+                {
+                    return value == other;
+                }
+                return -1;
+            }
+            template<typename F>
+            int CompareLessHelper(F other) const
+            {
+                constexpr bool has_comparison = requires(T t)
+                {
+                    t < other;
+                };
+
+                if constexpr(has_comparison)
+                {
+                    return value < other;
+                }
+                return -1;
+            }
+            template<typename F>
+            int CompareGreaterHelper(F other) const
+            {
+                constexpr bool has_comparison = requires(T t)
+                {
+                    t > other;
+                };
+
+                if constexpr(has_comparison)
+                {
+                    return value > other;
+                }
+                return -1;
+            }
+            template<typename F>
+            int CompareLessEqualHelper(F other) const
+            {
+                constexpr bool has_comparison = requires(T t)
+                {
+                    t <= other;
+                };
+
+                if constexpr(has_comparison)
+                {
+                    return value <= other;
+                }
+                return -1;
+            }
+            template<typename F>
+            int CompareGreaterEqualHelper(F other) const
+            {
+                constexpr bool has_comparison = requires(T t)
+                {
+                    t >= other;
+                };
+
+                if constexpr(has_comparison)
+                {
+                    return value >= other;
+                }
+                return -1;
+            }
+            template<typename F>
+            bool AddHelper(F other)
+            {
+                constexpr bool can_add = requires(T t)
+                {
+                    t = t + other;
+                };
+                if constexpr(can_add)
+                {
+                    value = value + other;
+                    return true;
+                }
+                return false;
+            }
+            template<typename F>
+            bool SubHelper(F other)
+            {
+                constexpr bool can_add = requires(T t)
+                {
+                    t = t - other;
+                };
+                if constexpr(can_add)
+                {
+                    value = value - other;
+                    return true;
+                }
+                return false;
+            }
+            template<typename F>
+            bool MulHelper(F other)
+            {
+                constexpr bool is_bool = std::is_same<bool, T>::value || std::is_same<bool&, T>::value;
+                constexpr bool can_add = requires(T t)
+                {
+                    t = t * other;
+                };
+                if constexpr(can_add)
+                {
+                    if constexpr(is_bool)
+                        value = value && other;
+                    else
+                        value = value * other;
+                    return true;
+                }
+                return false;
+            }
+            template<typename F>
+            bool DivHelper(F other)
+            {
+                constexpr bool can_add = requires(T t)
+                {
+                    t = t / other;
+                };
+                if constexpr(can_add)
+                {
+                    value = value / other;
+                    return true;
+                }
+                return false;
+            }
+            template<typename F>
+            bool ModHelper(F other)
+            {
+                constexpr bool can_add = requires(T t)
+                {
+                    t = t % other;
+                };
+                if constexpr(can_add)
+                {
+                    value = value % other;
+                    return true;
+                }
+                return false;
+            }
+            template<typename F>
+            bool AndHelper(F other)
+            {
+                constexpr bool can_add = requires(T t)
+                {
+                    t = t && other;
+                };
+                if constexpr(can_add)
+                {
+                    value = value && other;
+                    return true;
+                }
+                return false;
+            }
+            template<typename F>
+            bool OrHelper(F other)
+            {
+                constexpr bool can_add = requires(T t)
+                {
+                    t = t || other;
+                };
+                if constexpr(can_add)
+                {
+                    value = value || other;
+                    return true;
+                }
+                return false;
+            }
+
+bool TryAdd(int other) {return AddHelper<int>(other);}
+bool TryAdd(long other) {return AddHelper<long>(other);}
+bool TryAdd(unsigned int other) {return AddHelper<unsigned int>(other);}
+bool TryAdd(unsigned long other) {return AddHelper<unsigned long>(other);}
+bool TryAdd(float other) {return AddHelper<float>(other);}
+bool TryAdd(double other) {return AddHelper<double>(other);}
+bool TryAdd(char other) {return AddHelper<char>(other);}
+bool TryAdd(std::string other) {return AddHelper<std::string>(other);}
+bool TryAdd(unsigned char other) {return AddHelper<unsigned char>(other);}
+bool TryAdd(bool other) {return AddHelper<bool>(other);}
+bool TrySub(int other) {return AddHelper<int>(other);}
+bool TrySub(long other) {return AddHelper<long>(other);}
+bool TrySub(unsigned int other) {return AddHelper<unsigned int>(other);}
+bool TrySub(unsigned long other) {return AddHelper<unsigned long>(other);}
+bool TrySub(float other) {return AddHelper<float>(other);}
+bool TrySub(double other) {return AddHelper<double>(other);}
+bool TrySub(char other) {return AddHelper<char>(other);}
+bool TrySub(unsigned char other) {return AddHelper<unsigned char>(other);}
+bool TrySub(bool other) {return AddHelper<bool>(other);}
+bool TryMul(int other) {return AddHelper<int>(other);}
+bool TryMul(long other) {return AddHelper<long>(other);}
+bool TryMul(unsigned int other) {return AddHelper<unsigned int>(other);}
+bool TryMul(unsigned long other) {return AddHelper<unsigned long>(other);}
+bool TryMul(float other) {return AddHelper<float>(other);}
+bool TryMul(double other) {return AddHelper<double>(other);}
+bool TryMul(char other) {return AddHelper<char>(other);}
+bool TryMul(unsigned char other) {return AddHelper<unsigned char>(other);}
+bool TryMul(bool other) {return AddHelper<bool>(other);}
+bool TryDiv(int other) {return AddHelper<int>(other);}
+bool TryDiv(long other) {return AddHelper<long>(other);}
+bool TryDiv(unsigned int other) {return AddHelper<unsigned int>(other);}
+bool TryDiv(unsigned long other) {return AddHelper<unsigned long>(other);}
+bool TryDiv(float other) {return AddHelper<float>(other);}
+bool TryDiv(double other) {return AddHelper<double>(other);}
+bool TryDiv(char other) {return AddHelper<char>(other);}
+bool TryDiv(unsigned char other) {return AddHelper<unsigned char>(other);}
+bool TryDiv(bool other) {return AddHelper<bool>(other);}
+bool TryMod(int other) {return AddHelper<int>(other);}
+bool TryMod(long other) {return AddHelper<long>(other);}
+bool TryMod(unsigned int other) {return AddHelper<unsigned int>(other);}
+bool TryMod(unsigned long other) {return AddHelper<unsigned long>(other);}
+bool TryMod(float other) {return AddHelper<float>(other);}
+bool TryMod(double other) {return AddHelper<double>(other);}
+bool TryMod(char other) {return AddHelper<char>(other);}
+bool TryMod(unsigned char other) {return AddHelper<unsigned char>(other);}
+bool TryMod(bool other) {return AddHelper<bool>(other);}
+bool TryAnd(int other) {return AddHelper<int>(other);}
+bool TryAnd(long other) {return AddHelper<long>(other);}
+bool TryAnd(unsigned int other) {return AddHelper<unsigned int>(other);}
+bool TryAnd(unsigned long other) {return AddHelper<unsigned long>(other);}
+bool TryAnd(float other) {return AddHelper<float>(other);}
+bool TryAnd(double other) {return AddHelper<double>(other);}
+bool TryAnd(char other) {return AddHelper<char>(other);}
+bool TryAnd(unsigned char other) {return AddHelper<unsigned char>(other);}
+bool TryAnd(bool other) {return AddHelper<bool>(other);}
+bool TryOr(int other) {return AddHelper<int>(other);}
+bool TryOr(long other) {return AddHelper<long>(other);}
+bool TryOr(unsigned int other) {return AddHelper<unsigned int>(other);}
+bool TryOr(unsigned long other) {return AddHelper<unsigned long>(other);}
+bool TryOr(float other) {return AddHelper<float>(other);}
+bool TryOr(double other) {return AddHelper<double>(other);}
+bool TryOr(char other) {return AddHelper<char>(other);}
+bool TryOr(unsigned char other) {return AddHelper<unsigned char>(other);}
+bool TryOr(bool other) {return AddHelper<bool>(other);}
         private:
             T &value;
             std::type_index Type;
@@ -392,8 +709,11 @@ namespace Yolk
         bool CompareGreater(TypedField &other) const;
         bool CompareLessEqual(TypedField &other) const;
         bool CompareGreaterEqual(TypedField &other) const;
-        template <typename T>
-        bool Compare(T &&other) const;
+        template <typename T> int Compare(T &&other) const;
+        template <typename T> int CompareLess(T &&other) const;
+        template <typename T> int CompareGreater(T &&other) const;
+        template <typename T> int CompareLessEqual(T &&other) const;
+        template <typename T> int CompareGreaterEqual(T &&other) const;
 
         template <typename T>
         bool operator==(T other) const;
@@ -430,6 +750,14 @@ namespace Yolk
         bool TryAnd(TypedField& other);
         bool TryOr(TypedField& other);
         
+        template <typename T> bool TryAdd(T&& other);
+        template <typename T> bool TrySub(T&& other);
+        template <typename T> bool TryMul(T&& other);
+        template <typename T> bool TryDiv(T&& other);
+        template <typename T> bool TryMod(T&& other);
+        template <typename T> bool TryAnd(T&& other);
+        template <typename T> bool TryOr(T&& other);
+
         template <typename T>
         static std::shared_ptr<T> Create(T value, TypedField &ref);
         HB *Data;
@@ -548,44 +876,6 @@ namespace Yolk
             }
             Bind(ref);
             return true;
-        }
-        inline bool TypedField::Compare(TypedField &other) const
-        {
-            if (!Valid() || !other.Valid())
-                return false;
-            return Data->Compare(other.Data);
-        }
-        inline bool TypedField::CompareLess(TypedField &other) const
-        {
-            if (!Valid() || !other.Valid())
-                return false;
-            return Data->CompareLess(other.Data);
-        }
-        inline bool TypedField::CompareGreater(TypedField &other) const
-        {
-            if (!Valid() || !other.Valid())
-                return false;
-            return Data->CompareGreater(other.Data);
-        }
-        inline bool TypedField::CompareLessEqual(TypedField &other) const
-        {
-            if (!Valid() || !other.Valid())
-                return false;
-            return Data->CompareLessEqual(other.Data);
-        }
-        inline bool TypedField::CompareGreaterEqual(TypedField &other) const
-        {
-            if (!Valid() || !other.Valid())
-                return false;
-            return Data->CompareGreaterEqual(other.Data);
-        }
-        template <typename T>
-        bool inline TypedField::Compare(T &&other) const
-        {
-            if (!Valid())
-                return false;
-            H<T> h(other);
-            return Data->Compare(&h);
         }
 
         template <typename T>
@@ -714,6 +1004,123 @@ namespace Yolk
                 return false;
             return Data->TryOr(other.Data);
         }
+        template<typename T>
+        inline bool TypedField::TryAdd(T&& other)
+        {
+            if(!Valid())
+                return false;
+            return Data->TryAdd(other);
+        }
+        template<typename T>
+        inline bool TypedField::TrySub(T&& other)
+        {
+            if(!Valid())
+                return false;
+            return Data->TrySub(other);
+        }
+        template<typename T>
+        inline bool TypedField::TryMul(T&& other)
+        {
+            if(!Valid())
+                return false;
+            return Data->TryMul(other);
+        }
+        template<typename T>
+        inline bool TypedField::TryDiv(T&& other)
+        {
+            if(!Valid())
+                return false;
+            return Data->TryDiv(other);
+        }
+        template<typename T>
+        inline bool TypedField::TryMod(T&& other)
+        {
+            if(!Valid())
+                return false;
+            return Data->TryMod(other);
+        }
+        template<typename T>
+        inline bool TypedField::TryAnd(T&& other)
+        {
+            if(!Valid())
+                return false;
+            return Data->TryAnd(other);
+        }
+        template<typename T>
+        inline bool TypedField::TryOr(T&& other)
+        {
+            if(!Valid())
+                return false;
+            return Data->TryOr(other);
+        }
+        inline bool TypedField::Compare(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->Compare(other.Data);
+        }
+        inline bool TypedField::CompareLess(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareLess(other.Data);
+        }
+        inline bool TypedField::CompareGreater(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareGreater(other.Data);
+        }
+        inline bool TypedField::CompareLessEqual(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareLessEqual(other.Data);
+        }
+        inline bool TypedField::CompareGreaterEqual(TypedField &other) const
+        {
+            if (!Valid() || !other.Valid())
+                return false;
+            return Data->CompareGreaterEqual(other.Data);
+        }
+        template <typename T>
+        int inline TypedField::Compare(T &&other) const
+        {
+            if (!Valid())
+                return -3;
+            return Data->Compare(other);
+        }
+        template <typename T>
+        int inline TypedField::CompareLess(T &&other) const
+        {
+            if (!Valid())
+                return -3;
+            return Data->CompareLess(other);
+        }
+        template <typename T>
+        int inline TypedField::CompareGreater(T &&other) const
+        {
+            if (!Valid())
+                return -3;
+            return Data->CompareGreater(other);
+        }
+        template <typename T>
+        int inline TypedField::CompareLessEqual(T &&other) const
+        {
+            if (!Valid())
+                return -3;
+            return Data->CompareLessEqual(other);
+        }
+        template <typename T>
+        int inline TypedField::CompareGreaterEqual(T &&other) const
+        {
+            if (!Valid())
+                return -3;
+            return Data->CompareGreaterEqual(other);
+        }
+        
+        
+        
         
 
 }
