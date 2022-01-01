@@ -1172,27 +1172,141 @@ namespace Yolk
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
-                /*auto result = RetrieveData(arg2.value);
+                auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 4, "DATA could not be found!");
-                
+                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
                 OVO::Data data = result.data;
-                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
-
-                if (tmp.field->GetType() == regx->field->GetType())
+                switch(data.mode)
                 {
-                    cmpreg = tmp.field->Compare(*(regx->field));
-                    return;
+                    case OVO::Data::Mode::INT:
+                    {
+                        int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::UINT:
+                    {
+                        unsigned int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::LONG:
+                    {
+                        long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::ULONG:
+                    {
+                        unsigned long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::FLOAT:
+                    {
+                        float value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::DOUBLE:
+                    {
+                        double value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::CHAR:
+                    {
+                        char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::UCHAR:
+                    {
+                        unsigned char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::BOOL:
+                    {
+                        bool value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    case OVO::Data::Mode::STRING:
+                    {
+                        std::string value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        return;
+                    }
+                    default:
+                    {
+                        return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                    }
+
                 }
-                bool can_evaluate = false;
-                Wrapper cmp_result = opHandler.EvaluateEquality(*regx, tmp, can_evaluate);
 
-                if (!can_evaluate)
-                    return ThrowException(exception_shift + 5, "Operator == is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
-
-                cmpreg = cmp_result.field->As<bool>();
-                return;*/
             }
             case OVO::Instruction::ARG::MODE::SYMBOL:
             {
@@ -1254,24 +1368,148 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
 
                 OVO::Data data = result.data;
-                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
 
-                if (tmp.field->GetType() == regx->field->GetType())
+                switch(data.mode)
                 {
-                    cmpreg = !tmp.field->Compare(*(regx->field));
-                    return;
+                    case OVO::Data::Mode::INT:
+                    {
+                        int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::UINT:
+                    {
+                        unsigned int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::LONG:
+                    {
+                        long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::ULONG:
+                    {
+                        unsigned long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::FLOAT:
+                    {
+                        float value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::DOUBLE:
+                    {
+                        double value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::CHAR:
+                    {
+                        char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::UCHAR:
+                    {
+                        unsigned char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::BOOL:
+                    {
+                        bool value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    case OVO::Data::Mode::STRING:
+                    {
+                        std::string value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->Compare(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        cmpreg = !cmpreg;
+                        return;
+                    }
+                    default:
+                    {
+                        return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                    }
                 }
-                bool can_evaluate = false;
-                Wrapper cmp_result = opHandler.EvaluateEquality(*regx, tmp, can_evaluate);
 
-                if (!can_evaluate)
-                    return ThrowException(exception_shift + 5, "Operator = is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
-
-                cmpreg = !cmp_result.field->As<bool>();
-                return;
             }
             default:
             {
@@ -1322,25 +1560,141 @@ namespace Yolk
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
+
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
                 OVO::Data data = result.data;
-                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
-
-                if(regx->field->GetType() == tmp.field->GetType())
+                switch(data.mode)
                 {
-                    cmpreg = regx->field->CompareLess(*tmp.field);
-                    return;
+                    case OVO::Data::Mode::INT:
+                    {
+                        int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UINT:
+                    {
+                        unsigned int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::LONG:
+                    {
+                        long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::ULONG:
+                    {
+                        unsigned long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::FLOAT:
+                    {
+                        float value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::DOUBLE:
+                    {
+                        double value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::CHAR:
+                    {
+                        char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UCHAR:
+                    {
+                        unsigned char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::BOOL:
+                    {
+                        bool value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLess(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::STRING:
+                    {
+                        return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                    }
+                    default:
+                    {
+                        return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                    }
                 }
-                bool can_evaluate = false;
-                Wrapper cmp_result = opHandler.EvaluateLessThan(*regx, tmp, can_evaluate);
 
-                if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator < is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
-
-                cmpreg = cmp_result.field->As<bool>();
-                return;
             }
             default:
             {
@@ -1392,27 +1746,142 @@ namespace Yolk
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
+                
+
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
                 OVO::Data data = result.data;
-                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
-
-
-                if(regx->field->GetType() == tmp.field->GetType())
+                switch(data.mode)
                 {
-                    cmpreg = regx->field->CompareGreater(*tmp.field);
-                    return;
+                    case OVO::Data::Mode::INT:
+                    {
+                        int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UINT:
+                    {
+                        unsigned int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::LONG:
+                    {
+                        long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::ULONG:
+                    {
+                        unsigned long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::FLOAT:
+                    {
+                        float value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::DOUBLE:
+                    {
+                        double value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::CHAR:
+                    {
+                        char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UCHAR:
+                    {
+                        unsigned char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::BOOL:
+                    {
+                        bool value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreater(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::STRING:
+                    {
+                        return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                    }
+                    default:
+                    {
+                        return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                    }
                 }
 
-                bool can_evaluate = false;
-                Wrapper cmp_result = opHandler.EvaluateGreaterThan(*regx, tmp, can_evaluate);
-
-                if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator > is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
-
-                cmpreg = cmp_result.field->As<bool>();
-                return;
             }
             default:
             {
@@ -1465,23 +1934,138 @@ namespace Yolk
             {
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
+                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
+
                 OVO::Data data = result.data;
-                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
-
-                if(regx->field->GetType() == tmp.field->GetType())
+                switch(data.mode)
                 {
-                    cmpreg = regx->field->CompareLessEqual(*tmp.field);
-                    return;
+                    case OVO::Data::Mode::INT:
+                    {
+                        int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UINT:
+                    {
+                        unsigned int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::LONG:
+                    {
+                        long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::ULONG:
+                    {
+                        unsigned long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::FLOAT:
+                    {
+                        float value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::DOUBLE:
+                    {
+                        double value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::CHAR:
+                    {
+                        char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UCHAR:
+                    {
+                        unsigned char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::BOOL:
+                    {
+                        bool value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareLessEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::STRING:
+                    {
+                        return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                    }
+                    default:
+                    {
+                        return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                    }
                 }
-                bool can_evaluate = false;
-                Wrapper cmp_result = opHandler.EvaluateLessOrEqualThan(*regx, tmp, can_evaluate);
 
-                if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator <= is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
-
-                cmpreg = cmp_result.field->As<bool>();
-                return;
             }
             default:
             {
@@ -1532,26 +2116,141 @@ namespace Yolk
             }
             case OVO::Instruction::ARG::MODE::DATA:
             {
+                
                 auto result = RetrieveData(arg2.value);
                 if (!result.ok)
-                    return ThrowException(exception_shift + 0x4, "DATA could not be found!");
-                OVO::Data data = result.data;
-                Wrapper tmp = OVO::Data::ToWrapper(data, manager);
+                    return ThrowException(exception_shift + 0x04, "DATA could not be found!");
 
-                if(regx->field->GetType() == tmp.field->GetType())
+                OVO::Data data = result.data;
+                switch(data.mode)
                 {
-                    cmpreg = regx->field->CompareGreaterEqual(*tmp.field);
-                    return;
+                    case OVO::Data::Mode::INT:
+                    {
+                        int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UINT:
+                    {
+                        unsigned int value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::LONG:
+                    {
+                        long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::ULONG:
+                    {
+                        unsigned long value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::FLOAT:
+                    {
+                        float value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::DOUBLE:
+                    {
+                        double value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::CHAR:
+                    {
+                        char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::UCHAR:
+                    {
+                        unsigned char value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::BOOL:
+                    {
+                        bool value = 0;
+                        OVO::Data::FromContainer(&value, &data.content, data.size);
+
+                        int cmp_result = regx->field->CompareGreaterEqual(value);
+
+                        if(cmp_result < 0)
+                            return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                        cmpreg = cmp_result;
+                        
+                        return;
+                    }
+                    case OVO::Data::Mode::STRING:
+                    {
+                        return ThrowException(exception_shift + 0x05, "Can't compare between the two values");
+                    }
+                    default:
+                    {
+                        return ThrowException(exception_shift + 0x06, "Error in OVO.");
+                    }
                 }
 
-                bool can_evaluate = false;
-                Wrapper cmp_result = opHandler.EvaluateGreaterOrEqualThan(*regx, tmp, can_evaluate);
-
-                if (!can_evaluate)
-                    return ThrowException(exception_shift + 0x05, "Operator >= is not defined for types: " + std::string(regx->field->GetType().name()) + " and " + std::string(tmp.field->GetType().name()) + ".");
-
-                cmpreg = cmp_result.field->As<bool>();
-                return;
             }
             default:
             {

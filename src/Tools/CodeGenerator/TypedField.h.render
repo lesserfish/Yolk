@@ -62,51 +62,51 @@ virtual bool TryOr(char) {return false;}
 virtual bool TryOr(unsigned char) {return false;}
 virtual bool TryOr(bool) {return false;}
 
-virtual int Compare(int) const {return -1;}
-virtual int Compare(long) const {return -1;}
-virtual int Compare(unsigned int) const {return -1;}
-virtual int Compare(unsigned long) const {return -1;}
 virtual int Compare(float) const {return -1;}
 virtual int Compare(double) const {return -1;}
-virtual int Compare(char) const {return -1;}
-virtual int Compare(unsigned char) const {return -1;}
 virtual int Compare(bool) const {return -1;}
-virtual int CompareLess(int) const {return -1;}
-virtual int CompareLess(long) const {return -1;}
-virtual int CompareLess(unsigned int) const {return -1;}
-virtual int CompareLess(unsigned long) const {return -1;}
+virtual int Compare(int) const {return -1;}
+virtual int Compare(long) const {return -1;}
+virtual int Compare(char) const {return -1;}
+virtual int Compare(int) const {return -1;}
+virtual int Compare(long) const {return -1;}
+virtual int Compare(char) const {return -1;}
 virtual int CompareLess(float) const {return -1;}
 virtual int CompareLess(double) const {return -1;}
-virtual int CompareLess(char) const {return -1;}
-virtual int CompareLess(unsigned char) const {return -1;}
 virtual int CompareLess(bool) const {return -1;}
-virtual int CompareGreater(int) const {return -1;}
-virtual int CompareGreater(long) const {return -1;}
-virtual int CompareGreater(unsigned int) const {return -1;}
-virtual int CompareGreater(unsigned long) const {return -1;}
+virtual int CompareLess(int) const {return -1;}
+virtual int CompareLess(long) const {return -1;}
+virtual int CompareLess(char) const {return -1;}
+virtual int CompareLess(int) const {return -1;}
+virtual int CompareLess(long) const {return -1;}
+virtual int CompareLess(char) const {return -1;}
 virtual int CompareGreater(float) const {return -1;}
 virtual int CompareGreater(double) const {return -1;}
-virtual int CompareGreater(char) const {return -1;}
-virtual int CompareGreater(unsigned char) const {return -1;}
 virtual int CompareGreater(bool) const {return -1;}
-virtual int CompareLessEqual(int) const {return -1;}
-virtual int CompareLessEqual(long) const {return -1;}
-virtual int CompareLessEqual(unsigned int) const {return -1;}
-virtual int CompareLessEqual(unsigned long) const {return -1;}
+virtual int CompareGreater(int) const {return -1;}
+virtual int CompareGreater(long) const {return -1;}
+virtual int CompareGreater(char) const {return -1;}
+virtual int CompareGreater(int) const {return -1;}
+virtual int CompareGreater(long) const {return -1;}
+virtual int CompareGreater(char) const {return -1;}
 virtual int CompareLessEqual(float) const {return -1;}
 virtual int CompareLessEqual(double) const {return -1;}
-virtual int CompareLessEqual(char) const {return -1;}
-virtual int CompareLessEqual(unsigned char) const {return -1;}
 virtual int CompareLessEqual(bool) const {return -1;}
-virtual int CompareGreaterEqual(int) const {return -1;}
-virtual int CompareGreaterEqual(long) const {return -1;}
-virtual int CompareGreaterEqual(unsigned int) const {return -1;}
-virtual int CompareGreaterEqual(unsigned long) const {return -1;}
+virtual int CompareLessEqual(int) const {return -1;}
+virtual int CompareLessEqual(long) const {return -1;}
+virtual int CompareLessEqual(char) const {return -1;}
+virtual int CompareLessEqual(int) const {return -1;}
+virtual int CompareLessEqual(long) const {return -1;}
+virtual int CompareLessEqual(char) const {return -1;}
 virtual int CompareGreaterEqual(float) const {return -1;}
 virtual int CompareGreaterEqual(double) const {return -1;}
-virtual int CompareGreaterEqual(char) const {return -1;}
-virtual int CompareGreaterEqual(unsigned char) const {return -1;}
 virtual int CompareGreaterEqual(bool) const {return -1;}
+virtual int CompareGreaterEqual(int) const {return -1;}
+virtual int CompareGreaterEqual(long) const {return -1;}
+virtual int CompareGreaterEqual(char) const {return -1;}
+virtual int CompareGreaterEqual(int) const {return -1;}
+virtual int CompareGreaterEqual(long) const {return -1;}
+virtual int CompareGreaterEqual(char) const {return -1;}
 
 bool TryAdd(int other) {return AddHelper<int>(other);}
 bool TryAdd(long other) {return AddHelper<long>(other);}
@@ -173,11 +173,14 @@ bool TryOr(unsigned char other) {return AddHelper<unsigned char>(other);}
 bool TryOr(bool other) {return AddHelper<bool>(other);}
 
 
+        int Compare(float other) const{return CompareHelper(other);}
+        int Compare(double other) const{return CompareHelper(other);}
+        int Compare(bool other) const{return CompareHelper(other);}
         int Compare(int other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareHelper((unsigned int) other);
+                return CompareHelper((unsigned int)other);
             else
                 return CompareHelper(other);
         }
@@ -185,39 +188,7 @@ bool TryOr(bool other) {return AddHelper<bool>(other);}
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareHelper((unsigned long) other);
-            else
-                return CompareHelper(other);
-        }
-        int Compare(unsigned int other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareHelper((unsigned unsigned int) other);
-            else
-                return CompareHelper(other);
-        }
-        int Compare(unsigned long other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareHelper((unsigned unsigned long) other);
-            else
-                return CompareHelper(other);
-        }
-        int Compare(float other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareHelper((unsigned float) other);
-            else
-                return CompareHelper(other);
-        }
-        int Compare(double other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareHelper((unsigned double) other);
+                return CompareHelper((unsigned long)other);
             else
                 return CompareHelper(other);
         }
@@ -225,311 +196,235 @@ bool TryOr(bool other) {return AddHelper<bool>(other);}
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareHelper((unsigned char) other);
+                return CompareHelper((unsigned char)other);
             else
                 return CompareHelper(other);
+        }
+        int Compare(unsigned int other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((int)other);
+        }
+        int Compare(unsigned long other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((long)other);
         }
         int Compare(unsigned char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareHelper((unsigned unsigned char) other);
-            else
                 return CompareHelper(other);
-        }
-        int Compare(bool other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareHelper((unsigned bool) other);
             else
-                return CompareHelper(other);
+                return CompareHelper((char)other);
         }
+        int CompareLess(float other) const{return CompareLessHelper(other);}
+        int CompareLess(double other) const{return CompareLessHelper(other);}
+        int CompareLess(bool other) const{return CompareLessHelper(other);}
         int CompareLess(int other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned int) other);
+                return CompareHelper((unsigned int)other);
             else
-                return CompareLessHelper(other);
+                return CompareHelper(other);
         }
         int CompareLess(long other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned long) other);
+                return CompareHelper((unsigned long)other);
             else
-                return CompareLessHelper(other);
-        }
-        int CompareLess(unsigned int other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned unsigned int) other);
-            else
-                return CompareLessHelper(other);
-        }
-        int CompareLess(unsigned long other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned unsigned long) other);
-            else
-                return CompareLessHelper(other);
-        }
-        int CompareLess(float other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned float) other);
-            else
-                return CompareLessHelper(other);
-        }
-        int CompareLess(double other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned double) other);
-            else
-                return CompareLessHelper(other);
+                return CompareHelper(other);
         }
         int CompareLess(char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned char) other);
+                return CompareHelper((unsigned char)other);
             else
-                return CompareLessHelper(other);
+                return CompareHelper(other);
+        }
+        int CompareLess(unsigned int other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((int)other);
+        }
+        int CompareLess(unsigned long other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((long)other);
         }
         int CompareLess(unsigned char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned unsigned char) other);
+                return CompareHelper(other);
             else
-                return CompareLessHelper(other);
+                return CompareHelper((char)other);
         }
-        int CompareLess(bool other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessHelper((unsigned bool) other);
-            else
-                return CompareLessHelper(other);
-        }
+        int CompareGreater(float other) const{return CompareGreaterHelper(other);}
+        int CompareGreater(double other) const{return CompareGreaterHelper(other);}
+        int CompareGreater(bool other) const{return CompareGreaterHelper(other);}
         int CompareGreater(int other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned int) other);
+                return CompareHelper((unsigned int)other);
             else
-                return CompareGreaterHelper(other);
+                return CompareHelper(other);
         }
         int CompareGreater(long other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned long) other);
+                return CompareHelper((unsigned long)other);
             else
-                return CompareGreaterHelper(other);
-        }
-        int CompareGreater(unsigned int other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned unsigned int) other);
-            else
-                return CompareGreaterHelper(other);
-        }
-        int CompareGreater(unsigned long other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned unsigned long) other);
-            else
-                return CompareGreaterHelper(other);
-        }
-        int CompareGreater(float other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned float) other);
-            else
-                return CompareGreaterHelper(other);
-        }
-        int CompareGreater(double other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned double) other);
-            else
-                return CompareGreaterHelper(other);
+                return CompareHelper(other);
         }
         int CompareGreater(char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned char) other);
+                return CompareHelper((unsigned char)other);
             else
-                return CompareGreaterHelper(other);
+                return CompareHelper(other);
+        }
+        int CompareGreater(unsigned int other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((int)other);
+        }
+        int CompareGreater(unsigned long other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((long)other);
         }
         int CompareGreater(unsigned char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned unsigned char) other);
+                return CompareHelper(other);
             else
-                return CompareGreaterHelper(other);
+                return CompareHelper((char)other);
         }
-        int CompareGreater(bool other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterHelper((unsigned bool) other);
-            else
-                return CompareGreaterHelper(other);
-        }
+        int CompareLessEqual(float other) const{return CompareLessEqualHelper(other);}
+        int CompareLessEqual(double other) const{return CompareLessEqualHelper(other);}
+        int CompareLessEqual(bool other) const{return CompareLessEqualHelper(other);}
         int CompareLessEqual(int other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned int) other);
+                return CompareHelper((unsigned int)other);
             else
-                return CompareLessEqualHelper(other);
+                return CompareHelper(other);
         }
         int CompareLessEqual(long other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned long) other);
+                return CompareHelper((unsigned long)other);
             else
-                return CompareLessEqualHelper(other);
-        }
-        int CompareLessEqual(unsigned int other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned unsigned int) other);
-            else
-                return CompareLessEqualHelper(other);
-        }
-        int CompareLessEqual(unsigned long other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned unsigned long) other);
-            else
-                return CompareLessEqualHelper(other);
-        }
-        int CompareLessEqual(float other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned float) other);
-            else
-                return CompareLessEqualHelper(other);
-        }
-        int CompareLessEqual(double other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned double) other);
-            else
-                return CompareLessEqualHelper(other);
+                return CompareHelper(other);
         }
         int CompareLessEqual(char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned char) other);
+                return CompareHelper((unsigned char)other);
             else
-                return CompareLessEqualHelper(other);
+                return CompareHelper(other);
+        }
+        int CompareLessEqual(unsigned int other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((int)other);
+        }
+        int CompareLessEqual(unsigned long other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((long)other);
         }
         int CompareLessEqual(unsigned char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned unsigned char) other);
+                return CompareHelper(other);
             else
-                return CompareLessEqualHelper(other);
+                return CompareHelper((char)other);
         }
-        int CompareLessEqual(bool other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareLessEqualHelper((unsigned bool) other);
-            else
-                return CompareLessEqualHelper(other);
-        }
+        int CompareGreaterEqual(float other) const{return CompareGreaterEqualHelper(other);}
+        int CompareGreaterEqual(double other) const{return CompareGreaterEqualHelper(other);}
+        int CompareGreaterEqual(bool other) const{return CompareGreaterEqualHelper(other);}
         int CompareGreaterEqual(int other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned int) other);
+                return CompareHelper((unsigned int)other);
             else
-                return CompareGreaterEqualHelper(other);
+                return CompareHelper(other);
         }
         int CompareGreaterEqual(long other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned long) other);
+                return CompareHelper((unsigned long)other);
             else
-                return CompareGreaterEqualHelper(other);
-        }
-        int CompareGreaterEqual(unsigned int other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned unsigned int) other);
-            else
-                return CompareGreaterEqualHelper(other);
-        }
-        int CompareGreaterEqual(unsigned long other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned unsigned long) other);
-            else
-                return CompareGreaterEqualHelper(other);
-        }
-        int CompareGreaterEqual(float other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned float) other);
-            else
-                return CompareGreaterEqualHelper(other);
-        }
-        int CompareGreaterEqual(double other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned double) other);
-            else
-                return CompareGreaterEqualHelper(other);
+                return CompareHelper(other);
         }
         int CompareGreaterEqual(char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned char) other);
+                return CompareHelper((unsigned char)other);
             else
-                return CompareGreaterEqualHelper(other);
+                return CompareHelper(other);
+        }
+        int CompareGreaterEqual(unsigned int other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((int)other);
+        }
+        int CompareGreaterEqual(unsigned long other) const
+        {
+            constexpr bool is_unsigned = std::is_unsigned<T>::value;
+            if constexpr(is_unsigned)
+                return CompareHelper(other);
+            else
+                return CompareHelper((long)other);
         }
         int CompareGreaterEqual(unsigned char other) const
         {
             constexpr bool is_unsigned = std::is_unsigned<T>::value;
             if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned unsigned char) other);
+                return CompareHelper(other);
             else
-                return CompareGreaterEqualHelper(other);
-        }
-        int CompareGreaterEqual(bool other) const
-        {
-            constexpr bool is_unsigned = std::is_unsigned<T>::value;
-            if constexpr(is_unsigned)
-                return CompareGreaterEqualHelper((unsigned bool) other);
-            else
-                return CompareGreaterEqualHelper(other);
+                return CompareHelper((char)other);
         }

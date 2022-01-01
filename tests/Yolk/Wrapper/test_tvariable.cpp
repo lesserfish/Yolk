@@ -148,24 +148,6 @@ struct CompareB
     int a;
 };
 
-TEST(Yolk_Test, Typed_Variable_Compare_B)
-{
-    CompareB a(0);
-    CompareB b(0);
-    CompareB c(1);
-
-    Yolk::TypedField x(a);
-    Yolk::TypedField y(b);
-    Yolk::TypedField z(c);
-
-    EXPECT_TRUE(x.Compare(y));
-    EXPECT_TRUE(x.Compare(b));
-    EXPECT_TRUE(x.Compare(CompareB(0)));
-    EXPECT_FALSE(x.Compare(z));
-    EXPECT_FALSE(x.Compare(c));
-    EXPECT_FALSE(x.Compare(CompareB(1)));
-
-}
 TEST(Yolk_Test, Typed_Variable_Bind)
 {
     int a = 1;
@@ -193,7 +175,7 @@ TEST(Yolk_Test, Typed_Variable_Create)
 
     EXPECT_EQ(x.As<int>(), 5);
 }
-
+/*
 TEST(Yolk_Test, Typed_Variable_EqualComparison)
 {
 
@@ -213,7 +195,7 @@ TEST(Yolk_Test, Typed_Variable_EqualComparison)
     EXPECT_FALSE(x == CompareB(1));
 
 }
-
+*/
 TEST(Yolk_Test, Typed_Variable_Equal_Set)
 {
     int a = 5;
