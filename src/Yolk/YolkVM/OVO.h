@@ -12,11 +12,11 @@ namespace Yolk
     {
         struct OVO
         {
-            using Byte = unsigned char;
-            using Usize = long unsigned int;
+            using Byte = int8_t;
+            using Usize = uint64_t;
+            using Rvalue = int64_t;
             struct Instruction
             {
-                using CHUNK = unsigned long int;
                 enum INSTRUCTION
                 {
                     MOV,     // Moves ARG2 onto ARG1. ARG1 is a Register. ARG2 is either a Register or a Data consisting of the name of a Wrapper.
@@ -70,7 +70,7 @@ namespace Yolk
                         DATA,   // Argument represents Data
                     };
                     MODE mode; // Mode of the argument
-                    CHUNK value; // Argument value
+                    Rvalue value; // Argument value
                 };
 
                 INSTRUCTION instruction;
@@ -79,8 +79,6 @@ namespace Yolk
             };
             struct Data
             {
-                using Byte = unsigned char;
-                using Usize = long unsigned int;
                 enum Mode : Byte
                 {
                     VOID,

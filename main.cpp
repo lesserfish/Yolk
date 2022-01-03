@@ -4,7 +4,7 @@
 #include <iostream>
 #include <chrono>
 
-void Print(long x)
+void Print(unsigned long x)
 {
     std::cout << "Result: " << x << std::endl;
 }
@@ -22,11 +22,11 @@ int main()
 
     std::string Content = 
     "MOVM str:Print\n"
-    "CLONE REGA, i64:1\n"
-    "CLONE REGC, i64\n"
-    "CLONE REGB, i64\n"
+    "CLONE REGA, u64:1\n"
+    "CLONE REGC, u64\n"
+    "CLONE REGB, u64\n"
     ".loop_begin:\n"
-    "CMPEQ REGB, dbl:100000\n"
+    "CMPEQ REGB, 100000\n"
     "JNTRUE .loop_end\n"
     "ADD REGB, 1\n"
     "ADD REGC, REGB\n"
@@ -46,7 +46,7 @@ int main()
     Yolk::Memory::WrapperTable wtable(manager);
     Yolk::Memory::MemoryBlock memblock(manager, wtable);
 
-    auto w = Yolk::WrapperGenerator<void,long>::GenerateMethodWrapper(Print, manager);
+    auto w = Yolk::WrapperGenerator<void,unsigned long>::GenerateMethodWrapper(Print, manager);
     memblock.RegisterWrapper("Print", w);
 
     Yolk::VM::YVM vm(manager, wtable);

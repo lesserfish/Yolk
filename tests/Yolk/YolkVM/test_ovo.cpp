@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/YolkVM/OVO.h"
 
-using Data = Yolk::VM::OVO::Data;
+using OVO = Yolk::VM::OVO;
+using Data = OVO::Data;
 
 TEST(Yolk_Test, OVO_Data_INT)
 {
@@ -209,9 +210,9 @@ TEST(Yolk_Test, OVO_Data_STR_INT)
 
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
-
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -234,8 +235,8 @@ TEST(Yolk_Test, OVO_DATA_STR_UINT)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -257,8 +258,8 @@ TEST(Yolk_Test, OVO_DATA_STR_LONG)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -280,8 +281,8 @@ TEST(Yolk_Test, OVO_DATA_STR_ULONG)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -303,8 +304,8 @@ TEST(Yolk_Test, OVO_DATA_STR_FLOAT)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -326,8 +327,8 @@ TEST(Yolk_Test, OVO_DATA_STR_DOUBLE)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -349,8 +350,8 @@ TEST(Yolk_Test, OVO_DATA_STR_BOOL)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -372,8 +373,8 @@ TEST(Yolk_Test, OVO_DATA_STR_CHAR)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -395,8 +396,8 @@ TEST(Yolk_Test, OVO_DATA_STR_UCHAR)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -418,8 +419,8 @@ TEST(Yolk_Test, OVO_DATA_STR_STRING)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);
@@ -441,8 +442,8 @@ TEST(Yolk_Test, OVO_DATA_STR_VOID)
     EXPECT_EQ(d2.size, d.size);
     EXPECT_EQ(d2.mode, d.mode);
 
-    Data::Usize size = sizeof(Data::Usize) + sizeof(Data::Mode) + d.size;
-    Data::Usize strsize = str.length() * sizeof(Data::Byte) / sizeof(char);
+    OVO::Usize size = sizeof(OVO::Usize) + sizeof(Data::Mode) + d.size;
+    OVO::Usize strsize = str.length() * sizeof(OVO::Byte) / sizeof(char);
     EXPECT_EQ(size, strsize);
 
     auto w = Data::ToWrapper(d2, manager);

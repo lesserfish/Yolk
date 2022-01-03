@@ -90,7 +90,6 @@ namespace Yolk
             Message = "Started!";
             clock = 0;
 
-//            std::chrono::steady_clock Clock;
 
             JumpToInstruction(0);
 
@@ -307,7 +306,7 @@ namespace Yolk
                     return ThrowException(exception_shift + 0x1, "Unknown instruction!");
             }
         }
-        bool YVM::SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref)
+        bool YVM::SelectRegister(OVO::Rvalue chunk, Wrapper *&ref)
         {
             switch (chunk)
             {
@@ -363,9 +362,10 @@ namespace Yolk
             exceptionStatus = exception_status;
             Message = exception;
         }
-        YVM::DataOutput YVM::RetrieveData(OVO::Instruction::CHUNK position)
+        YVM::DataOutput YVM::RetrieveData(OVO::Rvalue _position)
         {
             DataOutput out;
+            OVO::Usize position = _position;
 
             if(position >= ovo.DataSet.size())
             {
@@ -561,7 +561,7 @@ namespace Yolk
                 }
                 }
         }
-        std::string YVM::GetValue(OVO::Instruction::ARG::MODE s, OVO::Instruction::CHUNK chunk)
+        std::string YVM::GetValue(OVO::Instruction::ARG::MODE s, OVO::Rvalue chunk)
         {
                 switch(s)
                 {
@@ -1310,7 +1310,7 @@ namespace Yolk
             }
             case OVO::Instruction::ARG::MODE::SYMBOL:
             {
-                long value = arg2.value;
+                OVO::Rvalue value = arg2.value;
                 int comparison = regx->field->Compare(value);
 
                 if(comparison < 0)
@@ -2677,7 +2677,7 @@ namespace Yolk
                 case OVO::Instruction::ARG::MODE::SYMBOL:
                 {
                     long value = arg2.value;
-                    bool can_add = regx->field->TryAdd(std::forward<long>(value));
+                    bool can_add = regx->field->TryAdd(value);
 
                     if(!can_add)
                         return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
@@ -2871,8 +2871,8 @@ namespace Yolk
                 }
                 case OVO::Instruction::ARG::MODE::SYMBOL:
                 {
-                    long value = arg2.value;
-                    bool can_add = regx->field->TrySub(std::forward<long>(value));
+                    OVO::Rvalue value = arg2.value;
+                    bool can_add = regx->field->TrySub(value);
 
                     if(!can_add)
                         return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
@@ -3054,8 +3054,8 @@ namespace Yolk
                 }
                 case OVO::Instruction::ARG::MODE::SYMBOL:
                 {
-                    long value = arg2.value;
-                    bool can_add = regx->field->TryMul(std::forward<long>(value));
+                    OVO::Rvalue value = arg2.value;
+                    bool can_add = regx->field->TryMul(value);
 
                     if(!can_add)
                         return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
@@ -3237,8 +3237,8 @@ namespace Yolk
                 }
                 case OVO::Instruction::ARG::MODE::SYMBOL:
                 {
-                    long value = arg2.value;
-                    bool can_add = regx->field->TryDiv(std::forward<long>(value));
+                    OVO::Rvalue value = arg2.value;
+                    bool can_add = regx->field->TryDiv(value);
 
                     if(!can_add)
                         return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
@@ -3420,8 +3420,8 @@ namespace Yolk
                 }
                 case OVO::Instruction::ARG::MODE::SYMBOL:
                 {
-                    long value = arg2.value;
-                    bool can_add = regx->field->TryMod(std::forward<long>(value));
+                    OVO::Rvalue value = arg2.value;
+                    bool can_add = regx->field->TryMod(value);
 
                     if(!can_add)
                         return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
@@ -3603,8 +3603,8 @@ namespace Yolk
                 }
                 case OVO::Instruction::ARG::MODE::SYMBOL:
                 {
-                    long value = arg2.value;
-                    bool can_add = regx->field->TryAnd(std::forward<long>(value));
+                    OVO::Rvalue value = arg2.value;
+                    bool can_add = regx->field->TryAnd(value);
 
                     if(!can_add)
                         return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");
@@ -3786,8 +3786,8 @@ namespace Yolk
                 }
                 case OVO::Instruction::ARG::MODE::SYMBOL:
                 {
-                    long value = arg2.value;
-                    bool can_add = regx->field->TryAnd(std::forward<long>(value));
+                    OVO::Rvalue value = arg2.value;
+                    bool can_add = regx->field->TryAnd(value);
 
                     if(!can_add)
                         return ThrowException(exception_shift + 0x05, "Operator + is not defined for types: " + std::string(regx->field->GetType().name()) + " and long");

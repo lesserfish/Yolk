@@ -113,11 +113,11 @@ namespace Yolk
             
             protected:
 
-            std::string GetValue(OVO::Instruction::ARG::MODE s, OVO::Instruction::CHUNK chunk);
+            std::string GetValue(OVO::Instruction::ARG::MODE s, OVO::Rvalue chunk);
 
             void ThrowException(int status, std::string Message);
-            DataOutput RetrieveData(OVO::Instruction::CHUNK id);
-            bool SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref);
+            DataOutput RetrieveData(OVO::Rvalue id);
+            bool SelectRegister(OVO::Rvalue chunk, Wrapper *&ref);
             bool ValidInstruction(OVO::Usize position);
             void JumpToInstruction(OVO::Usize position);
             OVO::Usize CurrentInstruction();
@@ -172,7 +172,7 @@ namespace Yolk
 
         // Helper Functions
 
-        inline bool YVM::SelectRegister(OVO::Instruction::CHUNK chunk, Wrapper *&ref)
+        inline bool YVM::SelectRegister(OVO::Rvalue chunk, Wrapper *&ref)
         {
             switch (chunk)
             {
@@ -210,7 +210,7 @@ namespace Yolk
         {
             std::cout << "ERROR (" + std::to_string(status) + "): " << Message << std::endl;
         }
-        inline YVM::DataOutput YVM::RetrieveData(OVO::Instruction::CHUNK)
+        inline YVM::DataOutput YVM::RetrieveData(OVO::Rvalue)
         {
             DataOutput out;
             out.ok = true;
