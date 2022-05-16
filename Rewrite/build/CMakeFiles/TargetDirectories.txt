@@ -1,0 +1,6 @@
+/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles/Example.dir
+/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles/edit_cache.dir
+/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles/rebuild_cache.dir
+/home/lesserfish/Documents/Code/Yolk/Rewrite/build/src/CMakeFiles/Yolk.dir
+/home/lesserfish/Documents/Code/Yolk/Rewrite/build/src/CMakeFiles/edit_cache.dir
+/home/lesserfish/Documents/Code/Yolk/Rewrite/build/src/CMakeFiles/rebuild_cache.dir
