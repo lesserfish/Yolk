@@ -1,0 +1,20 @@
+Yolk_Test.Typed_Variable_Assignment 6 0.000636799
+Yolk_Test.Typed_Variable_Assignment_B 6 0.000571074
+Yolk_Test.Typed_Variable_Assignemnt_C 6 0.000622065
+Yolk_Test.Typed_Variables_Const 6 0.000557134
+Yolk_Test.Typed_Variable_Copy_By_Function 6 0.000601522
+Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable 6 0.000828147
+Yolk_Test.Typed_Variable_Is_Method 6 0.000844832
+Yolk_Test.Typed_Variable_Compare_A 6 0.000706334
+Yolk_Test.Typed_Variable_Compare_B 5 0.00098361
+Yolk_Test.Typed_Variable_Bind 6 0.00103943
+Yolk_Test.Typed_Variable_EqualComparison 5 0.000800471
+Yolk_Test.Typed_Variable_Equal_Set 6 0.00071167
+Yolk_Test.Typed_Variable_Type 6 0.000721819
+Yolk_Test.Typed_Variable_Sizeof 6 0.000511189
+Yolk_Test.Typed_Variable_SafeAs 6 0.000458181
+Yolk_Test.Typed_Variable_BindToTypedVariable 6 0.000829877
+Yolk_Test.Typed_Variable_Stability_A 2 0.00318385
+Yolk_Test.Typed_Variable_Print_A 6 0.000494421
+Yolk_Test.Typed_Variable_Print_B 6 0.000878306
+---

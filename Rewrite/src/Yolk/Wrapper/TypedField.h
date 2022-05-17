@@ -6,6 +6,8 @@
 #include <concepts>
 #include <iostream>
 #include <sstream>
+
+
 // Relational Macros
 
 // == Macros
@@ -56,7 +58,6 @@
 // ! Macros
 #define NOTC() virtual bool NOT() {return false;}
 #define NOTM() bool NOT() { return NOTHelper(); }
-
 
 namespace Yolk {
 
@@ -122,6 +123,7 @@ namespace Yolk {
                     MODC(TypedField)
                     ANDC(TypedField)
                     ORC(TypedField)
+                    NOTC()
 
 
                     // Equality Comparations
@@ -138,7 +140,6 @@ namespace Yolk {
                     MODC(int)
                     ANDC(int)
                     ORC(int)
-                    NOTC()
             };
 
             template <typename T> struct Thing : public None {
@@ -179,8 +180,30 @@ namespace Yolk {
                         if(other->Type() != Type()){
                             return false;
                         } 
+                        constexpr bool canCompare = requires(T lhs, T rhs){
+                            lhs == rhs;
+                        };
+                        
                         Thing<T> *cast = static_cast<Thing<T> *>(other);
-                        return lvalue == cast->lvalue;
+                        if constexpr(canCompare){
+                            return lvalue == cast->lvalue;
+                        } else {
+                            if(cast->Size() != Size()){
+                                return false;
+                            }
+                            unsigned char *here = (unsigned char *) &lvalue;
+                            unsigned char *there = (unsigned char *) &cast->lvalue;
+
+                            bool eq = true;
+                            unsigned int lsize = Size();
+                            for(unsigned int i = 0; i < lsize; i++){
+                                eq = eq && (*here == *there);
+                                here++;
+                                there++;
+                            }
+                            return eq;
+                        }
+                        return false;
                     }
                     None* Clone() const {
                         None *clone = new Thing<T>(lvalue);
@@ -698,6 +721,9 @@ namespace Yolk {
     }
 
     template<typename T> void TypedField::Set(T const& value){
+        if(IsNone()) {
+            return;
+        }
         Thing<T>* cast = static_cast<Thing<T>*>(data);
         cast->Set(value);
     }
@@ -751,6 +777,9 @@ namespace Yolk {
         return data->GetVoidPointer();
     }
     template<typename T> T* TypedField::GetPointer() const {
+        if(IsNone()){
+            return (T *) GetVoidPointer();
+        }
         Thing<T> * cast = static_cast<Thing<T>*>(data);
         return cast->GetPointer();
     }
