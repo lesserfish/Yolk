@@ -126,7 +126,7 @@ namespace Yolk {
                     NOTC()
 
 
-                    // Equality Comparations
+                    // int Operations
                     EQC(int)
                     LEC(int)
                     LC(int)
@@ -610,6 +610,10 @@ namespace Yolk {
                     bool InvokeNOT(None* other){
                         return other->NOT();
                     }
+                    
+
+                    // int Operations 
+                    
                     EQM(int)
                     LEM(int)
                     LM(int)

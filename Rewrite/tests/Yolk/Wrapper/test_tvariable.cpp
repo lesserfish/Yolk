@@ -520,3 +520,42 @@ TEST(Yolk_Test, Typed_Variable_Arithmetic_Struct){
     EXPECT_TRUE(xr.TryMOD(16));
     EXPECT_TRUE(xr.TryEQ(24 % 16).value);
 }
+TEST(Yolk_Test, Typed_Variable_Comparison_DoubleInt){
+    double x = 12;
+    Yolk::TypedField xr(x);
+
+    auto cmp = xr.TryEQ(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xr.TryLE(15);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xr.TryGE(21);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xr.TryL(9);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xr.TryG(9);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xr.TryNEQ(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+}
+TEST(Yolk_Test, Typed_Variable_Arithmetic_DoubleInt){
+    double x = 12;
+    Yolk::TypedField xr(x);
+
+    EXPECT_TRUE(xr.TryPLUS(4));
+    EXPECT_FLOAT_EQ(x, 16.0);
+    
+    EXPECT_TRUE(xr.TrySUB(8));
+    EXPECT_FLOAT_EQ(x, 8.0);
+
+    EXPECT_TRUE(xr.TryPROD(6));
+    EXPECT_FLOAT_EQ(x, 48.0);
+
+    EXPECT_TRUE(xr.TryDIV(2));
+    EXPECT_FLOAT_EQ(x, 24.0);
+}
