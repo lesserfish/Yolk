@@ -559,3 +559,26 @@ TEST(Yolk_Test, Typed_Variable_Arithmetic_DoubleInt){
     EXPECT_TRUE(xr.TryDIV(2));
     EXPECT_FLOAT_EQ(x, 24.0);
 }
+struct Demo{
+    int x = 1;
+};
+TEST(Yolk_Test, Typed_Variable_Stability_B){
+    int x = 12;
+    Demo y;
+    
+    Yolk::TypedField xr(x);
+    Yolk::TypedField yr(y);
+
+    auto check = xr.TryEQ(y);
+    EXPECT_FALSE(check.ok);
+    check = xr.TryLE(yr);
+    EXPECT_FALSE(check.ok);
+    check = xr.TryGE(yr);
+    EXPECT_FALSE(check.ok);
+    bool check2 = xr.TryPROD(yr);
+    EXPECT_FALSE(check2);
+    check2 = xr.TrySUB(yr);
+    EXPECT_FALSE(check2);
+    check2 = xr.TryPLUS(yr);
+    EXPECT_FALSE(check2);
+}

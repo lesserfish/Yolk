@@ -109,6 +109,20 @@ namespace Yolk {
                     virtual bool InvokeOR(None* ){return false;}
                     virtual bool InvokeNOT(None* ){return false;}
 
+                    template <typename T> ComparisonOut EQ(T){ return ComparisonOut();}
+                    template <typename T> ComparisonOut LE(T){ return ComparisonOut();}
+                    template <typename T> ComparisonOut L(T){ return ComparisonOut();}
+                    template <typename T> ComparisonOut GE(T){ return ComparisonOut();}
+                    template <typename T> ComparisonOut G(T){ return ComparisonOut();}
+                    template <typename T> ComparisonOut NEQ(T){ return ComparisonOut();}
+                    template <typename T> bool PLUS(T){ return false;}
+                    template <typename T> bool SUB(T){ return false;}
+                    template <typename T> bool PROD(T){ return false;}
+                    template <typename T> bool DIV(T){ return false;}
+                    template <typename T> bool MOD(T){ return false;}
+                    template <typename T> bool AND(T){ return false;}
+                    template <typename T> bool OR(T){ return false;}
+                    
                     // Standard operators
                     EQC(TypedField)
                     LEC(TypedField)
@@ -638,6 +652,11 @@ namespace Yolk {
             TypedField(TypedField& other);
             TypedField(const TypedField& other);
             ~TypedField();
+
+            void Debug() {
+                std::string a = "ASD";
+                data->EQ(a);
+            }
 
             template<typename T> T& As() const;
             template<typename T> bool SafeAs(T& output) const;
