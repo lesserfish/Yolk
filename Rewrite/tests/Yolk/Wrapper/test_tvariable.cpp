@@ -329,3 +329,194 @@ TEST(Yolk_Test, Typed_Variable_Print_B)
     Yolk::TypedField x = a;
     EXPECT_STREQ(x.Print().c_str(), "[Unknown Object]");
 }
+TEST(Yolk_Test, Typed_Variable_Comparison_){
+    int a = 12;
+    int b = 6;
+
+    Yolk::TypedField xa(a);
+    Yolk::TypedField xb(b);
+
+    //EQ
+    auto cmp = xa.TryEQ(xb);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xa.TryEQ(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    //LE
+    cmp = xa.TryLE(xb);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xb.TryLE(xa);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xa.TryLE(11);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xa.TryLE(14);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    // L
+    cmp = xa.TryL(xb);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xb.TryL(xa);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xa.TryL(11);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xa.TryL(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    //GE
+    cmp = xa.TryGE(xb);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xb.TryGE(xa);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xa.TryGE(11);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xa.TryGE(14);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    // G
+    cmp = xa.TryG(xb);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xb.TryG(xa);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xa.TryG(11);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xa.TryG(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    // NEQ
+    cmp = xa.TryNEQ(xb);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xa.TryNEQ(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+}
+TEST(Yolk_Test, Typed_Variable_Operators){
+    int a = 12;
+    int b = 4;
+
+    Yolk::TypedField xa(a);
+    Yolk::TypedField xb(b);
+
+    EXPECT_TRUE(xa.TryPLUS(xb));
+    EXPECT_EQ(xa.As<int>(), 16);
+    EXPECT_TRUE(xa.TryPLUS(-4));
+    EXPECT_EQ(xa.As<int>(), 12);
+    
+    EXPECT_TRUE(xa.TrySUB(xb));
+    EXPECT_EQ(xa.As<int>(), 8);
+    EXPECT_TRUE(xa.TrySUB(-4));
+    EXPECT_EQ(xa.As<int>(), 12);
+
+    EXPECT_TRUE(xa.TryPROD(xb));
+    EXPECT_EQ(xa.As<int>(), 48);
+    EXPECT_TRUE(xa.TryDIV(4));
+    EXPECT_EQ(xa.As<int>(), 12); 
+    
+    EXPECT_TRUE(xa.TryDIV(xb));
+    EXPECT_EQ(xa.As<int>(), 3);
+    EXPECT_TRUE(xa.TryPROD(4));
+    EXPECT_EQ(xa.As<int>(), 12);
+
+    EXPECT_TRUE(xa.TryMOD(xb));
+    EXPECT_EQ(xa.As<int>(), 12 % 4);
+}
+struct CompIntEQ {
+    int value;
+    bool operator==(int other){
+        return value == other;
+    }
+    bool operator<=(int other){
+        return value <= other;
+    }
+    bool operator<(int other){
+        return value < other;
+    }
+    bool operator>=(int other){
+        return value >= other;
+    }
+    bool operator>(int other){
+        return value > other;
+    }
+    bool operator!=(int other){
+        return value != other;
+    }
+};
+TEST(Yolk_Test, Typed_Variable_Comparison_Struct){
+    auto x = CompIntEQ{12};
+    Yolk::TypedField xr(x);
+
+    auto cmp = xr.TryEQ(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xr.TryLE(15);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xr.TryGE(21);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xr.TryL(9);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+    cmp = xr.TryG(9);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_TRUE(cmp.value);
+    cmp = xr.TryNEQ(12);
+    EXPECT_TRUE(cmp.ok);
+    EXPECT_FALSE(cmp.value);
+}
+struct ProdInt {
+    int value;
+    void operator=(int other){
+        value = other;
+    }
+    bool operator==(int other){
+        return value == other;
+    }
+    int operator+(int other){
+        return value + other;
+    }
+    int operator-(int other){
+        return value - other;
+    }
+    int operator*(int other){
+        return value * other;
+    }
+    int operator/(int other){
+        return value / other;
+    }
+    int operator%(int other){
+        return value % other;
+    }
+};
+TEST(Yolk_Test, Typed_Variable_Arithmetic_Struct){
+    ProdInt x{12};
+    Yolk::TypedField xr(x);
+
+    EXPECT_TRUE(xr.TryPLUS(4));
+    EXPECT_TRUE(xr.TryEQ(16).value);
+    
+    EXPECT_TRUE(xr.TrySUB(8));
+    EXPECT_TRUE(xr.TryEQ(8).value);
+
+    EXPECT_TRUE(xr.TryPROD(6));
+    EXPECT_TRUE(xr.TryEQ(48).value);
+
+    EXPECT_TRUE(xr.TryDIV(2));
+    EXPECT_TRUE(xr.TryEQ(24).value);
+
+    EXPECT_TRUE(xr.TryMOD(16));
+    EXPECT_TRUE(xr.TryEQ(24 % 16).value);
+}
