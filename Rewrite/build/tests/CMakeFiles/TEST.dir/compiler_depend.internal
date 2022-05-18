@@ -336,5 +336,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Common.h
  /usr/include/c++/10/typeindex
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryManager.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
 

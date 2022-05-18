@@ -335,8 +335,14 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: ../tests/Yolk/Wrapp
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
-  ../src/Yolk/Core/MemoryManager.h
+  ../src/Yolk/Core/Wrapper.h \
+  ../src/Yolk/Core/MemoryManager.h \
+  ../src/Yolk/Core/WrapperRequired.h
 
+
+../src/Yolk/Core/WrapperRequired.h:
+
+../src/Yolk/Core/Wrapper.h:
 
 ../src/Yolk/Core/TypedField.h:
 

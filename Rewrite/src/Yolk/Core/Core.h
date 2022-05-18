@@ -1,5 +1,5 @@
 #include "DynamicData.h"
 #include "TypedField.h"
-//#include "Wrapper.h"
+#include "Wrapper.h"
 #include "MemoryManager.h"
-//#include "WrapperRequired.h"
+#include "WrapperRequired.h"

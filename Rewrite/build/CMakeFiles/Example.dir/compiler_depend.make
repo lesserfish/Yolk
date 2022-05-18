@@ -236,22 +236,16 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/c++/10/bits/istream.tcc \
   /usr/include/c++/10/sstream \
   /usr/include/c++/10/bits/sstream.tcc \
+  ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/MemoryManager.h \
-  /usr/include/c++/10/map \
-  /usr/include/c++/10/bits/stl_tree.h \
-  /usr/include/c++/10/bits/stl_map.h \
-  /usr/include/c++/10/bits/stl_multimap.h
+  ../src/Yolk/Core/WrapperRequired.h
 
 
-/usr/include/c++/10/bits/stl_multimap.h:
-
-/usr/include/c++/10/bits/stl_map.h:
-
-/usr/include/c++/10/bits/stl_tree.h:
-
-/usr/include/c++/10/map:
+../src/Yolk/Core/WrapperRequired.h:
 
 ../src/Yolk/Core/MemoryManager.h:
+
+../src/Yolk/Core/Wrapper.h:
 
 /usr/include/c++/10/bits/sstream.tcc:
 
