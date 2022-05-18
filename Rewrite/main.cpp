@@ -1,15 +1,14 @@
-#include "src/Yolk/Wrapper/TypedField.h"
+#include "src/Yolk/Core/Core.h"
 #include <iostream>
 
-struct Demo{
-    int x = 1;
-};
 int main(){
-    int x = 12;
-    Demo y;
-    
-    Yolk::TypedField xr(x);
-    Yolk::TypedField yr(y);
-
-    auto check = xr.TryEQ(y);
+    int a = 12;
+    Yolk::TypedField x = a;
+    auto cp = x.CopyByValue();
+    std::cout << ((cp.ok == true) ? "Ok" : "Not Ok") << std::endl;
+    auto cptf = cp.field;
+    std::cout << cptf->Print() << std::endl;
+    x = 24;
+    std::cout << x.Print() << std::endl;
+    std::cout << cptf->Print() << std::endl;
 }

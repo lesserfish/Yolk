@@ -1,7 +1,9 @@
 #pragma once
 
+#include "../Common.h"
 #include <typeindex>
 #include <functional>
+#include <memory>
 #include <string>
 #include <concepts>
 #include <iostream>
@@ -63,11 +65,18 @@ namespace Yolk {
 
     class TypedField {
         public:
+                using Pointer = std::shared_ptr<TypedField>;
                 struct ComparisonOut {
                     ComparisonOut(bool o = false, bool v = false, std::string m = "") : ok(o), value(v), message(m) {} 
                     bool ok;
                     bool value;
                     std::string message;
+                };
+                struct CopyByValueOut {
+                    CopyByValueOut(bool o, TypedField::Pointer f, Memory::AbstractData::Pointer d) : ok(o), field(f), datapointer(d) {}
+                    bool ok;
+                    TypedField::Pointer field;
+                    Memory::AbstractData::Pointer datapointer;
                 };
                 struct None {
                 public:
@@ -78,6 +87,9 @@ namespace Yolk {
                     }
                     virtual None* Clone() const {
                         return new None(); 
+                    }
+                    virtual CopyByValueOut CopyByValue() {
+                        return CopyByValueOut(false, nullptr, nullptr);
                     }
                     virtual bool Compare(None *) {
                         return false;
@@ -222,6 +234,22 @@ namespace Yolk {
                     None* Clone() const {
                         None *clone = new Thing<T>(lvalue);
                         return clone;
+                    }
+                    CopyByValueOut CopyByValue() {
+                        constexpr bool canCreate = requires(){
+                            new Memory::DynamicData<T>(lvalue);
+                        };
+                        constexpr bool canFree = requires(){
+                            free(new T(lvalue));
+                        };
+
+                        if constexpr(canCreate && canFree) {
+                            Memory::AbstractData::Pointer dptr = std::make_shared<Memory::DynamicData<T>>(lvalue);
+                            T& ref = dynamic_pointer_cast<Memory::DynamicData<T>>(dptr)->Get();
+                            Pointer tfptr(new TypedField(ref));
+                            return CopyByValueOut(true, tfptr, dptr);
+                        }
+                        return CopyByValueOut(false, nullptr, nullptr);
                     }
                     std::string Print() const {
                         std::stringstream buffer;
@@ -696,6 +724,8 @@ namespace Yolk {
             void InvokeCast(TypedField& other);
             void InvokeBind(TypedField& other);
 
+            CopyByValueOut CopyByValue();
+
             template<typename T> ComparisonOut TryEQ(T funvalue);
             template<typename T> ComparisonOut TryLE(T funvalue);
             template<typename T> ComparisonOut TryL(T funvalue);
@@ -753,6 +783,9 @@ namespace Yolk {
     
     bool TypedField::Copy(TypedField& other){
         return data->Copy(other.data);
+    }
+    TypedField::CopyByValueOut TypedField::CopyByValue(){
+        return data->CopyByValue();
     }
     template<typename T> bool TypedField::Copy(T&& other){
         Thing<T> h(other);

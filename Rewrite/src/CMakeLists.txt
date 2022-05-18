@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED)
 
 project(Yolk VERSION 1.0 DESCRIPTION "Yolk library")
 
-add_library(${PROJECT_NAME} SHARED ./Yolk/Wrapper/TypedField.cpp)
+add_library(${PROJECT_NAME} SHARED ./Yolk/Yolk.cpp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
                 VERSION ${PROJECT_VERSION}

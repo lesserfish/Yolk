@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Wrapper/TypedField.h"
+#include "../../../src/Yolk/Core/Core.h"
 
 TEST(Yolk_Test, Typed_Variable_Assignment)
 {
@@ -559,9 +559,7 @@ TEST(Yolk_Test, Typed_Variable_Arithmetic_DoubleInt){
     EXPECT_TRUE(xr.TryDIV(2));
     EXPECT_FLOAT_EQ(x, 24.0);
 }
-struct Demo{
-    int x = 1;
-};
+struct Demo{};
 TEST(Yolk_Test, Typed_Variable_Stability_B){
     int x = 12;
     Demo y;
@@ -581,4 +579,37 @@ TEST(Yolk_Test, Typed_Variable_Stability_B){
     EXPECT_FALSE(check2);
     check2 = xr.TryPLUS(yr);
     EXPECT_FALSE(check2);
+}
+TEST(Yolk_Test, Typed_Variable_CopyByValue_A){
+    int x = 12;
+    Yolk::TypedField xr = x;
+
+    auto cpy = xr.CopyByValue();
+
+    EXPECT_TRUE(cpy.ok);
+    EXPECT_EQ(cpy.field->As<int>(), 12);
+
+    xr = 13;
+    *cpy.field = 25;
+
+    EXPECT_EQ(xr.As<int>(), 13);
+    EXPECT_EQ(cpy.field->As<int>(), 25);
+}
+struct cpyval {
+    int a;
+};
+TEST(Yolk_Test, Typed_Variable_CopyByValue_B){
+    cpyval x {12};
+    Yolk::TypedField xr = x;
+
+    auto cpy = xr.CopyByValue();
+
+    EXPECT_TRUE(cpy.ok);
+    EXPECT_EQ(cpy.field->As<cpyval>().a, 12);
+
+    x.a = 13;
+    (*cpy.field).As<cpyval>().a = 25;
+
+    EXPECT_EQ(xr.As<cpyval>().a, 13);
+    EXPECT_EQ(cpy.field->As<cpyval>().a, 25);
 }

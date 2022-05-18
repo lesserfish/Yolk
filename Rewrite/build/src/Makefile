@@ -175,29 +175,29 @@ Yolk/fast:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/build
 .PHONY : Yolk/fast
 
-Yolk/Wrapper/TypedField.o: Yolk/Wrapper/TypedField.cpp.o
-.PHONY : Yolk/Wrapper/TypedField.o
+Yolk/Yolk.o: Yolk/Yolk.cpp.o
+.PHONY : Yolk/Yolk.o
 
 # target to build an object file
-Yolk/Wrapper/TypedField.cpp.o:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Wrapper/TypedField.cpp.o
-.PHONY : Yolk/Wrapper/TypedField.cpp.o
+Yolk/Yolk.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o
+.PHONY : Yolk/Yolk.cpp.o
 
-Yolk/Wrapper/TypedField.i: Yolk/Wrapper/TypedField.cpp.i
-.PHONY : Yolk/Wrapper/TypedField.i
+Yolk/Yolk.i: Yolk/Yolk.cpp.i
+.PHONY : Yolk/Yolk.i
 
 # target to preprocess a source file
-Yolk/Wrapper/TypedField.cpp.i:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Wrapper/TypedField.cpp.i
-.PHONY : Yolk/Wrapper/TypedField.cpp.i
+Yolk/Yolk.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.i
+.PHONY : Yolk/Yolk.cpp.i
 
-Yolk/Wrapper/TypedField.s: Yolk/Wrapper/TypedField.cpp.s
-.PHONY : Yolk/Wrapper/TypedField.s
+Yolk/Yolk.s: Yolk/Yolk.cpp.s
+.PHONY : Yolk/Yolk.s
 
 # target to generate assembly for a file
-Yolk/Wrapper/TypedField.cpp.s:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Wrapper/TypedField.cpp.s
-.PHONY : Yolk/Wrapper/TypedField.cpp.s
+Yolk/Yolk.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.s
+.PHONY : Yolk/Yolk.cpp.s
 
 # Help Target
 help:
@@ -212,9 +212,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... Yolk"
-	@echo "... Yolk/Wrapper/TypedField.o"
-	@echo "... Yolk/Wrapper/TypedField.i"
-	@echo "... Yolk/Wrapper/TypedField.s"
+	@echo "... Yolk/Yolk.o"
+	@echo "... Yolk/Yolk.i"
+	@echo "... Yolk/Yolk.s"
 .PHONY : help
 
 

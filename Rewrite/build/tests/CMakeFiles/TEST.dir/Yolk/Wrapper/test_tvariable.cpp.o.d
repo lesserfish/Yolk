@@ -265,5 +265,9 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_prod.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Wrapper/TypedField.h \
- /usr/include/c++/10/typeindex
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/Core.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/DynamicData.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/../Common.h \
+ /usr/include/c++/10/typeindex \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/TypedField.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/MemoryManager.h

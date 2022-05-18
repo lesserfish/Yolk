@@ -330,19 +330,27 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: ../tests/Yolk/Wrapp
   _deps/googletest-src/googletest/include/gtest/gtest_prod.h \
   _deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
   _deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
-  ../src/Yolk/Wrapper/TypedField.h \
-  /usr/include/c++/10/typeindex
+  ../src/Yolk/Core/Core.h \
+  ../src/Yolk/Core/DynamicData.h \
+  ../src/Yolk/Common.h \
+  /usr/include/c++/10/typeindex \
+  ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Core/MemoryManager.h
 
+
+../src/Yolk/Core/TypedField.h:
 
 /usr/include/c++/10/typeindex:
 
-../src/Yolk/Wrapper/TypedField.h:
+../src/Yolk/Core/DynamicData.h:
 
 _deps/googletest-src/googletest/include/gtest/gtest_prod.h:
 
 _deps/googletest-src/googletest/include/gtest/gtest-test-part.h:
 
 /usr/include/assert.h:
+
+../src/Yolk/Common.h:
 
 /usr/include/c++/10/cassert:
 
@@ -363,6 +371,8 @@ _deps/googletest-src/googletest/include/gtest/gtest-message.h:
 _deps/googletest-src/googletest/include/gtest/gtest-printers.h:
 
 /usr/include/c++/10/bits/stl_multiset.h:
+
+../src/Yolk/Core/MemoryManager.h:
 
 /usr/include/c++/10/bits/stl_set.h:
 
@@ -759,6 +769,8 @@ _deps/googletest-src/googletest/include/gtest/gtest.h:
 ../tests/Yolk/Wrapper/test_tvariable.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
+
+../src/Yolk/Core/Core.h:
 
 /usr/include/c++/10/bits/stl_iterator.h:
 

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Yolk.dir/Yolk/Wrapper/TypedField.cpp.o"
-  "CMakeFiles/Yolk.dir/Yolk/Wrapper/TypedField.cpp.o.d"
+  "CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o"
+  "CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o.d"
   "libYolk.pdb"
   "libYolk.so"
   "libYolk.so.1.0"
