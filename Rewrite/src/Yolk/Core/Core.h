@@ -1,5 +1,7 @@
+#pragma once
+
 #include "DynamicData.h"
 #include "TypedField.h"
 #include "Wrapper.h"
-#include "MemoryManager.h"
+#include "DynamicMemory.h"
 #include "WrapperRequired.h"

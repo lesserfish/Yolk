@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-FILE(GLOB SOURCE_FILES Yolk/Wrapper/test_tvariable.cpp)
+FILE(GLOB SOURCE_FILES Yolk/Wrapper/test_tvariable.cpp Yolk/Memory/test_memorymanager.cpp)
 add_executable(TEST ${SOURCE_FILES})
 
 

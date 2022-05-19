@@ -80,6 +80,7 @@ namespace Yolk {
                 };
                 struct None {
                 public:
+                    virtual ~None() {}
                     virtual unsigned int Size() const {return 0;} 
                     virtual const std::type_index Type() const {return typeid(void);}
                     virtual bool Copy(None*) {
@@ -240,7 +241,7 @@ namespace Yolk {
                             new Memory::DynamicData<T>(lvalue);
                         };
                         constexpr bool canFree = requires(){
-                            free(new T(lvalue));
+                            delete(new T(lvalue));
                         };
 
                         if constexpr(canCreate && canFree) {
@@ -744,27 +745,27 @@ namespace Yolk {
         private:
             None* data;
     };
-    TypedField::TypedField(){
+    inline TypedField::TypedField(){
         data = new None();
     }
-    template<typename T> TypedField::TypedField(T& lvalue){
+    template<typename T> inline TypedField::TypedField(T& lvalue){
         data = new Thing<T>(lvalue);
     }
-    TypedField::TypedField(TypedField& other){
+    inline TypedField::TypedField(TypedField& other){
         data = other.data->Clone();
     }
-    TypedField::TypedField(const TypedField& other){
+    inline TypedField::TypedField(const TypedField& other){
         data = other.data->Clone();
     }
-    TypedField::~TypedField(){
-        free(data);
+    inline TypedField::~TypedField(){
+        delete(data);
     }
 
-    template<typename T> T& TypedField::As() const {
+    template<typename T> inline T& TypedField::As() const {
         Thing<T>* cast = static_cast<Thing<T> *>(data);
         return cast->Get();
     }
-    template<typename T> bool TypedField::SafeAs(T& output) const {
+    template<typename T> inline bool TypedField::SafeAs(T& output) const {
         if(Is<T>()){
             Thing<T> *cast = static_cast<Thing<T> *>(data);
             output = cast->Get();
@@ -773,7 +774,7 @@ namespace Yolk {
         return false;
     }
 
-    template<typename T> void TypedField::Set(T const& value){
+    template<typename T> inline void TypedField::Set(T const& value){
         if(IsNone()) {
             return;
         }
@@ -781,58 +782,58 @@ namespace Yolk {
         cast->Set(value);
     }
     
-    bool TypedField::Copy(TypedField& other){
+    inline bool TypedField::Copy(TypedField& other){
         return data->Copy(other.data);
     }
-    TypedField::CopyByValueOut TypedField::CopyByValue(){
+    inline TypedField::CopyByValueOut TypedField::CopyByValue(){
         return data->CopyByValue();
     }
-    template<typename T> bool TypedField::Copy(T&& other){
+    template<typename T> inline bool TypedField::Copy(T&& other){
         Thing<T> h(other);
         return data->Copy(&h);
     }
 
-    const TypedField& TypedField::operator=(TypedField& rightside) {
+    inline const TypedField& TypedField::operator=(TypedField& rightside) {
         data->Copy(rightside.data);
         return *this;
     }
-    template<typename T> const TypedField& TypedField::operator=(T&& rightside) const {
+    template<typename T> inline const TypedField& TypedField::operator=(T&& rightside) const {
         Thing<T> h(rightside);
         data->Copy(&h);
         return *this;
     }
-    template<typename T> const TypedField& TypedField::operator=(T& rightside) const {
+    template<typename T> inline const TypedField& TypedField::operator=(T& rightside) const {
         Thing<T> h(rightside);
         data->Copy(&h);
         return *this;
     }
 
-    bool TypedField::operator==(TypedField& rightside){
+    inline bool TypedField::operator==(TypedField& rightside){
         return data->Compare(rightside.data);
         
     }
-    template<typename T> bool TypedField::operator==(T rightside) const {
+    template<typename T> inline bool TypedField::operator==(T rightside) const {
         Thing<T> h(rightside);
         return data->Compare(&h);
     }
 
-    template<typename T> bool TypedField::Is() const {
+    template<typename T> inline bool TypedField::Is() const {
         return data->Type() == typeid(T);
     }
 
-    void TypedField::Free() {
-        free(data);
+    inline void TypedField::Free() {
+        delete(data);
         data = new None();
     }
 
-    bool TypedField::IsNone() const {
+    inline bool TypedField::IsNone() const {
         return data->Size() == 0;
     }
 
-    void* TypedField::GetVoidPointer() const{
+    inline void* TypedField::GetVoidPointer() const{
         return data->GetVoidPointer();
     }
-    template<typename T> T* TypedField::GetPointer() const {
+    template<typename T> inline T* TypedField::GetPointer() const {
         if(IsNone()){
             return (T *) GetVoidPointer();
         }
@@ -840,40 +841,40 @@ namespace Yolk {
         return cast->GetPointer();
     }
 
-    std::string TypedField::Print() const {
+    inline std::string TypedField::Print() const {
         return data->Print();
     }
 
-    std::type_index TypedField::Type() const {
+    inline std::type_index TypedField::Type() const {
         return data->Type();
     }
-    unsigned int TypedField::GetSize() const {
+    inline unsigned int TypedField::GetSize() const {
         return data->Size();
     }
 
-    template<typename T> void TypedField::Cast() {
+    template<typename T> inline void TypedField::Cast() {
         T& ref = As<T>();
         Free();
         Bind(ref);
     }
-    void TypedField::CastAs(TypedField& other) {
+    inline void TypedField::CastAs(TypedField& other) {
         other.InvokeCast(*this);
     }
 
-    template<typename T> void TypedField::Bind(T& lvalue) {
+    template<typename T> inline void TypedField::Bind(T& lvalue) {
         free(data);
         data = new Thing<T>(lvalue);
     }
-    void TypedField::Bind(TypedField& other){
+    inline void TypedField::Bind(TypedField& other){
         other.InvokeBind(*this);
     }
-    void TypedField::InvokeCast(TypedField& other) {
+    inline void TypedField::InvokeCast(TypedField& other) {
         data->InvokeCast(other);
     }
-    void TypedField::InvokeBind(TypedField& other) {
+    inline void TypedField::InvokeBind(TypedField& other) {
         data->InvokeBind(other);
     }
-    template<typename T> TypedField::ComparisonOut TypedField::TryEQ(T funvalue)
+    template<typename T> inline TypedField::ComparisonOut TypedField::TryEQ(T funvalue)
     {
         constexpr bool isFundamental = requires(T other){
             data->EQ(other);
@@ -883,7 +884,7 @@ namespace Yolk {
         }
         return ComparisonOut();
     }
-    template<typename T> TypedField::ComparisonOut TypedField::TryLE(T funvalue){
+    template<typename T> inline TypedField::ComparisonOut TypedField::TryLE(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->LE(other);
         };
@@ -892,7 +893,7 @@ namespace Yolk {
         }
         return ComparisonOut();
     }
-    template<typename T> TypedField::ComparisonOut TypedField::TryL(T funvalue){
+    template<typename T> inline TypedField::ComparisonOut TypedField::TryL(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->L(other);
         };
@@ -901,7 +902,7 @@ namespace Yolk {
         }
         return ComparisonOut();
     }
-    template<typename T> TypedField::ComparisonOut TypedField::TryGE(T funvalue){
+    template<typename T> inline TypedField::ComparisonOut TypedField::TryGE(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->GE(other);
         };
@@ -910,7 +911,7 @@ namespace Yolk {
         }
         return ComparisonOut();
     }
-    template<typename T> TypedField::ComparisonOut TypedField::TryG(T funvalue){
+    template<typename T> inline TypedField::ComparisonOut TypedField::TryG(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->G(other);
         };
@@ -919,7 +920,7 @@ namespace Yolk {
         }
         return ComparisonOut();
     }
-    template<typename T> TypedField::ComparisonOut TypedField::TryNEQ(T funvalue){
+    template<typename T> inline TypedField::ComparisonOut TypedField::TryNEQ(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->NEQ(other);
         };
@@ -928,7 +929,7 @@ namespace Yolk {
         }
         return ComparisonOut();
     }
-    template<typename T> bool TypedField::TryPLUS(T funvalue){
+    template<typename T> inline bool TypedField::TryPLUS(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->PLUS(other);
         };
@@ -937,7 +938,7 @@ namespace Yolk {
         }
         return false;
     }
-    template<typename T> bool TypedField::TrySUB(T funvalue){
+    template<typename T> inline bool TypedField::TrySUB(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->SUB(other);
         };
@@ -946,7 +947,7 @@ namespace Yolk {
         }
         return false;
     }
-    template<typename T> bool TypedField::TryPROD(T funvalue){
+    template<typename T> inline bool TypedField::TryPROD(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->PROD(other);
         };
@@ -955,7 +956,7 @@ namespace Yolk {
         }
         return false;
     }
-    template<typename T> bool TypedField::TryDIV(T funvalue){
+    template<typename T> inline bool TypedField::TryDIV(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->DIV(other);
         };
@@ -964,7 +965,7 @@ namespace Yolk {
         }
         return false;
     }
-    template<typename T> bool TypedField::TryMOD(T funvalue){
+    template<typename T> inline bool TypedField::TryMOD(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->MOD(other);
         };
@@ -973,7 +974,7 @@ namespace Yolk {
         }
         return false;
     }
-    template<typename T> bool TypedField::TryAND(T funvalue){
+    template<typename T> inline bool TypedField::TryAND(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->AND(other);
         };
@@ -982,7 +983,7 @@ namespace Yolk {
         }
         return false;
     }
-    template<typename T> bool TypedField::TryOR(T funvalue){
+    template<typename T> inline bool TypedField::TryOR(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->OR(other);
         };
@@ -991,7 +992,7 @@ namespace Yolk {
         }
         return false;
     }
-    bool TypedField::TryNOT(){
+    inline bool TypedField::TryNOT(){
         constexpr bool isFundamental = requires(){
             data->NOT();
         };

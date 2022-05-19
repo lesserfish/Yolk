@@ -2,15 +2,16 @@
 
 #include "../Common.h"
 #include <unordered_map>
+#include <string>
 
 namespace Yolk
 {
     namespace Memory
     {
-        class MemMap {
+        class DynamicMemory {
             private:
-            MemMap(const MemMap&) = delete;
-            MemMap(MemMap&) = delete;
+            DynamicMemory(const DynamicMemory&) = delete;
+            DynamicMemory(DynamicMemory&) = delete;
             public:
 
             struct AllocateOut {
@@ -19,33 +20,43 @@ namespace Yolk
                 Wrapper wrapper;
             };
 
-            MemMap();
-            ~MemMap();
+            DynamicMemory();
+            ~DynamicMemory();
 
             template<typename T> AllocateOut AllocateMemory();
             template<typename T> AllocateOut AllocateMemory(T value);
-
+            template<typename T> Wrapper CreateWrapper(T& value);
             AllocateOut CreateCopy(Wrapper other);
             
             Viewers UpdateViewersCount(Identifier id, Viewers diff);
             Viewers ViewersCount(Identifier id);
 
             bool Exists(Identifier id);
-            Wrapper Get(Identifier id);
+            unsigned int Size() const;
             
+            void Debug(std::string in = "") {
+                std::cout << "Debug: \n:";
+                std::cout << in << std::endl;
+                for(auto m = AllocatedMemory.begin(); m != AllocatedMemory.end(); m++)
+                {
+                    std::cout << "  -";
+                    m->second->Debug();
+                    std::cout << std::endl;
+                }
+                std::cout << std::endl << std::endl;
+            }
             private:
 
-            Wrapper VoidWrapper;
             std::unordered_map<Identifier, AbstractData::Pointer> AllocatedMemory;
+            Wrapper VoidWrapper;
         };
-        MemMap::MemMap() : VoidWrapper(0, nullptr, *this){
+        inline DynamicMemory::DynamicMemory() : AllocatedMemory(), VoidWrapper(0, nullptr, *this){
 
         }
-        MemMap::~MemMap(){
-
+        inline DynamicMemory::~DynamicMemory(){
         }
 
-        template<typename T> MemMap::AllocateOut MemMap::AllocateMemory(){
+        template<typename T> inline DynamicMemory::AllocateOut DynamicMemory::AllocateMemory(){
             constexpr bool canCreate = requires() {
                 new DynamicData<T>();
             };
@@ -57,7 +68,7 @@ namespace Yolk
 
 
                 T& ref = dynamic_pointer_cast<DynamicData<T>>(dptr)->Get();
-                TypedField::Pointer tfptr(ref);
+                TypedField::Pointer tfptr(new TypedField(ref));
                 Identifier id = dptr->ID();
 
                 AllocatedMemory.insert(std::pair(id, dptr));
@@ -67,7 +78,7 @@ namespace Yolk
             }
             return AllocateOut(false, VoidWrapper);
         }
-        template<typename T> MemMap::AllocateOut MemMap::AllocateMemory(T value){
+        template<typename T> inline DynamicMemory::AllocateOut DynamicMemory::AllocateMemory(T value){
             constexpr bool canCreate = requires() {
                 new DynamicData<T>(value);
             };
@@ -79,9 +90,8 @@ namespace Yolk
 
 
                 T& ref = dynamic_pointer_cast<DynamicData<T>>(dptr)->Get();
-                TypedField::Pointer tfptr(ref);
+                TypedField::Pointer tfptr(new TypedField(ref));
                 Identifier id = dptr->ID();
-
                 AllocatedMemory.insert(std::pair(id, dptr));
                 Wrapper wrapper(id, tfptr, *this);
                 
@@ -89,8 +99,15 @@ namespace Yolk
             }
             return AllocateOut(false, VoidWrapper);
         }
+        template<typename T> inline Wrapper DynamicMemory::CreateWrapper(T& value){
+            TypedField::Pointer tfptr(new TypedField(value));
+            Identifier id = MEMID::Next();
+            Wrapper wrapper(id, tfptr, *this);
 
-        MemMap::AllocateOut MemMap::CreateCopy(Wrapper other){
+            return wrapper;
+        }
+
+        inline DynamicMemory::AllocateOut DynamicMemory::CreateCopy(Wrapper other){
             auto copyattempt = other.field->CopyByValue();
             if(!copyattempt.ok){
                 return AllocateOut(false, VoidWrapper);
@@ -103,18 +120,32 @@ namespace Yolk
             return AllocateOut(true, wrapper); 
         }
         
-        Viewers MemMap::UpdateViewersCount(Identifier , Viewers ){
-            return 0;
+        inline Viewers DynamicMemory::UpdateViewersCount(Identifier id, Viewers diff){
+            auto it = AllocatedMemory.find(id);
+            if(it == AllocatedMemory.end()){
+                return 0;
+            }
+
+            int updatedScore = it->second->UpdateViewersCount(diff);
+            if(updatedScore == 0){
+                it->second->Debug();
+                AllocatedMemory.erase(it);
+            }
+            return updatedScore;
         }
-        Viewers MemMap::ViewersCount(Identifier ){
-            return 0;
+        inline Viewers DynamicMemory::ViewersCount(Identifier id){
+            return UpdateViewersCount(id, 0);
         }
 
-        bool MemMap::Exists(Identifier ){
-            return false;
+        inline bool DynamicMemory::Exists(Identifier id){
+            auto it = AllocatedMemory.find(id);
+            if(it == AllocatedMemory.end()){
+                return false;
+            }
+            return true;
         }
-        Wrapper MemMap::Get(Identifier ) {
-            return Wrapper(-1, nullptr, *this);
+        inline unsigned int DynamicMemory::Size() const {
+            return AllocatedMemory.size();
         }
     }
 }

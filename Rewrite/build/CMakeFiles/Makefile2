@@ -195,7 +195,7 @@ CMakeFiles/Example.dir/clean:
 src/CMakeFiles/Yolk.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=5,6 "Built target Yolk"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=6,7 "Built target Yolk"
 .PHONY : src/CMakeFiles/Yolk.dir/all
 
 # Build rule for subdir invocation for target.
@@ -223,12 +223,12 @@ tests/CMakeFiles/TEST.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtes
 tests/CMakeFiles/TEST.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=3,4 "Built target TEST"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=3,4,5 "Built target TEST"
 .PHONY : tests/CMakeFiles/TEST.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/TEST.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles 9
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TEST.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles 0
 .PHONY : tests/CMakeFiles/TEST.dir/rule
@@ -249,7 +249,7 @@ tests/CMakeFiles/TEST.dir/clean:
 _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=7,8 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=8,9 "Built target gmock"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -276,7 +276,7 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletes
 _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=9,10 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=10,11 "Built target gmock_main"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -302,7 +302,7 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean:
 _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=11,12 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=12,13 "Built target gtest"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -328,7 +328,7 @@ _deps/googletest-build/googletest/CMakeFiles/gtest.dir/clean:
 _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=13,14 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=14,15 "Built target gtest_main"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.

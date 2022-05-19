@@ -175,6 +175,30 @@ TEST/fast:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/build
 .PHONY : TEST/fast
 
+Yolk/Memory/test_memorymanager.o: Yolk/Memory/test_memorymanager.cpp.o
+.PHONY : Yolk/Memory/test_memorymanager.o
+
+# target to build an object file
+Yolk/Memory/test_memorymanager.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o
+.PHONY : Yolk/Memory/test_memorymanager.cpp.o
+
+Yolk/Memory/test_memorymanager.i: Yolk/Memory/test_memorymanager.cpp.i
+.PHONY : Yolk/Memory/test_memorymanager.i
+
+# target to preprocess a source file
+Yolk/Memory/test_memorymanager.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.i
+.PHONY : Yolk/Memory/test_memorymanager.cpp.i
+
+Yolk/Memory/test_memorymanager.s: Yolk/Memory/test_memorymanager.cpp.s
+.PHONY : Yolk/Memory/test_memorymanager.s
+
+# target to generate assembly for a file
+Yolk/Memory/test_memorymanager.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.s
+.PHONY : Yolk/Memory/test_memorymanager.cpp.s
+
 Yolk/Wrapper/test_tvariable.o: Yolk/Wrapper/test_tvariable.cpp.o
 .PHONY : Yolk/Wrapper/test_tvariable.o
 
@@ -212,6 +236,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... TEST"
+	@echo "... Yolk/Memory/test_memorymanager.o"
+	@echo "... Yolk/Memory/test_memorymanager.i"
+	@echo "... Yolk/Memory/test_memorymanager.s"
 	@echo "... Yolk/Wrapper/test_tvariable.o"
 	@echo "... Yolk/Wrapper/test_tvariable.i"
 	@echo "... Yolk/Wrapper/test_tvariable.s"

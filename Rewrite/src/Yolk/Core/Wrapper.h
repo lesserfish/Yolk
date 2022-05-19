@@ -8,7 +8,7 @@ namespace Yolk
 {
     namespace Memory
     {
-        class MemMap;
+        class DynamicMemory;
     }
     
     enum class WrapperType
@@ -19,25 +19,23 @@ namespace Yolk
 
     class Wrapper
     {
-    protected:
-
     public:
         using Pointer = std::shared_ptr<Wrapper>;
         
         virtual ~Wrapper();
         Wrapper(const Wrapper &copy);
-        Wrapper(Identifier _ID, TypedField::Pointer _field, Memory::MemMap &manager, WrapperType _wtype = WrapperType::FieldWrapper);
+        Wrapper(Identifier _ID, TypedField::Pointer _field, Memory::DynamicMemory &memory, WrapperType _wtype = WrapperType::FieldWrapper);
         Wrapper &operator=(const Wrapper &copy);
 
         Identifier ID;
         TypedField::Pointer field;
-        Memory::MemMap& manager;
+        Memory::DynamicMemory& memory;
         WrapperType wType;
 
     protected:
         void LookAway();
 
     private:
-        Wrapper(Memory::MemMap &_manager) : manager(_manager){}
+        Wrapper(Memory::DynamicMemory &_memory) : memory(_memory){}
     };
 }

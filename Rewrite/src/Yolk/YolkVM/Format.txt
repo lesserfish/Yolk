@@ -1,0 +1,81 @@
+Ovo {
+    VERSION: DOUBLE
+    CODE {
+        Instruction : uint_8
+        Arguments [2] {
+            Type: uint_8
+            Value: uint_64
+        }
+    }
+    TEXT {
+        Size : uint_64
+        Content: Byte[Size]
+    }
+}
+
+Elementary Types:
+    - INT  :  64 bits
+    - UINT :  64 bits
+    - DOUBLE :  64 bits
+    - CHAR   :  64 bits
+    - VOID   :  0 bits
+
+Typedefs:
+Arguments:Type:{ REGISTER, NAME, INT, UINT, DOUBLE, CHAR, STRING, VOID, TYPE}
+ElementaryType:{ INT, UINT, DOUBLE, CHAR, STRING, VOID}
+
+Argument values:
+    IF Argument:Type is REGISTER:
+        Argument:Value = {REGA: 0,    REGB: 1,    REGC: 2,    REGD: 3,    REGOUT: 4}
+    IF Argument:Type is NAME:
+        Argument:Value = UINT : POSITION IN TEXT OF STRING CONTAINING NAME
+    IF Argument:Type is (INT : UINT : DOUBLE : CHAR):
+        Argument:Value = (INT : UINT : DOUBLE : CHAR): Value
+    IF Argument:Type is STRING:
+        Argument:Value = UINT : POSITION IN TEXT OF STRING CONTAINING Value
+    IF Argument:Type is VOID:
+        Argument:Value = VOID : NONE
+    IF Argument:Type is TYPE:
+        Argument:Value = {INT: 0,    UINT: 1,    DOUBLE: 2,    CHAR: 3,    STRING: 4,    VOID: 5}
+
+Instruction Set:
+
+1	MOV:        REGX, REGY  |   REGX, ELEMENTARY
+2	COPY:       REGX, REGY  |   REGX, ELEMENTARY  |   REGX, NAME
+3	MOVM:       REGX
+4	NEW:        REGX, ELEMENTARY
+5	CALLM: 
+6	PUSHAR:     REGX  
+7	POPAR:   
+8	CLRAR:   
+9	PUSH:       REGX    
+10	POP:     
+11	CLEAR:   
+12	CMP:        REGX    
+13	CMPEQ:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
+14	CMPNEQ:     REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+15	CMPLS:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
+16	CMPGT:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+17	CMPLSEQ:    REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME 
+18	CMPGTEQ:    REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+19	JNTRUE:     REGX        |   UINT
+20	JNFALSE:    REGX        |   UINT
+21	JMP:        REGX        |   UINT
+22	CALL:       REGX        |   UINT
+23	RET:
+24	ADD:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+25	SUB:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+26	MUL:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+27	DIV:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+28	MOD:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+29	AND:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+30	OR:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+31	CAST:       REGX, REGY  |   REGX, TYPE          |   REGX, NAME
+32	NAMEL:      REGX, STRING 
+33	NAMEG:      REGX, STRING
+34	BRUP:
+35	BRDW:    
+36	BRHZ:       STRING    
+37	RSBR:
+38	ZERO:    
+39	HALT:    

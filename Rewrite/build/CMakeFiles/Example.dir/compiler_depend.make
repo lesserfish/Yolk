@@ -218,6 +218,9 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/c++/10/pstl/glue_memory_defs.h \
   /usr/include/c++/10/pstl/execution_defs.h \
   /usr/include/c++/10/typeindex \
+  /usr/include/c++/10/iostream \
+  /usr/include/c++/10/istream \
+  /usr/include/c++/10/bits/istream.tcc \
   ../src/Yolk/Core/TypedField.h \
   /usr/include/c++/10/functional \
   /usr/include/c++/10/bits/std_function.h \
@@ -231,27 +234,20 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/c++/10/bits/stl_vector.h \
   /usr/include/c++/10/bits/stl_bvector.h \
   /usr/include/c++/10/bits/vector.tcc \
-  /usr/include/c++/10/iostream \
-  /usr/include/c++/10/istream \
-  /usr/include/c++/10/bits/istream.tcc \
   /usr/include/c++/10/sstream \
   /usr/include/c++/10/bits/sstream.tcc \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/MemoryManager.h \
+  ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h
 
 
 ../src/Yolk/Core/WrapperRequired.h:
 
-../src/Yolk/Core/MemoryManager.h:
+../src/Yolk/Core/DynamicMemory.h:
 
 ../src/Yolk/Core/Wrapper.h:
 
 /usr/include/c++/10/bits/sstream.tcc:
-
-/usr/include/c++/10/istream:
-
-/usr/include/c++/10/iostream:
 
 /usr/include/c++/10/bits/vector.tcc:
 
@@ -268,6 +264,10 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/unordered_map:
 
 ../src/Yolk/Core/TypedField.h:
+
+/usr/include/c++/10/istream:
+
+/usr/include/c++/10/iostream:
 
 /usr/include/c++/10/typeindex:
 
