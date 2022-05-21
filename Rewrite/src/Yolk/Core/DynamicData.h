@@ -13,7 +13,7 @@ namespace Yolk {
         class MEMID
         {
             private:
-            MEMID() : id(0) {}
+            MEMID() : id(1) {}
             MEMID(const MEMID& cpy) = delete;
             MEMID(MEMID&&) = delete;
             MEMID& operator=(MEMID&&) = delete;

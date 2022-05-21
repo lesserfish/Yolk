@@ -1,10 +1,8 @@
-tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_memorymanager.cpp \
+tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o: \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrappergenerator.cpp \
  /usr/include/stdc-predef.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/Core.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/DynamicData.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/../Common.h \
- /usr/include/c++/10/memory /usr/include/c++/10/bits/stl_algobase.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest.h \
+ /usr/include/c++/10/cstddef \
  /usr/include/x86_64-linux-gnu/c++/10/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -14,6 +12,9 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/cpu_defines.h \
  /usr/include/c++/10/pstl/pstl_config.h \
+ /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
+ /usr/include/c++/10/limits /usr/include/c++/10/memory \
+ /usr/include/c++/10/bits/stl_algobase.h \
  /usr/include/c++/10/bits/functexcept.h \
  /usr/include/c++/10/bits/exception_defines.h \
  /usr/include/c++/10/bits/cpp_type_traits.h \
@@ -33,7 +34,6 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /usr/include/c++/10/exception /usr/include/c++/10/bits/exception.h \
  /usr/include/c++/10/bits/exception_ptr.h \
  /usr/include/c++/10/bits/cxxabi_init_exception.h \
- /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
  /usr/include/c++/10/typeinfo /usr/include/c++/10/bits/hash_bytes.h \
  /usr/include/c++/10/bits/nested_exception.h \
  /usr/include/c++/10/debug/debug.h \
@@ -124,7 +124,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /usr/include/c++/10/bits/std_abs.h \
  /usr/include/c++/10/bits/algorithmfwd.h \
  /usr/include/c++/10/initializer_list /usr/include/c++/10/bits/stl_heap.h \
- /usr/include/c++/10/bits/uniform_int_dist.h /usr/include/c++/10/limits \
+ /usr/include/c++/10/bits/uniform_int_dist.h \
  /usr/include/c++/10/bits/range_access.h \
  /usr/include/c++/10/bits/basic_string.h /usr/include/c++/10/string_view \
  /usr/include/c++/10/bits/functional_hash.h \
@@ -172,30 +172,10 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /usr/include/c++/10/bits/atomic_lockfree_defines.h \
  /usr/include/c++/10/backward/auto_ptr.h /usr/include/c++/10/bit \
  /usr/include/c++/10/pstl/glue_memory_defs.h \
- /usr/include/c++/10/pstl/execution_defs.h /usr/include/c++/10/typeindex \
- /usr/include/c++/10/iostream /usr/include/c++/10/istream \
- /usr/include/c++/10/bits/istream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/TypedField.h \
- /usr/include/c++/10/functional /usr/include/c++/10/bits/std_function.h \
- /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
- /usr/include/c++/10/bits/hashtable_policy.h \
- /usr/include/c++/10/bits/node_handle.h \
- /usr/include/c++/10/bits/unordered_map.h \
- /usr/include/c++/10/bits/erase_if.h /usr/include/c++/10/vector \
+ /usr/include/c++/10/pstl/execution_defs.h /usr/include/c++/10/vector \
  /usr/include/c++/10/bits/stl_vector.h \
  /usr/include/c++/10/bits/stl_bvector.h \
- /usr/include/c++/10/bits/vector.tcc /usr/include/c++/10/sstream \
- /usr/include/c++/10/bits/sstream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/Wrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/DynamicMemory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/WrapperRequired.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/WrapperArgument.h \
- /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
- /usr/include/c++/10/bits/deque.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/MethodWrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Core/WrapperGenerator.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest.h \
- /usr/include/c++/10/cstddef \
+ /usr/include/c++/10/bits/vector.tcc \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-internal.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-port.h \
  /usr/include/c++/10/stdlib.h /usr/include/string.h \
@@ -213,7 +193,8 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
- /usr/include/c++/10/locale \
+ /usr/include/c++/10/iostream /usr/include/c++/10/istream \
+ /usr/include/c++/10/bits/istream.tcc /usr/include/c++/10/locale \
  /usr/include/c++/10/bits/locale_facets_nonio.h /usr/include/c++/10/ctime \
  /usr/include/x86_64-linux-gnu/c++/10/bits/time_members.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/messages_members.h \
@@ -253,9 +234,12 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
  /usr/lib/gcc/x86_64-linux-gnu/10/include/float.h \
  /usr/include/c++/10/iomanip /usr/include/c++/10/bits/quoted_string.h \
+ /usr/include/c++/10/sstream /usr/include/c++/10/bits/sstream.tcc \
  /usr/include/c++/10/map /usr/include/c++/10/bits/stl_tree.h \
+ /usr/include/c++/10/bits/node_handle.h \
  /usr/include/c++/10/bits/stl_map.h \
- /usr/include/c++/10/bits/stl_multimap.h /usr/include/c++/10/set \
+ /usr/include/c++/10/bits/stl_multimap.h \
+ /usr/include/c++/10/bits/erase_if.h /usr/include/c++/10/set \
  /usr/include/c++/10/bits/stl_set.h \
  /usr/include/c++/10/bits/stl_multiset.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-message.h \
@@ -269,6 +253,10 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-matchers.h \
  /usr/include/c++/10/atomic \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-printers.h \
+ /usr/include/c++/10/functional /usr/include/c++/10/bits/std_function.h \
+ /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
+ /usr/include/c++/10/bits/hashtable_policy.h \
+ /usr/include/c++/10/bits/unordered_map.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/custom/gtest-printers.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-param-test.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h \
@@ -276,4 +264,17 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-test-part.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_prod.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/Core.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/DynamicData.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/../Common.h \
+ /usr/include/c++/10/typeindex \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/TypedField.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/Wrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/DynamicMemory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/WrapperRequired.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/WrapperArgument.h \
+ /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
+ /usr/include/c++/10/bits/deque.tcc \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/MethodWrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/WrapperGenerator.h

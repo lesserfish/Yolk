@@ -199,6 +199,54 @@ Yolk/Memory/test_memorymanager.cpp.s:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.s
 .PHONY : Yolk/Memory/test_memorymanager.cpp.s
 
+Yolk/Wrapper/test_methodwrapper.o: Yolk/Wrapper/test_methodwrapper.cpp.o
+.PHONY : Yolk/Wrapper/test_methodwrapper.o
+
+# target to build an object file
+Yolk/Wrapper/test_methodwrapper.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o
+.PHONY : Yolk/Wrapper/test_methodwrapper.cpp.o
+
+Yolk/Wrapper/test_methodwrapper.i: Yolk/Wrapper/test_methodwrapper.cpp.i
+.PHONY : Yolk/Wrapper/test_methodwrapper.i
+
+# target to preprocess a source file
+Yolk/Wrapper/test_methodwrapper.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.i
+.PHONY : Yolk/Wrapper/test_methodwrapper.cpp.i
+
+Yolk/Wrapper/test_methodwrapper.s: Yolk/Wrapper/test_methodwrapper.cpp.s
+.PHONY : Yolk/Wrapper/test_methodwrapper.s
+
+# target to generate assembly for a file
+Yolk/Wrapper/test_methodwrapper.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.s
+.PHONY : Yolk/Wrapper/test_methodwrapper.cpp.s
+
+Yolk/Wrapper/test_tunwrapper.o: Yolk/Wrapper/test_tunwrapper.cpp.o
+.PHONY : Yolk/Wrapper/test_tunwrapper.o
+
+# target to build an object file
+Yolk/Wrapper/test_tunwrapper.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o
+.PHONY : Yolk/Wrapper/test_tunwrapper.cpp.o
+
+Yolk/Wrapper/test_tunwrapper.i: Yolk/Wrapper/test_tunwrapper.cpp.i
+.PHONY : Yolk/Wrapper/test_tunwrapper.i
+
+# target to preprocess a source file
+Yolk/Wrapper/test_tunwrapper.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.i
+.PHONY : Yolk/Wrapper/test_tunwrapper.cpp.i
+
+Yolk/Wrapper/test_tunwrapper.s: Yolk/Wrapper/test_tunwrapper.cpp.s
+.PHONY : Yolk/Wrapper/test_tunwrapper.s
+
+# target to generate assembly for a file
+Yolk/Wrapper/test_tunwrapper.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.s
+.PHONY : Yolk/Wrapper/test_tunwrapper.cpp.s
+
 Yolk/Wrapper/test_tvariable.o: Yolk/Wrapper/test_tvariable.cpp.o
 .PHONY : Yolk/Wrapper/test_tvariable.o
 
@@ -223,6 +271,54 @@ Yolk/Wrapper/test_tvariable.cpp.s:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.s
 .PHONY : Yolk/Wrapper/test_tvariable.cpp.s
 
+Yolk/Wrapper/test_wrapper.o: Yolk/Wrapper/test_wrapper.cpp.o
+.PHONY : Yolk/Wrapper/test_wrapper.o
+
+# target to build an object file
+Yolk/Wrapper/test_wrapper.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o
+.PHONY : Yolk/Wrapper/test_wrapper.cpp.o
+
+Yolk/Wrapper/test_wrapper.i: Yolk/Wrapper/test_wrapper.cpp.i
+.PHONY : Yolk/Wrapper/test_wrapper.i
+
+# target to preprocess a source file
+Yolk/Wrapper/test_wrapper.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.i
+.PHONY : Yolk/Wrapper/test_wrapper.cpp.i
+
+Yolk/Wrapper/test_wrapper.s: Yolk/Wrapper/test_wrapper.cpp.s
+.PHONY : Yolk/Wrapper/test_wrapper.s
+
+# target to generate assembly for a file
+Yolk/Wrapper/test_wrapper.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.s
+.PHONY : Yolk/Wrapper/test_wrapper.cpp.s
+
+Yolk/Wrapper/test_wrappergenerator.o: Yolk/Wrapper/test_wrappergenerator.cpp.o
+.PHONY : Yolk/Wrapper/test_wrappergenerator.o
+
+# target to build an object file
+Yolk/Wrapper/test_wrappergenerator.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o
+.PHONY : Yolk/Wrapper/test_wrappergenerator.cpp.o
+
+Yolk/Wrapper/test_wrappergenerator.i: Yolk/Wrapper/test_wrappergenerator.cpp.i
+.PHONY : Yolk/Wrapper/test_wrappergenerator.i
+
+# target to preprocess a source file
+Yolk/Wrapper/test_wrappergenerator.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.i
+.PHONY : Yolk/Wrapper/test_wrappergenerator.cpp.i
+
+Yolk/Wrapper/test_wrappergenerator.s: Yolk/Wrapper/test_wrappergenerator.cpp.s
+.PHONY : Yolk/Wrapper/test_wrappergenerator.s
+
+# target to generate assembly for a file
+Yolk/Wrapper/test_wrappergenerator.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.s
+.PHONY : Yolk/Wrapper/test_wrappergenerator.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -239,9 +335,21 @@ help:
 	@echo "... Yolk/Memory/test_memorymanager.o"
 	@echo "... Yolk/Memory/test_memorymanager.i"
 	@echo "... Yolk/Memory/test_memorymanager.s"
+	@echo "... Yolk/Wrapper/test_methodwrapper.o"
+	@echo "... Yolk/Wrapper/test_methodwrapper.i"
+	@echo "... Yolk/Wrapper/test_methodwrapper.s"
+	@echo "... Yolk/Wrapper/test_tunwrapper.o"
+	@echo "... Yolk/Wrapper/test_tunwrapper.i"
+	@echo "... Yolk/Wrapper/test_tunwrapper.s"
 	@echo "... Yolk/Wrapper/test_tvariable.o"
 	@echo "... Yolk/Wrapper/test_tvariable.i"
 	@echo "... Yolk/Wrapper/test_tvariable.s"
+	@echo "... Yolk/Wrapper/test_wrapper.o"
+	@echo "... Yolk/Wrapper/test_wrapper.i"
+	@echo "... Yolk/Wrapper/test_wrapper.s"
+	@echo "... Yolk/Wrapper/test_wrappergenerator.o"
+	@echo "... Yolk/Wrapper/test_wrappergenerator.i"
+	@echo "... Yolk/Wrapper/test_wrappergenerator.s"
 .PHONY : help
 
 

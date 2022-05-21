@@ -22,6 +22,8 @@ namespace Yolk
 
             DynamicMemory();
             ~DynamicMemory();
+            
+            Wrapper GetVoidWrapper();
 
             template<typename T> AllocateOut AllocateMemory();
             template<typename T> AllocateOut AllocateMemory(T value);
@@ -50,18 +52,21 @@ namespace Yolk
             std::unordered_map<Identifier, AbstractData::Pointer> AllocatedMemory;
             Wrapper VoidWrapper;
         };
-        inline DynamicMemory::DynamicMemory() : AllocatedMemory(), VoidWrapper(0, nullptr, *this){
+        inline DynamicMemory::DynamicMemory() : AllocatedMemory(), VoidWrapper(0, TypedField::Pointer(new TypedField), *this){
 
         }
         inline DynamicMemory::~DynamicMemory(){
         }
 
+        inline Wrapper DynamicMemory::GetVoidWrapper(){
+            return VoidWrapper;
+        }
         template<typename T> inline DynamicMemory::AllocateOut DynamicMemory::AllocateMemory(){
             constexpr bool canCreate = requires() {
                 new DynamicData<T>();
             };
             constexpr bool canFree = requires(){
-                free(new DynamicData<T>());
+                delete(new DynamicData<T>());
             };
             if constexpr(canCreate && canFree){
                 AbstractData::Pointer dptr = std::make_shared<DynamicData<T>>();
@@ -83,7 +88,7 @@ namespace Yolk
                 new DynamicData<T>(value);
             };
             constexpr bool canFree = requires(){
-                free(new DynamicData<T>(value));
+                delete(new DynamicData<T>(value));
             };
             if constexpr(canCreate && canFree){
                 AbstractData::Pointer dptr = std::make_shared<DynamicData<T>>(value);

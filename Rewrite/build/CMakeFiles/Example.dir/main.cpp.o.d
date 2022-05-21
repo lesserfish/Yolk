@@ -188,4 +188,7 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/bits/sstream.tcc \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/ArgumentWrapper.h \
+ /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
+ /usr/include/c++/10/bits/deque.tcc

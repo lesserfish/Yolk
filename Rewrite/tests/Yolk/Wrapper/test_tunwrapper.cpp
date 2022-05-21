@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Yolk.h"
+#include "../../../src/Yolk/Core/Core.h"
 #include <functional>
 
 void TyA(int, int)
@@ -8,19 +8,17 @@ void TyA(int, int)
 }
 TEST(Yolk_Test, Typed_Unwrapper_Test_A)
 {
-    Yolk::Memory::MemoryManager manager;
+    Yolk::Memory::DynamicMemory manager;
     std::function<void(int, int)> f = TyA;
 
     auto i1 = manager.AllocateMemory<int>(1);
     auto i2 = manager.AllocateMemory<int>(1);
 
-    Yolk::ArgumentWrapper p = {i1,i2};
+    Yolk::WrapperArgument p = {i1.wrapper,i2.wrapper};
 
-    auto o = manager.AllocateMemory<void>();
-
-    Yolk::ArgumentUnwrapper::Unwrap<void, int, int>::Run(f, o, p);    
+    auto out = Yolk::ArgumentUnwrapper::Unwrap<void, int, int>::Run(manager, f, p);    
+    EXPECT_TRUE(out.ok);
 }
-
 
 int TyB(int x, int y)
 {
@@ -28,20 +26,18 @@ int TyB(int x, int y)
 }
 TEST(Yolk_Test, Typed_Unwrapper_Test_B)
 {
-    Yolk::Memory::MemoryManager manager;
+    Yolk::Memory::DynamicMemory manager;
     std::function<int(int, int)> f = TyB;
     
     auto i1 = manager.AllocateMemory<int>(1);
     auto i2 = manager.AllocateMemory<int>(1);
 
 
-    Yolk::ArgumentWrapper p = {i1,i2};
+    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
 
-    auto o = manager.AllocateMemory<int>();
-    
-    Yolk::ArgumentUnwrapper::Unwrap<int, int, int>::Run(f, o, p);
-
-    EXPECT_EQ(o.field->As<int>(), 2);
+    auto o = Yolk::ArgumentUnwrapper::Unwrap<int, int, int>::Run(manager, f, p);
+    EXPECT_TRUE(o.ok);
+    EXPECT_EQ(o.wrapper.field->As<int>(), 2);
 }
 
 
@@ -52,20 +48,18 @@ float TyC(float x, int y)
 }
 TEST(Yolk_Test, Typed_Unwrapper_Test_C)
 {
-    Yolk::Memory::MemoryManager manager;
+    Yolk::Memory::DynamicMemory manager;
     std::function<float(float, int)> f = TyC;
     
     auto i1 = manager.AllocateMemory<float>(7.2);
     auto i2 = manager.AllocateMemory<int>(5);
 
-    Yolk::ArgumentWrapper p = {i1, i2};
+    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
 
-    auto o = manager.AllocateMemory<float>();
+    auto m = Yolk::ArgumentUnwrapper::Unwrap<float, float, int>::Run(manager, f, p);
 
-    auto m = Yolk::ArgumentUnwrapper::Unwrap<float, float, int>::Run(f, o, p);
-
-    EXPECT_FLOAT_EQ(o.field->As<float>(), 2.2);
     EXPECT_TRUE(m.ok);
+    EXPECT_FLOAT_EQ(m.wrapper.field->As<float>(), 2.2);
 }
 
 struct Helper
@@ -85,38 +79,33 @@ Helper TyD(int x, int y)
 
 TEST(Yolk_Test, Typed_Unwrapper_Test_D)
 {
-    Yolk::Memory::MemoryManager manager;
+    Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f = TyD;
     
     auto i1 = manager.AllocateMemory<int>(-1);
     auto i2 = manager.AllocateMemory<int>(1);
 
-    Yolk::ArgumentWrapper p = {i1, i2};
+    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
 
-    auto o = manager.AllocateMemory<Helper>();
-    
-    auto m = Yolk::ArgumentUnwrapper::Unwrap<Helper, int, int>::Run(f, o, p);
+    auto m = Yolk::ArgumentUnwrapper::Unwrap<Helper, int, int>::Run(manager, f, p);
 
-    EXPECT_EQ(o.field->As<Helper>().a, 5);
     EXPECT_TRUE(m.ok);
+    EXPECT_EQ(m.wrapper.field->As<Helper>().a, 5);
 }
 
 
 TEST(Yolk_Test, Typed_Unwrapper_Test_E)
 {
-    Yolk::Memory::MemoryManager manager;
+    Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f = TyD;
     
     auto i1 = manager.AllocateMemory<int>(-5);
     auto i2 = manager.AllocateMemory<int>(-7);
 
-    Yolk::ArgumentWrapper p = {i1, i2};
+    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
     
-    
-    auto o = manager.AllocateMemory<Helper>();
+    auto m = Yolk::ArgumentUnwrapper::Unwrap<Helper, int, int>::Run(manager, f, p);
 
-    auto m = Yolk::ArgumentUnwrapper::Unwrap<Helper, int, int>::Run(f, o, p);
-
-    EXPECT_EQ(o.field->As<Helper>().a, 6);
     EXPECT_TRUE(m.ok);
+    EXPECT_EQ(m.wrapper.field->As<Helper>().a, 6);
 }

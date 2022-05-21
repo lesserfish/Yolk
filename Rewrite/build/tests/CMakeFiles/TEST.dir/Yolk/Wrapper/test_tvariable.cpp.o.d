@@ -272,4 +272,9 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/TypedField.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/Wrapper.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/DynamicMemory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/WrapperRequired.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/WrapperRequired.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/WrapperArgument.h \
+ /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
+ /usr/include/c++/10/bits/deque.tcc \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/MethodWrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/../../../src/Yolk/Core/WrapperGenerator.h

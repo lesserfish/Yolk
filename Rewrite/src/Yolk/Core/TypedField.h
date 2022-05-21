@@ -862,7 +862,7 @@ namespace Yolk {
     }
 
     template<typename T> inline void TypedField::Bind(T& lvalue) {
-        free(data);
+        delete(data);
         data = new Thing<T>(lvalue);
     }
     inline void TypedField::Bind(TypedField& other){
