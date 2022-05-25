@@ -1,6 +1,5 @@
 #pragma once
 
-#include "WrapperTable.h"
 #include <string>
 #include <unordered_map>
 #include <memory>
@@ -25,9 +24,14 @@ namespace Yolk
         };
         struct SymbolValue
         {
-            SymbolValue(WrapperKey _key = 0) : key(_key) {}
-            WrapperKey key;
-
+            enum Type {
+                Wrapper,
+                MethodWrapper,
+                MemoryPointer,
+            };
+            SymbolValue(MapKey _key = 0) : key(_key) {}
+            MapKey key;
+            Type type;
             bool operator==(const SymbolValue &other) const
             {
                 return (key == other.key);
@@ -53,7 +57,6 @@ namespace Yolk
         class SymbolTable
         {
         public:
-            using Pointer = SymbolTable *;
             using Level = unsigned long int;
 
             struct FindResult
@@ -68,13 +71,13 @@ namespace Yolk
             };
             struct FriendResult
             {
-                Pointer result;
+                SymbolTable* result;
                 bool ok;
             };
 
         public:
             SymbolTable();
-            SymbolTable(Pointer);
+            SymbolTable(SymbolTable* );
             SymbolTable(const SymbolTable &);
             SymbolTable &operator=(const SymbolTable &other);
             ~SymbolTable();
@@ -100,22 +103,22 @@ namespace Yolk
             void Debug();
 
             FriendResult GetFriend(std::string);
-            bool AddFriend(std::string, Pointer);
+            bool AddFriend(std::string, SymbolTable*);
             void DeleteFriend(std::string);
 
         private:
         protected:
             const Level level;
-            Pointer self;
-            Pointer Father;
-            Pointer Child;
-            std::unordered_map<std::string, Pointer> Friends;
+            SymbolTable* self;
+            SymbolTable* Father;
+            SymbolTable* Child;
+            std::unordered_map<std::string, SymbolTable*> Friends;
             std::unordered_map<SymbolKey, SymbolValue> Table;
             std::vector<std::pair<SymbolKey, SymbolValue>> LocalTable;
         };
 
         inline SymbolTable::SymbolTable() : level(0), self(this), Father(this), Child(nullptr), Friends(), Table() {}
-        inline SymbolTable::SymbolTable(Pointer _Father) : level(_Father->level + 1), self(this), Father(_Father), Child(nullptr), Friends(_Father->Friends), Table(_Father->Table) {}
+        inline SymbolTable::SymbolTable(SymbolTable* _Father) : level(_Father->level + 1), self(this), Father(_Father), Child(nullptr), Friends(_Father->Friends), Table(_Father->Table) {}
         inline SymbolTable::SymbolTable(const SymbolTable &other) : level(0), Father(this), Child(nullptr), Friends(), Table()
         {
             Clone(other, *this);
@@ -168,7 +171,7 @@ namespace Yolk
         inline bool SymbolTable::GlobalAdd(SymbolKey key, SymbolValue value)
         {
             bool out = true;
-            Pointer p = self;
+            SymbolTable* p = self;
             do
             {
                 auto const result = p->Table.insert(std::make_pair(key, value));
@@ -200,7 +203,7 @@ namespace Yolk
         }
         inline void SymbolTable::GlobalDelete(SymbolKey key)
         {
-            Pointer p = self;
+            SymbolTable* p = self;
             do
             {
                 p->Table.erase(key);
@@ -242,7 +245,7 @@ namespace Yolk
         inline void SymbolTable::Debug()
         {
             std::cout << "----------------------------------\nBeggining Debug:\n\n";
-            Pointer p = self;
+            SymbolTable* p = self;
             while (p->level != 0)
             {
                 std::cout << "\nLevel: " << p->level << std::endl;
@@ -334,7 +337,7 @@ namespace Yolk
             destiny.Friends = origin.Friends;
             destiny.LocalTable = origin.LocalTable;
         }
-        inline bool SymbolTable::AddFriend(std::string name, Pointer p)
+        inline bool SymbolTable::AddFriend(std::string name, SymbolTable* p)
         {
             bool out = Friends.insert(std::pair(name, p)).second;
             return out;

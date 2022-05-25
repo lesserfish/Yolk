@@ -28,7 +28,7 @@ namespace Yolk
             InvokeOutput Invoke(Memory::DynamicMemory &memory, Wrapper &Function, WrapperArgument &Argument)
             {
                 auto func = Function.field->As<std::function<T(F...)>>();
-                auto out = ArgumentUnwrapper::Unwrap<T, F...>::Run(memory, func, Argument);
+                auto out = ArgumentUnwrapper<>::Unwrap<T, F...>::Run(memory, func, Argument);
                 return out;
             }
 

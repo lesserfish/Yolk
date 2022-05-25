@@ -175,29 +175,53 @@ TEST/fast:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/build
 .PHONY : TEST/fast
 
-Yolk/Memory/test_memorymanager.o: Yolk/Memory/test_memorymanager.cpp.o
-.PHONY : Yolk/Memory/test_memorymanager.o
+Yolk/Memory/test_dynamicmemory.o: Yolk/Memory/test_dynamicmemory.cpp.o
+.PHONY : Yolk/Memory/test_dynamicmemory.o
 
 # target to build an object file
-Yolk/Memory/test_memorymanager.cpp.o:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.o
-.PHONY : Yolk/Memory/test_memorymanager.cpp.o
+Yolk/Memory/test_dynamicmemory.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o
+.PHONY : Yolk/Memory/test_dynamicmemory.cpp.o
 
-Yolk/Memory/test_memorymanager.i: Yolk/Memory/test_memorymanager.cpp.i
-.PHONY : Yolk/Memory/test_memorymanager.i
+Yolk/Memory/test_dynamicmemory.i: Yolk/Memory/test_dynamicmemory.cpp.i
+.PHONY : Yolk/Memory/test_dynamicmemory.i
 
 # target to preprocess a source file
-Yolk/Memory/test_memorymanager.cpp.i:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.i
-.PHONY : Yolk/Memory/test_memorymanager.cpp.i
+Yolk/Memory/test_dynamicmemory.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.i
+.PHONY : Yolk/Memory/test_dynamicmemory.cpp.i
 
-Yolk/Memory/test_memorymanager.s: Yolk/Memory/test_memorymanager.cpp.s
-.PHONY : Yolk/Memory/test_memorymanager.s
+Yolk/Memory/test_dynamicmemory.s: Yolk/Memory/test_dynamicmemory.cpp.s
+.PHONY : Yolk/Memory/test_dynamicmemory.s
 
 # target to generate assembly for a file
-Yolk/Memory/test_memorymanager.cpp.s:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memorymanager.cpp.s
-.PHONY : Yolk/Memory/test_memorymanager.cpp.s
+Yolk/Memory/test_dynamicmemory.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.s
+.PHONY : Yolk/Memory/test_dynamicmemory.cpp.s
+
+Yolk/Memory/test_wrappertable.o: Yolk/Memory/test_wrappertable.cpp.o
+.PHONY : Yolk/Memory/test_wrappertable.o
+
+# target to build an object file
+Yolk/Memory/test_wrappertable.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o
+.PHONY : Yolk/Memory/test_wrappertable.cpp.o
+
+Yolk/Memory/test_wrappertable.i: Yolk/Memory/test_wrappertable.cpp.i
+.PHONY : Yolk/Memory/test_wrappertable.i
+
+# target to preprocess a source file
+Yolk/Memory/test_wrappertable.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.i
+.PHONY : Yolk/Memory/test_wrappertable.cpp.i
+
+Yolk/Memory/test_wrappertable.s: Yolk/Memory/test_wrappertable.cpp.s
+.PHONY : Yolk/Memory/test_wrappertable.s
+
+# target to generate assembly for a file
+Yolk/Memory/test_wrappertable.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.s
+.PHONY : Yolk/Memory/test_wrappertable.cpp.s
 
 Yolk/Wrapper/test_methodwrapper.o: Yolk/Wrapper/test_methodwrapper.cpp.o
 .PHONY : Yolk/Wrapper/test_methodwrapper.o
@@ -332,9 +356,12 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... TEST"
-	@echo "... Yolk/Memory/test_memorymanager.o"
-	@echo "... Yolk/Memory/test_memorymanager.i"
-	@echo "... Yolk/Memory/test_memorymanager.s"
+	@echo "... Yolk/Memory/test_dynamicmemory.o"
+	@echo "... Yolk/Memory/test_dynamicmemory.i"
+	@echo "... Yolk/Memory/test_dynamicmemory.s"
+	@echo "... Yolk/Memory/test_wrappertable.o"
+	@echo "... Yolk/Memory/test_wrappertable.i"
+	@echo "... Yolk/Memory/test_wrappertable.s"
 	@echo "... Yolk/Wrapper/test_methodwrapper.o"
 	@echo "... Yolk/Wrapper/test_methodwrapper.i"
 	@echo "... Yolk/Wrapper/test_methodwrapper.s"

@@ -24,7 +24,7 @@ namespace Yolk
         std::string message;
     };
     
-
+    template<bool strict = true> 
     class ArgumentUnwrapper
     {
     public:
@@ -48,12 +48,15 @@ namespace Yolk
                 Wrapper v = input.at(0);
                 input.pop_front();
 
-                const std::type_index &ti1 = typeid(U);
-                const std::type_index &ti2 = v.field->Type();
+                    
+                if(strict){
+                    const std::type_index &ti1 = typeid(U);
+                    const std::type_index &ti2 = v.field->Type();
 
-                if (ti1 != ti2)
-                {
-                    return UnwrapperOutput(memory.GetVoidWrapper(), false, "Argumend does not fit required type.");
+                    if (ti1 != ti2)
+                    {
+                        return UnwrapperOutput(memory.GetVoidWrapper(), false, "Argumend does not fit required type.");
+                    }
                 }
 
                 U cast = v.field->As<U>();
@@ -72,16 +75,26 @@ namespace Yolk
                     return UnwrapperOutput(memory.GetVoidWrapper(), false, "Too many arguments passed to function.");
                 }
 
+                if(strict){
+                    const std::type_index &ti1 = typeid(Func);
+                    const std::type_index &ti2 = typeid(std::function<ReturnType(Args...)>);
+                    if(ti1 != ti2)
+                    {
+                        return UnwrapperOutput(memory.GetVoidWrapper(), false, "Function type and Argument type mismatch.");
+                    }
+                }
+                
 
-                const std::type_index &ti1 = typeid(Func);
-                const std::type_index &ti2 = typeid(std::function<ReturnType(Args...)>);
-                if(ti1 != ti2)
-                {
+                constexpr bool CanEvaluate = requires(Args... a){
+                    function(a...);
+                };
+                
+                if constexpr(!CanEvaluate) {
                     return UnwrapperOutput(memory.GetVoidWrapper(), false, "Function type and Argument type mismatch.");
                 }
                 
                 constexpr bool ReturnTypeIsVoid = std::is_void<ReturnType>::value;
-                
+
                 if constexpr(ReturnTypeIsVoid) {
                     function(args...);
                     return UnwrapperOutput(memory.GetVoidWrapper(), true, "");

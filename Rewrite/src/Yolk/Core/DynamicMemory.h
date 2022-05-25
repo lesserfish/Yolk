@@ -52,9 +52,7 @@ namespace Yolk
             std::unordered_map<Identifier, AbstractData::Pointer> AllocatedMemory;
             Wrapper VoidWrapper;
         };
-        inline DynamicMemory::DynamicMemory() : AllocatedMemory(), VoidWrapper(0, TypedField::Pointer(new TypedField), *this){
-
-        }
+        inline DynamicMemory::DynamicMemory() : AllocatedMemory(), VoidWrapper(0, TypedField::Pointer(new TypedField), *this){}
         inline DynamicMemory::~DynamicMemory(){
         }
 
