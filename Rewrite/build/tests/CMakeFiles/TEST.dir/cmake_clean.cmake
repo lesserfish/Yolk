@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o"
   "CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o.d"
+  "CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o"
+  "CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o.d"
   "CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o"
   "CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o.d"
   "CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o"

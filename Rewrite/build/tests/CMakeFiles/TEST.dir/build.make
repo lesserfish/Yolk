@@ -83,10 +83,24 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.s"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_dynamicmemory.cpp -o CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.s
 
+tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o: tests/CMakeFiles/TEST.dir/flags.make
+tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o: ../tests/Yolk/Memory/test_symboltable.cpp
+tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o: tests/CMakeFiles/TEST.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o"
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o -MF CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o.d -o CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_symboltable.cpp
+
+tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.i"
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_symboltable.cpp > CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.i
+
+tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.s"
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_symboltable.cpp -o CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.s
+
 tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: tests/CMakeFiles/TEST.dir/flags.make
 tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: ../tests/Yolk/Memory/test_wrappertable.cpp
 tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: tests/CMakeFiles/TEST.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o -MF CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o.d -o CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_wrappertable.cpp
 
 tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.i: cmake_force
@@ -100,7 +114,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.s: cmake_force
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o: tests/CMakeFiles/TEST.dir/flags.make
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o: ../tests/Yolk/Wrapper/test_methodwrapper.cpp
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o: tests/CMakeFiles/TEST.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o -MF CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o.d -o CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_methodwrapper.cpp
 
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.i: cmake_force
@@ -114,7 +128,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.s: cmake_force
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o: tests/CMakeFiles/TEST.dir/flags.make
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o: ../tests/Yolk/Wrapper/test_tunwrapper.cpp
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o: tests/CMakeFiles/TEST.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o -MF CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o.d -o CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_tunwrapper.cpp
 
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.i: cmake_force
@@ -128,7 +142,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.s: cmake_force
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: tests/CMakeFiles/TEST.dir/flags.make
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: ../tests/Yolk/Wrapper/test_tvariable.cpp
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: tests/CMakeFiles/TEST.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o -MF CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o.d -o CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_tvariable.cpp
 
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.i: cmake_force
@@ -142,7 +156,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.s: cmake_force
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o: tests/CMakeFiles/TEST.dir/flags.make
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o: ../tests/Yolk/Wrapper/test_wrapper.cpp
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o: tests/CMakeFiles/TEST.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o -MF CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o.d -o CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrapper.cpp
 
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.i: cmake_force
@@ -156,7 +170,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.s: cmake_force
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o: tests/CMakeFiles/TEST.dir/flags.make
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o: ../tests/Yolk/Wrapper/test_wrappergenerator.cpp
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o: tests/CMakeFiles/TEST.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o -MF CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o.d -o CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrappergenerator.cpp
 
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.i: cmake_force
@@ -170,6 +184,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.s: cmake_force
 # Object files for target TEST
 TEST_OBJECTS = \
 "CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o" \
+"CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o" \
 "CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o" \
 "CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o" \
 "CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o" \
@@ -181,6 +196,7 @@ TEST_OBJECTS = \
 TEST_EXTERNAL_OBJECTS =
 
 tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o
+tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o
 tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o
 tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o
 tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o
@@ -192,7 +208,7 @@ tests/TEST: lib/libgtest_main.a
 tests/TEST: src/libYolk.so.1.0
 tests/TEST: lib/libgtest.a
 tests/TEST: tests/CMakeFiles/TEST.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable TEST"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable TEST"
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TEST.dir/link.txt --verbose=$(VERBOSE)
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests && /home/lesserfish/Documents/Software/cmake/bin/cmake -D TEST_TARGET=TEST -D TEST_EXECUTABLE=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/home/lesserfish/Documents/Code/Yolk/Rewrite/tests -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=TEST_TESTS -D CTEST_FILE=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /home/lesserfish/Documents/Software/cmake/share/cmake-3.23/Modules/GoogleTestAddTests.cmake
 

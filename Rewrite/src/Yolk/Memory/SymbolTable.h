@@ -28,13 +28,27 @@ namespace Yolk
                 Wrapper,
                 MethodWrapper,
                 MemoryPointer,
+                None
             };
-            SymbolValue(MapKey _key = 0) : key(_key) {}
+            SymbolValue(MapKey k, Type t) : key(k), type(t), ok(true) {}
+            SymbolValue(MapKey k, Type t, bool o) : key(k), type(t), ok(o) {}
             MapKey key;
             Type type;
+            bool ok;
             bool operator==(const SymbolValue &other) const
             {
                 return (key == other.key);
+            }
+            bool operator==(const MapKey& k) const
+            {
+                return (key == k);
+            }
+            static SymbolValue Failure(){
+                SymbolValue out = SymbolValue(
+                    0,
+                    Type::None,
+                    false);
+                return out;
             }
         };
     }
@@ -54,304 +68,217 @@ namespace Yolk
 {
     namespace Memory
     {
-        class SymbolTable
+        struct SymbolKeySearchResult
         {
-        public:
-            using Level = unsigned long int;
-
-            struct FindResult
-            {
-                SymbolKey key;
-                bool ok;
-            };
-            struct Result
-            {
-                SymbolValue value;
-                bool ok;
-            };
-            struct FriendResult
-            {
-                SymbolTable* result;
-                bool ok;
-            };
-
-        public:
-            SymbolTable();
-            SymbolTable(SymbolTable* );
-            SymbolTable(const SymbolTable &);
-            SymbolTable &operator=(const SymbolTable &other);
-            ~SymbolTable();
-
-            void BranchDown();
-            std::vector<std::pair<SymbolKey, SymbolValue>> BranchUp();
-
-            // API Interface
-            Level GetLevel() const;
-            bool Add(SymbolKey, SymbolValue);
-            bool GlobalAdd(SymbolKey, SymbolValue);
-            Result Get(SymbolKey);
-            bool Exists(SymbolKey);
-            void Delete(SymbolKey);
-            void GlobalDelete(SymbolKey);
-            void Delete(std::vector<SymbolKey>);
-            FindResult Find(SymbolValue);
-            std::vector<SymbolValue> GetAll();
-
-            std::vector<std::pair<SymbolKey, SymbolValue>> ClearAll();
-            std::vector<std::pair<SymbolKey, SymbolValue>> ClearChildren(bool toggle_recursion = false);
-            static void Clone(const SymbolTable &origin, SymbolTable &destiny);
-            void Debug();
-
-            FriendResult GetFriend(std::string);
-            bool AddFriend(std::string, SymbolTable*);
-            void DeleteFriend(std::string);
-
-        private:
-        protected:
-            const Level level;
-            SymbolTable* self;
-            SymbolTable* Father;
-            SymbolTable* Child;
-            std::unordered_map<std::string, SymbolTable*> Friends;
-            std::unordered_map<SymbolKey, SymbolValue> Table;
-            std::vector<std::pair<SymbolKey, SymbolValue>> LocalTable;
+            SymbolKey key;
+            bool ok;
         };
+        class SymbolTableInterface;
 
-        inline SymbolTable::SymbolTable() : level(0), self(this), Father(this), Child(nullptr), Friends(), Table() {}
-        inline SymbolTable::SymbolTable(SymbolTable* _Father) : level(_Father->level + 1), self(this), Father(_Father), Child(nullptr), Friends(_Father->Friends), Table(_Father->Table) {}
-        inline SymbolTable::SymbolTable(const SymbolTable &other) : level(0), Father(this), Child(nullptr), Friends(), Table()
-        {
-            Clone(other, *this);
-        }
-        inline SymbolTable &SymbolTable::operator=(const SymbolTable &other)
-        {
-            ClearAll();
-            Clone(other, *this);
-            return *this;
-        }
-        inline SymbolTable::~SymbolTable()
-        {
-            ClearChildren();
-        }
-        inline SymbolTable::Level SymbolTable::GetLevel() const
-        {
-            return self->level;
-        }
+        class SymbolTable {
+            public:
+                SymbolTable();
+                SymbolTable(SymbolTable& ref);
+                ~SymbolTable();
 
-        inline void SymbolTable::BranchDown()
-        {
-            self->Child = new SymbolTable(self);
-            self = self->Child;
+                bool Exists(SymbolKey);
+                std::pair<SymbolKey, SymbolValue> Get(SymbolKey);
+                std::vector<std::pair<SymbolKey, SymbolValue>> GetAll();
+                
+                bool Add(SymbolKey, SymbolValue, bool addtolocaltable = true);
+                std::pair<SymbolKey, SymbolValue> Delete(SymbolKey);
+                std::vector<std::pair<SymbolKey, SymbolValue>> Delete(std::vector<SymbolKey>);
+                std::vector<std::pair<SymbolKey, SymbolValue>> DeleteAll();
+                
+                SymbolKeySearchResult Find(SymbolValue);
+
+            private:
+                friend class SymbolTableInterface;
+                std::unordered_map<SymbolKey, SymbolValue> Table;
+                std::vector<std::pair<SymbolKey, SymbolValue>> LocalTable;
+        };
+        
+        inline SymbolTable::SymbolTable() : Table(), LocalTable() {}
+        inline SymbolTable::SymbolTable(SymbolTable& ref) : Table(ref.Table), LocalTable() {}
+        inline SymbolTable::~SymbolTable() {}
+        inline bool SymbolTable::Exists(SymbolKey key) {
+            auto result = Table.find(key);
+            return !(result == Table.end());
         }
-        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::BranchUp()
-        {
+        inline std::pair<SymbolKey, SymbolValue> SymbolTable::Get(SymbolKey key) {
+            auto result = Table.find(key);
+            if(result == Table.end()){
+                return std::make_pair(key, SymbolValue::Failure());
+            }
+            return std::make_pair(key, result->second);
+        }
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::GetAll() {
             std::vector<std::pair<SymbolKey, SymbolValue>> out;
-            if (GetLevel() == 0)
-                return out;
-
-            out = self->LocalTable;
-            self = self->Father;
-
-            delete self->Child;
-            self->Child = nullptr;
-
-            return out;
-        }
-        inline bool SymbolTable::Add(SymbolKey key, SymbolValue value)
-        {
-            if (key == SymbolKey())
-                return false;
-
-            auto const result = self->Table.insert(std::make_pair(key, value));
-
-            if (result.second)
-                self->LocalTable.push_back(std::make_pair(key, value));
-            return result.second;
-        }
-        inline bool SymbolTable::GlobalAdd(SymbolKey key, SymbolValue value)
-        {
-            bool out = true;
-            SymbolTable* p = self;
-            do
-            {
-                auto const result = p->Table.insert(std::make_pair(key, value));
-                out = out && result.second;
-                p = p->Father;
-            } while (p->level != 0);
-
-            out = out && p->Table.insert(std::make_pair(key, value)).second;
-            p->LocalTable.push_back(std::make_pair(key, value));
-            return out;
-        }
-        inline SymbolTable::Result SymbolTable::Get(SymbolKey key)
-        {
-            auto result = self->Table.find(key);
-            if (result == self->Table.end())
-                return Result{SymbolValue(), false};
-            return Result{result->second, true};
-        }
-        inline bool SymbolTable::Exists(SymbolKey key)
-        {
-            auto result = self->Table.find(key);
-            if (result == self->Table.end())
-                return false;
-            return true;
-        }
-        inline void SymbolTable::Delete(SymbolKey key)
-        {
-            self->Table.erase(key);
-        }
-        inline void SymbolTable::GlobalDelete(SymbolKey key)
-        {
-            SymbolTable* p = self;
-            do
-            {
-                p->Table.erase(key);
-                p = p->Father;
-            } while (p->level != 0);
-
-            p->Table.erase(key);
-        }
-        inline void SymbolTable::Delete(std::vector<SymbolKey> keys)
-        {
-            for (auto key : keys)
-            {
-                self->Table.erase(key);
-            }
-        }
-        inline SymbolTable::FindResult SymbolTable::Find(SymbolValue value)
-        {
-            for (auto it = self->Table.begin(); it != self->Table.end(); it++)
-            {
-                if (it->second == value)
-                {
-                    FindResult out{it->first, true};
-                    return out;
-                }
-            }
-
-            FindResult out{SymbolKey(), false};
-            return out;
-        }
-        inline std::vector<SymbolValue> SymbolTable::GetAll()
-        {
-            std::vector<SymbolValue> out;
             for (auto it = Table.begin(); it != Table.end(); it++)
             {
-                out.push_back(it->second);
+                out.push_back(std::make_pair(it->first, it->second));
             }
             return out;
         }
-        inline void SymbolTable::Debug()
-        {
-            std::cout << "----------------------------------\nBeggining Debug:\n\n";
-            SymbolTable* p = self;
-            while (p->level != 0)
-            {
-                std::cout << "\nLevel: " << p->level << std::endl;
-                std::string flog = p->Father == p ? "Is his own father\n" : "Has a father\n";
-                std::string clog = p->Child ? "Has a child\n" : "Does not have a child\n";
-
-                std::cout << flog << clog << std::endl
-                          << "Table: \n";
-                for (auto i : p->Table)
-                {
-                    std::cout << ": " << i.first.Name << " - " << i.second.key << std::endl;
-                };
-
-                std::cout << "Local Table: ";
-                for (auto i : p->LocalTable)
-                {
-                    std::cout << i.first.Name << ":" << i.second.key << "\t";
+        inline bool SymbolTable::Add(SymbolKey key, SymbolValue value, bool addtolocaltable) {
+            
+            auto result = Table.insert(std::make_pair(key, value));
+            if(result.second && addtolocaltable){
+               LocalTable.push_back(std::make_pair(key, value));
+               return true;
+            }
+            return false;
+        }
+        inline std::pair<SymbolKey, SymbolValue> SymbolTable::Delete(SymbolKey key){
+            auto result = Table.find(key);
+            if(result == Table.end()){
+                return std::make_pair(key, SymbolValue::Failure());
+            }
+            auto out = std::make_pair(key, result->second);
+            
+            Table.erase(result);
+            for(auto it = LocalTable.begin(); it < LocalTable.end(); it++){
+                if(it->first == key){
+                    LocalTable.erase(it);
+                    break;
                 }
-                std::cout << "\n";
-                p = p->Father;
             }
-            std::cout << "\nLevel: " << p->level << std::endl;
-            std::string flog = p->Father == p ? "Is his own father\n" : "Has a father\n";
-            std::string clog = p->Child ? "Has a child\n" : "Does not have a child\n";
-            std::cout << flog << clog << std::endl
-                      << "Table: ";
-
-            for (auto i : p->Table)
-            {
-                std::cout << ": " << i.first.Name << " - " << i.second.key << std::endl;
-            }
-            std::cout << "Local Table: \n";
-            for (auto i : p->LocalTable)
-            {
-                std::cout << i.first.Name << ":" << i.second.key << "\t";
-            }
-            std::cout << "\n";
-            std::cout << "---------------------------------------\n";
-        }
-        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::ClearAll()
-        {
-            std::vector<std::pair<SymbolKey, SymbolValue>> out = LocalTable;
-
-            while (GetLevel() != 0)
-            {
-                auto extension = BranchUp(); // Delete all downward branches.
-                out.insert(out.begin(), extension.begin(), extension.end());
-            }
-            self->Table.clear();
 
             return out;
         }
-        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::ClearChildren(bool toggle_recursion)
-        {
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::Delete(std::vector<SymbolKey> todelete) {
             std::vector<std::pair<SymbolKey, SymbolValue>> out;
-            if(toggle_recursion)
-                out = LocalTable;
-            if (Child)
-            {
-                auto extension = Child->ClearChildren(true);
-                out.insert(out.end(), extension.begin(), extension.end());
-            }
-            delete Child;
-            Child = nullptr;
 
+            for(auto it = todelete.begin(); it < todelete.end(); it++){
+                auto d = Delete(*it);
+                if(d.second.ok){
+                    out.push_back(d);
+                }
+            }
             return out;
         }
-        inline void SymbolTable::Clone(const SymbolTable &origin, SymbolTable &destiny) // This breaks stuff. Should not be used.
-        {
-            destiny.ClearChildren();
-
-            if (origin.level == 0)
-            {
-                destiny.Father = &destiny;
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTable::DeleteAll(){
+            std::vector<SymbolKey> todelete;
+            for (auto it = Table.begin(); it != Table.end(); it++){
+                todelete.push_back(it->first);
             }
-            if (origin.Child)
-            {
-                destiny.Child = new SymbolTable(&destiny);
-                Clone(*origin.Child, *destiny.Child);
-                destiny.self = destiny.Child->self;
-            }
-            else
-            {
-                destiny.Child = nullptr;
-                destiny.self = &destiny;
-            }
-
-            destiny.Table = origin.Table;
-            destiny.Friends = origin.Friends;
-            destiny.LocalTable = origin.LocalTable;
+            return Delete(todelete);
         }
-        inline bool SymbolTable::AddFriend(std::string name, SymbolTable* p)
+        inline SymbolKeySearchResult SymbolTable::Find(SymbolValue value) {
+            for (auto it = Table.begin(); it != Table.end(); it++){
+                if(it->second == value){
+                    return SymbolKeySearchResult{it->first, true};
+                }
+            }
+            return SymbolKeySearchResult{SymbolKey{}, false};
+        }
+
+        class SymbolTableInterface
         {
-            bool out = Friends.insert(std::pair(name, p)).second;
+        public:
+            SymbolTableInterface();
+            ~SymbolTableInterface();
+
+            // API Interface
+            
+            unsigned int GetLevel() const;
+            void BranchDown();
+            std::vector<std::pair<SymbolKey, SymbolValue>> BranchUp();
+            
+            bool Exists(SymbolKey);
+            std::pair<SymbolKey, SymbolValue> Get(SymbolKey);
+            std::vector<std::pair<SymbolKey, SymbolValue>> GetAll();
+            
+            bool Add(SymbolKey, SymbolValue);
+            bool GlobalAdd(SymbolKey, SymbolValue);
+            std::pair<SymbolKey, SymbolValue> Delete(SymbolKey);
+            std::pair<SymbolKey, SymbolValue> GlobalDelete(SymbolKey);
+            std::vector<std::pair<SymbolKey, SymbolValue>> Delete(std::vector<SymbolKey>);
+            std::vector<std::pair<SymbolKey, SymbolValue>> DeleteAll();
+            
+            SymbolKeySearchResult Find(SymbolValue);
+
+        protected:
+            std::vector<SymbolTable*> Tables;
+        };
+        inline SymbolTableInterface::SymbolTableInterface() : Tables() {
+            SymbolTable* start = new SymbolTable();
+            Tables.push_back(start);
+        }
+        inline SymbolTableInterface::~SymbolTableInterface() {
+            for(auto it = Tables.begin(); it != Tables.end(); it++){
+                SymbolTable* ptr = *it;
+                delete ptr;
+            }
+        }
+        inline unsigned int SymbolTableInterface::GetLevel() const {
+            return Tables.size() - 1;
+        }
+        inline void SymbolTableInterface::BranchDown() {
+            SymbolTable* lastelement = Tables.back();
+            SymbolTable* newelement = new SymbolTable(*lastelement);
+            Tables.push_back(newelement);
+        }
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTableInterface::BranchUp(){
+            std::vector<std::pair<SymbolKey, SymbolValue>> out;
+            if(GetLevel() == 0){
+                return out;
+            }
+            SymbolTable* lastelement = Tables.back();
+            Tables.pop_back();
+            out = lastelement->LocalTable;
+            delete lastelement;
             return out;
         }
-        inline void SymbolTable::DeleteFriend(std::string name)
-        {
-            Friends.erase(name);
+        inline bool SymbolTableInterface::Exists(SymbolKey key) {
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->Exists(key);
         }
-        inline SymbolTable::FriendResult SymbolTable::GetFriend(std::string Name)
-        {
-            auto out = Friends.find(Name);
-            if (out == Friends.end())
-                return FriendResult{nullptr, false};
-            return FriendResult{out->second, true};
+        inline std::pair<SymbolKey, SymbolValue> SymbolTableInterface::Get(SymbolKey key){
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->Get(key);
         }
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTableInterface::GetAll(){
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->GetAll();
+        }
+        inline bool SymbolTableInterface::Add(SymbolKey key, SymbolValue value) {
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->Add(key, value);
+        }
+        inline bool SymbolTableInterface::GlobalAdd(SymbolKey key, SymbolValue value) {
+            bool out = true;
+            for(auto it = Tables.begin(); it != Tables.end(); it++){
+                SymbolTable* lastelement = (*it);
+                out = out && lastelement->Add(key, value, it == Tables.begin());
+            }
+            return out;
+        }
+        inline std::pair<SymbolKey, SymbolValue> SymbolTableInterface::GlobalDelete(SymbolKey key) {
+            auto out = std::make_pair(key, SymbolValue::Failure());
+            for(auto it = Tables.begin(); it != Tables.end(); it++){
+                SymbolTable* lastelement = (*it);
+                out = lastelement->Delete(key);
+            }
+            return out;
+        }
+        inline std::pair<SymbolKey, SymbolValue> SymbolTableInterface::Delete(SymbolKey key){
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->Delete(key);
+        }
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTableInterface::Delete(std::vector<SymbolKey> todelete){
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->Delete(todelete);
+
+        }
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTableInterface::DeleteAll() {
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->DeleteAll();
+        }
+        inline SymbolKeySearchResult SymbolTableInterface::Find(SymbolValue value){
+            SymbolTable* lastelement = Tables.back();
+            return lastelement->Find(value);
+        }
+
     }
 }

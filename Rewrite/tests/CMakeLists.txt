@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-FILE(GLOB SOURCE_FILES Yolk/Wrapper/*.cpp Yolk/Memory/test_dynamicmemory.cpp Yolk/Memory/test_wrappertable.cpp)
+FILE(GLOB SOURCE_FILES Yolk/Wrapper/*.cpp Yolk/Memory/test_dynamicmemory.cpp Yolk/Memory/test_wrappertable.cpp Yolk/Memory/test_symboltable.cpp)
 add_executable(TEST ${SOURCE_FILES})
 
 

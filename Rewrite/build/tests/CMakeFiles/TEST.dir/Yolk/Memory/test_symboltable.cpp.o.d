@@ -1,10 +1,8 @@
-CMakeFiles/Example.dir/main.cpp.o: \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/main.cpp \
+tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o: \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_symboltable.cpp \
  /usr/include/stdc-predef.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Core.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicData.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/../Common.h \
- /usr/include/c++/10/memory /usr/include/c++/10/bits/stl_algobase.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest.h \
+ /usr/include/c++/10/cstddef \
  /usr/include/x86_64-linux-gnu/c++/10/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -14,6 +12,9 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/cpu_defines.h \
  /usr/include/c++/10/pstl/pstl_config.h \
+ /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
+ /usr/include/c++/10/limits /usr/include/c++/10/memory \
+ /usr/include/c++/10/bits/stl_algobase.h \
  /usr/include/c++/10/bits/functexcept.h \
  /usr/include/c++/10/bits/exception_defines.h \
  /usr/include/c++/10/bits/cpp_type_traits.h \
@@ -33,7 +34,6 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/exception /usr/include/c++/10/bits/exception.h \
  /usr/include/c++/10/bits/exception_ptr.h \
  /usr/include/c++/10/bits/cxxabi_init_exception.h \
- /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
  /usr/include/c++/10/typeinfo /usr/include/c++/10/bits/hash_bytes.h \
  /usr/include/c++/10/bits/nested_exception.h \
  /usr/include/c++/10/debug/debug.h \
@@ -124,7 +124,7 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/bits/std_abs.h \
  /usr/include/c++/10/bits/algorithmfwd.h \
  /usr/include/c++/10/initializer_list /usr/include/c++/10/bits/stl_heap.h \
- /usr/include/c++/10/bits/uniform_int_dist.h /usr/include/c++/10/limits \
+ /usr/include/c++/10/bits/uniform_int_dist.h \
  /usr/include/c++/10/bits/range_access.h \
  /usr/include/c++/10/bits/basic_string.h /usr/include/c++/10/string_view \
  /usr/include/c++/10/bits/functional_hash.h \
@@ -172,29 +172,113 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/bits/atomic_lockfree_defines.h \
  /usr/include/c++/10/backward/auto_ptr.h /usr/include/c++/10/bit \
  /usr/include/c++/10/pstl/glue_memory_defs.h \
- /usr/include/c++/10/pstl/execution_defs.h /usr/include/c++/10/typeindex \
+ /usr/include/c++/10/pstl/execution_defs.h /usr/include/c++/10/vector \
+ /usr/include/c++/10/bits/stl_vector.h \
+ /usr/include/c++/10/bits/stl_bvector.h \
+ /usr/include/c++/10/bits/vector.tcc \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-internal.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-port.h \
+ /usr/include/c++/10/stdlib.h /usr/include/string.h \
+ /usr/include/strings.h /usr/include/x86_64-linux-gnu/sys/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \
+ /usr/include/linux/types.h /usr/include/x86_64-linux-gnu/asm/types.h \
+ /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h \
+ /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
  /usr/include/c++/10/iostream /usr/include/c++/10/istream \
- /usr/include/c++/10/bits/istream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h \
+ /usr/include/c++/10/bits/istream.tcc /usr/include/c++/10/locale \
+ /usr/include/c++/10/bits/locale_facets_nonio.h /usr/include/c++/10/ctime \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/10/bits/codecvt.h \
+ /usr/include/c++/10/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/10/bits/locale_conv.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/custom/gtest-port.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-port-arch.h \
+ /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h /usr/include/regex.h \
+ /usr/include/c++/10/any /usr/include/c++/10/variant \
+ /usr/include/c++/10/bits/parse_numbers.h \
+ /usr/include/x86_64-linux-gnu/sys/wait.h /usr/include/signal.h \
+ /usr/include/x86_64-linux-gnu/bits/signum.h \
+ /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
+ /usr/include/x86_64-linux-gnu/bits/siginfo-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/siginfo-consts.h \
+ /usr/include/x86_64-linux-gnu/bits/siginfo-consts-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
+ /usr/include/x86_64-linux-gnu/bits/sigevent-consts.h \
+ /usr/include/x86_64-linux-gnu/bits/sigaction.h \
+ /usr/include/x86_64-linux-gnu/bits/sigcontext.h \
+ /usr/include/x86_64-linux-gnu/bits/types/stack_t.h \
+ /usr/include/x86_64-linux-gnu/sys/ucontext.h \
+ /usr/include/x86_64-linux-gnu/bits/sigstack.h \
+ /usr/include/x86_64-linux-gnu/bits/ss_flags.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
+ /usr/include/x86_64-linux-gnu/bits/sigthread.h \
+ /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
+ /usr/lib/gcc/x86_64-linux-gnu/10/include/float.h \
+ /usr/include/c++/10/iomanip /usr/include/c++/10/bits/quoted_string.h \
+ /usr/include/c++/10/sstream /usr/include/c++/10/bits/sstream.tcc \
+ /usr/include/c++/10/map /usr/include/c++/10/bits/stl_tree.h \
+ /usr/include/c++/10/bits/node_handle.h \
+ /usr/include/c++/10/bits/stl_map.h \
+ /usr/include/c++/10/bits/stl_multimap.h \
+ /usr/include/c++/10/bits/erase_if.h /usr/include/c++/10/set \
+ /usr/include/c++/10/bits/stl_set.h \
+ /usr/include/c++/10/bits/stl_multiset.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-message.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-filepath.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-string.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h \
+ /usr/include/c++/10/cxxabi.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/cxxabi_tweaks.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-death-test.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-death-test-internal.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-matchers.h \
+ /usr/include/c++/10/atomic \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-printers.h \
  /usr/include/c++/10/functional /usr/include/c++/10/bits/std_function.h \
  /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
  /usr/include/c++/10/bits/hashtable_policy.h \
- /usr/include/c++/10/bits/node_handle.h \
  /usr/include/c++/10/bits/unordered_map.h \
- /usr/include/c++/10/bits/erase_if.h /usr/include/c++/10/vector \
- /usr/include/c++/10/bits/stl_vector.h \
- /usr/include/c++/10/bits/stl_bvector.h \
- /usr/include/c++/10/bits/vector.tcc /usr/include/c++/10/sstream \
- /usr/include/c++/10/bits/sstream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/custom/gtest-printers.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-param-test.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h \
+ /usr/include/c++/10/cassert /usr/include/assert.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-test-part.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_prod.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/Memory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/MemoryTable.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/Core.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/DynamicData.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/../Common.h \
+ /usr/include/c++/10/typeindex \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/TypedField.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/Wrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/DynamicMemory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperRequired.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperArgument.h \
  /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
  /usr/include/c++/10/bits/deque.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MethodWrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperGenerator.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/Memory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/MemoryTable.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/SymbolTable.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/MemoryInterface.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/MethodWrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperGenerator.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/SymbolTable.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/MemoryInterface.h

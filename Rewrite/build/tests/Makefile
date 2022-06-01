@@ -199,6 +199,30 @@ Yolk/Memory/test_dynamicmemory.cpp.s:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.s
 .PHONY : Yolk/Memory/test_dynamicmemory.cpp.s
 
+Yolk/Memory/test_symboltable.o: Yolk/Memory/test_symboltable.cpp.o
+.PHONY : Yolk/Memory/test_symboltable.o
+
+# target to build an object file
+Yolk/Memory/test_symboltable.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o
+.PHONY : Yolk/Memory/test_symboltable.cpp.o
+
+Yolk/Memory/test_symboltable.i: Yolk/Memory/test_symboltable.cpp.i
+.PHONY : Yolk/Memory/test_symboltable.i
+
+# target to preprocess a source file
+Yolk/Memory/test_symboltable.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.i
+.PHONY : Yolk/Memory/test_symboltable.cpp.i
+
+Yolk/Memory/test_symboltable.s: Yolk/Memory/test_symboltable.cpp.s
+.PHONY : Yolk/Memory/test_symboltable.s
+
+# target to generate assembly for a file
+Yolk/Memory/test_symboltable.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.s
+.PHONY : Yolk/Memory/test_symboltable.cpp.s
+
 Yolk/Memory/test_wrappertable.o: Yolk/Memory/test_wrappertable.cpp.o
 .PHONY : Yolk/Memory/test_wrappertable.o
 
@@ -359,6 +383,9 @@ help:
 	@echo "... Yolk/Memory/test_dynamicmemory.o"
 	@echo "... Yolk/Memory/test_dynamicmemory.i"
 	@echo "... Yolk/Memory/test_dynamicmemory.s"
+	@echo "... Yolk/Memory/test_symboltable.o"
+	@echo "... Yolk/Memory/test_symboltable.i"
+	@echo "... Yolk/Memory/test_symboltable.s"
 	@echo "... Yolk/Memory/test_wrappertable.o"
 	@echo "... Yolk/Memory/test_wrappertable.i"
 	@echo "... Yolk/Memory/test_wrappertable.s"
