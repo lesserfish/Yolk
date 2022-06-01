@@ -40,42 +40,43 @@ Argument values:
 
 Instruction Set:
 
-1	MOV:        REGX, REGY  |   REGX, ELEMENTARY
-2	COPY:       REGX, REGY  |   REGX, ELEMENTARY  |   REGX, NAME
-3	MOVM:       REGX
-4	NEW:        REGX, ELEMENTARY
-5	CALLM: 
-6	PUSHAR:     REGX  
-7	POPAR:   
-8	CLRAR:   
-9	PUSH:       REGX    
-10	POP:     
-11	CLEAR:   
-12	CMP:        REGX    
-13	CMPEQ:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
-14	CMPNEQ:     REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-15	CMPLS:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
-16	CMPGT:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-17	CMPLSEQ:    REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME 
-18	CMPGTEQ:    REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-19	JNTRUE:     REGX        |   UINT
-20	JNFALSE:    REGX        |   UINT
-21	JMP:        REGX        |   UINT
-22	CALL:       REGX        |   UINT
-23	RET:
-24	ADD:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-25	SUB:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-26	MUL:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-27	DIV:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-28	MOD:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-29	AND:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-30	OR:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
-31	CAST:       REGX, REGY  |   REGX, TYPE          |   REGX, NAME
-32	NAMEL:      REGX, STRING 
-33	NAMEG:      REGX, STRING
-34	BRUP:
-35	BRDW:    
-36	BRHZ:       STRING    
-37	RSBR:
-38	ZERO:    
-39	HALT:    
+1.	MOV:        REGX, REGY  |   REGX, ELEMENTARY  |   REGX, NAME
+2.	COPY:       REGX, REGY  |   REGX, ELEMENTARY  |   REGX, NAME
+3.	CLONE:      REGX, REGY  |   REGX, NAME
+4.	NEW:        REGX, ELEMENTARY
+5.	MOVM:       REGX
+6.	CALLM: 
+7.	PUSHAR:     REGX  
+8.	POPAR:   
+9.	CLRAR:   
+10.	PUSH:       REGX    
+11.	POP:     
+12.	CLEAR:   
+13.	CMP:        REGX    
+14.	CMPEQ:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
+15.	CMPNEQ:     REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+16.	CMPLS:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
+17.	CMPGT:      REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+18.	CMPLSEQ:    REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME 
+19.	CMPGTEQ:    REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+20.	JNTRUE:     REGX        |   UINT
+21.	JNFALSE:    REGX        |   UINT
+22.	JMP:        REGX        |   UINT
+23.	CALL:       REGX        |   UINT
+24.	RET:
+25.	ADD:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+26.	SUB:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+27.	MUL:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+28.	DIV:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+29.	MOD:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+30.	AND:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+31.	OR:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
+32.	CAST:       REGX, REGY  |   REGX, TYPE          |   REGX, NAME
+33.	NAME:      REGX, STRING 
+34.	NAMEG:      REGX, STRING
+35.	BRUP:
+36.	BRDW:    
+37.	BRHZ:       STRING    
+38.	RSBR:
+39.	ZERO:    
+40.	HALT:    

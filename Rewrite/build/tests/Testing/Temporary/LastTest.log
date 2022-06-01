@@ -1,10 +1,10 @@
-Start testing: Jun 01 19:01 -03
+Start testing: Jun 01 20:13 -03
 ----------------------------------------------------------
 1/68 Testing: Yolk_Test.DynamicMemory_Add
 1/68 Test: Yolk_Test.DynamicMemory_Add
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_Add" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_Add" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Add" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -14,8 +14,8 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_Add
 [----------] 1 test from Yolk_Test
 [ RUN      ] Yolk_Test.DynamicMemory_Add
 14 - 0
-[       OK ] Yolk_Test.DynamicMemory_Add (1 ms)
-[----------] 1 test from Yolk_Test (1 ms total)
+[       OK ] Yolk_Test.DynamicMemory_Add (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (1 ms total)
@@ -24,7 +24,7 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_Add
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_Add" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Add" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_Add" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -32,7 +32,7 @@ Test Passed.
 2/68 Test: Yolk_Test.DynamicMemory_Remove
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_Remove" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_Remove" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Remove" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -50,10 +50,10 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_Remove
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_Remove" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Remove" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_Remove" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -61,7 +61,7 @@ Test Passed.
 3/68 Test: Yolk_Test.DynamicMemory_Size
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_Size" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_Size" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Size" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -81,7 +81,7 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_Size
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_Size" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Size" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_Size" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -89,7 +89,7 @@ Test Passed.
 4/68 Test: Yolk_Test.DynamicMemory_Size_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_Size_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_Size_B" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Size_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -106,10 +106,10 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_Size_B
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_Size_B" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Size_B" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_Size_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -117,7 +117,7 @@ Test Passed.
 5/68 Test: Yolk_Test.DynamicMemory_Vector_test
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_Vector_test" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_Vector_test" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Vector_test" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -137,7 +137,7 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_Vector_test
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_Vector_test" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Vector_test" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_Vector_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -145,7 +145,7 @@ Test Passed.
 6/68 Test: Yolk_Test.DynamicMemory_LostMemory_Test
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_LostMemory_Test" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_LostMemory_Test" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_LostMemory_Test" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -170,7 +170,7 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_LostMemory_Test
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_LostMemory_Test" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_LostMemory_Test" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_LostMemory_Test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -178,7 +178,7 @@ Test Passed.
 7/68 Test: Yolk_Test.DynamicMemory_CreateCopy_Dynamic
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_CreateCopy_Dynamic" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_CreateCopy_Dynamic" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_CreateCopy_Dynamic" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -199,7 +199,7 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_CreateCopy_Dynamic
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_CreateCopy_Dynamic" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_CreateCopy_Dynamic" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_CreateCopy_Dynamic" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -207,7 +207,7 @@ Test Passed.
 8/68 Test: Yolk_Test.DynamicMemory_CreateCopy_Static
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_CreateCopy_Static" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_CreateCopy_Static" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_CreateCopy_Static" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -218,16 +218,16 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_CreateCopy_Static
 [ RUN      ] Yolk_Test.DynamicMemory_CreateCopy_Static
 14 - 0
 [       OK ] Yolk_Test.DynamicMemory_CreateCopy_Static (0 ms)
-[----------] 1 test from Yolk_Test (1 ms total)
+[----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_CreateCopy_Static" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_CreateCopy_Static" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_CreateCopy_Static" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -235,7 +235,7 @@ Test Passed.
 9/68 Test: Yolk_Test.DynamicMemory_Delete
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.DynamicMemory_Delete" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.DynamicMemory_Delete" start time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Delete" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -256,7 +256,7 @@ Note: Google Test filter = Yolk_Test.DynamicMemory_Delete
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.DynamicMemory_Delete" end time: Jun 01 19:01 -03
+"Yolk_Test.DynamicMemory_Delete" end time: Jun 01 20:13 -03
 "Yolk_Test.DynamicMemory_Delete" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -264,7 +264,7 @@ Test Passed.
 10/68 Test: Yolk_Test.Wrapper_Table_Add_Field
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Add_Field" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_Table_Add_Field" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Add_Field" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -285,7 +285,7 @@ Note: Google Test filter = Yolk_Test.Wrapper_Table_Add_Field
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_Table_Add_Field" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Add_Field" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_Table_Add_Field" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -293,7 +293,7 @@ Test Passed.
 11/68 Test: Yolk_Test.Wrapper_Table_Add_Field_2
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Add_Field_2" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_Table_Add_Field_2" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Add_Field_2" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -305,17 +305,17 @@ Note: Google Test filter = Yolk_Test.Wrapper_Table_Add_Field_2
 18 - 0
 3.14 - 0
 12 - 0
-[       OK ] Yolk_Test.Wrapper_Table_Add_Field_2 (1 ms)
-[----------] 1 test from Yolk_Test (1 ms total)
+[       OK ] Yolk_Test.Wrapper_Table_Add_Field_2 (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_Table_Add_Field_2" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Add_Field_2" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_Table_Add_Field_2" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -323,7 +323,7 @@ Test Passed.
 12/68 Test: Yolk_Test.Wrapper_Table_Add_Method
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Add_Method" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_Table_Add_Method" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Add_Method" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -339,13 +339,13 @@ Note: Google Test filter = Yolk_Test.Wrapper_Table_Add_Method
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_Table_Add_Method" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Add_Method" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_Table_Add_Method" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -353,7 +353,7 @@ Test Passed.
 13/68 Test: Yolk_Test.Wrapper_Table_Erase
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Erase" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_Table_Erase" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Erase" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -367,17 +367,17 @@ Note: Google Test filter = Yolk_Test.Wrapper_Table_Erase
 1 - 0
 1 - 0
 1 - 0
-[       OK ] Yolk_Test.Wrapper_Table_Erase (1 ms)
-[----------] 1 test from Yolk_Test (1 ms total)
+[       OK ] Yolk_Test.Wrapper_Table_Erase (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_Table_Erase" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Erase" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_Table_Erase" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -385,7 +385,7 @@ Test Passed.
 14/68 Test: Yolk_Test.Wrapper_Table_Get_Field
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Get_Field" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_Table_Get_Field" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Get_Field" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -405,7 +405,7 @@ Note: Google Test filter = Yolk_Test.Wrapper_Table_Get_Field
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_Table_Get_Field" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Get_Field" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_Table_Get_Field" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -413,7 +413,7 @@ Test Passed.
 15/68 Test: Yolk_Test.Wrapper_Table_Get_Method
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Table_Get_Method" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_Table_Get_Method" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Get_Method" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -425,17 +425,17 @@ Note: Google Test filter = Yolk_Test.Wrapper_Table_Get_Method
 -9 - 0
 -12 - 0
 [Unknown Object] -  0
-[       OK ] Yolk_Test.Wrapper_Table_Get_Method (0 ms)
-[----------] 1 test from Yolk_Test (0 ms total)
+[       OK ] Yolk_Test.Wrapper_Table_Get_Method (1 ms)
+[----------] 1 test from Yolk_Test (1 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_Table_Get_Method" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Table_Get_Method" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_Table_Get_Method" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -443,7 +443,7 @@ Test Passed.
 16/68 Test: Yolk_Test.Method_Wrapper_Test_A
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_A" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_Test_A" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_A" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -459,13 +459,13 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_A
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_Test_A" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_A" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_Test_A" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -473,7 +473,7 @@ Test Passed.
 17/68 Test: Yolk_Test.Method_Wrapper_Test_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_Test_B" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -496,7 +496,7 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_B
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_Test_B" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_B" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_Test_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -504,7 +504,7 @@ Test Passed.
 18/68 Test: Yolk_Test.Method_Wrapper_Test_C
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_C" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_Test_C" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_C" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -526,7 +526,7 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_C
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_Test_C" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_C" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_Test_C" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -534,7 +534,7 @@ Test Passed.
 19/68 Test: Yolk_Test.Method_Wrapper_Test_D
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_D" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_Test_D" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_D" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -557,7 +557,7 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_D
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_Test_D" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_D" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_Test_D" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -565,7 +565,7 @@ Test Passed.
 20/68 Test: Yolk_Test.Method_Wrapper_Test_E
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Test_E" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_Test_E" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_E" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -588,7 +588,7 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_Test_E
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_Test_E" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Test_E" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_Test_E" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -596,7 +596,7 @@ Test Passed.
 21/68 Test: Yolk_Test.Method_Wrapper_Clone
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_Clone" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_Clone" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Clone" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -616,7 +616,7 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_Clone
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_Clone" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_Clone" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_Clone" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -624,7 +624,7 @@ Test Passed.
 22/68 Test: Yolk_Test.Method_Wrapper_By_Reference
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_By_Reference" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_By_Reference" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_By_Reference" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -647,7 +647,7 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_By_Reference
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_By_Reference" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_By_Reference" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_By_Reference" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -655,7 +655,7 @@ Test Passed.
 23/68 Test: Yolk_Test.Method_Wrapper_By_Equality
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Method_Wrapper_By_Equality" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Method_Wrapper_By_Equality" start time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_By_Equality" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -681,7 +681,7 @@ Note: Google Test filter = Yolk_Test.Method_Wrapper_By_Equality
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Method_Wrapper_By_Equality" end time: Jun 01 19:01 -03
+"Yolk_Test.Method_Wrapper_By_Equality" end time: Jun 01 20:13 -03
 "Yolk_Test.Method_Wrapper_By_Equality" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -689,7 +689,7 @@ Test Passed.
 24/68 Test: Yolk_Test.Typed_Unwrapper_Test_A
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_A" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Unwrapper_Test_A" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_A" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -707,10 +707,10 @@ Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_A
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Unwrapper_Test_A" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_A" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Unwrapper_Test_A" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -718,7 +718,7 @@ Test Passed.
 25/68 Test: Yolk_Test.Typed_Unwrapper_Test_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Unwrapper_Test_B" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -740,7 +740,7 @@ Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_B
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Unwrapper_Test_B" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_B" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Unwrapper_Test_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -748,7 +748,7 @@ Test Passed.
 26/68 Test: Yolk_Test.Typed_Unwrapper_Test_C
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_C" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Unwrapper_Test_C" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_C" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -770,7 +770,7 @@ Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_C
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Unwrapper_Test_C" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_C" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Unwrapper_Test_C" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -778,7 +778,7 @@ Test Passed.
 27/68 Test: Yolk_Test.Typed_Unwrapper_Test_D
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_D" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Unwrapper_Test_D" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_D" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -800,7 +800,7 @@ Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_D
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Unwrapper_Test_D" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_D" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Unwrapper_Test_D" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -808,7 +808,7 @@ Test Passed.
 28/68 Test: Yolk_Test.Typed_Unwrapper_Test_E
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_E" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Unwrapper_Test_E" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_E" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -830,7 +830,7 @@ Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_E
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Unwrapper_Test_E" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_E" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Unwrapper_Test_E" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -838,7 +838,7 @@ Test Passed.
 29/68 Test: Yolk_Test.Typed_Unwrapper_Test_F
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Unwrapper_Test_F" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Unwrapper_Test_F" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_F" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -850,17 +850,17 @@ Note: Google Test filter = Yolk_Test.Typed_Unwrapper_Test_F
 12
 12 - 0
 12 - 0
-[       OK ] Yolk_Test.Typed_Unwrapper_Test_F (1 ms)
-[----------] 1 test from Yolk_Test (1 ms total)
+[       OK ] Yolk_Test.Typed_Unwrapper_Test_F (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Unwrapper_Test_F" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Unwrapper_Test_F" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Unwrapper_Test_F" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -868,7 +868,7 @@ Test Passed.
 30/68 Test: Yolk_Test.Typed_Variable_Assignment
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Assignment" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Assignment" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Assignment" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -881,13 +881,13 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Assignment
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Assignment" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Assignment" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Assignment" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -895,7 +895,7 @@ Test Passed.
 31/68 Test: Yolk_Test.Typed_Variable_Assignment_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Assignment_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Assignment_B" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Assignment_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -914,7 +914,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Assignment_B
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Assignment_B" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Assignment_B" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Assignment_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -922,7 +922,7 @@ Test Passed.
 32/68 Test: Yolk_Test.Typed_Variable_Assignemnt_C
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Assignemnt_C" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Assignemnt_C" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Assignemnt_C" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -941,7 +941,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Assignemnt_C
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Assignemnt_C" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Assignemnt_C" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Assignemnt_C" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -949,7 +949,7 @@ Test Passed.
 33/68 Test: Yolk_Test.Typed_Variables_Const
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variables_Const" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variables_Const" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variables_Const" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -968,7 +968,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variables_Const
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variables_Const" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variables_Const" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variables_Const" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -976,7 +976,7 @@ Test Passed.
 34/68 Test: Yolk_Test.Typed_Variable_Copy_By_Function
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Copy_By_Function" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Copy_By_Function" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Copy_By_Function" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -995,7 +995,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Copy_By_Function
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Copy_By_Function" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Copy_By_Function" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Copy_By_Function" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1003,7 +1003,7 @@ Test Passed.
 35/68 Test: Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1022,7 +1022,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Copy_By_Other_Typed_Variable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1030,7 +1030,7 @@ Test Passed.
 36/68 Test: Yolk_Test.Typed_Variable_Is_Method
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Is_Method" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Is_Method" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Is_Method" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1049,7 +1049,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Is_Method
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Is_Method" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Is_Method" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Is_Method" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1057,7 +1057,7 @@ Test Passed.
 37/68 Test: Yolk_Test.Typed_Variable_Compare_A
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Compare_A" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Compare_A" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Compare_A" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1070,13 +1070,13 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Compare_A
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Compare_A" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Compare_A" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Compare_A" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1084,7 +1084,7 @@ Test Passed.
 38/68 Test: Yolk_Test.Typed_Variable_Compare_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Compare_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Compare_B" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Compare_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1097,13 +1097,13 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Compare_B
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Compare_B" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Compare_B" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Compare_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1111,7 +1111,7 @@ Test Passed.
 39/68 Test: Yolk_Test.Typed_Variable_Bind
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Bind" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Bind" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Bind" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1130,7 +1130,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Bind
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Bind" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Bind" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Bind" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1138,7 +1138,7 @@ Test Passed.
 40/68 Test: Yolk_Test.Typed_Variable_EqualComparison
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_EqualComparison" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_EqualComparison" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_EqualComparison" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1157,7 +1157,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_EqualComparison
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_EqualComparison" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_EqualComparison" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_EqualComparison" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1165,7 +1165,7 @@ Test Passed.
 41/68 Test: Yolk_Test.Typed_Variable_Equal_Set
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Equal_Set" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Equal_Set" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Equal_Set" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1184,7 +1184,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Equal_Set
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Equal_Set" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Equal_Set" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Equal_Set" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1192,7 +1192,7 @@ Test Passed.
 42/68 Test: Yolk_Test.Typed_Variable_Type
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Type" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Type" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Type" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1211,7 +1211,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Type
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Type" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Type" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Type" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1219,7 +1219,7 @@ Test Passed.
 43/68 Test: Yolk_Test.Typed_Variable_Sizeof
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Sizeof" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Sizeof" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Sizeof" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1235,10 +1235,10 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Sizeof
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Sizeof" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Sizeof" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Sizeof" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1246,7 +1246,7 @@ Test Passed.
 44/68 Test: Yolk_Test.Typed_Variable_SafeAs
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_SafeAs" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_SafeAs" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_SafeAs" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1262,10 +1262,10 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_SafeAs
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_SafeAs" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_SafeAs" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_SafeAs" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1273,7 +1273,7 @@ Test Passed.
 45/68 Test: Yolk_Test.Typed_Variable_BindToTypedVariable
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_BindToTypedVariable" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_BindToTypedVariable" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_BindToTypedVariable" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1292,7 +1292,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_BindToTypedVariable
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_BindToTypedVariable" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_BindToTypedVariable" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_BindToTypedVariable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1300,7 +1300,7 @@ Test Passed.
 46/68 Test: Yolk_Test.Typed_Variable_Stability_A
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Stability_A" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Stability_A" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Stability_A" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1319,7 +1319,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Stability_A
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Stability_A" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Stability_A" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Stability_A" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1327,7 +1327,7 @@ Test Passed.
 47/68 Test: Yolk_Test.Typed_Variable_Print_A
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Print_A" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Print_A" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Print_A" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1340,13 +1340,13 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Print_A
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Print_A" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Print_A" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Print_A" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1354,7 +1354,7 @@ Test Passed.
 48/68 Test: Yolk_Test.Typed_Variable_Print_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Print_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Print_B" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Print_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1367,13 +1367,13 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Print_B
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Print_B" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Print_B" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Print_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1381,7 +1381,7 @@ Test Passed.
 49/68 Test: Yolk_Test.Typed_Variable_Comparison_
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Comparison_" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Comparison_" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Comparison_" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1390,17 +1390,17 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Comparison_
 [----------] Global test environment set-up.
 [----------] 1 test from Yolk_Test
 [ RUN      ] Yolk_Test.Typed_Variable_Comparison_
-[       OK ] Yolk_Test.Typed_Variable_Comparison_ (1 ms)
-[----------] 1 test from Yolk_Test (1 ms total)
+[       OK ] Yolk_Test.Typed_Variable_Comparison_ (0 ms)
+[----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Comparison_" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Comparison_" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Comparison_" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1408,7 +1408,7 @@ Test Passed.
 50/68 Test: Yolk_Test.Typed_Variable_Operators
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Operators" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Operators" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Operators" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1424,10 +1424,10 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Operators
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Operators" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Operators" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Operators" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1435,7 +1435,7 @@ Test Passed.
 51/68 Test: Yolk_Test.Typed_Variable_Comparison_Struct
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Comparison_Struct" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Comparison_Struct" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Comparison_Struct" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1454,7 +1454,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Comparison_Struct
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Comparison_Struct" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Comparison_Struct" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Comparison_Struct" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1462,7 +1462,7 @@ Test Passed.
 52/68 Test: Yolk_Test.Typed_Variable_Arithmetic_Struct
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Arithmetic_Struct" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Arithmetic_Struct" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Arithmetic_Struct" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1481,7 +1481,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Arithmetic_Struct
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Arithmetic_Struct" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Arithmetic_Struct" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Arithmetic_Struct" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1489,7 +1489,7 @@ Test Passed.
 53/68 Test: Yolk_Test.Typed_Variable_Comparison_DoubleInt
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Comparison_DoubleInt" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Comparison_DoubleInt" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Comparison_DoubleInt" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1508,7 +1508,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Comparison_DoubleInt
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Comparison_DoubleInt" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Comparison_DoubleInt" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Comparison_DoubleInt" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1516,7 +1516,7 @@ Test Passed.
 54/68 Test: Yolk_Test.Typed_Variable_Arithmetic_DoubleInt
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Arithmetic_DoubleInt" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Arithmetic_DoubleInt" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Arithmetic_DoubleInt" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1535,7 +1535,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Arithmetic_DoubleInt
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Arithmetic_DoubleInt" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Arithmetic_DoubleInt" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Arithmetic_DoubleInt" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1543,7 +1543,7 @@ Test Passed.
 55/68 Test: Yolk_Test.Typed_Variable_Stability_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_Stability_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_Stability_B" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Stability_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1562,7 +1562,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_Stability_B
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_Stability_B" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_Stability_B" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_Stability_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1570,7 +1570,7 @@ Test Passed.
 56/68 Test: Yolk_Test.Typed_Variable_CopyByValue_A
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_CopyByValue_A" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_CopyByValue_A" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_CopyByValue_A" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1589,7 +1589,7 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_CopyByValue_A
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_CopyByValue_A" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_CopyByValue_A" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_CopyByValue_A" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1597,7 +1597,7 @@ Test Passed.
 57/68 Test: Yolk_Test.Typed_Variable_CopyByValue_B
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Typed_Variable_CopyByValue_B" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Typed_Variable_CopyByValue_B" start time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_CopyByValue_B" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1613,10 +1613,10 @@ Note: Google Test filter = Yolk_Test.Typed_Variable_CopyByValue_B
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Typed_Variable_CopyByValue_B" end time: Jun 01 19:01 -03
+"Yolk_Test.Typed_Variable_CopyByValue_B" end time: Jun 01 20:13 -03
 "Yolk_Test.Typed_Variable_CopyByValue_B" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1624,7 +1624,7 @@ Test Passed.
 58/68 Test: Yolk_Test.Wrapper_FromReference
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_FromReference" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_FromReference" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_FromReference" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1641,10 +1641,10 @@ Note: Google Test filter = Yolk_Test.Wrapper_FromReference
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_FromReference" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_FromReference" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_FromReference" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1652,7 +1652,7 @@ Test Passed.
 59/68 Test: Yolk_Test.Wrapper_FromEquality
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_FromEquality" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_FromEquality" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_FromEquality" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1673,7 +1673,7 @@ Note: Google Test filter = Yolk_Test.Wrapper_FromEquality
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_FromEquality" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_FromEquality" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_FromEquality" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1681,7 +1681,7 @@ Test Passed.
 60/68 Test: Yolk_Test.WrapperGenerator_Dynamic_Field
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.WrapperGenerator_Dynamic_Field" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.WrapperGenerator_Dynamic_Field" start time: Jun 01 19:01 -03
+"Yolk_Test.WrapperGenerator_Dynamic_Field" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1701,7 +1701,7 @@ Note: Google Test filter = Yolk_Test.WrapperGenerator_Dynamic_Field
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.WrapperGenerator_Dynamic_Field" end time: Jun 01 19:01 -03
+"Yolk_Test.WrapperGenerator_Dynamic_Field" end time: Jun 01 20:13 -03
 "Yolk_Test.WrapperGenerator_Dynamic_Field" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1709,7 +1709,7 @@ Test Passed.
 61/68 Test: Yolk_Test.WrapperGenerator__Static_Field
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.WrapperGenerator__Static_Field" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.WrapperGenerator__Static_Field" start time: Jun 01 19:01 -03
+"Yolk_Test.WrapperGenerator__Static_Field" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1722,13 +1722,13 @@ Note: Google Test filter = Yolk_Test.WrapperGenerator__Static_Field
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.WrapperGenerator__Static_Field" end time: Jun 01 19:01 -03
+"Yolk_Test.WrapperGenerator__Static_Field" end time: Jun 01 20:13 -03
 "Yolk_Test.WrapperGenerator__Static_Field" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1736,7 +1736,7 @@ Test Passed.
 62/68 Test: Yolk_Test.WrapperGenerator__Method
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.WrapperGenerator__Method" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.WrapperGenerator__Method" start time: Jun 01 19:01 -03
+"Yolk_Test.WrapperGenerator__Method" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1758,7 +1758,7 @@ Note: Google Test filter = Yolk_Test.WrapperGenerator__Method
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.WrapperGenerator__Method" end time: Jun 01 19:01 -03
+"Yolk_Test.WrapperGenerator__Method" end time: Jun 01 20:13 -03
 "Yolk_Test.WrapperGenerator__Method" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1766,7 +1766,7 @@ Test Passed.
 63/68 Test: Yolk_Test.Wrapper_Generator_Argument
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Test.Wrapper_Generator_Argument" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Test.Wrapper_Generator_Argument" start time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Generator_Argument" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1783,13 +1783,13 @@ Note: Google Test filter = Yolk_Test.Wrapper_Generator_Argument
 [----------] 1 test from Yolk_Test (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Test.Wrapper_Generator_Argument" end time: Jun 01 19:01 -03
+"Yolk_Test.Wrapper_Generator_Argument" end time: Jun 01 20:13 -03
 "Yolk_Test.Wrapper_Generator_Argument" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1797,7 +1797,7 @@ Test Passed.
 64/68 Test: Yolk_Memory.SymbolTableInterface_Basic
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Memory.SymbolTableInterface_Basic" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Memory.SymbolTableInterface_Basic" start time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_Basic" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1813,10 +1813,10 @@ Note: Google Test filter = Yolk_Memory.SymbolTableInterface_Basic
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Memory.SymbolTableInterface_Basic" end time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_Basic" end time: Jun 01 20:13 -03
 "Yolk_Memory.SymbolTableInterface_Basic" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1824,7 +1824,7 @@ Test Passed.
 65/68 Test: Yolk_Memory.SymbolTableInterface_VerticalBranching
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Memory.SymbolTableInterface_VerticalBranching" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Memory.SymbolTableInterface_VerticalBranching" start time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_VerticalBranching" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1843,7 +1843,7 @@ Note: Google Test filter = Yolk_Memory.SymbolTableInterface_VerticalBranching
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Memory.SymbolTableInterface_VerticalBranching" end time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_VerticalBranching" end time: Jun 01 20:13 -03
 "Yolk_Memory.SymbolTableInterface_VerticalBranching" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1851,7 +1851,7 @@ Test Passed.
 66/68 Test: Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete" start time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1861,16 +1861,16 @@ Note: Google Test filter = Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete
 [----------] 1 test from Yolk_Memory
 [ RUN      ] Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete
 [       OK ] Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete (0 ms)
-[----------] 1 test from Yolk_Memory (1 ms total)
+[----------] 1 test from Yolk_Memory (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete" end time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete" end time: Jun 01 20:13 -03
 "Yolk_Memory.SymbolTableInterface_GlobalAddAndDelete" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1878,7 +1878,7 @@ Test Passed.
 67/68 Test: Yolk_Memory.SymbolTableInterface_BranchUp
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Memory.SymbolTableInterface_BranchUp" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Memory.SymbolTableInterface_BranchUp" start time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_BranchUp" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1897,7 +1897,7 @@ Note: Google Test filter = Yolk_Memory.SymbolTableInterface_BranchUp
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Memory.SymbolTableInterface_BranchUp" end time: Jun 01 19:01 -03
+"Yolk_Memory.SymbolTableInterface_BranchUp" end time: Jun 01 20:13 -03
 "Yolk_Memory.SymbolTableInterface_BranchUp" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1905,7 +1905,7 @@ Test Passed.
 68/68 Test: Yolk_Memory.SymboLTable_GlobalAll
 Command: "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/TEST" "--gtest_filter=Yolk_Memory.SymboLTable_GlobalAll" "--gtest_also_run_disabled_tests"
 Directory: /home/lesserfish/Documents/Code/Yolk/Rewrite/tests
-"Yolk_Memory.SymboLTable_GlobalAll" start time: Jun 01 19:01 -03
+"Yolk_Memory.SymboLTable_GlobalAll" start time: Jun 01 20:13 -03
 Output:
 ----------------------------------------------------------
 Running main() from /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1924,8 +1924,8 @@ Note: Google Test filter = Yolk_Memory.SymboLTable_GlobalAll
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Yolk_Memory.SymboLTable_GlobalAll" end time: Jun 01 19:01 -03
+"Yolk_Memory.SymboLTable_GlobalAll" end time: Jun 01 20:13 -03
 "Yolk_Memory.SymboLTable_GlobalAll" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jun 01 19:01 -03
+End testing: Jun 01 20:13 -03
