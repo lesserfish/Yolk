@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_dynamicmemory.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o.d"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_memoryblock.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o.d"
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_symboltable.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o.d"
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_wrappertable.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o.d"
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_methodwrapper.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o.d"

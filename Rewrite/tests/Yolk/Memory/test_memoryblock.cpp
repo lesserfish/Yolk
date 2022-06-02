@@ -1,228 +1,156 @@
 
 //#include "../../../src/Yolk/Yolk.h"
-#include "../../../src/Yolk/Memory/Memory/MemoryBlock.h"
-#include "../../../src/Yolk/Memory/Memory/Tables/WrapperTable.h"
-#include "../../../src/Yolk/Wrapper/WrapperGenerator.h"
+#include "../../../src/Yolk/Memory/Memory.h"
 #include <gtest/gtest.h>
 #include <vector>
 
-TEST(Yolk_Test, MemoryBlock_RegisterFieldWrapper_Register)
+TEST(Yolk_Test, MemoryInterface_Register_Register)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
 
-    auto F1 = manager.AllocateMemory<int>(12);
+    auto F1 = manager.AllocateMemory<int>(12).wrapper;
 
-    auto t1 = block.RegisterWrapper("F1", F1);
+    auto t1 = block.Register( F1, "F1");
 
-    EXPECT_TRUE(t1.ok);
+    EXPECT_TRUE(t1);
 
 }
-TEST(Yolk_Test, MemoryBlock_RegisterFieldWrapper_RegisterTwiceShouldFail)
+TEST(Yolk_Test, MemoryInterface_Register_RegisterTwiceShouldFail)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
 
-    auto F1 = manager.AllocateMemory<int>(12);
-    auto t1 = block.RegisterWrapper("F1", F1);
+    auto F1 = manager.AllocateMemory<int>(12).wrapper;
+    auto t1 = block.Register(F1, "F1");
 
-    EXPECT_TRUE(t1.ok);
+    EXPECT_TRUE(t1);
 
-    auto t2 = block.RegisterWrapper("F1", F1);
+    auto t2 = block.Register(F1, "F1");
 
-    EXPECT_FALSE(t2.ok);
+    EXPECT_FALSE(t2);
 }
-TEST(Yolk_Test, MemoryBlock_RegisterFieldWrapper_RegisterGetKey)
+TEST(Yolk_Test, MemoryInterface_Register)
 {
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
 
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    auto F1 = manager.AllocateMemory<int>(12).wrapper;
+    block.Register(F1, "F1");
 
-    Yolk::Memory::WrapperKey key;
+    auto type = block.GetType("F1");
 
-    auto F1 = manager.AllocateMemory<int>(12);
-    auto output = block.RegisterWrapper("F1", F1);
-
-    key = output.wrapperKey;
-
-    EXPECT_EQ(key, 0);
+    EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::Wrapper);
 }
-TEST(Yolk_Test, MemoryBlock_RegisterFieldWrapper_GetWrapperKeyByName)
+TEST(Yolk_Test, MemoryInterface_Register_GetByName)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
-
-    Yolk::Memory::WrapperKey key;
-
-    auto F1 = manager.AllocateMemory<int>(12);
-    auto output = block.RegisterWrapper("F1", F1, key);
-
-    key = output.wrapperKey;
-
-    Yolk::Memory::WrapperKey nkey = block.GetWrapperKeyByName("F1").key;
-
-    EXPECT_EQ(key, nkey);
-}
-TEST(Yolk_Test, MemoryBlock_RegisterFieldWrapper_GetByKey)
-{
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
-
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12);
-    block.RegisterWrapper("F1", F1);
-
-    Yolk::Memory::WrapperKey nkey = block.GetWrapperKeyByName("F1").key;
-
-    Yolk::Wrapper wrap = block.GetFieldWrapperByWrapperKey(nkey).wrapper;
-
-    EXPECT_TRUE(wrap.field->Valid());
-    EXPECT_STREQ(wrap.field->Print().c_str(), "12");
-    EXPECT_STREQ(wrap.field->GetType().name(), "i");
-}
-TEST(Yolk_Test, MemoryBlock_RegisterFieldWrapper_GetByName)
-{
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
     
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12);
-    block.RegisterWrapper("F1", F1);
+    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper;
+    block.Register( F1, "F1");
 
-    Yolk::Wrapper wrap = block.GetFieldWrapperByName("F1").wrapper;
+    Yolk::Wrapper wrap = block.GetWrapper("F1").wrapper;
 
-    EXPECT_TRUE(wrap.field->Valid());
+    EXPECT_FALSE(wrap.field->IsNone());
     EXPECT_STREQ(wrap.field->Print().c_str(), "12");
-    EXPECT_STREQ(wrap.field->GetType().name(), "i");
+    EXPECT_STREQ(wrap.field->Type().name(), "i");
 }
-TEST(Yolk_Test, MemoryBlock_Exists)
+TEST(Yolk_Test, MemoryInterface_Exists)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
 
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12);
-    block.RegisterWrapper("F1", F1);
+    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper;
+    block.Register( F1, "F1");
 
-    auto t1 = block.GetWrapperKeyByName("F1").ok;
-    auto t2 = block.GetWrapperKeyByName("F2").ok;
+    auto t1 = block.GetWrapper("F1").ok;
+    auto t2 = block.GetWrapper("F2").ok;
     
     EXPECT_TRUE(t1);
     EXPECT_FALSE(t2);
 }
-TEST(Yolk_Test, MemoryBlock_Delete_by_Name)
+TEST(Yolk_Test, MemoryInterface_Delete_by_Name)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
 
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12); // 1 Audience
-    block.RegisterWrapper("F1", F1); // 2 Audience
+    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper; // 1 Audience
+    block.Register(F1, "F1"); // 2 Audience
 
-    auto t1 = block.GetWrapperKeyByName("F1").ok;
-    auto t2 = block.GetWrapperKeyByName("F2").ok;
+    auto t1 = block.GetWrapper("F1").ok;
+    auto t2 = block.GetWrapper("F2").ok;
     
     EXPECT_TRUE(t1);
     EXPECT_FALSE(t2);
 
-    block.DeleteByName("F1"); // 1 Audience    
+    block.Delete("F1"); // 1 Audience    
     
-    t1 = block.GetWrapperKeyByName("F1").ok;
-    t2 = block.GetWrapperKeyByName("F2").ok;
+    t1 = block.GetWrapper("F1").ok;
+    t2 = block.GetWrapper("F2").ok;
 
     EXPECT_FALSE(t1);
     EXPECT_FALSE(t2);
 
-    EXPECT_EQ(manager.ChangeAudience(1, 0), 1);
-}
-TEST(Yolk_Test, MemoryBlock_Delete_by_Tag)
-{
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
-
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12); // 1 Audience
-    
-    Yolk::Memory::WrapperKey kout;
-
-    kout = block.RegisterWrapper("F1", F1).wrapperKey; // 2 Audience
-
-    auto t1 = block.GetWrapperKeyByName("F1").ok;
-    auto t2 = block.GetWrapperKeyByName("F2").ok;
-    
-    EXPECT_TRUE(t1);
-    EXPECT_FALSE(t2);
-
-    block.DeleteByWrapperKey(kout);// 1 Audience    
-    
-    t1 = block.GetWrapperKeyByName("F1").ok;
-    t2 = block.GetWrapperKeyByName("F2").ok;
-
-    EXPECT_FALSE(t1);
-    EXPECT_FALSE(t2);
-
-    EXPECT_EQ(manager.ChangeAudience(1, 0), 1);
+    EXPECT_EQ(manager.ViewersCount(F1.ID), 1);
 }
 
 int memblock_func(int x)
 {
     return x;
 }
-TEST(Yolk_Test, MemoryBlock_RegisterMethod)
+TEST(Yolk_Test, MemoryInterface_RegisterMethod)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
     
     std::function<int(int)> f = memblock_func;
 
-    auto m = Yolk::WrapperGenerator<int, int>::GenerateMethodWrapper(f, manager);
+    auto m = Yolk::WrapperGenerator<int, int>::GenerateMethodWrapper(manager, f);
 
-    block.RegisterWrapper("memblock_func", m);
+    block.Register(m, "memblock_func");
 
-    auto m2 = block.GetMethodWrapperByName("memblock_func").wrapper;
+    auto m2 = block.GetMethodWrapper("memblock_func").wrapper;
 
-    auto input = manager.AllocateMemory<int>(18);
-    Yolk::ArgumentWrapper p = {input};
+    auto input = manager.AllocateMemory<int>(18).wrapper;
+    Yolk::WrapperArgument p = {input};
 
     auto output = m2.Invoke(p);
 
     EXPECT_TRUE(output.ok);
-    EXPECT_STREQ(output.output.field->Print().c_str(), "18");
+    EXPECT_STREQ(output.wrapper.field->Print().c_str(), "18");
 
 }
-
 int memblock_sum(int x, int y)
 {
     return x - y;
 }
-TEST(Yolk_Test, MemoryBlock_Combination)
+TEST(Yolk_Test, MemoryInterface_Combination)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock block(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface block(manager);
     
-    auto i1 = manager.AllocateMemory<int>(12);
-    auto i2 = manager.AllocateMemory<int>(7);
+    auto i1 = manager.AllocateMemory<int>(12).wrapper;
+    auto i2 = manager.AllocateMemory<int>(7).wrapper;
 
     std::function<int(int, int)> f = memblock_sum;
 
-    auto m = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(f, manager);
+    auto m = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, f);
 
-    block.RegisterWrapper("hp", i1);
-    block.RegisterWrapper("damage", i2);
-    block.RegisterWrapper("deal_damage", m);
+    block.Register(i1, "hp");
+    block.Register(i2, "damage");
+    block.Register(m, "deal_damage");
 
-    Yolk::ArgumentWrapper i = {block.GetFieldWrapperByName("hp").wrapper, block.GetFieldWrapperByName("damage").wrapper};
-    Yolk::MethodWrapper fun = block.GetMethodWrapperByName("deal_damage").wrapper;
+    Yolk::WrapperArgument i = {block.GetWrapper("hp").wrapper, block.GetWrapper("damage").wrapper};
+    auto funx = block.GetMethodWrapper("deal_damage");
+    EXPECT_TRUE(funx.ok);
+    
+    auto fun = funx.wrapper;
+    auto out = fun.Invoke(i).wrapper;  //new_hp = deal_damage(hp, damage, "new_hp");
 
-    block.RegisterWrapper("new_hp", fun.Invoke(i).output);  //new_hp = deal_damage(hp, damage);
-
-    EXPECT_EQ(block.GetFieldWrapperByName("new_hp").wrapper.field->As<int>(), 5);
+    block.Register(out, "new_hp");
+    
+    EXPECT_EQ(block.GetWrapper("new_hp").wrapper.field->As<int>(), 5);
 
 }
 int FunctionTest(int a, float b)
@@ -230,13 +158,13 @@ int FunctionTest(int a, float b)
     int o = a + (int)b;
     return o;
 }
-void GoTest(Yolk::Memory::MemoryManager& manager, Yolk::Memory::MemoryBlock& memblock)
+void GoTest(Yolk::Memory::DynamicMemory& manager, Yolk::Memory::MemoryInterface& memblock)
 {
     // Initialize Registers
-    Yolk::Wrapper REGA(manager.GenerateVoidWrapper());
-    Yolk::Wrapper REGOUT(manager.GenerateVoidWrapper());
-    Yolk::MethodWrapper MREG(manager.GenerateVoidWrapper());
-    Yolk::ArgumentWrapper ARGREG;
+    Yolk::Wrapper REGA(manager.GetVoidWrapper());
+    Yolk::Wrapper REGOUT(manager.GetVoidWrapper());
+    Yolk::MethodWrapper MREG(manager.GetVoidWrapper());
+    Yolk::WrapperArgument ARGREG;
 
     // var output = GetInfo(2, 3.14f);  <-- Command we are going to run.
 
@@ -254,41 +182,66 @@ void GoTest(Yolk::Memory::MemoryManager& manager, Yolk::Memory::MemoryBlock& mem
     // Let's GO!
 
     // mov REGA, 2
-    REGA = manager.AllocateMemory<int>(2);
+    REGA = manager.AllocateMemory<int>(2).wrapper;
     // pushar REGA
     ARGREG << REGA;
     // mov REGA, 3.14f
-    REGA = manager.AllocateMemory<float>(3.14f);
+    REGA = manager.AllocateMemory<float>(3.14f).wrapper;
     // pushar REGA
     ARGREG << REGA;
     // movr "GetInfo"
-    MREG = memblock.GetMethodWrapperByName("GetInfo").wrapper;
+    MREG = memblock.GetMethodWrapper("GetInfo").wrapper;
     // callm
     auto o = MREG.Invoke(ARGREG);
-    REGOUT = o.output;
+    REGOUT = o.wrapper;
     // mov REGA, REGOUT
     REGA = REGOUT;
     // namel REGA, "output"
-    memblock.RegisterWrapper("output", REGA);
+    memblock.Register( REGA, "output");
 }
-TEST(Yolk_Test, MemoryBlock_Mini_Assembly)
+TEST(Yolk_Test, MemoryInterface_Mini_Assembly)
 {
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wrapperTable(manager);
-    Yolk::Memory::MemoryBlock memblock(manager, wrapperTable);
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface memblock(manager);
 
-    auto m = Yolk::WrapperGenerator<int, int, float>::GenerateMethodWrapper(FunctionTest, manager);
+    auto m = Yolk::WrapperGenerator<int, int, float>::GenerateMethodWrapper(manager, FunctionTest);
 
-    memblock.RegisterWrapper("GetInfo", m);
+    memblock.Register(m, "GetInfo");
     GoTest(manager, memblock);
 
     EXPECT_EQ(manager.Size(), 2);
-    auto w = memblock.GetFieldWrapperByName("output").wrapper;
-    EXPECT_TRUE(w.field->Valid());
+    auto w = memblock.GetWrapper("output").wrapper;
+    EXPECT_FALSE(w.field->IsNone());
     EXPECT_EQ(w.field->As<int>(), 5);
 
     // Checking no leakage of memory
 
-    EXPECT_EQ(manager.ChangeAudience(m.ID, 0), 2); // m and the one in MemBlock
-    EXPECT_EQ(manager.ChangeAudience(w.ID, 0), 2); // w and the one in MemBlock
+    EXPECT_EQ(manager.ViewersCount(m.ID), 2); // m and the one in MemBlock
+    EXPECT_EQ(manager.ViewersCount(w.ID), 2); // w and the one in MemBlock
+}
+TEST(Yolk_Test, MemoryInterface_Branch)
+{
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryInterface memblock(manager);
+    auto i1 = manager.AllocateMemory<int>(12).wrapper;
+    
+    memblock.Register(i1, "i1");
+   
+    memblock.BranchDown();
+
+    auto type = memblock.GetType("i1");
+    EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::Wrapper);
+    
+    auto i2 = manager.AllocateMemory<int>(7).wrapper;
+    memblock.Register(i2, "i2");
+    
+    type = memblock.GetType("i2");
+    EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::Wrapper);
+
+    memblock.BranchUp();
+    
+    type = memblock.GetType("i2");
+    EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::None);
+
+    EXPECT_EQ(memblock.GetMemoryTable().Size(), 1);
 }

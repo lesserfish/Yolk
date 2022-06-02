@@ -8,8 +8,10 @@ Ovo {
         }
     }
     TEXT {
-        Size : uint_64
-        Content: Byte[Size]
+        {
+            Size : uint_64
+            Content: Byte[Size]
+        }[]
     }
 }
 

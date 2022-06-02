@@ -199,6 +199,30 @@ Yolk/Memory/test_dynamicmemory.cpp.s:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.s
 .PHONY : Yolk/Memory/test_dynamicmemory.cpp.s
 
+Yolk/Memory/test_memoryblock.o: Yolk/Memory/test_memoryblock.cpp.o
+.PHONY : Yolk/Memory/test_memoryblock.o
+
+# target to build an object file
+Yolk/Memory/test_memoryblock.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o
+.PHONY : Yolk/Memory/test_memoryblock.cpp.o
+
+Yolk/Memory/test_memoryblock.i: Yolk/Memory/test_memoryblock.cpp.i
+.PHONY : Yolk/Memory/test_memoryblock.i
+
+# target to preprocess a source file
+Yolk/Memory/test_memoryblock.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.i
+.PHONY : Yolk/Memory/test_memoryblock.cpp.i
+
+Yolk/Memory/test_memoryblock.s: Yolk/Memory/test_memoryblock.cpp.s
+.PHONY : Yolk/Memory/test_memoryblock.s
+
+# target to generate assembly for a file
+Yolk/Memory/test_memoryblock.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.s
+.PHONY : Yolk/Memory/test_memoryblock.cpp.s
+
 Yolk/Memory/test_symboltable.o: Yolk/Memory/test_symboltable.cpp.o
 .PHONY : Yolk/Memory/test_symboltable.o
 
@@ -383,6 +407,9 @@ help:
 	@echo "... Yolk/Memory/test_dynamicmemory.o"
 	@echo "... Yolk/Memory/test_dynamicmemory.i"
 	@echo "... Yolk/Memory/test_dynamicmemory.s"
+	@echo "... Yolk/Memory/test_memoryblock.o"
+	@echo "... Yolk/Memory/test_memoryblock.i"
+	@echo "... Yolk/Memory/test_memoryblock.s"
 	@echo "... Yolk/Memory/test_symboltable.o"
 	@echo "... Yolk/Memory/test_symboltable.i"
 	@echo "... Yolk/Memory/test_symboltable.s"

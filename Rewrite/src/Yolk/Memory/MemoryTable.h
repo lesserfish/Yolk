@@ -52,6 +52,12 @@ namespace Yolk
             bool ok;
         };
 
+        struct MPWrapper {
+            MPWrapper() : pointer(nullptr), active(false) {}
+            MPWrapper(MemoryInterface* p) : pointer(p), active(true) {}
+            MemoryInterface* pointer;
+            bool active;
+        };
         class MemoryTable
         {
         public:
@@ -68,12 +74,13 @@ namespace Yolk
             MapKey Add(MemoryInterface*);
             MapKey Size() const;
             bool Exists(MapKey) const;
+            void UnsetMemoryPointer(MemoryInterface *);
 
         private:
             DynamicMemory& dynamicMemory;
             std::unordered_map<MapKey, Wrapper> wrapperTable;
             std::unordered_map<MapKey, MethodWrapper> methodWrapperTable;
-            std::unordered_map<MapKey, MemoryInterface*> memoryPointerTable;
+            std::unordered_map<MapKey, MPWrapper> memoryPointerTable;
         };
 
         inline MemoryTable::MemoryTable(Yolk::Memory::DynamicMemory& _dynamicMemory) : dynamicMemory(_dynamicMemory), wrapperTable(), methodWrapperTable(), memoryPointerTable() {}
@@ -121,9 +128,15 @@ namespace Yolk
                                     false};
             }
 
-            return MemoryPointerOut { search->second,
+            if(search->second.active) {
+                return MemoryPointerOut { search->second.pointer,
                                 id,
                                 true};
+            }
+            
+            return MemoryPointerOut {  nullptr,
+                                    id,
+                                    false};
         }
         inline MapKey MemoryTable::Add(Wrapper wrapper)
         {
@@ -139,7 +152,7 @@ namespace Yolk
         }
         inline MapKey MemoryTable::Add(MemoryInterface *mempointer) {
             MapKey id = KeyGenerator::Tick();
-            memoryPointerTable[id] = mempointer;
+            memoryPointerTable.emplace(std::make_pair(id, MPWrapper(mempointer)));
             return id;
         }
         inline MapKey MemoryTable::Size() const
@@ -155,6 +168,14 @@ namespace Yolk
             bool search3 = memoryPointerTable.find(id) == memoryPointerTable.end();
             bool search = search1 || search2 || search3;
             return search;
+        }
+        inline void MemoryTable::UnsetMemoryPointer(MemoryInterface* pointer) {
+            for(auto it = memoryPointerTable.begin(); it != memoryPointerTable.end(); it++)
+            {
+                if(it->second.pointer == pointer){
+                    it->second.active = false;
+                }
+            }
         }
     }
 }

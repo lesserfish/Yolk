@@ -150,3 +150,20 @@ TEST(Yolk_Test, Wrapper_Table_Get_Method)
     EXPECT_TRUE(o.ok);
     EXPECT_EQ(o.wrapper.field->As<int>(), -9);
 }
+TEST(Yolk_Test, Wrapper_Table_Unset_Method)
+{
+    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryTable table(manager);
+    Yolk::Memory::MemoryInterface* interface;
+
+    auto key = table.Add(interface);
+
+    auto out = table.GetMemory(key);
+    EXPECT_TRUE(out.ok);
+    EXPECT_EQ(out.memory, interface);
+
+    table.UnsetMemoryPointer(interface);
+
+    out = table.GetMemory(key);
+    EXPECT_FALSE(out.ok);
+}
