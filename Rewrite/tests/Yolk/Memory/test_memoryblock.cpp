@@ -11,7 +11,7 @@ TEST(Yolk_Test, MemoryInterface_Register_Register)
 
     auto F1 = manager.AllocateMemory<int>(12).wrapper;
 
-    auto t1 = block.Register( F1, "F1");
+    auto t1 = block.Register(F1, "F1");
 
     EXPECT_TRUE(t1);
 
@@ -48,7 +48,7 @@ TEST(Yolk_Test, MemoryInterface_Register_GetByName)
     Yolk::Memory::MemoryInterface block(manager);
     
     Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper;
-    block.Register( F1, "F1");
+    block.Register(F1, "F1");
 
     Yolk::Wrapper wrap = block.GetWrapper("F1").wrapper;
 
@@ -62,7 +62,7 @@ TEST(Yolk_Test, MemoryInterface_Exists)
     Yolk::Memory::MemoryInterface block(manager);
 
     Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper;
-    block.Register( F1, "F1");
+    block.Register(F1, "F1");
 
     auto t1 = block.GetWrapper("F1").ok;
     auto t2 = block.GetWrapper("F2").ok;
@@ -197,7 +197,7 @@ void GoTest(Yolk::Memory::DynamicMemory& manager, Yolk::Memory::MemoryInterface&
     // mov REGA, REGOUT
     REGA = REGOUT;
     // namel REGA, "output"
-    memblock.Register( REGA, "output");
+    memblock.Register(REGA, "output");
 }
 TEST(Yolk_Test, MemoryInterface_Mini_Assembly)
 {

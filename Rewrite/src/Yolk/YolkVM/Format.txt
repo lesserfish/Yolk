@@ -6,13 +6,13 @@ Ovo {
             Type: uint_8
             Value: uint_64
         }
-    }
+    }[]
     TEXT {
         {
             Size : uint_64
             Content: Byte[Size]
-        }[]
-    }
+        }
+    }[]
 }
 
 Elementary Types:
@@ -74,7 +74,7 @@ Instruction Set:
 30.	AND:        REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
 31.	OR:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
 32.	CAST:       REGX, REGY  |   REGX, TYPE          |   REGX, NAME
-33.	NAME:      REGX, STRING 
+33.	NAME:       REGX, STRING 
 34.	NAMEG:      REGX, STRING
 35.	BRUP:
 36.	BRDW:    
