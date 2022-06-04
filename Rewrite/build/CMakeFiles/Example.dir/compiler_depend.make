@@ -255,217 +255,8 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/c++/10/bits/codecvt.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
-  /usr/include/c++/10/bits/fstream.tcc \
-  /usr/include/boost/endian/conversion.hpp \
-  /usr/include/boost/endian/detail/endian_reverse.hpp \
-  /usr/include/boost/endian/detail/integral_by_size.hpp \
-  /usr/include/boost/cstdint.hpp \
-  /usr/include/boost/config.hpp \
-  /usr/include/boost/config/user.hpp \
-  /usr/include/boost/config/detail/select_compiler_config.hpp \
-  /usr/include/boost/config/compiler/gcc.hpp \
-  /usr/include/c++/10/cstddef \
-  /usr/include/boost/config/detail/select_stdlib_config.hpp \
-  /usr/include/boost/config/stdlib/libstdcpp3.hpp \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/boost/config/detail/select_platform_config.hpp \
-  /usr/include/boost/config/platform/linux.hpp \
-  /usr/include/boost/config/detail/posix_features.hpp \
-  /usr/include/boost/config/detail/suffix.hpp \
-  /usr/include/boost/config/helper_macros.hpp \
-  /usr/include/boost/endian/detail/intrinsic.hpp \
-  /usr/include/boost/type_traits/is_integral.hpp \
-  /usr/include/boost/type_traits/integral_constant.hpp \
-  /usr/include/boost/detail/workaround.hpp \
-  /usr/include/boost/config/workaround.hpp \
-  /usr/include/boost/type_traits/is_same.hpp \
-  /usr/include/boost/static_assert.hpp \
-  /usr/include/c++/10/cstring \
-  /usr/include/string.h \
-  /usr/include/strings.h \
-  /usr/include/boost/endian/detail/endian_load.hpp \
-  /usr/include/boost/endian/detail/order.hpp \
-  /usr/include/boost/core/scoped_enum.hpp \
-  /usr/include/boost/predef/other/endian.h \
-  /usr/include/boost/predef/version_number.h \
-  /usr/include/boost/predef/make.h \
-  /usr/include/boost/predef/detail/test.h \
-  /usr/include/boost/predef/library/c/gnu.h \
-  /usr/include/boost/predef/library/c/_prefix.h \
-  /usr/include/boost/predef/detail/_cassert.h \
-  /usr/include/c++/10/cassert \
-  /usr/include/assert.h \
-  /usr/include/boost/predef/os/macos.h \
-  /usr/include/boost/predef/os/ios.h \
-  /usr/include/boost/predef/os/bsd.h \
-  /usr/include/boost/predef/os/bsd/bsdi.h \
-  /usr/include/boost/predef/os/bsd/dragonfly.h \
-  /usr/include/boost/predef/os/bsd/free.h \
-  /usr/include/boost/predef/os/bsd/open.h \
-  /usr/include/boost/predef/os/bsd/net.h \
-  /usr/include/boost/predef/os/android.h \
-  /usr/include/boost/endian/detail/is_trivially_copyable.hpp \
-  /usr/include/boost/type_traits/has_trivial_copy.hpp \
-  /usr/include/boost/type_traits/intrinsics.hpp \
-  /usr/include/boost/type_traits/detail/config.hpp \
-  /usr/include/boost/version.hpp \
-  /usr/include/boost/type_traits/is_pod.hpp \
-  /usr/include/boost/type_traits/is_void.hpp \
-  /usr/include/boost/type_traits/is_scalar.hpp \
-  /usr/include/boost/type_traits/is_arithmetic.hpp \
-  /usr/include/boost/type_traits/is_floating_point.hpp \
-  /usr/include/boost/type_traits/is_enum.hpp \
-  /usr/include/boost/type_traits/is_pointer.hpp \
-  /usr/include/boost/type_traits/is_member_pointer.hpp \
-  /usr/include/boost/type_traits/is_member_function_pointer.hpp \
-  /usr/include/boost/type_traits/detail/is_member_function_pointer_cxx_11.hpp \
-  /usr/include/boost/type_traits/is_reference.hpp \
-  /usr/include/boost/type_traits/is_lvalue_reference.hpp \
-  /usr/include/boost/type_traits/is_rvalue_reference.hpp \
-  /usr/include/boost/type_traits/is_copy_constructible.hpp \
-  /usr/include/boost/type_traits/is_constructible.hpp \
-  /usr/include/boost/type_traits/is_destructible.hpp \
-  /usr/include/boost/type_traits/is_complete.hpp \
-  /usr/include/boost/type_traits/declval.hpp \
-  /usr/include/boost/type_traits/add_rvalue_reference.hpp \
-  /usr/include/boost/type_traits/remove_reference.hpp \
-  /usr/include/boost/type_traits/is_function.hpp \
-  /usr/include/boost/type_traits/detail/is_function_cxx_11.hpp \
-  /usr/include/boost/type_traits/detail/yes_no_type.hpp \
-  /usr/include/boost/type_traits/is_default_constructible.hpp \
-  /usr/include/boost/type_traits/has_trivial_assign.hpp \
-  /usr/include/boost/type_traits/is_const.hpp \
-  /usr/include/boost/type_traits/is_volatile.hpp \
-  /usr/include/boost/type_traits/is_assignable.hpp \
-  /usr/include/boost/type_traits/is_signed.hpp \
-  /usr/include/boost/type_traits/remove_cv.hpp \
-  /usr/include/c++/10/climits \
-  /usr/lib/gcc/x86_64-linux-gnu/10/include/limits.h \
-  /usr/lib/gcc/x86_64-linux-gnu/10/include/syslimits.h \
-  /usr/include/limits.h \
-  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
-  /usr/include/linux/limits.h \
-  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
-  /usr/include/boost/endian/detail/endian_store.hpp \
-  /usr/include/boost/type_traits/is_class.hpp
+  /usr/include/c++/10/bits/fstream.tcc
 
-
-/usr/include/boost/type_traits/is_class.hpp:
-
-/usr/include/boost/endian/detail/endian_store.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/local_lim.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/10/include/syslimits.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/10/include/limits.h:
-
-/usr/include/c++/10/climits:
-
-/usr/include/boost/type_traits/remove_cv.hpp:
-
-/usr/include/boost/type_traits/is_signed.hpp:
-
-/usr/include/boost/type_traits/is_const.hpp:
-
-/usr/include/boost/type_traits/is_default_constructible.hpp:
-
-/usr/include/boost/type_traits/add_rvalue_reference.hpp:
-
-/usr/include/boost/type_traits/is_complete.hpp:
-
-/usr/include/boost/type_traits/is_constructible.hpp:
-
-/usr/include/boost/type_traits/is_copy_constructible.hpp:
-
-/usr/include/boost/type_traits/is_lvalue_reference.hpp:
-
-/usr/include/boost/type_traits/is_reference.hpp:
-
-/usr/include/boost/type_traits/is_function.hpp:
-
-/usr/include/boost/type_traits/is_member_function_pointer.hpp:
-
-/usr/include/boost/type_traits/detail/is_function_cxx_11.hpp:
-
-/usr/include/boost/type_traits/is_pointer.hpp:
-
-/usr/include/boost/type_traits/is_scalar.hpp:
-
-/usr/include/boost/version.hpp:
-
-/usr/include/boost/predef/os/bsd/net.h:
-
-/usr/include/boost/predef/os/bsd/open.h:
-
-/usr/include/boost/predef/os/bsd/free.h:
-
-/usr/include/boost/predef/os/macos.h:
-
-/usr/include/assert.h:
-
-/usr/include/limits.h:
-
-/usr/include/boost/predef/library/c/_prefix.h:
-
-/usr/include/boost/predef/detail/test.h:
-
-/usr/include/boost/predef/make.h:
-
-/usr/include/boost/predef/other/endian.h:
-
-/usr/include/boost/endian/detail/endian_load.hpp:
-
-/usr/include/string.h:
-
-/usr/include/c++/10/cstring:
-
-/usr/include/boost/static_assert.hpp:
-
-/usr/include/boost/config/workaround.hpp:
-
-/usr/include/boost/type_traits/integral_constant.hpp:
-
-/usr/include/boost/type_traits/is_integral.hpp:
-
-/usr/include/boost/endian/detail/intrinsic.hpp:
-
-/usr/include/boost/config/helper_macros.hpp:
-
-/usr/include/boost/config/detail/suffix.hpp:
-
-/usr/include/boost/config/detail/posix_features.hpp:
-
-/usr/include/boost/config/detail/select_platform_config.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/confname.h:
-
-/usr/include/x86_64-linux-gnu/bits/environments.h:
-
-/usr/include/boost/config/stdlib/libstdcpp3.hpp:
-
-/usr/include/boost/config/detail/select_stdlib_config.hpp:
-
-/usr/include/c++/10/cstddef:
-
-/usr/include/boost/config/compiler/gcc.hpp:
-
-/usr/include/boost/config/detail/select_compiler_config.hpp:
-
-/usr/include/boost/config.hpp:
-
-/usr/include/boost/endian/detail/endian_reverse.hpp:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h:
 
@@ -485,23 +276,15 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 ../src/Yolk/Core/WrapperArgument.h:
 
-/usr/include/boost/config/platform/linux.hpp:
-
 ../src/Yolk/Core/WrapperRequired.h:
 
 ../src/Yolk/Core/DynamicMemory.h:
 
 ../src/Yolk/Core/Wrapper.h:
 
-/usr/include/strings.h:
-
 /usr/include/c++/10/bits/sstream.tcc:
 
-/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
-
 /usr/include/c++/10/bits/vector.tcc:
-
-/usr/include/boost/cstdint.hpp:
 
 /usr/include/c++/10/bits/stl_bvector.h:
 
@@ -527,8 +310,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/backward/auto_ptr.h:
 
-/usr/include/boost/predef/os/bsd.h:
-
 /usr/include/c++/10/bits/shared_ptr_atomic.h:
 
 /usr/include/c++/10/bits/allocated_ptr.h:
@@ -536,8 +317,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/bits/shared_ptr.h:
 
 /usr/include/c++/10/bits/ostream.tcc:
-
-/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
 /usr/include/c++/10/bits/basic_ios.tcc:
 
@@ -557,10 +336,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/range_cmp.h:
 
-/usr/include/boost/type_traits/is_enum.hpp:
-
-/usr/include/boost/endian/detail/integral_by_size.hpp:
-
 /usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
@@ -579,21 +354,15 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/os_defines.h:
 
-/usr/include/boost/endian/detail/is_trivially_copyable.hpp:
-
 /usr/include/c++/10/bits/std_function.h:
 
 /usr/include/c++/10/bits/stl_iterator_base_funcs.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
-/usr/include/boost/type_traits/is_same.hpp:
-
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/c++/10/ranges:
-
-/usr/include/boost/config/user.hpp:
 
 /usr/include/c++/10/bits/localefwd.h:
 
@@ -639,10 +408,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/allocator.h:
 
-/usr/include/boost/type_traits/remove_reference.hpp:
-
-/usr/include/boost/type_traits/declval.hpp:
-
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
@@ -675,8 +440,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/functexcept.h:
 
-/usr/include/boost/predef/os/android.h:
-
 /usr/include/c++/10/bits/stream_iterator.h:
 
 /usr/include/c++/10/type_traits:
@@ -693,8 +456,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
-/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
-
 /usr/include/c++/10/bits/stringfwd.h:
 
 /usr/include/c++/10/bits/shared_ptr_base.h:
@@ -707,15 +468,7 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/pstl/pstl_config.h:
 
-/usr/include/boost/type_traits/is_destructible.hpp:
-
-/usr/include/boost/predef/os/ios.h:
-
 /usr/include/features.h:
-
-/usr/include/boost/type_traits/has_trivial_assign.hpp:
-
-/usr/include/c++/10/cassert:
 
 ../src/Yolk/Common.h:
 
@@ -745,19 +498,13 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/stl_algo.h:
 
-/usr/include/boost/type_traits/is_floating_point.hpp:
-
 ../src/Yolk/Core/DynamicData.h:
 
 /usr/include/c++/10/bits/stl_algobase.h:
 
 /usr/include/c++/10/limits:
 
-/usr/include/boost/type_traits/is_pod.hpp:
-
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
-
-/usr/include/boost/predef/os/bsd/dragonfly.h:
 
 /usr/include/c++/10/bits/locale_classes.tcc:
 
@@ -767,19 +514,11 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/c++config.h:
 
-/usr/include/boost/type_traits/is_void.hpp:
-
 /usr/include/c++/10/bits/ranges_algobase.h:
 
 /usr/include/c++/10/bits/locale_facets.h:
 
-/usr/include/boost/type_traits/is_assignable.hpp:
-
-/usr/include/boost/type_traits/has_trivial_copy.hpp:
-
 /usr/include/c++/10/typeinfo:
-
-/usr/include/boost/type_traits/is_volatile.hpp:
 
 /usr/include/c++/10/bits/basic_string.h:
 
@@ -809,8 +548,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/exception_ptr.h:
 
-/usr/include/boost/type_traits/is_arithmetic.hpp:
-
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
 /usr/include/c++/10/bits/streambuf_iterator.h:
@@ -837,10 +574,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/ptr_traits.h:
 
-/usr/include/boost/predef/library/c/gnu.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
-
 /usr/include/errno.h:
 
 /usr/include/c++/10/cstdio:
@@ -854,8 +587,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/string_view:
 
 /usr/include/x86_64-linux-gnu/bits/errno.h:
-
-/usr/include/boost/predef/detail/_cassert.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
@@ -881,17 +612,11 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
-/usr/include/boost/predef/version_number.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
 /usr/include/c++/10/tuple:
 
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
-/usr/include/boost/type_traits/detail/yes_no_type.hpp:
-
-/usr/include/boost/endian/conversion.hpp:
 
 /usr/include/c++/10/bits/locale_facets.tcc:
 
@@ -902,10 +627,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/x86_64-linux-gnu/bits/timex.h:
 
 /usr/include/c++/10/cerrno:
-
-/usr/include/boost/core/scoped_enum.hpp:
-
-/usr/include/boost/endian/detail/order.hpp:
 
 ../main.cpp:
 
@@ -927,13 +648,9 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/locale_classes.h:
 
-/usr/include/unistd.h:
-
 /usr/include/c++/10/string:
 
 /usr/include/stdlib.h:
-
-/usr/include/linux/limits.h:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/c++allocator.h:
 
@@ -961,13 +678,7 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/functional_hash.h:
 
-/usr/include/boost/type_traits/is_rvalue_reference.hpp:
-
 /usr/include/c++/10/array:
-
-/usr/include/boost/type_traits/intrinsics.hpp:
-
-/usr/include/boost/detail/workaround.hpp:
 
 /usr/include/endian.h:
 
@@ -976,8 +687,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/ext/string_conversions.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/boost/type_traits/is_member_pointer.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
@@ -988,8 +697,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/bits/uniform_int_dist.h:
 
 /usr/include/c++/10/bits/range_access.h:
-
-/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
 
 /usr/include/c++/10/bits/string_view.tcc:
 
@@ -1009,13 +716,9 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
-/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
-
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
 /usr/include/asm-generic/errno.h:
-
-/usr/include/boost/predef/os/bsd/bsdi.h:
 
 ../src/Yolk/Memory/MemoryTable.h:
 
@@ -1035,11 +738,7 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/streambuf.tcc:
 
-/usr/include/boost/type_traits/detail/config.hpp:
-
 /usr/include/c++/10/utility:
-
-/usr/include/boost/type_traits/detail/is_member_function_pointer_cxx_11.hpp:
 
 /usr/include/c++/10/bits/stl_relops.h:
 
@@ -1062,8 +761,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/bits/uses_allocator.h:
 
 /usr/include/c++/10/ios:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 

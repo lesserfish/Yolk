@@ -8,7 +8,7 @@ namespace Yolk
     {
         char MAGIC[] = "sunny side up!";
 
-        enum class Instruction : uint8_t
+        enum class OPCode : uint8_t
         {
             MOV,
             COPY,
@@ -77,7 +77,7 @@ namespace Yolk
 
         struct Ovo
         {
-            struct Code
+            struct Instruction
             {
                 struct Arg
                 {
@@ -85,7 +85,7 @@ namespace Yolk
                     uint64_t value;
                 };
                 
-                Instruction instruction;
+                OPCode opcode;
                 Arg arg1;
                 Arg arg2;
             };
@@ -138,18 +138,11 @@ namespace Yolk
                 
             };
             double version;
-            std::vector<Code> code;
+            std::vector<Instruction> code;
             std::vector<Text> text;
 
             bool ToFile(std::string);
             bool FromFile(std::string);
-
-            std::string GetText(uint64_t position) {
-                if(position >= text.size()){
-                    return "";
-                }
-                return text.at(position).as_string();
-            }
 
         };
 
@@ -163,18 +156,20 @@ namespace Yolk
         }
 
         // EndianMemCpy:
-        // Output is:
+        // EndianMemCpy is used to write/read Ovo files.
+        // CPU <----- EndianMemcpy -----> File
         //
-        // In Low endian systems: Low endian if input is low endian, high endian if input is high endian
-        // In High endian systems: High endian if input is low endian, low endian if input is high endian
+        // In Low Endian systems, EndianMemcpy behaves exactly like memcpy, so it becomes:
         //
-        // This Function is used in two methods:
+        // (Low endian binary cpu data) <---- Memcpy ------> (Low Endian binary file data)
         //
-        // Write to File: In Low endian systems, the output is low endian. In high endian, the output is low endian. Thus, files will always be low endian.
-        // Read from File: Since all files are low endian by default, if the system is low endian, it is read normally, else, the output is high endian.
+        // However, in high endian systems, it first inverts the endianness of the data, so this becomces:
         //
-        // Thus By Using EndianMemcpy before writing and reading to files, we ensure that output files are always low endian, and that reading from files is always the same as the systems endianness.
+        // (High endian binary cpu data) <----- Invert and Memcpy -------> (Low Endian binary file data)
         //
+        // Note that in both cases, files follow the standard of having data written in low endian.
+        //
+
         static void EndianMemcpy(char* origin, char* destiny, uint64_t size) 
         {
             if(IsLowEndian()) {
@@ -203,7 +198,7 @@ namespace Yolk
                 return false;
             }
 
-            // Write Magic Numbers:
+            // Read Magic Numbers:
             
             char magic[sizeof(MAGIC) - 1]; // Ignore \0
             
@@ -223,9 +218,9 @@ namespace Yolk
             
             EndianMemcpy(version_cstr, (char *)&version, sizeof(version_cstr));
 
-            // Write Code Array:
+            // Read Instruction Array:
             
-            // Write Size of Code Array:
+            // Read Size of Instruction Array:
             
             char codesize_cstr[sizeof(uint64_t)];
             file.read(codesize_cstr, sizeof(codesize_cstr));
@@ -233,15 +228,15 @@ namespace Yolk
             uint64_t codesize = code.size();
             EndianMemcpy(codesize_cstr, (char *)&codesize, sizeof(codesize_cstr));
 
-            // Write each line of code
+            // Read each line of code
 
             for(uint64_t t = 0; t < codesize; t++)
             {
-                char instruction_cstr[sizeof(Instruction)];
-                file.read(instruction_cstr, sizeof(instruction_cstr));
+                char opcode_cstr[sizeof(OPCode)];
+                file.read(opcode_cstr, sizeof(opcode_cstr));
                 
-                uint8_t instruction;
-                EndianMemcpy(instruction_cstr, (char *)&instruction, sizeof(instruction_cstr));
+                uint8_t opcode;
+                EndianMemcpy(opcode_cstr, (char *)&opcode, sizeof(opcode_cstr));
 
                 char arg1arg_cstr[sizeof(ArgType)];
                 file.read(arg1arg_cstr, sizeof(arg1arg_cstr));
@@ -267,19 +262,19 @@ namespace Yolk
                 uint64_t arg2val;
                 EndianMemcpy(arg2val_cstr, (char *)&arg2val, sizeof(arg2val_cstr));
 
-                code.push_back( Code {
-                                        static_cast<Instruction>(instruction),
-                                        Code::Arg { static_cast<ArgType>(arg1arg), 
+                code.push_back( Instruction {
+                                        static_cast<OPCode>(opcode),
+                                        Instruction::Arg { static_cast<ArgType>(arg1arg), 
                                                     arg1val },
-                                        Code::Arg { static_cast<ArgType>(arg2arg), 
+                                        Instruction::Arg { static_cast<ArgType>(arg2arg), 
                                                     arg2val },
                                 });
 
             }
             
-            // Write Text Array:
+            // Read Text Array:
 
-            // Write Size of Text Array:
+            // Read Size of Text Array:
             
             char textarraysize_cstr[sizeof(uint64_t)];
             file.read(textarraysize_cstr, sizeof(textarraysize_cstr));
@@ -287,7 +282,7 @@ namespace Yolk
             uint64_t textarraysize;
             EndianMemcpy(textarraysize_cstr, (char *)&textarraysize, sizeof(textarraysize_cstr));
 
-            // Write each line of text:
+            // Read each line of text:
             
             for(uint64_t t = 0; t < textarraysize; t++)
             {
@@ -329,9 +324,9 @@ namespace Yolk
             EndianMemcpy((char *) &version, version_cstr, sizeof(version_cstr));
             file.write(version_cstr, sizeof(version_cstr));
 
-            // Write Code Array:
+            // Write Instruction Array:
             
-            // Write Size of Code Array:
+            // Write Size of Instruction Array:
             
             uint64_t codesize = code.size();
             char codesize_cstr[sizeof(codesize)];
@@ -343,9 +338,9 @@ namespace Yolk
 
             for(auto codeline = code.begin(); codeline != code.end(); codeline++)
             {
-                uint8_t instruction = static_cast<uint8_t>(codeline->instruction);
-                char instruction_cstr[sizeof(instruction)];
-                EndianMemcpy((char *)&instruction, instruction_cstr, sizeof(instruction_cstr));
+                uint8_t opcode = static_cast<uint8_t>(codeline->opcode);
+                char opcode_cstr[sizeof(opcode)];
+                EndianMemcpy((char *)&opcode, opcode_cstr, sizeof(opcode_cstr));
 
                 uint8_t arg1arg = static_cast<uint8_t>(codeline->arg1.type);
                 char arg1arg_cstr[sizeof(arg1arg)];
@@ -364,7 +359,7 @@ namespace Yolk
                 EndianMemcpy((char *)&arg2val, arg2val_cstr, sizeof(arg2val_cstr));
                 
 
-                file.write(instruction_cstr, sizeof(instruction_cstr));
+                file.write(opcode_cstr, sizeof(opcode_cstr));
                 file.write(arg1arg_cstr, sizeof(arg1arg_cstr));
                 file.write(arg1val_cstr, sizeof(arg1val_cstr));
                 file.write(arg2arg_cstr, sizeof(arg2arg_cstr));
