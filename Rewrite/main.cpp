@@ -26,6 +26,6 @@ int main(){
     }
     for(auto it = newovo.text.begin(); it != newovo.text.end(); it++)
     {
-        std::cout << it->content << std::endl;
+        std::cout << it->as_string() << std::endl;
     }
 }
