@@ -283,9 +283,15 @@ TEST(Yolk_Test, Typed_Variable_Stability_A)
     Yolk::TypedField y(x);
     Yolk::TypedField z(x);
 
-    z.Copy(x);
-    y.Copy(3);
-    z.Set(4);
+    bool test = false;
+    try {
+        z.Copy(x);
+        y.Copy(3);
+        z.Set(4);
+    } catch(const std::exception&) {
+        test = true;
+    }
+    EXPECT_TRUE(test);
 
     z.Type();
     x.GetSize();
@@ -338,70 +344,50 @@ TEST(Yolk_Test, Typed_Variable_Comparison_){
 
     //EQ
     auto cmp = xa.TryEQ(xb);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xa.TryEQ(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     //LE
     cmp = xa.TryLE(xb);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xb.TryLE(xa);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xa.TryLE(11);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xa.TryLE(14);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     // L
     cmp = xa.TryL(xb);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xb.TryL(xa);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xa.TryL(11);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xa.TryL(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     //GE
     cmp = xa.TryGE(xb);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xb.TryGE(xa);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xa.TryGE(11);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xa.TryGE(14);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     // G
     cmp = xa.TryG(xb);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xb.TryG(xa);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xa.TryG(11);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xa.TryG(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     // NEQ
     cmp = xa.TryNEQ(xb);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xa.TryNEQ(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
 }
 TEST(Yolk_Test, Typed_Variable_Operators){
     int a = 12;
@@ -410,27 +396,27 @@ TEST(Yolk_Test, Typed_Variable_Operators){
     Yolk::TypedField xa(a);
     Yolk::TypedField xb(b);
 
-    EXPECT_TRUE(xa.TryPLUS(xb));
+    xa.TryPLUS(xb);
     EXPECT_EQ(xa.As<int>(), 16);
-    EXPECT_TRUE(xa.TryPLUS(-4));
+    xa.TryPLUS(-4);
     EXPECT_EQ(xa.As<int>(), 12);
     
-    EXPECT_TRUE(xa.TrySUB(xb));
+    xa.TrySUB(xb);
     EXPECT_EQ(xa.As<int>(), 8);
-    EXPECT_TRUE(xa.TrySUB(-4));
+    xa.TrySUB(-4);
     EXPECT_EQ(xa.As<int>(), 12);
 
-    EXPECT_TRUE(xa.TryPROD(xb));
+    xa.TryPROD(xb);
     EXPECT_EQ(xa.As<int>(), 48);
-    EXPECT_TRUE(xa.TryDIV(4));
+    xa.TryDIV(4);
     EXPECT_EQ(xa.As<int>(), 12); 
     
-    EXPECT_TRUE(xa.TryDIV(xb));
+    xa.TryDIV(xb);
     EXPECT_EQ(xa.As<int>(), 3);
-    EXPECT_TRUE(xa.TryPROD(4));
+    xa.TryPROD(4);
     EXPECT_EQ(xa.As<int>(), 12);
 
-    EXPECT_TRUE(xa.TryMOD(xb));
+    xa.TryMOD(xb);
     EXPECT_EQ(xa.As<int>(), 12 % 4);
 }
 struct CompIntEQ {
@@ -459,23 +445,17 @@ TEST(Yolk_Test, Typed_Variable_Comparison_Struct){
     Yolk::TypedField xr(x);
 
     auto cmp = xr.TryEQ(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xr.TryLE(15);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xr.TryGE(21);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xr.TryL(9);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xr.TryG(9);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xr.TryNEQ(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
 }
 struct ProdInt {
     int value;
@@ -505,58 +485,52 @@ TEST(Yolk_Test, Typed_Variable_Arithmetic_Struct){
     ProdInt x{12};
     Yolk::TypedField xr(x);
 
-    EXPECT_TRUE(xr.TryPLUS(4));
-    EXPECT_TRUE(xr.TryEQ(16).value);
+    xr.TryPLUS(4);
+    EXPECT_TRUE(xr.TryEQ(16));
     
-    EXPECT_TRUE(xr.TrySUB(8));
-    EXPECT_TRUE(xr.TryEQ(8).value);
+    xr.TrySUB(8);
+    EXPECT_TRUE(xr.TryEQ(8));
 
-    EXPECT_TRUE(xr.TryPROD(6));
-    EXPECT_TRUE(xr.TryEQ(48).value);
+    xr.TryPROD(6);
+    EXPECT_TRUE(xr.TryEQ(48));
 
-    EXPECT_TRUE(xr.TryDIV(2));
-    EXPECT_TRUE(xr.TryEQ(24).value);
+    xr.TryDIV(2);
+    EXPECT_TRUE(xr.TryEQ(24));
 
-    EXPECT_TRUE(xr.TryMOD(16));
-    EXPECT_TRUE(xr.TryEQ(24 % 16).value);
+    xr.TryMOD(16);
+    EXPECT_TRUE(xr.TryEQ(24 % 16));
 }
 TEST(Yolk_Test, Typed_Variable_Comparison_DoubleInt){
     double x = 12;
     Yolk::TypedField xr(x);
 
     auto cmp = xr.TryEQ(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xr.TryLE(15);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xr.TryGE(21);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xr.TryL(9);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
     cmp = xr.TryG(9);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_TRUE(cmp.value);
+    EXPECT_TRUE(cmp);
     cmp = xr.TryNEQ(12);
-    EXPECT_TRUE(cmp.ok);
-    EXPECT_FALSE(cmp.value);
+    EXPECT_FALSE(cmp);
 }
 TEST(Yolk_Test, Typed_Variable_Arithmetic_DoubleInt){
     double x = 12;
     Yolk::TypedField xr(x);
 
-    EXPECT_TRUE(xr.TryPLUS(4));
+    xr.TryPLUS(4);
     EXPECT_FLOAT_EQ(x, 16.0);
     
-    EXPECT_TRUE(xr.TrySUB(8));
+    xr.TrySUB(8);
     EXPECT_FLOAT_EQ(x, 8.0);
 
-    EXPECT_TRUE(xr.TryPROD(6));
+    xr.TryPROD(6);
     EXPECT_FLOAT_EQ(x, 48.0);
 
-    EXPECT_TRUE(xr.TryDIV(2));
+    xr.TryDIV(2);
     EXPECT_FLOAT_EQ(x, 24.0);
 }
 struct Demo{};
@@ -567,18 +541,60 @@ TEST(Yolk_Test, Typed_Variable_Stability_B){
     Yolk::TypedField xr(x);
     Yolk::TypedField yr(y);
 
-    auto check = xr.TryEQ(y);
-    EXPECT_FALSE(check.ok);
-    check = xr.TryLE(yr);
-    EXPECT_FALSE(check.ok);
-    check = xr.TryGE(yr);
-    EXPECT_FALSE(check.ok);
-    bool check2 = xr.TryPROD(yr);
-    EXPECT_FALSE(check2);
-    check2 = xr.TrySUB(yr);
-    EXPECT_FALSE(check2);
-    check2 = xr.TryPLUS(yr);
-    EXPECT_FALSE(check2);
+    bool test = false;
+    try {
+        xr.TryEQ(y);
+    } catch(const std::exception&)
+    {
+        test = true;
+    }
+    EXPECT_TRUE(test);
+    test = false;
+    
+    try{
+        xr.TryLE(yr);
+    } catch(const std::exception&)
+    {
+        test = true;
+    }
+    EXPECT_TRUE(test);
+    test = false;
+    
+    try{
+        xr.TryGE(yr);
+    } catch(const std::exception&)
+    {
+        test = true;
+    }
+    EXPECT_TRUE(test);
+    test = false;
+    
+    try{
+        xr.TryPROD(yr);
+    } catch(const std::exception&)
+    {
+        test = true;
+    }
+    EXPECT_TRUE(test);
+    test = false;
+
+    try{
+        xr.TrySUB(yr);
+    } catch(const std::exception&)
+    {
+        test = true;
+    }
+    EXPECT_TRUE(test);
+    test = false;
+    
+    try{
+        xr.TryPLUS(yr);
+    } catch(const std::exception&)
+    {
+        test = true;
+    }
+    EXPECT_TRUE(test);
+    test = false;
 }
 TEST(Yolk_Test, Typed_Variable_CopyByValue_A){
     int x = 12;

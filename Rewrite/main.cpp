@@ -12,8 +12,7 @@ int main(){
     Yolk::TypedField xr(x);
     Yolk::TypedField yr(y);
 
-    bool can = xr.TryDIV(yr);
+    xr.TryDIV(yr);
 
-    std::cout << (can ? "can" : "nocan") << std::endl;
     std::cout << xr.Print() << std::endl;
 }

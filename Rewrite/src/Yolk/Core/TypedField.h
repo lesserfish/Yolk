@@ -8,70 +8,84 @@
 #include <concepts>
 #include <iostream>
 #include <sstream>
-
+#include <exception>
 
 // Relational Macros
 
 // == Macros
-#define EQC(Type) virtual ComparisonOut EQ(Type) {return ComparisonOut();}
-#define EQM(Type) ComparisonOut EQ(Type input) { return EQHelper(input); }
+#define EQC(Type) virtual bool EQ(Type) {return false;}
+#define EQM(Type) bool EQ(Type input) { return EQHelper(input); }
 // <= Macros
-#define LEC(Type) virtual ComparisonOut LE(Type) {return ComparisonOut();}
-#define LEM(Type) ComparisonOut LE(Type input) { return LEHelper(input); }
+#define LEC(Type) virtual bool LE(Type) {return false;}
+#define LEM(Type) bool LE(Type input) { return LEHelper(input); }
 // < Macros
-#define LC(Type) virtual ComparisonOut L(Type) {return ComparisonOut();}
-#define LM(Type) ComparisonOut L(Type input) { return LHelper(input); }
+#define LC(Type) virtual bool L(Type) {return false;}
+#define LM(Type) bool L(Type input) { return LHelper(input); }
 // >= Macros
-#define GEC(Type) virtual ComparisonOut GE(Type) {return ComparisonOut();}
-#define GEM(Type) ComparisonOut GE(Type input) { return GEHelper(input); }
+#define GEC(Type) virtual bool GE(Type) {return false;}
+#define GEM(Type) bool GE(Type input) { return GEHelper(input); }
 // > Macros
-#define GC(Type) virtual ComparisonOut G(Type) {return ComparisonOut();}
-#define GM(Type) ComparisonOut G(Type input) { return GHelper(input); }
+#define GC(Type) virtual bool G(Type) {return false;}
+#define GM(Type) bool G(Type input) { return GHelper(input); }
 // != Macros
-#define NEQC(Type) virtual ComparisonOut NEQ(Type) {return ComparisonOut();}
-#define NEQM(Type) ComparisonOut NEQ(Type input) { return NEQHelper(input); }
+#define NEQC(Type) virtual bool NEQ(Type) {return false;}
+#define NEQM(Type) bool NEQ(Type input) { return NEQHelper(input); }
 
 // Arithmetic Operator Macros
 
 // + Macros
-#define PLUSC(Type) virtual bool PLUS(Type) {return false;}
-#define PLUSM(Type) bool PLUS(Type input) { return PLUSHelper(input); }
+#define PLUSC(Type) virtual void PLUS(Type) {}
+#define PLUSM(Type) void PLUS(Type input) { return PLUSHelper(input); }
 // - Macros
-#define SUBC(Type) virtual bool SUB(Type) {return false;}
-#define SUBM(Type) bool SUB(Type input) { return SUBHelper(input); }
+#define SUBC(Type) virtual void SUB(Type) {}
+#define SUBM(Type) void SUB(Type input) { return SUBHelper(input); }
 // * Macros
-#define PRODC(Type) virtual bool PROD(Type) {return false;}
-#define PRODM(Type) bool PROD(Type input) { return PRODHelper(input); }
+#define PRODC(Type) virtual void PROD(Type) {}
+#define PRODM(Type) void PROD(Type input) { return PRODHelper(input); }
 // / Macros
-#define DIVC(Type) virtual bool DIV(Type) {return false;}
-#define DIVM(Type) bool DIV(Type input) { return DIVHelper(input); }
+#define DIVC(Type) virtual void DIV(Type) {}
+#define DIVM(Type) void DIV(Type input) { return DIVHelper(input); }
 // % Macros
-#define MODC(Type) virtual bool MOD(Type) {return false;}
-#define MODM(Type) bool MOD(Type input) { return MODHelper(input); }
+#define MODC(Type) virtual void MOD(Type) {}
+#define MODM(Type) void MOD(Type input) { return MODHelper(input); }
 
 // Logical Operator Macros
 
 // && Macros
-#define ANDC(Type) virtual bool AND(Type) {return false;}
-#define ANDM(Type) bool AND(Type input) { return ANDHelper(input); }
+#define ANDC(Type) virtual void AND(Type) {}
+#define ANDM(Type) void AND(Type input) { return ANDHelper(input); }
 // || Macros
-#define ORC(Type) virtual bool OR(Type) {return false;}
-#define ORM(Type) bool OR(Type input) { return ORHelper(input); }
+#define ORC(Type) virtual void OR(Type) {}
+#define ORM(Type) void OR(Type input) { return ORHelper(input); }
 // ! Macros
-#define NOTC() virtual bool NOT() {return false;}
-#define NOTM() bool NOT() { return NOTHelper(); }
+#define NOTC() virtual void NOT() {}
+#define NOTM() void NOT() { return NOTHelper(); }
 
+struct TFE_Exception : public std::exception {
+    virtual const char* what() const throw() {
+        return "TypedField exception thrown.";
+    }
+};
+struct TFE_None : public TFE_Exception {
+    const char* what() const throw() {
+        return "TypedField is None.";
+    }
+};
+struct TFE_BadComparison : public TFE_Exception {
+    const char* what() const throw() {
+        return "Attempted comparison between unsupported types.";
+    }
+};
+struct TFE_BadOperator : public TFE_Exception {
+    const char* what() const throw() {
+        return "Attempted arithmetic operation between unsupported types.";
+    }
+};
 namespace Yolk {
 
     class TypedField {
         public:
                 using Pointer = std::shared_ptr<TypedField>;
-                struct ComparisonOut {
-                    ComparisonOut(bool o = false, bool v = false, std::string m = "") : ok(o), value(v), message(m) {} 
-                    bool ok;
-                    bool value;
-                    std::string message;
-                };
                 struct CopyByValueOut {
                     CopyByValueOut(bool o, TypedField::Pointer f, Memory::AbstractData::Pointer d) : ok(o), field(f), datapointer(d) {}
                     bool ok;
@@ -84,6 +98,7 @@ namespace Yolk {
                     virtual unsigned int Size() const {return 0;} 
                     virtual const std::type_index Type() const {return typeid(void);}
                     virtual bool Copy(None*) {
+                        throw  TFE_None();
                         return false;
                     }
                     virtual None* Clone() const {
@@ -99,6 +114,7 @@ namespace Yolk {
                         return "[None]";
                     }
                     virtual void* GetVoidPointer() {
+                        throw  TFE_None();
                         return nullptr;
                     };
                     virtual void InvokeBind(TypedField& other) const {
@@ -107,34 +123,34 @@ namespace Yolk {
                     virtual void InvokeCast(TypedField& other) const {
                         other.Free();
                     }
-                    virtual ComparisonOut InvokeEQ(None* ){return ComparisonOut();}
-                    virtual ComparisonOut InvokeLE(None* ){return ComparisonOut();}
-                    virtual ComparisonOut InvokeL(None* ){return ComparisonOut();}
-                    virtual ComparisonOut InvokeGE(None* ){return ComparisonOut();}
-                    virtual ComparisonOut InvokeG(None* ){return ComparisonOut();}
-                    virtual ComparisonOut InvokeNEQ(None* ){return ComparisonOut();}
-                    virtual bool InvokePLUS(None* ){return false;}
-                    virtual bool InvokeSUB(None* ){return false;}
-                    virtual bool InvokePROD(None* ){return false;}
-                    virtual bool InvokeDIV(None* ){return false;}
-                    virtual bool InvokeMOD(None* ){return false;}
-                    virtual bool InvokeAND(None* ){return false;}
-                    virtual bool InvokeOR(None* ){return false;}
-                    virtual bool InvokeNOT(None* ){return false;}
+                    virtual bool InvokeEQ(None* ){throw  TFE_None(); return false;}
+                    virtual bool InvokeLE(None* ){throw  TFE_None(); return false;}
+                    virtual bool InvokeL(None* ){throw  TFE_None(); return false;}
+                    virtual bool InvokeGE(None* ){throw  TFE_None(); return false;}
+                    virtual bool InvokeG(None* ){throw  TFE_None(); return false;}
+                    virtual bool InvokeNEQ(None* ){throw  TFE_None(); return false;}
+                    virtual void InvokePLUS(None* ){throw  TFE_None();}
+                    virtual void InvokeSUB(None* ){throw  TFE_None();}
+                    virtual void InvokePROD(None* ){throw  TFE_None();}
+                    virtual void InvokeDIV(None* ){throw  TFE_None();}
+                    virtual void InvokeMOD(None* ){throw  TFE_None();}
+                    virtual void InvokeAND(None* ){throw  TFE_None();}
+                    virtual void InvokeOR(None* ){throw  TFE_None();}
+                    virtual void InvokeNOT(None* ){throw  TFE_None();}
 
-                    template <typename T> ComparisonOut EQ(T){ return ComparisonOut();}
-                    template <typename T> ComparisonOut LE(T){ return ComparisonOut();}
-                    template <typename T> ComparisonOut L(T){ return ComparisonOut();}
-                    template <typename T> ComparisonOut GE(T){ return ComparisonOut();}
-                    template <typename T> ComparisonOut G(T){ return ComparisonOut();}
-                    template <typename T> ComparisonOut NEQ(T){ return ComparisonOut();}
-                    template <typename T> bool PLUS(T){ return false;}
-                    template <typename T> bool SUB(T){ return false;}
-                    template <typename T> bool PROD(T){ return false;}
-                    template <typename T> bool DIV(T){ return false;}
-                    template <typename T> bool MOD(T){ return false;}
-                    template <typename T> bool AND(T){ return false;}
-                    template <typename T> bool OR(T){ return false;}
+                    template <typename T> bool EQ(T){throw  TFE_None(); return false;}
+                    template <typename T> bool LE(T){throw  TFE_None(); return false;}
+                    template <typename T> bool L(T){throw  TFE_None(); return false;}
+                    template <typename T> bool GE(T){throw  TFE_None(); return false;}
+                    template <typename T> bool G(T){throw  TFE_None(); return false;}
+                    template <typename T> bool NEQ(T){throw  TFE_None(); return false;}
+                    template <typename T> void PLUS(T){ throw TFE_None();}
+                    template <typename T> void SUB(T){ throw TFE_None();}
+                    template <typename T> void PROD(T){ throw TFE_None();}
+                    template <typename T> void DIV(T){ throw TFE_None();}
+                    template <typename T> void MOD(T){ throw TFE_None();}
+                    template <typename T> void AND(T){ throw TFE_None();}
+                    template <typename T> void OR(T){ throw TFE_None();}
                     
                     // Standard operators
                     EQC(TypedField)
@@ -274,145 +290,159 @@ namespace Yolk {
                     void InvokeCast(TypedField& other) const {
                         other.Cast<T>();
                     }
-                    template<typename F> ComparisonOut EQHelper(F rvalue){
+                    template<typename F> bool EQHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs == rhs;
                         };
                         if constexpr(canCompare) {
-                            return ComparisonOut(true, lvalue == rvalue, "");
+                            return lvalue == rvalue;
                         }
-                        return ComparisonOut();
+                        throw TFE_BadComparison();
+                        return false;
                     }
-                    template<typename F> ComparisonOut LEHelper(F rvalue){
+                    template<typename F> bool LEHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs <= rhs;
                         };
                         if constexpr(canCompare) {
-                            return ComparisonOut(true, lvalue <= rvalue, "");
+                            return lvalue <= rvalue;
                         }
-                        return ComparisonOut();
+                        throw TFE_BadComparison();
+						return false;
                     }
-                    template<typename F> ComparisonOut LHelper(F rvalue){
+                    template<typename F> bool LHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs < rhs;
                         };
                         if constexpr(canCompare) {
-                            return ComparisonOut(true, lvalue < rvalue, "");
+                            return lvalue < rvalue;
                         }
-                        return ComparisonOut();
+                        throw TFE_BadComparison();
+						return false;
                     }
-                    template<typename F> ComparisonOut GEHelper(F rvalue){
+                    template<typename F> bool GEHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs >= rhs;
                         };
                         if constexpr(canCompare) {
-                            return ComparisonOut(true, lvalue >= rvalue, "");
+                            return lvalue >= rvalue;
                         }
-                        return ComparisonOut();
+                        throw TFE_BadComparison();
+						return false;
                     }
-                    template<typename F> ComparisonOut GHelper(F rvalue){
+                    template<typename F> bool GHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs > rhs;
                         };
                         if constexpr(canCompare) {
-                            return ComparisonOut(true, lvalue > rvalue, "");
+                            return lvalue > rvalue;
                         }
-                        return ComparisonOut();
+                        throw TFE_BadComparison();
+						return false;
                     }
-                    template<typename F> ComparisonOut NEQHelper(F rvalue){
+                    template<typename F> bool NEQHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs != rhs;
                         };
                         if constexpr(canCompare) {
-                            return ComparisonOut(true, lvalue != rvalue, "");
+                            return lvalue != rvalue;
                         }
-                        return ComparisonOut();
+                        throw TFE_BadComparison();
+						return false;
                     }
-                    template<typename F> bool PLUSHelper(F rvalue){
+                    template<typename F> void PLUSHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs = lhs + rhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = lvalue + rvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
-                    template<typename F> bool SUBHelper(F rvalue){
+                    template<typename F> void SUBHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs = lhs - rhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = lvalue - rvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
-                    template<typename F> bool PRODHelper(F rvalue){
+                    template<typename F> void PRODHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs = lhs * rhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = lvalue * rvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
-                    template<typename F> bool DIVHelper(F rvalue){
+                    template<typename F> void DIVHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs = lhs / rhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = lvalue / rvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
-                    template<typename F> bool MODHelper(F rvalue){
+                    template<typename F> void MODHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs = lhs % rhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = lvalue % rvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
-                    template<typename F> bool ANDHelper(F rvalue){
+                    template<typename F> void ANDHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs = lhs && rhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = lvalue && rvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
-                    template<typename F> bool ORHelper(F rvalue){
+                    template<typename F> void ORHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
                             lhs = lhs || rhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = lvalue || rvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
-                    bool NOTHelper(){
+                    void NOTHelper(){
                         constexpr bool canCompare = requires(T lhs) {
                             lhs = !lhs;
                         };
                         if constexpr(canCompare) {
                             lvalue = !lvalue;
-                            return true;
+                            return;
                         }
-                        return false;
+                        throw TFE_BadOperator();
+						
                     }
 
-                    ComparisonOut InvokeEQ(None* other){
+                    bool InvokeEQ(None* other){
                         return other->EQ(lvalue);
                     }
-                    ComparisonOut EQ(TypedField otherfield) {
+                    bool EQ(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -420,17 +450,18 @@ namespace Yolk {
                             };
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
-                                return ComparisonOut(true, lvalue == othervalue);
+                                return lvalue == othervalue;
                             }
-                            return false;
+                            throw TFE_BadComparison();
+							return false;
                         } else {
                             return other->InvokeEQ(this);
                         }
                     }
-                    ComparisonOut InvokeLE(None* other){
+                    bool InvokeLE(None* other){
                         return other->LE(lvalue);
                     }
-                    ComparisonOut LE(TypedField otherfield) {
+                    bool LE(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -438,17 +469,18 @@ namespace Yolk {
                             };
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
-                                return ComparisonOut(true, lvalue <= othervalue);
+                                return lvalue <= othervalue;
                             }
-                            return false;
+                            throw TFE_BadComparison();
+							return false;
                         } else {
                             return other->InvokeLE(this);
                         }
                     }
-                    ComparisonOut InvokeL(None* other){
+                    bool InvokeL(None* other){
                         return other->L(lvalue);
                     }
-                    ComparisonOut L(TypedField otherfield) {
+                    bool L(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -456,17 +488,18 @@ namespace Yolk {
                             };
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
-                                return ComparisonOut(true, lvalue < othervalue);
+                                return lvalue < othervalue;
                             }
-                            return false;
+                            throw TFE_BadComparison();
+							return false;
                         } else {
                             return other->InvokeL(this);
                         }
                     }         
-                    ComparisonOut InvokeGE(None* other){
+                    bool InvokeGE(None* other){
                         return other->LE(lvalue);
                     }
-                    ComparisonOut GE(TypedField otherfield) {
+                    bool GE(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -474,17 +507,18 @@ namespace Yolk {
                             };
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
-                                return ComparisonOut(true, lvalue >= othervalue);
+                                return lvalue >= othervalue;
                             }
-                            return false;
+                            throw TFE_BadComparison();
+							return false;
                         } else {
                             return other->InvokeGE(this);
                         }
                     }
-                    ComparisonOut InvokeG(None* other){
+                    bool InvokeG(None* other){
                         return other->G(lvalue);
                     }
-                    ComparisonOut G(TypedField otherfield) {
+                    bool G(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -492,17 +526,18 @@ namespace Yolk {
                             };
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
-                                return ComparisonOut(true, lvalue > othervalue);
+                                return lvalue > othervalue;
                             }
-                            return false;
+                            throw TFE_BadComparison();
+							return false;
                         } else {
                             return other->InvokeG(this);
                         }
                     }
-                    ComparisonOut InvokeNEQ(None* other){
+                    bool InvokeNEQ(None* other){
                         return other->NEQ(lvalue);
                     }
-                    ComparisonOut NEQ(TypedField otherfield) {
+                    bool NEQ(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -510,17 +545,18 @@ namespace Yolk {
                             };
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
-                                return ComparisonOut(true, lvalue != othervalue);
+                                return lvalue != othervalue;
                             }
-                            return false;
+                            throw TFE_BadComparison();
+							return false;
                         } else {
-                            return other->InvokeNOT(this);
+                            return other->InvokeNEQ(this);
                         }
                     }
-                    bool InvokePLUS(None* other){
-                        return other->PLUS(lvalue);
+                    void InvokePLUS(None* other){
+                        other->PLUS(lvalue);
                     }
-                    bool PLUS(TypedField otherfield) {
+                    void PLUS(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -529,17 +565,18 @@ namespace Yolk {
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 lvalue = lvalue + othervalue;
-                                return true;
+                                return;
                             }
-                            return false;
+                            throw TFE_BadOperator();
+							
                         } else {
-                            return other->InvokePLUS(this);
+                            other->InvokePLUS(this);
                         }
                     }
-                    bool InvokeSUB(None* other){
-                        return other->SUB(lvalue);
+                    void InvokeSUB(None* other){
+                        other->SUB(lvalue);
                     }
-                    bool SUB(TypedField otherfield) {
+                    void SUB(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -548,17 +585,18 @@ namespace Yolk {
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 lvalue = lvalue - othervalue;
-                                return true;
+                                return;
                             }
-                            return false;
+                            throw TFE_BadOperator();
+							
                         } else {
-                            return other->InvokeSUB(this);
+                            other->InvokeSUB(this);
                         }
                     }
-                    bool InvokePROD(None* other){
-                        return other->PROD(lvalue);
+                    void InvokePROD(None* other){
+                        other->PROD(lvalue);
                     }
-                    bool PROD(TypedField otherfield) {
+                    void PROD(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -567,17 +605,18 @@ namespace Yolk {
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 lvalue = lvalue * othervalue;
-                                return true;
+                                return;
                             }
-                            return false;
+                            throw TFE_BadOperator();
+							
                         } else {
-                            return other->InvokePROD(this);
+                            other->InvokePROD(this);
                         }
                     }
-                    bool InvokeDIV(None* other){
-                        return other->DIV(lvalue);
+                    void InvokeDIV(None* other){
+                        other->DIV(lvalue);
                     }
-                    bool DIV(TypedField otherfield) {
+                    void DIV(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -586,17 +625,18 @@ namespace Yolk {
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 lvalue = lvalue / othervalue;
-                                return true;
+                                return;
                             }
-                            return false;
+                            throw TFE_BadOperator();
+							
                         } else {
-                            return other->InvokeDIV(this);
+                            other->InvokeDIV(this);
                         }
                     }
-                    bool InvokeMOD(None* other){
-                        return other->MOD(lvalue);
+                    void InvokeMOD(None* other){
+                        other->MOD(lvalue);
                     }
-                    bool MOD(TypedField otherfield) {
+                    void MOD(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -605,17 +645,18 @@ namespace Yolk {
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 lvalue = lvalue % othervalue;
-                                return true;
+                                return;
                             }
-                            return false;
+                            throw TFE_BadOperator();
+							
                         } else {
-                            return other->InvokeMOD(this);
+                            other->InvokeMOD(this);
                         }
                     }
-                    bool InvokeAND(None* other){
-                        return other->AND(lvalue);
+                    void InvokeAND(None* other){
+                        other->AND(lvalue);
                     }
-                    bool AND(TypedField otherfield) {
+                    void AND(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -624,17 +665,18 @@ namespace Yolk {
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 lvalue = lvalue && othervalue;
-                                return true;
+                                return;
                             }
-                            return false;
+                            throw TFE_BadOperator();
+							
                         } else {
-                            return other->InvokeAND(this);
+                            other->InvokeAND(this);
                         }
                     }
-                    bool InvokeOR(None* other){
-                        return other->OR(lvalue);
+                    void InvokeOR(None* other){
+                        other->OR(lvalue);
                     }
-                    bool OR(TypedField otherfield) {
+                    void OR(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
                             constexpr bool canCompare = requires(T lhs, T rhs){
@@ -643,15 +685,16 @@ namespace Yolk {
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 lvalue = lvalue || othervalue;
-                                return true;
+                                return;
                             }
-                            return false;
+                            throw TFE_BadOperator();
+							
                         } else {
-                            return other->InvokeOR(this);
+                            other->InvokeOR(this);
                         }
                     }
-                    bool InvokeNOT(None* other){
-                        return other->NOT();
+                    void InvokeNOT(None* other){
+                        other->NOT();
                     }
                     
 
@@ -727,20 +770,20 @@ namespace Yolk {
 
             CopyByValueOut CopyByValue();
 
-            template<typename T> ComparisonOut TryEQ(T funvalue);
-            template<typename T> ComparisonOut TryLE(T funvalue);
-            template<typename T> ComparisonOut TryL(T funvalue);
-            template<typename T> ComparisonOut TryGE(T funvalue);
-            template<typename T> ComparisonOut TryG(T funvalue);
-            template<typename T> ComparisonOut TryNEQ(T funvalue);
-            template<typename T> bool TryPLUS(T funvalue);
-            template<typename T> bool TrySUB(T funvalue);
-            template<typename T> bool TryPROD(T funvalue);
-            template<typename T> bool TryDIV(T funvalue);
-            template<typename T> bool TryMOD(T funvalue);
-            template<typename T> bool TryAND(T funvalue);
-            template<typename T> bool TryOR(T funvalue);
-            bool TryNOT();
+            template<typename T> bool TryEQ(T funvalue);
+            template<typename T> bool TryLE(T funvalue);
+            template<typename T> bool TryL(T funvalue);
+            template<typename T> bool TryGE(T funvalue);
+            template<typename T> bool TryG(T funvalue);
+            template<typename T> bool TryNEQ(T funvalue);
+            template<typename T> void TryPLUS(T funvalue);
+            template<typename T> void TrySUB(T funvalue);
+            template<typename T> void TryPROD(T funvalue);
+            template<typename T> void TryDIV(T funvalue);
+            template<typename T> void TryMOD(T funvalue);
+            template<typename T> void TryAND(T funvalue);
+            template<typename T> void TryOR(T funvalue);
+            void TryNOT();
         
         private:
             None* data;
@@ -874,7 +917,7 @@ namespace Yolk {
     inline void TypedField::InvokeBind(TypedField& other) {
         data->InvokeBind(other);
     }
-    template<typename T> inline TypedField::ComparisonOut TypedField::TryEQ(T funvalue)
+    template<typename T> inline bool TypedField::TryEQ(T funvalue)
     {
         constexpr bool isFundamental = requires(T other){
             data->EQ(other);
@@ -882,124 +925,124 @@ namespace Yolk {
         if constexpr(isFundamental) {
             return data->EQ(funvalue);
         }
-        return ComparisonOut();
+        return false;
     }
-    template<typename T> inline TypedField::ComparisonOut TypedField::TryLE(T funvalue){
+    template<typename T> inline bool TypedField::TryLE(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->LE(other);
         };
         if constexpr(isFundamental) {
             return data->LE(funvalue);
         }
-        return ComparisonOut();
+        return false;
     }
-    template<typename T> inline TypedField::ComparisonOut TypedField::TryL(T funvalue){
+    template<typename T> inline bool TypedField::TryL(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->L(other);
         };
         if constexpr(isFundamental) {
             return data->L(funvalue);
         }
-        return ComparisonOut();
+        return false;
     }
-    template<typename T> inline TypedField::ComparisonOut TypedField::TryGE(T funvalue){
+    template<typename T> inline bool TypedField::TryGE(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->GE(other);
         };
         if constexpr(isFundamental) {
             return data->GE(funvalue);
         }
-        return ComparisonOut();
+        return false;
     }
-    template<typename T> inline TypedField::ComparisonOut TypedField::TryG(T funvalue){
+    template<typename T> inline bool TypedField::TryG(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->G(other);
         };
         if constexpr(isFundamental) {
             return data->G(funvalue);
         }
-        return ComparisonOut();
+        return false;
     }
-    template<typename T> inline TypedField::ComparisonOut TypedField::TryNEQ(T funvalue){
+    template<typename T> inline bool TypedField::TryNEQ(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->NEQ(other);
         };
         if constexpr(isFundamental) {
             return data->NEQ(funvalue);
         }
-        return ComparisonOut();
+        return false;
     }
-    template<typename T> inline bool TypedField::TryPLUS(T funvalue){
+    template<typename T> inline void TypedField::TryPLUS(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->PLUS(other);
         };
         if constexpr(isFundamental) {
             return data->PLUS(funvalue);
         }
-        return false;
+        
     }
-    template<typename T> inline bool TypedField::TrySUB(T funvalue){
+    template<typename T> inline void TypedField::TrySUB(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->SUB(other);
         };
         if constexpr(isFundamental) {
             return data->SUB(funvalue);
         }
-        return false;
+        
     }
-    template<typename T> inline bool TypedField::TryPROD(T funvalue){
+    template<typename T> inline void TypedField::TryPROD(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->PROD(other);
         };
         if constexpr(isFundamental) {
             return data->PROD(funvalue);
         }
-        return false;
+        
     }
-    template<typename T> inline bool TypedField::TryDIV(T funvalue){
+    template<typename T> inline void TypedField::TryDIV(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->DIV(other);
         };
         if constexpr(isFundamental) {
             return data->DIV(funvalue);
         }
-        return false;
+        
     }
-    template<typename T> inline bool TypedField::TryMOD(T funvalue){
+    template<typename T> inline void TypedField::TryMOD(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->MOD(other);
         };
         if constexpr(isFundamental) {
             return data->MOD(funvalue);
         }
-        return false;
+        
     }
-    template<typename T> inline bool TypedField::TryAND(T funvalue){
+    template<typename T> inline void TypedField::TryAND(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->AND(other);
         };
         if constexpr(isFundamental) {
             return data->AND(funvalue);
         }
-        return false;
+        
     }
-    template<typename T> inline bool TypedField::TryOR(T funvalue){
+    template<typename T> inline void TypedField::TryOR(T funvalue){
         constexpr bool isFundamental = requires(T other){
             data->OR(other);
         };
         if constexpr(isFundamental) {
             return data->OR(funvalue);
         }
-        return false;
+        
     }
-    inline bool TypedField::TryNOT(){
+    inline void TypedField::TryNOT(){
         constexpr bool isFundamental = requires(){
             data->NOT();
         };
         if constexpr(isFundamental) {
             return data->NOT();
         }
-        return false;
+        
     }
 
 }
