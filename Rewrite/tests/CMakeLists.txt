@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-FILE(GLOB SOURCE_FILES Yolk/Wrapper/*.cpp Yolk/Memory/*.cpp)
+FILE(GLOB SOURCE_FILES Yolk/Wrapper/*.cpp Yolk/Memory/*.cpp Yolk/YolkVM/test_ovo.cpp)
 add_executable(TEST ${SOURCE_FILES})
 
 

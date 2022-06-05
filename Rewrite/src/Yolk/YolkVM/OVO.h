@@ -79,6 +79,10 @@ namespace Yolk
         {
             struct Instruction
             {
+                bool operator==(const Instruction& other)
+                {
+                    return (opcode == other.opcode) && (arg1.type == other.arg1.type) && (arg1.value == other.arg1.value) && (arg2.type == other.arg2.type) && (arg2.value == other.arg2.value);
+                }
                 struct Arg
                 {
                     ArgType type;
@@ -91,6 +95,18 @@ namespace Yolk
             };
             struct Text
             {
+                bool operator==(const Text& other)
+                {
+                    if(size != other.size){
+                        return false;
+                    }
+                    for(uint64_t i = 0; i < size; i++){
+                        if(content[i] != other.content[i]){
+                            return false;
+                        }
+                    }
+                    return true;
+                }
                 static uint64_t get_length(const char* c) {
                     uint64_t l = 0;
                     while(*c != '\0'){
@@ -137,6 +153,31 @@ namespace Yolk
                 const uint64_t size;
                 
             };
+            bool operator==(const Ovo& other)
+            {
+                if(version != other.version){
+                    return false;
+                }
+                if(code.size() != other.code.size()){
+                    return false;
+                }
+
+                for(uint64_t i = 0; i < code.size(); i++)
+                {
+                    if(code.at(i) != other.code.at(i)){
+                        return false;
+                    }
+                }
+                if(text.size() != other.text.size()){
+                    return false;
+                }
+                for(uint64_t i = 0; i < text.size(); i++){
+                    if(text.at(i) != other.text.at(i)){
+                        return false;
+                    }
+                }
+                return true;
+            }
             double version;
             std::vector<Instruction> code;
             std::vector<Text> text;

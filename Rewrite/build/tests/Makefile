@@ -391,6 +391,30 @@ Yolk/Wrapper/test_wrappergenerator.cpp.s:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.s
 .PHONY : Yolk/Wrapper/test_wrappergenerator.cpp.s
 
+Yolk/YolkVM/test_ovo.o: Yolk/YolkVM/test_ovo.cpp.o
+.PHONY : Yolk/YolkVM/test_ovo.o
+
+# target to build an object file
+Yolk/YolkVM/test_ovo.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o
+.PHONY : Yolk/YolkVM/test_ovo.cpp.o
+
+Yolk/YolkVM/test_ovo.i: Yolk/YolkVM/test_ovo.cpp.i
+.PHONY : Yolk/YolkVM/test_ovo.i
+
+# target to preprocess a source file
+Yolk/YolkVM/test_ovo.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.i
+.PHONY : Yolk/YolkVM/test_ovo.cpp.i
+
+Yolk/YolkVM/test_ovo.s: Yolk/YolkVM/test_ovo.cpp.s
+.PHONY : Yolk/YolkVM/test_ovo.s
+
+# target to generate assembly for a file
+Yolk/YolkVM/test_ovo.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.s
+.PHONY : Yolk/YolkVM/test_ovo.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -431,6 +455,9 @@ help:
 	@echo "... Yolk/Wrapper/test_wrappergenerator.o"
 	@echo "... Yolk/Wrapper/test_wrappergenerator.i"
 	@echo "... Yolk/Wrapper/test_wrappergenerator.s"
+	@echo "... Yolk/YolkVM/test_ovo.o"
+	@echo "... Yolk/YolkVM/test_ovo.i"
+	@echo "... Yolk/YolkVM/test_ovo.s"
 .PHONY : help
 
 

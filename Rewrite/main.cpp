@@ -6,26 +6,14 @@
 #include <cstdio>
 
 int main(){
-    Yolk::VM::Ovo ovo;
-    ovo.version = 0.1;
-    ovo.code.push_back(Yolk::VM::Ovo::Instruction { Yolk::VM::OPCode::COPY, Yolk::VM::Ovo::Instruction::Arg {Yolk::VM::ArgType::REGISTER, 0}, Yolk::VM::Ovo::Instruction::Arg {Yolk::VM::ArgType::REGISTER, 1}});
-    ovo.text.push_back(Yolk::VM::Ovo::Text("Hello there friend!"));
-    ovo.text.push_back(Yolk::VM::Ovo::Text("This is the end."));
-    ovo.ToFile("./demo.ovo");
-    Yolk::VM::Ovo newovo;
+    int x = 4;
+    int y = 0;
 
-    bool test = newovo.FromFile("./demo.ovo");
+    Yolk::TypedField xr(x);
+    Yolk::TypedField yr(y);
 
-    std::cout << test << std::endl;
+    bool can = xr.TryDIV(yr);
 
-    std::cout << newovo.version << std::endl;
-
-    for(auto it = newovo.code.begin(); it != newovo.code.end(); it++)
-    {
-        std::cout << static_cast<int>(it->opcode) << std::endl;
-    }
-    for(auto it = newovo.text.begin(); it != newovo.text.end(); it++)
-    {
-        std::cout << it->as_string() << std::endl;
-    }
+    std::cout << (can ? "can" : "nocan") << std::endl;
+    std::cout << xr.Print() << std::endl;
 }
