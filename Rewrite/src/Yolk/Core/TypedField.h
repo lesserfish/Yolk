@@ -61,27 +61,29 @@
 #define NOTC() virtual void NOT() {}
 #define NOTM() void NOT() { return NOTHelper(); }
 
-struct TFE_Exception : public std::exception {
-    virtual const char* what() const throw() {
-        return "TypedField exception thrown.";
-    }
-};
-struct TFE_None : public TFE_Exception {
-    const char* what() const throw() {
-        return "TypedField is None.";
-    }
-};
-struct TFE_BadComparison : public TFE_Exception {
-    const char* what() const throw() {
-        return "Attempted comparison between unsupported types.";
-    }
-};
-struct TFE_BadOperator : public TFE_Exception {
-    const char* what() const throw() {
-        return "Attempted arithmetic operation between unsupported types.";
-    }
-};
+
 namespace Yolk {
+
+    struct TFE_Exception : public std::exception {
+        virtual const char* what() const throw() {
+            return "TypedField exception thrown.";
+        }
+    };
+    struct TFE_None : public TFE_Exception {
+        const char* what() const throw() {
+            return "TypedField is None.";
+        }
+    };
+    struct TFE_BadComparison : public TFE_Exception {
+        const char* what() const throw() {
+            return "Attempted comparison between unsupported types.";
+        }
+    };
+    struct TFE_BadOperator : public TFE_Exception {
+        const char* what() const throw() {
+            return "Attempted arithmetic operation between unsupported types.";
+        }
+    };
 
     class TypedField {
         public:
