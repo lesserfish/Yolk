@@ -3,6 +3,7 @@
 
 CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/stdc-predef.h \
+  ../src/Yolk/Yolk.h \
   ../src/Yolk/Core/Core.h \
   ../src/Yolk/Core/DynamicData.h \
   ../src/Yolk/Common.h \
@@ -255,8 +256,13 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/c++/10/bits/codecvt.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
-  /usr/include/c++/10/bits/fstream.tcc
+  /usr/include/c++/10/bits/fstream.tcc \
+  ../src/Yolk/YolkVM/Instruction.h \
+  ../src/Yolk/YolkVM/VirtualMachine.h \
+  ../src/Yolk/Memory/Memory.h
 
+
+../src/Yolk/YolkVM/VirtualMachine.h:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h:
 
@@ -324,11 +330,11 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
 
+/usr/include/c++/10/cwctype:
+
 /usr/include/c++/10/iterator:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
-
-/usr/include/c++/10/clocale:
 
 /usr/include/c++/10/bits/ios_base.h:
 
@@ -344,6 +350,8 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
+/usr/include/c++/10/clocale:
+
 /usr/include/x86_64-linux-gnu/c++/10/bits/c++locale.h:
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
@@ -351,6 +359,8 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
 /usr/include/c++/10/streambuf:
+
+../src/Yolk/YolkVM/Instruction.h:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/os_defines.h:
 
@@ -408,6 +418,22 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/bits/allocator.h:
 
+/usr/include/c++/10/bits/stl_tempbuf.h:
+
+/usr/include/locale.h:
+
+/usr/include/c++/10/bits/predefined_ops.h:
+
+/usr/include/c++/10/exception:
+
+/usr/include/c++/10/bits/atomic_lockfree_defines.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/x86_64-linux-gnu/c++/10/bits/ctype_base.h:
+
+/usr/include/c++/10/ext/new_allocator.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
@@ -415,10 +441,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/bits/cpp_type_traits.h:
 
 /usr/include/c++/10/bits/nested_exception.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
-
-/usr/include/c++/10/bits/exception_defines.h:
 
 ../src/Yolk/YolkVM/OVO.h:
 
@@ -439,10 +461,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
 /usr/include/c++/10/bits/functexcept.h:
-
-/usr/include/c++/10/bits/stream_iterator.h:
-
-/usr/include/c++/10/type_traits:
 
 /usr/include/c++/10/iosfwd:
 
@@ -478,17 +496,21 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
-/usr/include/c++/10/exception:
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
-/usr/include/c++/10/bits/atomic_lockfree_defines.h:
+/usr/include/c++/10/bits/exception_defines.h:
 
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+/usr/include/c++/10/pstl/execution_defs.h:
 
-/usr/include/x86_64-linux-gnu/c++/10/bits/ctype_base.h:
+/usr/include/c++/10/bit:
 
-/usr/include/c++/10/ext/new_allocator.h:
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/c++/10/bits/predefined_ops.h:
+/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
+
+/usr/include/c++/10/bits/stream_iterator.h:
+
+/usr/include/c++/10/type_traits:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
@@ -520,21 +542,11 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/10/typeinfo:
 
-/usr/include/c++/10/bits/basic_string.h:
-
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
-/usr/include/c++/10/pstl/execution_defs.h:
-
-/usr/include/c++/10/bit:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs.h:
-
-/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
 ../src/Yolk/Core/MethodWrapper.h:
 
@@ -545,6 +557,10 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/optional:
 
 /usr/include/c++/10/new:
+
+/usr/include/c++/10/bits/basic_string.h:
+
+../src/Yolk/Yolk.h:
 
 /usr/include/c++/10/bits/exception_ptr.h:
 
@@ -577,10 +593,6 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/errno.h:
 
 /usr/include/c++/10/cstdio:
-
-/usr/include/c++/10/bits/stl_tempbuf.h:
-
-/usr/include/locale.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
@@ -674,6 +686,10 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
+/usr/include/c++/10/bits/basic_ios.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+
 /usr/include/wctype.h:
 
 /usr/include/c++/10/bits/functional_hash.h:
@@ -761,9 +777,3 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/10/bits/uses_allocator.h:
 
 /usr/include/c++/10/ios:
-
-/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
-
-/usr/include/c++/10/bits/basic_ios.h:
-
-/usr/include/c++/10/cwctype:

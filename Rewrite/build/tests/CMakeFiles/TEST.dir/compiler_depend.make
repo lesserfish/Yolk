@@ -3440,8 +3440,30 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: ../tests/Yolk/YolkVM/test_
   /usr/include/c++/10/fstream \
   /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
-  /usr/include/c++/10/bits/fstream.tcc
+  /usr/include/c++/10/bits/fstream.tcc \
+  ../src/Yolk/YolkVM/Instruction.h \
+  ../src/Yolk/YolkVM/VirtualMachine.h \
+  ../src/Yolk/Memory/Memory.h \
+  ../src/Yolk/Memory/MemoryTable.h \
+  ../src/Yolk/Core/Core.h \
+  ../src/Yolk/Core/DynamicData.h \
+  ../src/Yolk/Common.h \
+  /usr/include/c++/10/typeindex \
+  ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Core/Wrapper.h \
+  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/WrapperRequired.h \
+  ../src/Yolk/Core/WrapperArgument.h \
+  /usr/include/c++/10/deque \
+  /usr/include/c++/10/bits/stl_deque.h \
+  /usr/include/c++/10/bits/deque.tcc \
+  ../src/Yolk/Core/MethodWrapper.h \
+  ../src/Yolk/Core/WrapperGenerator.h \
+  ../src/Yolk/Memory/SymbolTable.h \
+  ../src/Yolk/Memory/MemoryInterface.h
 
+
+../src/Yolk/YolkVM/VirtualMachine.h:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h:
 
@@ -3656,6 +3678,8 @@ _deps/googletest-src/googletest/include/gtest/internal/gtest-string.h:
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
 /usr/include/c++/10/streambuf:
+
+../src/Yolk/YolkVM/Instruction.h:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/os_defines.h:
 

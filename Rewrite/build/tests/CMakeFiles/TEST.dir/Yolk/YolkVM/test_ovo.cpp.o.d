@@ -270,4 +270,23 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: \
  /usr/include/c++/10/fstream \
  /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
- /usr/include/c++/10/bits/fstream.tcc
+ /usr/include/c++/10/bits/fstream.tcc \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/Instruction.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/VirtualMachine.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/Memory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/MemoryTable.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/Core.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/DynamicData.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/../Common.h \
+ /usr/include/c++/10/typeindex \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/TypedField.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/Wrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/DynamicMemory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/WrapperRequired.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/WrapperArgument.h \
+ /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
+ /usr/include/c++/10/bits/deque.tcc \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/MethodWrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/../Core/WrapperGenerator.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/SymbolTable.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/MemoryInterface.h

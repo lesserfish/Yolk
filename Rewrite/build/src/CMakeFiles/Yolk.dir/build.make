@@ -69,28 +69,28 @@ include src/CMakeFiles/Yolk.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/Yolk.dir/flags.make
 
-src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o: src/CMakeFiles/Yolk.dir/flags.make
-src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o: ../src/Yolk/Yolk.cpp
-src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o: src/CMakeFiles/Yolk.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o"
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/src && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o -MF CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o.d -o CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Yolk.cpp
+src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: src/CMakeFiles/Yolk.dir/flags.make
+src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: ../src/Yolk/YolkVM/Instruction.cpp
+src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: src/CMakeFiles/Yolk.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o"
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/src && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o -MF CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o.d -o CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o -c /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/Instruction.cpp
 
-src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.i"
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/src && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Yolk.cpp > CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.i
+src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.i"
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/src && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/Instruction.cpp > CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.i
 
-src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.s"
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/src && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Yolk.cpp -o CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.s
+src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.s"
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build/src && /usr/bin/g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/Instruction.cpp -o CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.s
 
 # Object files for target Yolk
 Yolk_OBJECTS = \
-"CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o"
+"CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o"
 
 # External object files for target Yolk
 Yolk_EXTERNAL_OBJECTS =
 
-src/libYolk.so.1.0: src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o
+src/libYolk.so.1.0: src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o
 src/libYolk.so.1.0: src/CMakeFiles/Yolk.dir/build.make
 src/libYolk.so.1.0: src/CMakeFiles/Yolk.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libYolk.so"

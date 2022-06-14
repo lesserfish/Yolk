@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <array>
 
 namespace Yolk
 {
@@ -52,6 +53,49 @@ namespace Yolk
             HALT
         };
 
+        const std::array<OPCode, 40> AllOPCodes = {
+            OPCode::MOV,
+            OPCode::COPY,
+            OPCode::CLONE,
+            OPCode::NEW,
+            OPCode::MOVM,
+            OPCode::CALLM,
+            OPCode::PUSHAR,
+            OPCode::POPAR,
+            OPCode::CLRAR,
+            OPCode::PUSH,
+            OPCode::POP,
+            OPCode::CLEAR,
+            OPCode::CMP,
+            OPCode::CMPEQ,
+            OPCode::CMPNEQ,
+            OPCode::CMPLS,
+            OPCode::CMPGT,
+            OPCode::CMPLSEQ,
+            OPCode::CMPGTEQ,
+            OPCode::JNTRUE,
+            OPCode::JNFALSE,
+            OPCode::JMP,
+            OPCode::CALL,
+            OPCode::RET,
+            OPCode::ADD,
+            OPCode::SUB,
+            OPCode::MUL,
+            OPCode::DIV,
+            OPCode::MOD,
+            OPCode::AND,
+            OPCode::OR,
+            OPCode::CAST,
+            OPCode::NAME,
+            OPCode::NAMEG,
+            OPCode::BRUP,
+            OPCode::BRDW,
+            OPCode::BRHZ,
+            OPCode::RSBR,
+            OPCode::ZERO,
+            OPCode::HALT
+        };
+
         enum class ArgType : uint8_t       
         {
             REGISTER,
@@ -77,9 +121,9 @@ namespace Yolk
 
         struct Ovo
         {
-            struct Instruction
+            struct Code
             {
-                bool operator==(const Instruction& other)
+                bool operator==(const Code& other)
                 {
                     return (opcode == other.opcode) && (arg1.type == other.arg1.type) && (arg1.value == other.arg1.value) && (arg2.type == other.arg2.type) && (arg2.value == other.arg2.value);
                 }
@@ -179,7 +223,7 @@ namespace Yolk
                 return true;
             }
             double version;
-            std::vector<Instruction> code;
+            std::vector<Code> code;
             std::vector<Text> text;
 
             bool ToFile(std::string);
@@ -259,9 +303,9 @@ namespace Yolk
             
             EndianMemcpy(version_cstr, (char *)&version, sizeof(version_cstr));
 
-            // Read Instruction Array:
+            // Read Code Array:
             
-            // Read Size of Instruction Array:
+            // Read Size of Code Array:
             
             char codesize_cstr[sizeof(uint64_t)];
             file.read(codesize_cstr, sizeof(codesize_cstr));
@@ -303,11 +347,11 @@ namespace Yolk
                 uint64_t arg2val;
                 EndianMemcpy(arg2val_cstr, (char *)&arg2val, sizeof(arg2val_cstr));
 
-                code.push_back( Instruction {
+                code.push_back( Code {
                                         static_cast<OPCode>(opcode),
-                                        Instruction::Arg { static_cast<ArgType>(arg1arg), 
+                                        Code::Arg { static_cast<ArgType>(arg1arg), 
                                                     arg1val },
-                                        Instruction::Arg { static_cast<ArgType>(arg2arg), 
+                                        Code::Arg { static_cast<ArgType>(arg2arg), 
                                                     arg2val },
                                 });
 
@@ -365,9 +409,9 @@ namespace Yolk
             EndianMemcpy((char *) &version, version_cstr, sizeof(version_cstr));
             file.write(version_cstr, sizeof(version_cstr));
 
-            // Write Instruction Array:
+            // Write Code Array:
             
-            // Write Size of Instruction Array:
+            // Write Size of Code Array:
             
             uint64_t codesize = code.size();
             char codesize_cstr[sizeof(codesize)];

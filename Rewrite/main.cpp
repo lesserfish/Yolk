@@ -1,18 +1,11 @@
-#include "src/Yolk/Core/Core.h"
-#include "src/Yolk/Memory/Memory.h"
-#include "src/Yolk/YolkVM/VM.h"
+#include "src/Yolk/Yolk.h"
 #include <iostream>
 #include <string>
 #include <cstdio>
 
 int main(){
-    int x = 4;
-    int y = 0;
-
-    Yolk::TypedField xr(x);
-    Yolk::TypedField yr(y);
-
-    xr.TryDIV(yr);
-
-    std::cout << xr.Print() << std::endl;
+    for(const auto& it : Yolk::VM::AllOPCodes) 
+    {
+        std::cout << Yolk::VM::Instruction::Select(it)->to_string() << std::endl;
+    }
 }

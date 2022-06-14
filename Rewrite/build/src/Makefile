@@ -175,29 +175,29 @@ Yolk/fast:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/build
 .PHONY : Yolk/fast
 
-Yolk/Yolk.o: Yolk/Yolk.cpp.o
-.PHONY : Yolk/Yolk.o
+Yolk/YolkVM/Instruction.o: Yolk/YolkVM/Instruction.cpp.o
+.PHONY : Yolk/YolkVM/Instruction.o
 
 # target to build an object file
-Yolk/Yolk.cpp.o:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o
-.PHONY : Yolk/Yolk.cpp.o
+Yolk/YolkVM/Instruction.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o
+.PHONY : Yolk/YolkVM/Instruction.cpp.o
 
-Yolk/Yolk.i: Yolk/Yolk.cpp.i
-.PHONY : Yolk/Yolk.i
+Yolk/YolkVM/Instruction.i: Yolk/YolkVM/Instruction.cpp.i
+.PHONY : Yolk/YolkVM/Instruction.i
 
 # target to preprocess a source file
-Yolk/Yolk.cpp.i:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.i
-.PHONY : Yolk/Yolk.cpp.i
+Yolk/YolkVM/Instruction.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.i
+.PHONY : Yolk/YolkVM/Instruction.cpp.i
 
-Yolk/Yolk.s: Yolk/Yolk.cpp.s
-.PHONY : Yolk/Yolk.s
+Yolk/YolkVM/Instruction.s: Yolk/YolkVM/Instruction.cpp.s
+.PHONY : Yolk/YolkVM/Instruction.s
 
 # target to generate assembly for a file
-Yolk/Yolk.cpp.s:
-	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.s
-.PHONY : Yolk/Yolk.cpp.s
+Yolk/YolkVM/Instruction.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.s
+.PHONY : Yolk/YolkVM/Instruction.cpp.s
 
 # Help Target
 help:
@@ -212,9 +212,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... Yolk"
-	@echo "... Yolk/Yolk.o"
-	@echo "... Yolk/Yolk.i"
-	@echo "... Yolk/Yolk.s"
+	@echo "... Yolk/YolkVM/Instruction.o"
+	@echo "... Yolk/YolkVM/Instruction.i"
+	@echo "... Yolk/YolkVM/Instruction.s"
 .PHONY : help
 
 

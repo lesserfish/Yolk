@@ -1,1 +1,1 @@
-/usr/bin/g++-10 -fPIC -shared -Wl,-soname,libYolk.so.1.0 -o libYolk.so.1.0 CMakeFiles/Yolk.dir/Yolk/Yolk.cpp.o 
+/usr/bin/g++-10 -fPIC -shared -Wl,-soname,libYolk.so.1.0 -o libYolk.so.1.0 CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o 

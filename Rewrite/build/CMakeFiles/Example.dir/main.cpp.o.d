@@ -1,6 +1,7 @@
 CMakeFiles/Example.dir/main.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/main.cpp \
  /usr/include/stdc-predef.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Yolk.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Core.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicData.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/../Common.h \
@@ -203,4 +204,7 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/fstream /usr/include/c++/10/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
- /usr/include/c++/10/bits/fstream.tcc
+ /usr/include/c++/10/bits/fstream.tcc \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/Instruction.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Memory.h

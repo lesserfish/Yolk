@@ -218,9 +218,9 @@ src/CMakeFiles/Yolk.dir/clean:
 # Target rules for target tests/CMakeFiles/TEST.dir
 
 # All Build rule for target.
-tests/CMakeFiles/TEST.dir/all: src/CMakeFiles/Yolk.dir/all
 tests/CMakeFiles/TEST.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 tests/CMakeFiles/TEST.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
+tests/CMakeFiles/TEST.dir/all: src/CMakeFiles/Yolk.dir/all
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lesserfish/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13 "Built target TEST"
