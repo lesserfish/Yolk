@@ -93,7 +93,6 @@ TEST(Yolk_Test, Method_Wrapper_Test_D)
     auto m = Yolk::WrapperGenerator<Helper, int, int>::GenerateMethodWrapper(manager, f);
     auto out = m.Invoke(p);
     EXPECT_EQ(out.wrapper.field->As<Helper>().a, 5);
-    EXPECT_TRUE(out.ok);
 }
 
 
@@ -109,7 +108,6 @@ TEST(Yolk_Test, Method_Wrapper_Test_E)
     auto m = Yolk::WrapperGenerator<Helper, int, int>::GenerateMethodWrapper(manager, f);
     auto out = m.Invoke(p); 
     EXPECT_EQ(out.wrapper.field->As<Helper>().a, 6);
-    EXPECT_TRUE(out.ok);
 }
 
 void f(){}
@@ -149,7 +147,6 @@ TEST(Yolk_Test, Method_Wrapper_By_Reference)
     EXPECT_EQ(manager.ViewersCount(fa.ID), 2);
     auto out = m.Invoke(a);
 
-    EXPECT_TRUE(out.ok);
 
     EXPECT_EQ(out.wrapper.field->As<int>(), 12);
 
@@ -173,7 +170,6 @@ TEST(Yolk_Test, Method_Wrapper_By_Equality)
     auto out = m.Invoke(a);
     EXPECT_EQ(manager.ViewersCount(fa.ID), 2);
     EXPECT_EQ(manager.ViewersCount(fb.ID), 1);
-    EXPECT_TRUE(out.ok);
     EXPECT_EQ(out.wrapper.field->As<int>(), 12);
 
 
@@ -184,6 +180,5 @@ TEST(Yolk_Test, Method_Wrapper_By_Equality)
 
     EXPECT_EQ(manager.ViewersCount(fa.ID), 1);
     EXPECT_EQ(manager.ViewersCount(fb.ID), 2);
-    EXPECT_TRUE(out.ok);
     EXPECT_FLOAT_EQ(out.wrapper.field->As<float>(), -3.88);
 }

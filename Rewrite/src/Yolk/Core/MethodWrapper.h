@@ -1,7 +1,9 @@
 #pragma once
 
+#include "../Exceptions.h"
 #include <memory>
 #include <functional>
+
 
 namespace Yolk
 {
@@ -103,8 +105,9 @@ namespace Yolk
     }
     inline MethodWrapper::InvokeOutput MethodWrapper::Invoke(WrapperArgument &Argument)
     {
-        if (!invoker)
-            return (InvokeOutput{memory.GetVoidWrapper(), false, "Error! The method invocator has not been created!"});
+        if (!invoker){
+            throw Exceptions::Exception("Method Wrapper exception: The method invocated has not been created.");
+        }
         return invoker->Invoke(memory, *this, Argument);
     }
     template <typename T, typename... F>

@@ -13,12 +13,10 @@ TEST(Yolk_Memory, SymbolTableInterface_Basic)
 
     auto t1 = systable.Get(key);
 
-    EXPECT_TRUE(t1.second.ok);
     EXPECT_EQ(t1.second, value);
 
     auto t2 = systable.Find(value);
 
-    EXPECT_TRUE(t2.ok);
     EXPECT_EQ(t2.key, key);
 
     auto t3 = systable.Exists(key);
@@ -54,7 +52,6 @@ TEST(Yolk_Memory, SymbolTableInterface_VerticalBranching)
 
     auto t1 = systable.Get(key);
 
-    EXPECT_TRUE(t1.second.ok);
     EXPECT_EQ(t1.second, val);
 
     Yolk::Memory::SymbolKey key3("Remorse");

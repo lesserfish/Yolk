@@ -1,8 +1,24 @@
+#pragma once
+
+#include "../Core/Core.h"
 #include <string>
 
 namespace Yolk {
     namespace VM {
         class VirtualMachine;
+        
+        struct VMException : public Yolk::Exceptions::Exception
+        {
+            private:
+                std::string message;
+            public:
+                VMException(std::string m = "VM exception thrown.") : Yolk::Exceptions::Exception(m), message(m) {}
+            virtual const char* what() const throw() {
+                return message.c_str();
+            }
+        };
+
+        void AssertCondition(int, std::string message = "");
 
         struct Instruction {
             const static Instruction* Select(const OPCode op);

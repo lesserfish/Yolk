@@ -1,8 +1,17 @@
 #include "VM.h"
+#include <stdexcept>
+#include <string>
 
 namespace Yolk {
     namespace VM {
-        
+       
+        void AssertCondition(int condition, std::string message)
+        {
+            if(!condition)
+            {
+                throw VMException(message);
+            }
+        }
         const Instruction* Instruction::Select(const OPCode opcode)
         {
             switch(opcode)

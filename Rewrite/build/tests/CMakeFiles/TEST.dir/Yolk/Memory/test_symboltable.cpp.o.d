@@ -266,6 +266,8 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/Memory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/Exceptions.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Exceptions.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/MemoryTable.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/Core.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/DynamicData.h \

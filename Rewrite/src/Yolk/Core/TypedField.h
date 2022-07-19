@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Exceptions.h"
 #include "../Common.h"
 #include <typeindex>
 #include <functional>
@@ -64,24 +65,13 @@
 
 namespace Yolk {
 
-    struct TFE_Exception : public std::exception {
+    struct TFException : public Yolk::Exceptions::Exception {
+        private:
+            std::string message;
+        public:
+            TFException(std::string m = "TypedField exception thrown") : Yolk::Exceptions::Exception(m), message(m) {}
         virtual const char* what() const throw() {
-            return "TypedField exception thrown.";
-        }
-    };
-    struct TFE_None : public TFE_Exception {
-        const char* what() const throw() {
-            return "TypedField is None.";
-        }
-    };
-    struct TFE_BadComparison : public TFE_Exception {
-        const char* what() const throw() {
-            return "Attempted comparison between unsupported types.";
-        }
-    };
-    struct TFE_BadOperator : public TFE_Exception {
-        const char* what() const throw() {
-            return "Attempted arithmetic operation between unsupported types.";
+            return message.c_str();
         }
     };
 
@@ -100,7 +90,7 @@ namespace Yolk {
                     virtual unsigned int Size() const {return 0;} 
                     virtual const std::type_index Type() const {return typeid(void);}
                     virtual bool Copy(None*) {
-                        throw  TFE_None();
+                        throw  TFException("Invalid wrapper. Is none.");
                         return false;
                     }
                     virtual None* Clone() const {
@@ -116,7 +106,7 @@ namespace Yolk {
                         return "[None]";
                     }
                     virtual void* GetVoidPointer() {
-                        throw  TFE_None();
+                        throw  TFException("Invalid wrapper. Is none.");
                         return nullptr;
                     };
                     virtual void InvokeBind(TypedField& other) const {
@@ -125,34 +115,34 @@ namespace Yolk {
                     virtual void InvokeCast(TypedField& other) const {
                         other.Free();
                     }
-                    virtual bool InvokeEQ(None* ){throw  TFE_None(); return false;}
-                    virtual bool InvokeLE(None* ){throw  TFE_None(); return false;}
-                    virtual bool InvokeL(None* ){throw  TFE_None(); return false;}
-                    virtual bool InvokeGE(None* ){throw  TFE_None(); return false;}
-                    virtual bool InvokeG(None* ){throw  TFE_None(); return false;}
-                    virtual bool InvokeNEQ(None* ){throw  TFE_None(); return false;}
-                    virtual void InvokePLUS(None* ){throw  TFE_None();}
-                    virtual void InvokeSUB(None* ){throw  TFE_None();}
-                    virtual void InvokePROD(None* ){throw  TFE_None();}
-                    virtual void InvokeDIV(None* ){throw  TFE_None();}
-                    virtual void InvokeMOD(None* ){throw  TFE_None();}
-                    virtual void InvokeAND(None* ){throw  TFE_None();}
-                    virtual void InvokeOR(None* ){throw  TFE_None();}
-                    virtual void InvokeNOT(None* ){throw  TFE_None();}
+                    virtual bool InvokeEQ(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    virtual bool InvokeLE(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    virtual bool InvokeL(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    virtual bool InvokeGE(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    virtual bool InvokeG(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    virtual bool InvokeNEQ(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    virtual void InvokePLUS(None* ){throw  TFException("Invalid wrapper. Is none.");}
+                    virtual void InvokeSUB(None* ){throw  TFException("Invalid wrapper. Is none.");}
+                    virtual void InvokePROD(None* ){throw  TFException("Invalid wrapper. Is none.");}
+                    virtual void InvokeDIV(None* ){throw  TFException("Invalid wrapper. Is none.");}
+                    virtual void InvokeMOD(None* ){throw  TFException("Invalid wrapper. Is none.");}
+                    virtual void InvokeAND(None* ){throw  TFException("Invalid wrapper. Is none.");}
+                    virtual void InvokeOR(None* ){throw  TFException("Invalid wrapper. Is none.");}
+                    virtual void InvokeNOT(None* ){throw  TFException("Invalid wrapper. Is none.");}
 
-                    template <typename T> bool EQ(T){throw  TFE_None(); return false;}
-                    template <typename T> bool LE(T){throw  TFE_None(); return false;}
-                    template <typename T> bool L(T){throw  TFE_None(); return false;}
-                    template <typename T> bool GE(T){throw  TFE_None(); return false;}
-                    template <typename T> bool G(T){throw  TFE_None(); return false;}
-                    template <typename T> bool NEQ(T){throw  TFE_None(); return false;}
-                    template <typename T> void PLUS(T){ throw TFE_None();}
-                    template <typename T> void SUB(T){ throw TFE_None();}
-                    template <typename T> void PROD(T){ throw TFE_None();}
-                    template <typename T> void DIV(T){ throw TFE_None();}
-                    template <typename T> void MOD(T){ throw TFE_None();}
-                    template <typename T> void AND(T){ throw TFE_None();}
-                    template <typename T> void OR(T){ throw TFE_None();}
+                    template <typename T> bool EQ(T){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    template <typename T> bool LE(T){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    template <typename T> bool L(T){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    template <typename T> bool GE(T){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    template <typename T> bool G(T){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    template <typename T> bool NEQ(T){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    template <typename T> void PLUS(T){ throw TFException("Invalid wrapper. Is none.");}
+                    template <typename T> void SUB(T){ throw TFException("Invalid wrapper. Is none.");}
+                    template <typename T> void PROD(T){ throw TFException("Invalid wrapper. Is none.");}
+                    template <typename T> void DIV(T){ throw TFException("Invalid wrapper. Is none.");}
+                    template <typename T> void MOD(T){ throw TFException("Invalid wrapper. Is none.");}
+                    template <typename T> void AND(T){ throw TFException("Invalid wrapper. Is none.");}
+                    template <typename T> void OR(T){ throw TFException("Invalid wrapper. Is none.");}
                     
                     // Standard operators
                     EQC(TypedField)
@@ -299,7 +289,7 @@ namespace Yolk {
                         if constexpr(canCompare) {
                             return lvalue == rvalue;
                         }
-                        throw TFE_BadComparison();
+                        throw TFException("Attempted comparison between unsupported types");
                         return false;
                     }
                     template<typename F> bool LEHelper(F rvalue){
@@ -309,7 +299,7 @@ namespace Yolk {
                         if constexpr(canCompare) {
                             return lvalue <= rvalue;
                         }
-                        throw TFE_BadComparison();
+                        throw TFException("Attempted comparison between unsupported types");
 						return false;
                     }
                     template<typename F> bool LHelper(F rvalue){
@@ -319,7 +309,7 @@ namespace Yolk {
                         if constexpr(canCompare) {
                             return lvalue < rvalue;
                         }
-                        throw TFE_BadComparison();
+                        throw TFException("Attempted comparison between unsupported types");
 						return false;
                     }
                     template<typename F> bool GEHelper(F rvalue){
@@ -329,7 +319,7 @@ namespace Yolk {
                         if constexpr(canCompare) {
                             return lvalue >= rvalue;
                         }
-                        throw TFE_BadComparison();
+                        throw TFException("Attempted comparison between unsupported types");
 						return false;
                     }
                     template<typename F> bool GHelper(F rvalue){
@@ -339,7 +329,7 @@ namespace Yolk {
                         if constexpr(canCompare) {
                             return lvalue > rvalue;
                         }
-                        throw TFE_BadComparison();
+                        throw TFException("Attempted comparison between unsupported types");
 						return false;
                     }
                     template<typename F> bool NEQHelper(F rvalue){
@@ -349,7 +339,7 @@ namespace Yolk {
                         if constexpr(canCompare) {
                             return lvalue != rvalue;
                         }
-                        throw TFE_BadComparison();
+                        throw TFException("Attempted comparison between unsupported types");
 						return false;
                     }
                     template<typename F> void PLUSHelper(F rvalue){
@@ -360,7 +350,7 @@ namespace Yolk {
                             lvalue = lvalue + rvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
                     template<typename F> void SUBHelper(F rvalue){
@@ -371,7 +361,7 @@ namespace Yolk {
                             lvalue = lvalue - rvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
                     template<typename F> void PRODHelper(F rvalue){
@@ -382,7 +372,7 @@ namespace Yolk {
                             lvalue = lvalue * rvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
                     template<typename F> void DIVHelper(F rvalue){
@@ -393,7 +383,7 @@ namespace Yolk {
                             lvalue = lvalue / rvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
                     template<typename F> void MODHelper(F rvalue){
@@ -404,7 +394,7 @@ namespace Yolk {
                             lvalue = lvalue % rvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
                     template<typename F> void ANDHelper(F rvalue){
@@ -415,7 +405,7 @@ namespace Yolk {
                             lvalue = lvalue && rvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
                     template<typename F> void ORHelper(F rvalue){
@@ -426,7 +416,7 @@ namespace Yolk {
                             lvalue = lvalue || rvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
                     void NOTHelper(){
@@ -437,7 +427,7 @@ namespace Yolk {
                             lvalue = !lvalue;
                             return;
                         }
-                        throw TFE_BadOperator();
+                        throw TFException("Attempted operation between unsupported types");
 						
                     }
 
@@ -454,7 +444,7 @@ namespace Yolk {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue == othervalue;
                             }
-                            throw TFE_BadComparison();
+                            throw TFException("Attempted comparison between unsupported types");
 							return false;
                         } else {
                             return other->InvokeEQ(this);
@@ -473,7 +463,7 @@ namespace Yolk {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue <= othervalue;
                             }
-                            throw TFE_BadComparison();
+                            throw TFException("Attempted comparison between unsupported types");
 							return false;
                         } else {
                             return other->InvokeLE(this);
@@ -492,7 +482,7 @@ namespace Yolk {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue < othervalue;
                             }
-                            throw TFE_BadComparison();
+                            throw TFException("Attempted comparison between unsupported types");
 							return false;
                         } else {
                             return other->InvokeL(this);
@@ -511,7 +501,7 @@ namespace Yolk {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue >= othervalue;
                             }
-                            throw TFE_BadComparison();
+                            throw TFException("Attempted comparison between unsupported types");
 							return false;
                         } else {
                             return other->InvokeGE(this);
@@ -530,7 +520,7 @@ namespace Yolk {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue > othervalue;
                             }
-                            throw TFE_BadComparison();
+                            throw TFException("Attempted comparison between unsupported types");
 							return false;
                         } else {
                             return other->InvokeG(this);
@@ -549,7 +539,7 @@ namespace Yolk {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue != othervalue;
                             }
-                            throw TFE_BadComparison();
+                            throw TFException("Attempted comparison between unsupported types");
 							return false;
                         } else {
                             return other->InvokeNEQ(this);
@@ -569,7 +559,7 @@ namespace Yolk {
                                 lvalue = lvalue + othervalue;
                                 return;
                             }
-                            throw TFE_BadOperator();
+                            throw TFException("Attempted operation between unsupported types");
 							
                         } else {
                             other->InvokePLUS(this);
@@ -589,7 +579,7 @@ namespace Yolk {
                                 lvalue = lvalue - othervalue;
                                 return;
                             }
-                            throw TFE_BadOperator();
+                            throw TFException("Attempted operation between unsupported types");
 							
                         } else {
                             other->InvokeSUB(this);
@@ -609,7 +599,7 @@ namespace Yolk {
                                 lvalue = lvalue * othervalue;
                                 return;
                             }
-                            throw TFE_BadOperator();
+                            throw TFException("Attempted operation between unsupported types");
 							
                         } else {
                             other->InvokePROD(this);
@@ -629,7 +619,7 @@ namespace Yolk {
                                 lvalue = lvalue / othervalue;
                                 return;
                             }
-                            throw TFE_BadOperator();
+                            throw TFException("Attempted operation between unsupported types");
 							
                         } else {
                             other->InvokeDIV(this);
@@ -649,7 +639,7 @@ namespace Yolk {
                                 lvalue = lvalue % othervalue;
                                 return;
                             }
-                            throw TFE_BadOperator();
+                            throw TFException("Attempted operation between unsupported types");
 							
                         } else {
                             other->InvokeMOD(this);
@@ -669,7 +659,7 @@ namespace Yolk {
                                 lvalue = lvalue && othervalue;
                                 return;
                             }
-                            throw TFE_BadOperator();
+                            throw TFException("Attempted operation between unsupported types");
 							
                         } else {
                             other->InvokeAND(this);
@@ -689,7 +679,7 @@ namespace Yolk {
                                 lvalue = lvalue || othervalue;
                                 return;
                             }
-                            throw TFE_BadOperator();
+                            throw TFException("Attempted operation between unsupported types");
 							
                         } else {
                             other->InvokeOR(this);

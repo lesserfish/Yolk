@@ -11,9 +11,7 @@ TEST(Yolk_Test, MemoryInterface_Register_Register)
 
     auto F1 = manager.AllocateMemory<int>(12).wrapper;
 
-    auto t1 = block.Register(F1, "F1");
-
-    EXPECT_TRUE(t1);
+    block.Register(F1, "F1");
 
 }
 TEST(Yolk_Test, MemoryInterface_Register_RegisterTwiceShouldFail)
@@ -22,13 +20,18 @@ TEST(Yolk_Test, MemoryInterface_Register_RegisterTwiceShouldFail)
     Yolk::Memory::MemoryInterface block(manager);
 
     auto F1 = manager.AllocateMemory<int>(12).wrapper;
-    auto t1 = block.Register(F1, "F1");
+    block.Register(F1, "F1");
 
-    EXPECT_TRUE(t1);
+    bool ok = true;
+    try {
+        block.Register(F1, "F1");
+    }catch(const Yolk::Memory::MException& )
+    {
+        ok = false;
+    }
 
-    auto t2 = block.Register(F1, "F1");
+    EXPECT_FALSE(ok);
 
-    EXPECT_FALSE(t2);
 }
 TEST(Yolk_Test, MemoryInterface_Register)
 {
@@ -63,12 +66,23 @@ TEST(Yolk_Test, MemoryInterface_Exists)
 
     Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper;
     block.Register(F1, "F1");
-
-    auto t1 = block.GetWrapper("F1").ok;
-    auto t2 = block.GetWrapper("F2").ok;
+    bool ok1 = true;
+    bool ok2 = true;
+    try{
+        block.GetWrapper("F1");
+    }catch(const Yolk::Memory::MException& )
+    {
+        ok1 = false;
+    }
+     try{
+        block.GetWrapper("F2");
+    }catch(const Yolk::Memory::MException& )
+    {
+        ok2 = false;
+    }
     
-    EXPECT_TRUE(t1);
-    EXPECT_FALSE(t2);
+    EXPECT_TRUE(ok1);
+    EXPECT_FALSE(ok2);
 }
 TEST(Yolk_Test, MemoryInterface_Delete_by_Name)
 {
@@ -77,17 +91,42 @@ TEST(Yolk_Test, MemoryInterface_Delete_by_Name)
 
     Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper; // 1 Audience
     block.Register(F1, "F1"); // 2 Audience
+    bool t1 = true;
 
-    auto t1 = block.GetWrapper("F1").ok;
-    auto t2 = block.GetWrapper("F2").ok;
+    try {
+        block.GetWrapper("F1");
+    } catch(const Yolk::Memory::MException& )
+    {
+        t1 = false;
+    }
+    bool t2 = true;
+    try {
+        block.GetWrapper("F2");
+    } catch(const Yolk::Memory::MException& )
+    {
+        t2 = false;
+    }
+
     
     EXPECT_TRUE(t1);
     EXPECT_FALSE(t2);
 
     block.Delete("F1"); // 1 Audience    
     
-    t1 = block.GetWrapper("F1").ok;
-    t2 = block.GetWrapper("F2").ok;
+    t1 = true;
+    t2 = true;
+    try {
+        block.GetWrapper("F1");
+    } catch(const Yolk::Memory::MException& )
+    {
+        t1 = false;
+    }
+    try {
+        block.GetWrapper("F2");
+    } catch(const Yolk::Memory::MException& )
+    {
+        t2 = false;
+    }
 
     EXPECT_FALSE(t1);
     EXPECT_FALSE(t2);
@@ -117,7 +156,6 @@ TEST(Yolk_Test, MemoryInterface_RegisterMethod)
 
     auto output = m2.Invoke(p);
 
-    EXPECT_TRUE(output.ok);
     EXPECT_STREQ(output.wrapper.field->Print().c_str(), "18");
 
 }
@@ -143,7 +181,6 @@ TEST(Yolk_Test, MemoryInterface_Combination)
 
     Yolk::WrapperArgument i = {block.GetWrapper("hp").wrapper, block.GetWrapper("damage").wrapper};
     auto funx = block.GetMethodWrapper("deal_damage");
-    EXPECT_TRUE(funx.ok);
     
     auto fun = funx.wrapper;
     auto out = fun.Invoke(i).wrapper;  //new_hp = deal_damage(hp, damage, "new_hp");
@@ -239,9 +276,13 @@ TEST(Yolk_Test, MemoryInterface_Branch)
     EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::Wrapper);
 
     memblock.BranchUp();
-    
-    type = memblock.GetType("i2");
-    EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::None);
-
+    bool ok = true;
+    try{
+        type = memblock.GetType("i2");
+    } catch(const Yolk::Memory::MException& )
+    {
+        ok = false;
+    }
+    EXPECT_FALSE(ok);
     EXPECT_EQ(memblock.GetMemoryTable().Size(), 1);
 }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <string>
 #include <fstream>
@@ -7,7 +9,7 @@ namespace Yolk
 {
     namespace VM
     {
-        char MAGIC[] = "sunny side up!";
+        static const char MAGIC[] = "sunny side up!";
 
         enum class OPCode : uint8_t
         {
@@ -117,6 +119,17 @@ namespace Yolk
 			CHAR,
 			STRING,
 			VOID
+        };
+
+        enum class RegisterType : uint64_t
+        {
+            REGA,
+            REGB,
+            REGC,
+            REGD,
+            REGOUT,
+            REGM,
+            RECMP,
         };
 
         struct Ovo

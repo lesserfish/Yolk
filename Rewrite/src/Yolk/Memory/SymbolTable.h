@@ -30,11 +30,9 @@ namespace Yolk
                 MemoryPointer,
                 None
             };
-            SymbolValue(MapKey k, Type t) : key(k), type(t), ok(true) {}
-            SymbolValue(MapKey k, Type t, bool o) : key(k), type(t), ok(o) {}
+            SymbolValue(MapKey k, Type t) : key(k), type(t) {}
             MapKey key;
             Type type;
-            bool ok;
             bool operator==(const SymbolValue &other) const
             {
                 return (key == other.key);
@@ -42,13 +40,6 @@ namespace Yolk
             bool operator==(const MapKey& k) const
             {
                 return (key == k);
-            }
-            static SymbolValue Failure(){
-                SymbolValue out = SymbolValue(
-                    0,
-                    Type::None,
-                    false);
-                return out;
             }
         };
     }
@@ -85,7 +76,7 @@ namespace Yolk
                 std::pair<SymbolKey, SymbolValue> Get(SymbolKey);
                 std::vector<std::pair<SymbolKey, SymbolValue>> GetAll();
                 
-                bool Add(SymbolKey, SymbolValue, bool addtolocaltable = true);
+                void Add(SymbolKey, SymbolValue, bool addtolocaltable = true);
                 std::pair<SymbolKey, SymbolValue> Delete(SymbolKey);
                 std::vector<std::pair<SymbolKey, SymbolValue>> Delete(std::vector<SymbolKey>);
                 std::vector<std::pair<SymbolKey, SymbolValue>> DeleteAll();
@@ -108,7 +99,7 @@ namespace Yolk
         inline std::pair<SymbolKey, SymbolValue> SymbolTable::Get(SymbolKey key) {
             auto result = Table.find(key);
             if(result == Table.end()){
-                return std::make_pair(key, SymbolValue::Failure());
+                throw MException("Symbol does not exist in table [" + key.Name + "]");
             }
             return std::make_pair(key, result->second);
         }
@@ -120,19 +111,21 @@ namespace Yolk
             }
             return out;
         }
-        inline bool SymbolTable::Add(SymbolKey key, SymbolValue value, bool addtolocaltable) {
+        inline void SymbolTable::Add(SymbolKey key, SymbolValue value, bool addtolocaltable) {
             
             auto result = Table.insert(std::make_pair(key, value));
             if(result.second && addtolocaltable){
                LocalTable.push_back(std::make_pair(key, value));
-               return true;
+               return;
             }
-            return false;
+            else if(!result.second){
+                throw MException("Symbol Table Exception. Attempted to add already existent key [" + key.Name + "]");
+            }
         }
         inline std::pair<SymbolKey, SymbolValue> SymbolTable::Delete(SymbolKey key){
             auto result = Table.find(key);
             if(result == Table.end()){
-                return std::make_pair(key, SymbolValue::Failure());
+                throw MException("Symbol does not exist in table [" + key.Name + "]");
             }
             auto out = std::make_pair(key, result->second);
             
@@ -150,9 +143,12 @@ namespace Yolk
             std::vector<std::pair<SymbolKey, SymbolValue>> out;
 
             for(auto it = todelete.begin(); it < todelete.end(); it++){
-                auto d = Delete(*it);
-                if(d.second.ok){
+                try{
+                    auto d = Delete(*it);
                     out.push_back(d);
+                } catch(const MException& exception)
+                {
+                    throw exception;
                 }
             }
             return out;
@@ -189,10 +185,10 @@ namespace Yolk
             std::pair<SymbolKey, SymbolValue> Get(SymbolKey);
             std::vector<std::pair<SymbolKey, SymbolValue>> GetAll();
             
-            bool Add(SymbolKey, SymbolValue);
-            bool GlobalAdd(SymbolKey, SymbolValue);
+            void Add(SymbolKey, SymbolValue);
+            void GlobalAdd(SymbolKey, SymbolValue);
             std::pair<SymbolKey, SymbolValue> Delete(SymbolKey);
-            std::pair<SymbolKey, SymbolValue> GlobalDelete(SymbolKey);
+            std::vector<std::pair<SymbolKey, SymbolValue>> GlobalDelete(SymbolKey);
             std::vector<std::pair<SymbolKey, SymbolValue>> Delete(std::vector<SymbolKey>);
             std::vector<std::pair<SymbolKey, SymbolValue>> DeleteAll();
             
@@ -242,23 +238,37 @@ namespace Yolk
             SymbolTable* lastelement = Tables.back();
             return lastelement->GetAll();
         }
-        inline bool SymbolTableInterface::Add(SymbolKey key, SymbolValue value) {
+        inline void SymbolTableInterface::Add(SymbolKey key, SymbolValue value) {
             SymbolTable* lastelement = Tables.back();
-            return lastelement->Add(key, value);
+            lastelement->Add(key, value);
         }
-        inline bool SymbolTableInterface::GlobalAdd(SymbolKey key, SymbolValue value) {
+        inline void SymbolTableInterface::GlobalAdd(SymbolKey key, SymbolValue value) {
             bool out = true;
             for(auto it = Tables.begin(); it != Tables.end(); it++){
                 SymbolTable* lastelement = (*it);
-                out = out && lastelement->Add(key, value, it == Tables.begin());
+                out = out && !lastelement->Exists(key);
             }
-            return out;
-        }
-        inline std::pair<SymbolKey, SymbolValue> SymbolTableInterface::GlobalDelete(SymbolKey key) {
-            auto out = std::make_pair(key, SymbolValue::Failure());
+            if(!out)
+            {
+                throw MException("Attempted to add existent key [" + key.Name + "]");
+            }
+
             for(auto it = Tables.begin(); it != Tables.end(); it++){
                 SymbolTable* lastelement = (*it);
-                out = lastelement->Delete(key);
+                lastelement->Add(key, value, it == Tables.begin());
+            }
+        }
+        inline std::vector<std::pair<SymbolKey, SymbolValue>> SymbolTableInterface::GlobalDelete(SymbolKey key) {
+            std::vector<std::pair<SymbolKey, SymbolValue>> out;
+            for(auto it = Tables.begin(); it != Tables.end(); it++){
+                SymbolTable* lastelement = (*it);
+                try{
+                    auto d = lastelement->Delete(key);
+                    out.push_back(d);
+                } catch(const MException& exception)
+                {
+                }
+
             }
             return out;
         }

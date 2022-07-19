@@ -199,6 +199,30 @@ Yolk/YolkVM/Instruction.cpp.s:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.s
 .PHONY : Yolk/YolkVM/Instruction.cpp.s
 
+Yolk/YolkVM/VirtualMachine.o: Yolk/YolkVM/VirtualMachine.cpp.o
+.PHONY : Yolk/YolkVM/VirtualMachine.o
+
+# target to build an object file
+Yolk/YolkVM/VirtualMachine.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.o
+.PHONY : Yolk/YolkVM/VirtualMachine.cpp.o
+
+Yolk/YolkVM/VirtualMachine.i: Yolk/YolkVM/VirtualMachine.cpp.i
+.PHONY : Yolk/YolkVM/VirtualMachine.i
+
+# target to preprocess a source file
+Yolk/YolkVM/VirtualMachine.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.i
+.PHONY : Yolk/YolkVM/VirtualMachine.cpp.i
+
+Yolk/YolkVM/VirtualMachine.s: Yolk/YolkVM/VirtualMachine.cpp.s
+.PHONY : Yolk/YolkVM/VirtualMachine.s
+
+# target to generate assembly for a file
+Yolk/YolkVM/VirtualMachine.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Yolk.dir/build.make src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.s
+.PHONY : Yolk/YolkVM/VirtualMachine.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -215,6 +239,9 @@ help:
 	@echo "... Yolk/YolkVM/Instruction.o"
 	@echo "... Yolk/YolkVM/Instruction.i"
 	@echo "... Yolk/YolkVM/Instruction.s"
+	@echo "... Yolk/YolkVM/VirtualMachine.o"
+	@echo "... Yolk/YolkVM/VirtualMachine.i"
+	@echo "... Yolk/YolkVM/VirtualMachine.s"
 .PHONY : help
 
 

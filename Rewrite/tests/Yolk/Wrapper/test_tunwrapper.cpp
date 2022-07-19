@@ -17,7 +17,6 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_A)
     Yolk::WrapperArgument p = {i1.wrapper,i2.wrapper};
 
     auto out = Yolk::ArgumentUnwrapper<>::Unwrap<void, int, int>::Run(manager, f, p);    
-    EXPECT_TRUE(out.ok);
 }
 
 int TyB(int x, int y)
@@ -36,7 +35,6 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_B)
     Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
 
     auto o = Yolk::ArgumentUnwrapper<>::Unwrap<int, int, int>::Run(manager, f, p);
-    EXPECT_TRUE(o.ok);
     EXPECT_EQ(o.wrapper.field->As<int>(), 2);
 }
 
@@ -58,7 +56,6 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_C)
 
     auto m = Yolk::ArgumentUnwrapper<>::Unwrap<float, float, int>::Run(manager, f, p);
 
-    EXPECT_TRUE(m.ok);
     EXPECT_FLOAT_EQ(m.wrapper.field->As<float>(), 2.2);
 }
 
@@ -89,7 +86,6 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_D)
 
     auto m = Yolk::ArgumentUnwrapper<>::Unwrap<Helper, int, int>::Run(manager, f, p);
 
-    EXPECT_TRUE(m.ok);
     EXPECT_EQ(m.wrapper.field->As<Helper>().a, 5);
 }
 
@@ -106,7 +102,6 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_E)
     
     auto m = Yolk::ArgumentUnwrapper<>::Unwrap<Helper, int, int>::Run(manager, f, p);
 
-    EXPECT_TRUE(m.ok);
     EXPECT_EQ(m.wrapper.field->As<Helper>().a, 6);
 }
 
@@ -125,6 +120,5 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_F){
 
     std::cout << m.wrapper.field->Print() << std::endl;
 
-    EXPECT_TRUE(m.ok);
     EXPECT_DOUBLE_EQ(m.wrapper.field->As<float>(), 12);
 }

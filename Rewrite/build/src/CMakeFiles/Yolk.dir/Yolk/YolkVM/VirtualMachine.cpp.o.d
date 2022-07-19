@@ -1,11 +1,11 @@
-CMakeFiles/Example.dir/main.cpp.o: \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/main.cpp \
+src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.o: \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.cpp \
  /usr/include/stdc-predef.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Yolk.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Core.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicData.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/../Common.h \
- /usr/include/c++/10/memory /usr/include/c++/10/bits/stl_algobase.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Memory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Exceptions.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Exceptions.h \
+ /usr/include/c++/10/exception \
  /usr/include/x86_64-linux-gnu/c++/10/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -15,13 +15,23 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/cpu_defines.h \
  /usr/include/c++/10/pstl/pstl_config.h \
- /usr/include/c++/10/bits/functexcept.h \
+ /usr/include/c++/10/bits/exception.h \
+ /usr/include/c++/10/bits/exception_ptr.h \
  /usr/include/c++/10/bits/exception_defines.h \
+ /usr/include/c++/10/bits/cxxabi_init_exception.h \
+ /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
+ /usr/include/c++/10/typeinfo /usr/include/c++/10/bits/hash_bytes.h \
+ /usr/include/c++/10/new /usr/include/c++/10/bits/nested_exception.h \
+ /usr/include/c++/10/bits/move.h /usr/include/c++/10/type_traits \
+ /usr/include/c++/10/string /usr/include/c++/10/bits/stringfwd.h \
+ /usr/include/c++/10/bits/memoryfwd.h \
+ /usr/include/c++/10/bits/char_traits.h \
+ /usr/include/c++/10/bits/stl_algobase.h \
+ /usr/include/c++/10/bits/functexcept.h \
  /usr/include/c++/10/bits/cpp_type_traits.h \
  /usr/include/c++/10/ext/type_traits.h \
  /usr/include/c++/10/ext/numeric_traits.h \
- /usr/include/c++/10/bits/stl_pair.h /usr/include/c++/10/bits/move.h \
- /usr/include/c++/10/type_traits /usr/include/c++/10/compare \
+ /usr/include/c++/10/bits/stl_pair.h /usr/include/c++/10/compare \
  /usr/include/c++/10/concepts \
  /usr/include/c++/10/bits/stl_iterator_base_types.h \
  /usr/include/c++/10/bits/iterator_concepts.h \
@@ -30,28 +40,9 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/10/bits/concept_check.h \
  /usr/include/c++/10/debug/assertions.h \
- /usr/include/c++/10/bits/stl_iterator.h /usr/include/c++/10/new \
- /usr/include/c++/10/exception /usr/include/c++/10/bits/exception.h \
- /usr/include/c++/10/bits/exception_ptr.h \
- /usr/include/c++/10/bits/cxxabi_init_exception.h \
- /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
- /usr/include/c++/10/typeinfo /usr/include/c++/10/bits/hash_bytes.h \
- /usr/include/c++/10/bits/nested_exception.h \
+ /usr/include/c++/10/bits/stl_iterator.h \
  /usr/include/c++/10/debug/debug.h \
  /usr/include/c++/10/bits/predefined_ops.h \
- /usr/include/c++/10/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/10/bits/c++allocator.h \
- /usr/include/c++/10/ext/new_allocator.h \
- /usr/include/c++/10/bits/memoryfwd.h \
- /usr/include/c++/10/bits/stl_construct.h \
- /usr/include/c++/10/bits/stl_uninitialized.h \
- /usr/include/c++/10/ext/alloc_traits.h \
- /usr/include/c++/10/bits/alloc_traits.h \
- /usr/include/c++/10/bits/stl_tempbuf.h \
- /usr/include/c++/10/bits/stl_raw_storage_iter.h \
- /usr/include/c++/10/bits/ranges_uninitialized.h \
- /usr/include/c++/10/bits/ranges_algobase.h /usr/include/c++/10/iterator \
- /usr/include/c++/10/iosfwd /usr/include/c++/10/bits/stringfwd.h \
  /usr/include/c++/10/bits/postypes.h /usr/include/c++/10/cwchar \
  /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -66,47 +57,24 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/c++/10/bits/stream_iterator.h \
- /usr/include/c++/10/bits/streambuf_iterator.h \
- /usr/include/c++/10/streambuf /usr/include/c++/10/bits/localefwd.h \
- /usr/include/x86_64-linux-gnu/c++/10/bits/c++locale.h \
- /usr/include/c++/10/clocale /usr/include/locale.h \
- /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/10/cctype \
- /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/c++/10/cstdint \
+ /usr/lib/gcc/x86_64-linux-gnu/10/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/timesize.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
  /usr/include/x86_64-linux-gnu/bits/time64.h \
- /usr/include/x86_64-linux-gnu/bits/endian.h \
- /usr/include/x86_64-linux-gnu/bits/endianness.h \
- /usr/include/c++/10/bits/ios_base.h /usr/include/c++/10/ext/atomicity.h \
- /usr/include/x86_64-linux-gnu/c++/10/bits/gthr.h \
- /usr/include/x86_64-linux-gnu/c++/10/bits/gthr-default.h \
- /usr/include/pthread.h /usr/include/sched.h \
- /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
- /usr/include/x86_64-linux-gnu/bits/sched.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
- /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
- /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
- /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
- /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
- /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
- /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
- /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
- /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
- /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
- /usr/include/x86_64-linux-gnu/bits/setjmp.h \
- /usr/include/x86_64-linux-gnu/c++/10/bits/atomic_word.h \
- /usr/include/c++/10/bits/locale_classes.h /usr/include/c++/10/string \
- /usr/include/c++/10/bits/char_traits.h /usr/include/c++/10/cstdint \
- /usr/lib/gcc/x86_64-linux-gnu/10/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+ /usr/include/c++/10/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/c++allocator.h \
+ /usr/include/c++/10/ext/new_allocator.h \
+ /usr/include/c++/10/bits/localefwd.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/c++locale.h \
+ /usr/include/c++/10/clocale /usr/include/locale.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/10/iosfwd \
+ /usr/include/c++/10/cctype /usr/include/ctype.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
  /usr/include/c++/10/bits/ostream_insert.h \
  /usr/include/c++/10/bits/cxxabi_forced.h \
  /usr/include/c++/10/bits/stl_function.h \
@@ -114,20 +82,48 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/bits/stl_algo.h /usr/include/c++/10/cstdlib \
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
- /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
  /usr/include/x86_64-linux-gnu/sys/select.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
- /usr/include/alloca.h /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/c++/10/bits/std_abs.h \
  /usr/include/c++/10/bits/algorithmfwd.h \
  /usr/include/c++/10/initializer_list /usr/include/c++/10/bits/stl_heap.h \
+ /usr/include/c++/10/bits/stl_tempbuf.h \
+ /usr/include/c++/10/bits/stl_construct.h \
  /usr/include/c++/10/bits/uniform_int_dist.h /usr/include/c++/10/limits \
  /usr/include/c++/10/bits/range_access.h \
- /usr/include/c++/10/bits/basic_string.h /usr/include/c++/10/string_view \
+ /usr/include/c++/10/bits/basic_string.h \
+ /usr/include/c++/10/ext/atomicity.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/gthr.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+ /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/timex.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+ /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/atomic_word.h \
+ /usr/include/c++/10/ext/alloc_traits.h \
+ /usr/include/c++/10/bits/alloc_traits.h /usr/include/c++/10/string_view \
  /usr/include/c++/10/bits/functional_hash.h \
  /usr/include/c++/10/bits/string_view.tcc \
  /usr/include/c++/10/ext/string_conversions.h /usr/include/c++/10/cstdio \
@@ -144,6 +140,18 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/10/bits/charconv.h \
  /usr/include/c++/10/bits/basic_string.tcc \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/MemoryTable.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/Core.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/DynamicData.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/../Common.h \
+ /usr/include/c++/10/memory /usr/include/c++/10/bits/stl_uninitialized.h \
+ /usr/include/c++/10/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/10/bits/ranges_uninitialized.h \
+ /usr/include/c++/10/bits/ranges_algobase.h /usr/include/c++/10/iterator \
+ /usr/include/c++/10/bits/stream_iterator.h \
+ /usr/include/c++/10/bits/streambuf_iterator.h \
+ /usr/include/c++/10/streambuf /usr/include/c++/10/bits/ios_base.h \
+ /usr/include/c++/10/bits/locale_classes.h \
  /usr/include/c++/10/bits/locale_classes.tcc \
  /usr/include/c++/10/system_error \
  /usr/include/x86_64-linux-gnu/c++/10/bits/error_constants.h \
@@ -176,8 +184,7 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/pstl/execution_defs.h /usr/include/c++/10/typeindex \
  /usr/include/c++/10/iostream /usr/include/c++/10/istream \
  /usr/include/c++/10/bits/istream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/../Exceptions.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/TypedField.h \
  /usr/include/c++/10/functional /usr/include/c++/10/bits/std_function.h \
  /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
  /usr/include/c++/10/bits/hashtable_policy.h \
@@ -188,25 +195,18 @@ CMakeFiles/Example.dir/main.cpp.o: \
  /usr/include/c++/10/bits/stl_bvector.h \
  /usr/include/c++/10/bits/vector.tcc /usr/include/c++/10/sstream \
  /usr/include/c++/10/bits/sstream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/Wrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/DynamicMemory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/WrapperRequired.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/WrapperArgument.h \
  /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
  /usr/include/c++/10/bits/deque.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MethodWrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperGenerator.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/Memory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/Exceptions.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/MemoryTable.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/SymbolTable.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/MemoryInterface.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VM.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/MethodWrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/WrapperGenerator.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/SymbolTable.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/MemoryInterface.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/OVO.h \
  /usr/include/c++/10/fstream /usr/include/c++/10/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
- /usr/include/c++/10/bits/fstream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/Instruction.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Memory.h
+ /usr/include/c++/10/bits/fstream.tcc

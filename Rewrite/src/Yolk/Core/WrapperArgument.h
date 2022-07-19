@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Exceptions.h"
 #include <vector>
 #include <deque>
 #include <string>
@@ -18,10 +19,8 @@ namespace Yolk
 
     struct UnwrapperOutput
     {
-        UnwrapperOutput(Wrapper w, bool _ok = true, std::string _message = "") : wrapper(w), ok(_ok), message(_message){}
+        UnwrapperOutput(Wrapper w) : wrapper(w){}
         Wrapper wrapper;
-        bool ok;
-        std::string message;
     };
     
     template<bool strict = true> 
@@ -32,7 +31,9 @@ namespace Yolk
         struct Unwrap
         {
             template <typename Func, typename... Args>
-            static UnwrapperOutput Run(Memory::DynamicMemory& memory, Func &, WrapperArgument& , Args...) {  return UnwrapperOutput(memory.GetVoidWrapper(), false, ""); }
+            static UnwrapperOutput Run(Memory::DynamicMemory& memory, Func &, WrapperArgument& , Args...) {
+                throw Exceptions::Exception("");
+            }
         };
         template <typename ReturnType, typename U, typename... T>
         struct Unwrap<ReturnType, U, T...>
@@ -42,7 +43,7 @@ namespace Yolk
             {
                 if (input.size() == 0)
                 {
-                    return UnwrapperOutput(memory.GetVoidWrapper(), false, "Not enough arguments passed to function.");
+                    throw Exceptions::Exception("Argument Unwrapper exception. Not enough arguments passed to function.");
                 }
                 
                 Wrapper v = input.at(0);
@@ -55,7 +56,7 @@ namespace Yolk
 
                     if (ti1 != ti2)
                     {
-                        return UnwrapperOutput(memory.GetVoidWrapper(), false, "Argumend does not fit required type.");
+                        throw Exceptions::Exception("Argument Unwrapper exception. Argumend does not fit required type.");
                     }
                 }
 
@@ -72,7 +73,7 @@ namespace Yolk
             {
                 if (input.size() > 0)
                 {
-                    return UnwrapperOutput(memory.GetVoidWrapper(), false, "Too many arguments passed to function.");
+                    throw Exceptions::Exception("Argumnent Unwrapper exception. Too many arguments passed to function.");
                 }
 
                 if(strict){
@@ -80,7 +81,7 @@ namespace Yolk
                     const std::type_index &ti2 = typeid(std::function<ReturnType(Args...)>);
                     if(ti1 != ti2)
                     {
-                        return UnwrapperOutput(memory.GetVoidWrapper(), false, "Function type and Argument type mismatch.");
+                        throw Exceptions::Exception("Argument Unwrapper exception. Function type and Argument type mismatch.");
                     }
                 }
                 
@@ -90,22 +91,22 @@ namespace Yolk
                 };
                 
                 if constexpr(!CanEvaluate) {
-                    return UnwrapperOutput(memory.GetVoidWrapper(), false, "Function type and Argument type mismatch.");
+                    throw Exceptions::Exception("Argument Unwrapper exception. Function type and Argument type mismatch.");
                 }
                 
                 constexpr bool ReturnTypeIsVoid = std::is_void<ReturnType>::value;
 
                 if constexpr(ReturnTypeIsVoid) {
                     function(args...);
-                    return UnwrapperOutput(memory.GetVoidWrapper(), true, "");
+                    return UnwrapperOutput(memory.GetVoidWrapper());
                 } else{
                     ReturnType ret = function(args...);
                     auto out = memory.AllocateMemory<ReturnType>(ret);
 
                     if(!out.ok){
-                        return UnwrapperOutput(out.wrapper, false, "Failed to allocate for output value.");
+                        throw Exceptions::Exception("Argument Unwrapper exception. Failed to allocate for output value.");
                     }
-                    return UnwrapperOutput(out.wrapper, true, "");
+                    return UnwrapperOutput(out.wrapper);
                 }
                 
                 //return UnwrapperOutput(true, "");

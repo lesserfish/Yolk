@@ -147,7 +147,6 @@ TEST(Yolk_Test, Wrapper_Table_Get_Method)
 
     auto o = wrap.Invoke(i);
 
-    EXPECT_TRUE(o.ok);
     EXPECT_EQ(o.wrapper.field->As<int>(), -9);
 }
 TEST(Yolk_Test, Wrapper_Table_Unset_Method)
@@ -159,11 +158,16 @@ TEST(Yolk_Test, Wrapper_Table_Unset_Method)
     auto key = table.Add(interface);
 
     auto out = table.GetMemory(key);
-    EXPECT_TRUE(out.ok);
     EXPECT_EQ(out.memory, interface);
 
     table.UnsetMemoryPointer(interface);
-
-    out = table.GetMemory(key);
-    EXPECT_FALSE(out.ok);
+    
+    bool ok = true;
+    try {
+        table.GetMemory(key);
+    } catch(const Yolk::Memory::MException&) 
+    {
+        ok = false;
+    }
+    EXPECT_FALSE(ok);
 }

@@ -164,12 +164,9 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: \
  /usr/include/c++/10/bits/fstream.tcc /usr/include/c++/10/array \
  /usr/include/c++/10/utility /usr/include/c++/10/bits/stl_relops.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/Instruction.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Memory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/MemoryTable.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/Core.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/DynamicData.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/../Common.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/Core.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/DynamicData.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/../Common.h \
  /usr/include/c++/10/memory \
  /usr/include/c++/10/bits/stl_raw_storage_iter.h \
  /usr/include/c++/10/bits/ranges_uninitialized.h \
@@ -192,7 +189,8 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: \
  /usr/include/c++/10/pstl/glue_memory_defs.h \
  /usr/include/c++/10/pstl/execution_defs.h /usr/include/c++/10/typeindex \
  /usr/include/c++/10/iostream \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/TypedField.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/TypedField.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/../Exceptions.h \
  /usr/include/c++/10/functional /usr/include/c++/10/bits/std_function.h \
  /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
  /usr/include/c++/10/bits/hashtable_policy.h \
@@ -200,13 +198,17 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: \
  /usr/include/c++/10/bits/unordered_map.h \
  /usr/include/c++/10/bits/erase_if.h /usr/include/c++/10/sstream \
  /usr/include/c++/10/bits/sstream.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/Wrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/DynamicMemory.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/WrapperRequired.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/WrapperArgument.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/Wrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/DynamicMemory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/WrapperRequired.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/WrapperArgument.h \
  /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
  /usr/include/c++/10/bits/deque.tcc \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/MethodWrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/../Core/WrapperGenerator.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/MethodWrapper.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/WrapperGenerator.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Memory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Exceptions.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/MemoryTable.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/SymbolTable.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/MemoryInterface.h

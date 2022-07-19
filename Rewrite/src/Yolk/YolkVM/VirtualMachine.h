@@ -1,4 +1,9 @@
+#pragma once
+
+
 #include "../Memory/Memory.h"
+#include "../Core/Core.h"
+#include "OVO.h"
 
 namespace Yolk
 {
@@ -14,6 +19,7 @@ namespace Yolk
         {
             public:
                 friend class Instruction;
+                Wrapper& SelectRegister(Ovo::Code::Arg&);
             private:
                 Wrapper rega;
                 Wrapper regb;

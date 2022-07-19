@@ -271,6 +271,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/../Common.h \
  /usr/include/c++/10/typeindex \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/TypedField.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/../Exceptions.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/Wrapper.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/DynamicMemory.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperRequired.h \
@@ -278,4 +279,5 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: \
  /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \
  /usr/include/c++/10/bits/deque.tcc \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/MethodWrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperGenerator.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperGenerator.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/Exceptions.h

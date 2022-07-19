@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Core/Core.h"
+#include "Exceptions.h"
 #include <unordered_map>
 #include <typeindex>
 
@@ -37,19 +38,16 @@ namespace Yolk
         {
             Wrapper wrapper;
             MapKey key;
-            bool ok;
         };
         struct MethodWrapperOut 
         {
             MethodWrapper wrapper;
             MapKey key;
-            bool ok;
         };
         struct MemoryPointerOut 
         {
             MemoryInterface* memory;
             MapKey key;
-            bool ok;
         };
 
         struct MPWrapper {
@@ -96,47 +94,36 @@ namespace Yolk
         {
             auto search = wrapperTable.find(id);
             if(search == wrapperTable.end()){
-               return WrapperOut {  dynamicMemory.GetVoidWrapper(),
-                                    id,
-                                    false};
+               throw MException("Could not find field in Memory table [" + std::to_string(id) + "]");
             }
 
             return WrapperOut { search->second,
-                                id,
-                                true};
+                                id};
         }
         inline MethodWrapperOut MemoryTable::GetMethod(MapKey id)
         {
             auto search = methodWrapperTable.find(id);
             if(search == methodWrapperTable.end()){
-               return MethodWrapperOut {  MethodWrapper(dynamicMemory.GetVoidWrapper()),
-                                    id,
-                                    false};
+               throw MException("Could not find method in Memory table [" + std::to_string(id) + "]");
             }
 
             return MethodWrapperOut { search->second,
-                                id,
-                                true};
+                                id};
              
         }
         inline MemoryPointerOut MemoryTable::GetMemory(MapKey id)
         {
             auto search = memoryPointerTable.find(id);
             if(search == memoryPointerTable.end()){
-               return MemoryPointerOut {  nullptr,
-                                    id,
-                                    false};
+               throw MException("Could not find memory in Memory table [" + std::to_string(id) + "]");
             }
 
             if(search->second.active) {
                 return MemoryPointerOut { search->second.pointer,
-                                id,
-                                true};
+                                id};
             }
             
-            return MemoryPointerOut {  nullptr,
-                                    id,
-                                    false};
+            throw MException("Nemory is set as not active in Memory table [" + std::to_string(id) + "]");
         }
         inline MapKey MemoryTable::Add(Wrapper wrapper)
         {

@@ -6,7 +6,6 @@ namespace Yolk
 {
     namespace Memory
     {
-
         class MemoryInterface
         {
 
@@ -15,13 +14,13 @@ namespace Yolk
             MemoryInterface(DynamicMemory& _memory);
             ~MemoryInterface();
             
-            bool RegisterWrapper(Wrapper wrapper, std::string Name, bool global = false);
-            bool RegisterMethodWrapper(MethodWrapper wrapper, std::string Name, bool global = false);
-            bool RegisterMemoryPointer(MemoryInterface*, std::string, bool global = false);
+            void RegisterWrapper(Wrapper wrapper, std::string Name, bool global = false);
+            void RegisterMethodWrapper(MethodWrapper wrapper, std::string Name, bool global = false);
+            void RegisterMemoryPointer(MemoryInterface*, std::string, bool global = false);
             
-            bool Register(Wrapper wrapper, std::string Name, bool global = false);
-            bool Register(MethodWrapper wrapper, std::string Name, bool global = false);
-            bool Register(MemoryInterface* , std::string Name, bool global = false);
+            void Register(Wrapper wrapper, std::string Name, bool global = false);
+            void Register(MethodWrapper wrapper, std::string Name, bool global = false);
+            void Register(MemoryInterface* , std::string Name, bool global = false);
             
             void Delete(std::string Name, bool global = false);
             void UnsetMemoryPointer(MemoryInterface*);
@@ -45,9 +44,9 @@ namespace Yolk
         inline MemoryInterface::MemoryInterface(DynamicMemory& _memory) : memory(_memory), memoryTable(_memory), symbolTableInterface() {}
         inline MemoryInterface::~MemoryInterface() {}
         
-        inline bool MemoryInterface::RegisterWrapper(Wrapper wrapper, std::string Name, bool global) {
+        inline void MemoryInterface::RegisterWrapper(Wrapper wrapper, std::string Name, bool global) {
             if(symbolTableInterface.Exists(Name)){
-                return false;
+                throw MException("Memory exception thrown. Failed to register wrapper. Name already exists.");
             }
             auto mapkey = memoryTable.Add(wrapper);
             SymbolKey symbolkey(Name);
@@ -57,11 +56,10 @@ namespace Yolk
             } else {
                 symbolTableInterface.Add(symbolkey, symbolvalue);
             }
-            return true;
         }
-        inline bool MemoryInterface::RegisterMethodWrapper(MethodWrapper wrapper, std::string Name, bool global) {
+        inline void MemoryInterface::RegisterMethodWrapper(MethodWrapper wrapper, std::string Name, bool global) {
             if(symbolTableInterface.Exists(Name)){
-                return false;
+                throw MException("Memory exception thrown. Failed to register wrapper. Name already exists.");
             }
             auto mapkey = memoryTable.Add(wrapper);
             SymbolKey symbolkey(Name);
@@ -71,11 +69,10 @@ namespace Yolk
             } else {
                 symbolTableInterface.Add(symbolkey, symbolvalue);
             }
-            return true;
         }
-        inline bool MemoryInterface::RegisterMemoryPointer(MemoryInterface* pointer, std::string Name, bool global) {
+        inline void MemoryInterface::RegisterMemoryPointer(MemoryInterface* pointer, std::string Name, bool global) {
             if(symbolTableInterface.Exists(Name)){
-                return false;
+                throw MException("Memory exception thrown. Failed to register wrapper. Name already exists.");
             }
             auto mapkey = memoryTable.Add(pointer);
             SymbolKey symbolkey(Name);
@@ -85,22 +82,29 @@ namespace Yolk
             } else {
                 symbolTableInterface.Add(symbolkey, symbolvalue);
             }
-            return true;
         }
         inline void MemoryInterface::Delete(std::string Name, bool global) {
             if(global) {
                 SymbolKey symbolkey(Name);
-                auto pair = symbolTableInterface.GlobalDelete(symbolkey);
-                if(pair.second.ok){
-                    auto mapkey = pair.second.key;
-                    memoryTable.Erase(mapkey);
+                try{
+                    auto pairs = symbolTableInterface.GlobalDelete(symbolkey);
+                    for(auto pair = pairs.begin(); pair != pairs.end(); pair++){
+                        auto mapkey = pair->second.key;
+                        memoryTable.Erase(mapkey);
+                    }
+                } catch(const MException& exception)
+                {
+                    throw exception;
                 }
             } else {
                 SymbolKey symbolkey(Name);
-                auto pair = symbolTableInterface.Delete(symbolkey);
-                if(pair.second.ok){
+                try {
+                    auto pair = symbolTableInterface.Delete(symbolkey);
                     auto mapkey = pair.second.key;
                     memoryTable.Erase(mapkey);
+                } catch(const MException& exception)
+                {
+                    throw exception;
                 }
             }
         }
@@ -111,7 +115,7 @@ namespace Yolk
             SymbolKey symbolkey(Name);
             auto pair = symbolTableInterface.Get(symbolkey);
             if(pair.second.type != SymbolValue::Type::Wrapper) {
-                return WrapperOut {memory.GetVoidWrapper(), 0, false};
+                throw MException("Requested wrapper of type field. Got other type of wrapper");
             }
             auto mapkey = pair.second.key;
             return memoryTable.GetField(mapkey);
@@ -120,7 +124,7 @@ namespace Yolk
             SymbolKey symbolkey(Name);
             auto pair = symbolTableInterface.Get(symbolkey);
             if(pair.second.type != SymbolValue::Type::MethodWrapper) {
-                return MethodWrapperOut {MethodWrapper(memory.GetVoidWrapper()), 0, false};
+                throw MException("Requested wrapper of type method. Got other type of wrapper");
             }
             auto mapkey = pair.second.key;
             return memoryTable.GetMethod(mapkey);
@@ -129,7 +133,7 @@ namespace Yolk
             SymbolKey symbolkey(Name);
             auto pair = symbolTableInterface.Get(symbolkey);
             if(pair.second.type != SymbolValue::Type::MemoryPointer) {
-                return MemoryPointerOut {nullptr, 0, false};
+                throw MException("Requested wrapper of type memory. Got other type of wrapper");
             }
             auto mapkey = pair.second.key;
             return memoryTable.GetMemory(mapkey);
@@ -150,23 +154,21 @@ namespace Yolk
                 auto symbolkey = item->first;
                 auto symbolvalue = item->second;
 
-                if(symbolvalue.ok){
-                    auto mapkey = symbolvalue.key;
-                    memoryTable.Erase(mapkey);
-                }
+                auto mapkey = symbolvalue.key;
+                memoryTable.Erase(mapkey);
             }
         }
         inline void MemoryInterface::BranchDown() {
             symbolTableInterface.BranchDown();
         }
-        inline bool MemoryInterface::Register(Wrapper wrapper, std::string Name, bool global){
-            return RegisterWrapper(wrapper, Name, global);
+        inline void MemoryInterface::Register(Wrapper wrapper, std::string Name, bool global){
+            RegisterWrapper(wrapper, Name, global);
         }
-        inline bool MemoryInterface::Register(MethodWrapper wrapper, std::string Name, bool global){
-            return RegisterMethodWrapper(wrapper, Name, global);
+        inline void MemoryInterface::Register(MethodWrapper wrapper, std::string Name, bool global){
+            RegisterMethodWrapper(wrapper, Name, global);
         }
-        inline bool MemoryInterface::Register(MemoryInterface* pointer, std::string Name, bool global){
-            return RegisterMemoryPointer(pointer, Name, global);
+        inline void MemoryInterface::Register(MemoryInterface* pointer, std::string Name, bool global){
+            RegisterMemoryPointer(pointer, Name, global);
         }
     }
 }

@@ -222,6 +222,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o: ../tests/Yolk/Me
   /usr/include/c++/10/istream \
   /usr/include/c++/10/bits/istream.tcc \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   /usr/include/c++/10/functional \
   /usr/include/c++/10/bits/std_function.h \
   /usr/include/c++/10/unordered_map \
@@ -348,12 +349,9 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o: ../tests/Yolk/Me
 tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memory/test_memoryblock.cpp \
   /usr/include/stdc-predef.h \
   ../src/Yolk/Memory/Memory.h \
-  ../src/Yolk/Memory/MemoryTable.h \
-  ../src/Yolk/Core/Core.h \
-  ../src/Yolk/Core/DynamicData.h \
-  ../src/Yolk/Common.h \
-  /usr/include/c++/10/memory \
-  /usr/include/c++/10/bits/stl_algobase.h \
+  ../src/Yolk/Memory/Exceptions.h \
+  ../src/Yolk/Exceptions.h \
+  /usr/include/c++/10/exception \
   /usr/include/x86_64-linux-gnu/c++/10/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/os_defines.h \
   /usr/include/features.h \
@@ -364,14 +362,27 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memo
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/cpu_defines.h \
   /usr/include/c++/10/pstl/pstl_config.h \
-  /usr/include/c++/10/bits/functexcept.h \
+  /usr/include/c++/10/bits/exception.h \
+  /usr/include/c++/10/bits/exception_ptr.h \
   /usr/include/c++/10/bits/exception_defines.h \
+  /usr/include/c++/10/bits/cxxabi_init_exception.h \
+  /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
+  /usr/include/c++/10/typeinfo \
+  /usr/include/c++/10/bits/hash_bytes.h \
+  /usr/include/c++/10/new \
+  /usr/include/c++/10/bits/nested_exception.h \
+  /usr/include/c++/10/bits/move.h \
+  /usr/include/c++/10/type_traits \
+  /usr/include/c++/10/string \
+  /usr/include/c++/10/bits/stringfwd.h \
+  /usr/include/c++/10/bits/memoryfwd.h \
+  /usr/include/c++/10/bits/char_traits.h \
+  /usr/include/c++/10/bits/stl_algobase.h \
+  /usr/include/c++/10/bits/functexcept.h \
   /usr/include/c++/10/bits/cpp_type_traits.h \
   /usr/include/c++/10/ext/type_traits.h \
   /usr/include/c++/10/ext/numeric_traits.h \
   /usr/include/c++/10/bits/stl_pair.h \
-  /usr/include/c++/10/bits/move.h \
-  /usr/include/c++/10/type_traits \
   /usr/include/c++/10/compare \
   /usr/include/c++/10/concepts \
   /usr/include/c++/10/bits/stl_iterator_base_types.h \
@@ -382,32 +393,8 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memo
   /usr/include/c++/10/bits/concept_check.h \
   /usr/include/c++/10/debug/assertions.h \
   /usr/include/c++/10/bits/stl_iterator.h \
-  /usr/include/c++/10/new \
-  /usr/include/c++/10/exception \
-  /usr/include/c++/10/bits/exception.h \
-  /usr/include/c++/10/bits/exception_ptr.h \
-  /usr/include/c++/10/bits/cxxabi_init_exception.h \
-  /usr/lib/gcc/x86_64-linux-gnu/10/include/stddef.h \
-  /usr/include/c++/10/typeinfo \
-  /usr/include/c++/10/bits/hash_bytes.h \
-  /usr/include/c++/10/bits/nested_exception.h \
   /usr/include/c++/10/debug/debug.h \
   /usr/include/c++/10/bits/predefined_ops.h \
-  /usr/include/c++/10/bits/allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/10/bits/c++allocator.h \
-  /usr/include/c++/10/ext/new_allocator.h \
-  /usr/include/c++/10/bits/memoryfwd.h \
-  /usr/include/c++/10/bits/stl_construct.h \
-  /usr/include/c++/10/bits/stl_uninitialized.h \
-  /usr/include/c++/10/ext/alloc_traits.h \
-  /usr/include/c++/10/bits/alloc_traits.h \
-  /usr/include/c++/10/bits/stl_tempbuf.h \
-  /usr/include/c++/10/bits/stl_raw_storage_iter.h \
-  /usr/include/c++/10/bits/ranges_uninitialized.h \
-  /usr/include/c++/10/bits/ranges_algobase.h \
-  /usr/include/c++/10/iterator \
-  /usr/include/c++/10/iosfwd \
-  /usr/include/c++/10/bits/stringfwd.h \
   /usr/include/c++/10/bits/postypes.h \
   /usr/include/c++/10/cwchar \
   /usr/include/wchar.h \
@@ -423,57 +410,28 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memo
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/c++/10/bits/stream_iterator.h \
-  /usr/include/c++/10/bits/streambuf_iterator.h \
-  /usr/include/c++/10/streambuf \
+  /usr/include/c++/10/cstdint \
+  /usr/lib/gcc/x86_64-linux-gnu/10/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/10/bits/allocator.h \
+  /usr/include/x86_64-linux-gnu/c++/10/bits/c++allocator.h \
+  /usr/include/c++/10/ext/new_allocator.h \
   /usr/include/c++/10/bits/localefwd.h \
   /usr/include/x86_64-linux-gnu/c++/10/bits/c++locale.h \
   /usr/include/c++/10/clocale \
   /usr/include/locale.h \
   /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/include/c++/10/iosfwd \
   /usr/include/c++/10/cctype \
   /usr/include/ctype.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/timesize.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
   /usr/include/x86_64-linux-gnu/bits/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/c++/10/bits/ios_base.h \
-  /usr/include/c++/10/ext/atomicity.h \
-  /usr/include/x86_64-linux-gnu/c++/10/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/10/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/c++/10/bits/atomic_word.h \
-  /usr/include/c++/10/bits/locale_classes.h \
-  /usr/include/c++/10/string \
-  /usr/include/c++/10/bits/char_traits.h \
-  /usr/include/c++/10/cstdint \
-  /usr/lib/gcc/x86_64-linux-gnu/10/include/stdint.h \
-  /usr/include/stdint.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
   /usr/include/c++/10/bits/ostream_insert.h \
   /usr/include/c++/10/bits/cxxabi_forced.h \
   /usr/include/c++/10/bits/stl_function.h \
@@ -484,6 +442,10 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memo
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
   /usr/include/endian.h \
   /usr/include/x86_64-linux-gnu/bits/byteswap.h \
   /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
@@ -491,16 +453,42 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memo
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/alloca.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
   /usr/include/c++/10/bits/std_abs.h \
   /usr/include/c++/10/bits/algorithmfwd.h \
   /usr/include/c++/10/initializer_list \
   /usr/include/c++/10/bits/stl_heap.h \
+  /usr/include/c++/10/bits/stl_tempbuf.h \
+  /usr/include/c++/10/bits/stl_construct.h \
   /usr/include/c++/10/bits/uniform_int_dist.h \
   /usr/include/c++/10/limits \
   /usr/include/c++/10/bits/range_access.h \
   /usr/include/c++/10/bits/basic_string.h \
+  /usr/include/c++/10/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/10/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/10/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/c++/10/bits/atomic_word.h \
+  /usr/include/c++/10/ext/alloc_traits.h \
+  /usr/include/c++/10/bits/alloc_traits.h \
   /usr/include/c++/10/string_view \
   /usr/include/c++/10/bits/functional_hash.h \
   /usr/include/c++/10/bits/string_view.tcc \
@@ -523,6 +511,21 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memo
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/10/bits/charconv.h \
   /usr/include/c++/10/bits/basic_string.tcc \
+  ../src/Yolk/Memory/MemoryTable.h \
+  ../src/Yolk/Core/Core.h \
+  ../src/Yolk/Core/DynamicData.h \
+  ../src/Yolk/Common.h \
+  /usr/include/c++/10/memory \
+  /usr/include/c++/10/bits/stl_uninitialized.h \
+  /usr/include/c++/10/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/10/bits/ranges_uninitialized.h \
+  /usr/include/c++/10/bits/ranges_algobase.h \
+  /usr/include/c++/10/iterator \
+  /usr/include/c++/10/bits/stream_iterator.h \
+  /usr/include/c++/10/bits/streambuf_iterator.h \
+  /usr/include/c++/10/streambuf \
+  /usr/include/c++/10/bits/ios_base.h \
+  /usr/include/c++/10/bits/locale_classes.h \
   /usr/include/c++/10/bits/locale_classes.tcc \
   /usr/include/c++/10/system_error \
   /usr/include/x86_64-linux-gnu/c++/10/bits/error_constants.h \
@@ -1023,6 +1026,8 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o: ../tests/Yolk/Memo
   _deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
   _deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
   ../src/Yolk/Memory/Memory.h \
+  ../src/Yolk/Memory/Exceptions.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Memory/MemoryTable.h \
   ../src/Yolk/Core/Core.h \
   ../src/Yolk/Core/DynamicData.h \
@@ -1376,6 +1381,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: ../tests/Yolk/Mem
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h \
@@ -1384,7 +1390,8 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: ../tests/Yolk/Mem
   /usr/include/c++/10/bits/stl_deque.h \
   /usr/include/c++/10/bits/deque.tcc \
   ../src/Yolk/Core/MethodWrapper.h \
-  ../src/Yolk/Core/WrapperGenerator.h
+  ../src/Yolk/Core/WrapperGenerator.h \
+  ../src/Yolk/Memory/Exceptions.h
 
 tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o: ../tests/Yolk/Wrapper/test_methodwrapper.cpp \
   /usr/include/stdc-predef.h \
@@ -1720,6 +1727,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o: ../tests/Yolk/W
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h \
@@ -2064,6 +2072,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o: ../tests/Yolk/Wrap
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h \
@@ -2408,6 +2417,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: ../tests/Yolk/Wrapp
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h \
@@ -2752,6 +2762,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o: ../tests/Yolk/Wrapper
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h \
@@ -3096,6 +3107,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o: ../tests/Yol
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h \
@@ -3442,14 +3454,12 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: ../tests/Yolk/YolkVM/test_
   /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
   /usr/include/c++/10/bits/fstream.tcc \
   ../src/Yolk/YolkVM/Instruction.h \
-  ../src/Yolk/YolkVM/VirtualMachine.h \
-  ../src/Yolk/Memory/Memory.h \
-  ../src/Yolk/Memory/MemoryTable.h \
   ../src/Yolk/Core/Core.h \
   ../src/Yolk/Core/DynamicData.h \
   ../src/Yolk/Common.h \
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
+  ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
   ../src/Yolk/Core/DynamicMemory.h \
   ../src/Yolk/Core/WrapperRequired.h \
@@ -3459,6 +3469,10 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: ../tests/Yolk/YolkVM/test_
   /usr/include/c++/10/bits/deque.tcc \
   ../src/Yolk/Core/MethodWrapper.h \
   ../src/Yolk/Core/WrapperGenerator.h \
+  ../src/Yolk/YolkVM/VirtualMachine.h \
+  ../src/Yolk/Memory/Memory.h \
+  ../src/Yolk/Memory/Exceptions.h \
+  ../src/Yolk/Memory/MemoryTable.h \
   ../src/Yolk/Memory/SymbolTable.h \
   ../src/Yolk/Memory/MemoryInterface.h
 
@@ -3482,6 +3496,8 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: ../tests/Yolk/YolkVM/test_
 ../tests/Yolk/Memory/test_symboltable.cpp:
 
 ../src/Yolk/Memory/MemoryInterface.h:
+
+../src/Yolk/Memory/Exceptions.h:
 
 ../src/Yolk/Memory/Memory.h:
 
@@ -3616,6 +3632,8 @@ _deps/googletest-src/googletest/include/gtest/gtest.h:
 /usr/include/c++/10/bits/hashtable_policy.h:
 
 /usr/include/c++/10/unordered_map:
+
+../src/Yolk/Exceptions.h:
 
 /usr/include/c++/10/deque:
 
