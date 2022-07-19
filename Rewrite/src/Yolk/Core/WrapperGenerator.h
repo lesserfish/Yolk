@@ -15,7 +15,7 @@ namespace Yolk
         static MethodWrapper GenerateMethodWrapper(Memory::DynamicMemory &memory, std::function<T(F...)> func)
         {
             auto alloc_memory = memory.AllocateMemory<std::function<T(F...)>>(func);
-            MethodWrapper m(alloc_memory.wrapper);
+            MethodWrapper m(alloc_memory);
             m.InstantiateWrapper<T, F...>();
             return m;
         }
@@ -27,7 +27,7 @@ namespace Yolk
         static MethodWrapper GenerateMethodWrapper(Memory::DynamicMemory &memory, std::function<T()> func)
         {
             auto alloc_memory = memory.AllocateMemory<std::function<T()>>(func);
-            MethodWrapper m(alloc_memory.wrapper);
+            MethodWrapper m(alloc_memory);
             m.InstantiateWrapper<T>();
             return m;
         }
@@ -37,7 +37,7 @@ namespace Yolk
         }
         static Wrapper GenerateDynamicWrapper(Memory::DynamicMemory &memory, T Input)
         {
-            return memory.AllocateMemory(Input).wrapper;
+            return memory.AllocateMemory(Input);
         }
     };
 
@@ -47,7 +47,7 @@ namespace Yolk
         static MethodWrapper GenerateMethodWrapper(Memory::DynamicMemory &memory, std::function<void()> func)
         {
             auto alloc_memory = memory.AllocateMemory<std::function<void()>>(func);
-            MethodWrapper m(alloc_memory.wrapper);
+            MethodWrapper m(alloc_memory);
             m.InstantiateWrapper<void>();
             return m;
         }

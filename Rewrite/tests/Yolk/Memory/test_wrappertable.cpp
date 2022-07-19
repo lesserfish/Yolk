@@ -6,8 +6,8 @@ TEST(Yolk_Test, Wrapper_Table_Add_Field)
 {
     Yolk::Memory::DynamicMemory manager;
 
-    auto i1 = manager.AllocateMemory<int>(12).wrapper;
-    auto i2 = manager.AllocateMemory<float>(3.14).wrapper;
+    auto i1 = manager.AllocateMemory<int>(12);
+    auto i2 = manager.AllocateMemory<float>(3.14);
 
     Yolk::Memory::MemoryTable wtable(manager);
 
@@ -25,8 +25,8 @@ TEST(Yolk_Test, Wrapper_Table_Add_Field)
 TEST(Yolk_Test, Wrapper_Table_Add_Field_2)
 {
     Yolk::Memory::DynamicMemory manager;
-    auto i1 = manager.AllocateMemory<int>(12).wrapper;
-    auto i2 = manager.AllocateMemory<float>(3.14).wrapper;
+    auto i1 = manager.AllocateMemory<int>(12);
+    auto i2 = manager.AllocateMemory<float>(3.14);
 
     Yolk::Memory::MemoryTable wtable(manager);
 
@@ -41,7 +41,7 @@ TEST(Yolk_Test, Wrapper_Table_Add_Field_2)
     EXPECT_EQ(manager.ViewersCount(i1.ID), 1);
     EXPECT_EQ(manager.ViewersCount(i2.ID), 2);
 
-    auto id3 = wtable.Add(manager.AllocateMemory<int>(18).wrapper);
+    auto id3 = wtable.Add(manager.AllocateMemory<int>(18));
 
     EXPECT_EQ(wtable.Size(), 2);
     EXPECT_EQ(manager.ViewersCount(i2.ID + 1), 1);
@@ -73,7 +73,7 @@ TEST(Yolk_Test, Wrapper_Table_Add_Method)
     EXPECT_EQ(manager.ViewersCount(i1.ID), 1);
     EXPECT_EQ(manager.ViewersCount(i2.ID), 2);
 
-    auto id3 = wtable.Add(manager.AllocateMemory<int>(18).wrapper);
+    auto id3 = wtable.Add(manager.AllocateMemory<int>(18));
 
     EXPECT_EQ(wtable.Size(), 2);
     EXPECT_EQ(manager.ViewersCount(i2.ID + 1), 1);
@@ -86,11 +86,11 @@ TEST(Yolk_Test, Wrapper_Table_Erase)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryTable table(manager);
 
-    auto a = table.Add(manager.AllocateMemory<int>(1).wrapper);
-    auto b = table.Add(manager.AllocateMemory<int>(1).wrapper);
-    auto c = table.Add(manager.AllocateMemory<int>(1).wrapper);
-    auto d = table.Add(manager.AllocateMemory<int>(1).wrapper);
-    auto e = table.Add(manager.AllocateMemory<int>(1).wrapper);
+    auto a = table.Add(manager.AllocateMemory<int>(1));
+    auto b = table.Add(manager.AllocateMemory<int>(1));
+    auto c = table.Add(manager.AllocateMemory<int>(1));
+    auto d = table.Add(manager.AllocateMemory<int>(1));
+    auto e = table.Add(manager.AllocateMemory<int>(1));
 
     EXPECT_EQ(a, 0);
     EXPECT_EQ(b, 1);
@@ -120,7 +120,7 @@ TEST(Yolk_Test, Wrapper_Table_Get_Field)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryTable table(manager);
 
-    auto id = table.Add(manager.AllocateMemory<int>(121).wrapper);
+    auto id = table.Add(manager.AllocateMemory<int>(121));
     auto cp = table.GetField(id).wrapper;
 
     EXPECT_EQ(manager.Size(), 1);
@@ -142,12 +142,12 @@ TEST(Yolk_Test, Wrapper_Table_Get_Method)
     auto id = table.Add(i1);
     Yolk::MethodWrapper wrap = table.GetMethod(id).wrapper;
 
-    Yolk::Wrapper p = manager.AllocateMemory<int>(-12).wrapper;
+    Yolk::Wrapper p = manager.AllocateMemory<int>(-12);
     Yolk::WrapperArgument i = {p};
 
     auto o = wrap.Invoke(i);
 
-    EXPECT_EQ(o.wrapper.field->As<int>(), -9);
+    EXPECT_EQ(o.field->As<int>(), -9);
 }
 TEST(Yolk_Test, Wrapper_Table_Unset_Method)
 {

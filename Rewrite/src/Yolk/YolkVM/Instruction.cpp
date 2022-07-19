@@ -1,6 +1,11 @@
 #include "VM.h"
+#include "OVO.h"
 #include <stdexcept>
 #include <string>
+
+#ifndef Int64
+#define Int64 int64_t
+#endif
 
 namespace Yolk {
     namespace VM {
@@ -153,6 +158,32 @@ namespace Yolk {
 			// Usage:         REGX, REGY  |   REGX, NAME
             // If Arg2 is a register, copies REGY onto REGX by reference. 
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then copy it onto REGX by reference. 
+
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper* regx = &machine.SelectRegister(arg1.value);
+            Wrapper regy = machine.GetMemory().GetVoidWrapper();
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        regy = machine.SelectRegister(arg2.value);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        regy = find.wrapper;
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for MOV instruction");
+                    }
+            }
+
+            *regx = regy;
+
 		}
 		void Copy::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -161,6 +192,62 @@ namespace Yolk {
             // If Arg2 is a register, copies the value of REGY to the value of REGX.
             // If Arg2 is an Elementary type, copies the value of Arg2 to the value of REGX.
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then copy its value to the value of REGX. 
+            
+//            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+//            Wrapper regx = machine.SelectRegister(arg1.value);
+//            Wrapper regy = machine.GetMemory().GetVoidWrapper();
+//            switch(arg2.type)
+//            {
+//                case ArgType::REGISTER:
+//                    {
+//                        regy = machine.SelectRegister(arg2.value);
+//                        break;
+//                    }
+//                case ArgType::NAME:
+//                    {
+//                        std::string text = machine.SelectText(arg2.value);
+//                        auto find = machine.GetInterface()->GetWrapper(text);  
+//                        regy = find.wrapper;
+//                        break;
+//                    }
+//                case ArgType::INT32:
+//                    {
+//                        int32_t value = (int32_t)arg2.value;
+//                        Wrapper newWrapper = machine.GetMemory().AllocateMemory<int32_t>();
+//                        regy = newWrapper;
+//                        break;
+//                    }
+//                case ArgType::INT64:
+//                    {
+//                        int64_t value = (int64_t)arg2.value;
+//                        Wrapper newWrapper = machine.GetMemory().AllocateMemory<int64_t>();
+//                        regy = newWrapper;
+//                        break;
+//                    }
+//                case ArgType::UINT64:
+//                    {
+//                        break;
+//                    }
+//                case ArgType::DOUBLE:
+//                    {
+//                        break;
+//                    }
+//                case ArgType::CHAR:
+//                    {
+//                        break;
+//                    }
+//                case ArgType::STRING:
+//                    {
+//                        break;
+//                    }
+//                default:
+//                    {
+//                        throw VMException("Wrong argument for MOV instruction");
+//                    }
+//            }
+//
+//            regx.field->Copy(regy);
+//
 		}
 		void Clone::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{

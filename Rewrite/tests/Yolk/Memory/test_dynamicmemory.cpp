@@ -6,10 +6,10 @@ TEST(Yolk_Test, DynamicMemory_Add)
 {
     Yolk::Memory::DynamicMemory manager;
     auto o = manager.AllocateMemory<int>();
-    *(o.wrapper.field) = 14;
+    *(o.field) = 14;
 
     EXPECT_EQ(manager.Size(), 1);
-    EXPECT_TRUE(manager.Exists(o.wrapper.ID));
+    EXPECT_TRUE(manager.Exists(o.ID));
 }
 void RemoveTest_B(Yolk::Memory::DynamicMemory &manager)
 {
@@ -35,10 +35,10 @@ TEST(Yolk_Test, DynamicMemory_Size)
 {
     Yolk::Memory::DynamicMemory manager;
     auto o = manager.AllocateMemory<int>();
-    int id = o.wrapper.ID;
+    int id = o.ID;
 
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 1);
-    Yolk::Wrapper copy_wrapper = o.wrapper;
+    Yolk::Wrapper copy_wrapper = o;
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 2);
     Yolk::Wrapper copy_of_copy_wrapper = copy_wrapper;
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 3);
@@ -52,10 +52,10 @@ TEST(Yolk_Test, DynamicMemory_Size_B)
 {
     Yolk::Memory::DynamicMemory manager;
     auto o = manager.AllocateMemory<int>();
-    int id = o.wrapper.ID;
+    int id = o.ID;
 
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 1);
-    Yolk::Wrapper copy_wrapper = o.wrapper;
+    Yolk::Wrapper copy_wrapper = o;
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 2);
     Yolk::Wrapper copy_of_copy_wrapper = copy_wrapper;
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 3);
@@ -68,24 +68,24 @@ TEST(Yolk_Test, DynamicMemory_Vector_test)
     Yolk::Memory::DynamicMemory manager;
     auto o = manager.AllocateMemory<int>();
 
-    *(o.wrapper.field) = 12;
+    *(o.field) = 12;
 
-    EXPECT_STREQ(o.wrapper.field->Print().c_str(), "12");
+    EXPECT_STREQ(o.field->Print().c_str(), "12");
     
     std::vector<Yolk::Wrapper> WrapperVec;
-    WrapperVec.push_back(o.wrapper);
-    WrapperVec.push_back(o.wrapper);
-    WrapperVec.push_back(o.wrapper);
+    WrapperVec.push_back(o);
+    WrapperVec.push_back(o);
+    WrapperVec.push_back(o);
 
-    EXPECT_EQ(manager.UpdateViewersCount(o.wrapper.ID, 0), 4);
+    EXPECT_EQ(manager.UpdateViewersCount(o.ID, 0), 4);
     WrapperVec.pop_back();
-    EXPECT_EQ(manager.UpdateViewersCount(o.wrapper.ID, 0), 3);
+    EXPECT_EQ(manager.UpdateViewersCount(o.ID, 0), 3);
     WrapperVec.pop_back();
     *(WrapperVec.at(0).field) = 15;
-    EXPECT_EQ(manager.UpdateViewersCount(o.wrapper.ID, 0), 2);
+    EXPECT_EQ(manager.UpdateViewersCount(o.ID, 0), 2);
     WrapperVec.pop_back();
-    EXPECT_EQ(manager.UpdateViewersCount(o.wrapper.ID, 0), 1);
-    EXPECT_STREQ(o.wrapper.field->Print().c_str(), "15");
+    EXPECT_EQ(manager.UpdateViewersCount(o.ID, 0), 1);
+    EXPECT_STREQ(o.field->Print().c_str(), "15");
 }
 
 TEST(Yolk_Test, DynamicMemory_LostMemory_Test)
@@ -103,16 +103,16 @@ TEST(Yolk_Test, DynamicMemory_LostMemory_Test)
 TEST(Yolk_Test, DynamicMemory_CreateCopy_Dynamic)
 {
     Yolk::Memory::DynamicMemory manager;
-    auto w = manager.AllocateMemory<int>(12).wrapper;
+    auto w = manager.AllocateMemory<int>(12);
     auto wcopy = manager.CreateCopy(w);
 
     EXPECT_EQ(manager.Size(), 2);
-    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
+    EXPECT_EQ(wcopy.field->As<int>(), 12);
 
-    wcopy.wrapper.field->Copy(14);
+    wcopy.field->Copy(14);
     
     EXPECT_EQ(w.field->As<int>(), 12);
-    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
+    EXPECT_EQ(wcopy.field->As<int>(), 14);
 }
 TEST(Yolk_Test, DynamicMemory_CreateCopy_Static)
 {
@@ -123,12 +123,12 @@ TEST(Yolk_Test, DynamicMemory_CreateCopy_Static)
     auto wcopy = manager.CreateCopy(w);
 
     EXPECT_EQ(manager.Size(), 1);
-    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
+    EXPECT_EQ(wcopy.field->As<int>(), 12);
 
-    wcopy.wrapper.field->Copy(14);
+    wcopy.field->Copy(14);
     
     EXPECT_EQ(w.field->As<int>(), 12);
-    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
+    EXPECT_EQ(wcopy.field->As<int>(), 14);
 }
 //TEST(Yolk_Test, DynamicMemory_CopyByReference_NewEntry)
 //{
@@ -139,12 +139,12 @@ TEST(Yolk_Test, DynamicMemory_CreateCopy_Static)
 //    auto wcopy = manager.CopyByReference(w, true);
 //
 //    EXPECT_EQ(manager.Size(), 2);
-//    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
+//    EXPECT_EQ(wcopy.field->As<int>(), 12);
 //    
 //    wcopy.field->Copy(14);
 //    
 //    EXPECT_EQ(w.field->As<int>(), 14);
-//    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
+//    EXPECT_EQ(wcopy.field->As<int>(), 14);
 //}
 //TEST(Yolk_Test, DynamicMemory_CopyByReference_NoNewEntry)
 //{
@@ -155,20 +155,20 @@ TEST(Yolk_Test, DynamicMemory_CreateCopy_Static)
 //    auto wcopy = manager.CopyByReference(w);
 //
 //    EXPECT_EQ(manager.Size(), 1);
-//    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 12);
+//    EXPECT_EQ(wcopy.field->As<int>(), 12);
 //    
-//    wcopy.wrapper.field->Copy(14);
+//    wcopy.field->Copy(14);
 //    
 //    EXPECT_EQ(w.field->As<int>(), 14);
-//    EXPECT_EQ(wcopy.wrapper.field->As<int>(), 14);
+//    EXPECT_EQ(wcopy.field->As<int>(), 14);
 //}
 
 TEST(Yolk_Test, DynamicMemory_Delete)
 {
     Yolk::Memory::DynamicMemory manager;
 
-    Yolk::Wrapper a = manager.AllocateMemory<int>(5).wrapper;
-    Yolk::Wrapper b = manager.AllocateMemory<int>(7).wrapper;
+    Yolk::Wrapper a = manager.AllocateMemory<int>(5);
+    Yolk::Wrapper b = manager.AllocateMemory<int>(7);
 
     int ID = b.ID;
 

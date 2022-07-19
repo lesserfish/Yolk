@@ -14,7 +14,7 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_A)
     auto i1 = manager.AllocateMemory<int>(1);
     auto i2 = manager.AllocateMemory<int>(1);
 
-    Yolk::WrapperArgument p = {i1.wrapper,i2.wrapper};
+    Yolk::WrapperArgument p = {i1,i2};
 
     auto out = Yolk::ArgumentUnwrapper<>::Unwrap<void, int, int>::Run(manager, f, p);    
 }
@@ -32,10 +32,10 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_B)
     auto i2 = manager.AllocateMemory<int>(1);
 
 
-    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
+    Yolk::WrapperArgument p = {i1, i2};
 
     auto o = Yolk::ArgumentUnwrapper<>::Unwrap<int, int, int>::Run(manager, f, p);
-    EXPECT_EQ(o.wrapper.field->As<int>(), 2);
+    EXPECT_EQ(o.field->As<int>(), 2);
 }
 
 
@@ -52,11 +52,11 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_C)
     auto i1 = manager.AllocateMemory<float>(7.2);
     auto i2 = manager.AllocateMemory<int>(5);
 
-    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
+    Yolk::WrapperArgument p = {i1, i2};
 
     auto m = Yolk::ArgumentUnwrapper<>::Unwrap<float, float, int>::Run(manager, f, p);
 
-    EXPECT_FLOAT_EQ(m.wrapper.field->As<float>(), 2.2);
+    EXPECT_FLOAT_EQ(m.field->As<float>(), 2.2);
 }
 
 struct Helper
@@ -82,11 +82,11 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_D)
     auto i1 = manager.AllocateMemory<int>(-1);
     auto i2 = manager.AllocateMemory<int>(1);
 
-    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
+    Yolk::WrapperArgument p = {i1, i2};
 
     auto m = Yolk::ArgumentUnwrapper<>::Unwrap<Helper, int, int>::Run(manager, f, p);
 
-    EXPECT_EQ(m.wrapper.field->As<Helper>().a, 5);
+    EXPECT_EQ(m.field->As<Helper>().a, 5);
 }
 
 
@@ -98,11 +98,11 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_E)
     auto i1 = manager.AllocateMemory<int>(-5);
     auto i2 = manager.AllocateMemory<int>(-7);
 
-    Yolk::WrapperArgument p = {i1.wrapper, i2.wrapper};
+    Yolk::WrapperArgument p = {i1, i2};
     
     auto m = Yolk::ArgumentUnwrapper<>::Unwrap<Helper, int, int>::Run(manager, f, p);
 
-    EXPECT_EQ(m.wrapper.field->As<Helper>().a, 6);
+    EXPECT_EQ(m.field->As<Helper>().a, 6);
 }
 
 float func_over(float x){
@@ -114,11 +114,11 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_F){
     std::function<int(float)> f = func_over;
     
     auto i1 = manager.AllocateMemory<int>(12);
-    Yolk::WrapperArgument p = {i1.wrapper};
+    Yolk::WrapperArgument p = {i1};
     
     auto m = Yolk::ArgumentUnwrapper<false>::Unwrap<float, int>::Run(manager, f, p);
 
-    std::cout << m.wrapper.field->Print() << std::endl;
+    std::cout << m.field->Print() << std::endl;
 
-    EXPECT_DOUBLE_EQ(m.wrapper.field->As<float>(), 12);
+    EXPECT_DOUBLE_EQ(m.field->As<float>(), 12);
 }

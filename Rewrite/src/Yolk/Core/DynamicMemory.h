@@ -1,5 +1,7 @@
 #pragma once
 
+
+#include "../Exceptions.h"
 #include "../Common.h"
 #include <unordered_map>
 #include <string>
@@ -14,21 +16,15 @@ namespace Yolk
             DynamicMemory(DynamicMemory&) = delete;
             public:
 
-            struct AllocateOut {
-                AllocateOut(bool o, Wrapper w) : ok(o), wrapper(w) {}
-                bool ok;
-                Wrapper wrapper;
-            };
-
             DynamicMemory();
             ~DynamicMemory();
             
             Wrapper GetVoidWrapper();
 
-            template<typename T> AllocateOut AllocateMemory();
-            template<typename T> AllocateOut AllocateMemory(T value);
+            template<typename T> Wrapper AllocateMemory();
+            template<typename T> Wrapper AllocateMemory(T value);
             template<typename T> Wrapper CreateWrapper(T& value);
-            AllocateOut CreateCopy(Wrapper other);
+            Wrapper CreateCopy(Wrapper other);
             
             Viewers UpdateViewersCount(Identifier id, Viewers diff);
             Viewers ViewersCount(Identifier id);
@@ -59,7 +55,7 @@ namespace Yolk
         inline Wrapper DynamicMemory::GetVoidWrapper(){
             return VoidWrapper;
         }
-        template<typename T> inline DynamicMemory::AllocateOut DynamicMemory::AllocateMemory(){
+        template<typename T> inline Wrapper DynamicMemory::AllocateMemory(){
             constexpr bool canCreate = requires() {
                 new DynamicData<T>();
             };
@@ -77,11 +73,11 @@ namespace Yolk
                 AllocatedMemory.insert(std::pair(id, dptr));
                 Wrapper wrapper(id, tfptr, *this);
                 
-                return AllocateOut(true, wrapper);
+                return wrapper;
             }
-            return AllocateOut(false, VoidWrapper);
+            throw Exceptions::Exception("Failed to allocated memory.");
         }
-        template<typename T> inline DynamicMemory::AllocateOut DynamicMemory::AllocateMemory(T value){
+        template<typename T> inline Wrapper DynamicMemory::AllocateMemory(T value){
             constexpr bool canCreate = requires() {
                 new DynamicData<T>(value);
             };
@@ -98,9 +94,9 @@ namespace Yolk
                 AllocatedMemory.insert(std::pair(id, dptr));
                 Wrapper wrapper(id, tfptr, *this);
                 
-                return AllocateOut(true, wrapper);
+                return wrapper;
             }
-            return AllocateOut(false, VoidWrapper);
+            throw Exceptions::Exception("Failed to allocated memory.");
         }
         template<typename T> inline Wrapper DynamicMemory::CreateWrapper(T& value){
             TypedField::Pointer tfptr(new TypedField(value));
@@ -110,17 +106,19 @@ namespace Yolk
             return wrapper;
         }
 
-        inline DynamicMemory::AllocateOut DynamicMemory::CreateCopy(Wrapper other){
-            auto copyattempt = other.field->CopyByValue();
-            if(!copyattempt.ok){
-                return AllocateOut(false, VoidWrapper);
+        inline Wrapper DynamicMemory::CreateCopy(Wrapper other){
+            try{
+                auto copyattempt = other.field->CopyByValue();
+                Identifier id = copyattempt.datapointer->ID();
+                AllocatedMemory.insert(std::pair(id, copyattempt.datapointer));
+
+                Wrapper wrapper(id, copyattempt.field, *this);
+                return wrapper; 
+            }catch(const Exceptions::Exception &exception)
+            {
+                throw exception;
             }
-
-            Identifier id = copyattempt.datapointer->ID();
-            AllocatedMemory.insert(std::pair(id, copyattempt.datapointer));
-
-            Wrapper wrapper(id, copyattempt.field, *this);
-            return AllocateOut(true, wrapper); 
+            
         }
         
         inline Viewers DynamicMemory::UpdateViewersCount(Identifier id, Viewers diff){

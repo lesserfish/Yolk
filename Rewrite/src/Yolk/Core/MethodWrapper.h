@@ -11,12 +11,10 @@ namespace Yolk
     {
     private:
         
-        using InvokeOutput = UnwrapperOutput;
-
         struct AbstractInvoker
         {
             virtual ~AbstractInvoker(){}
-            virtual InvokeOutput Invoke(Memory::DynamicMemory &memory, Wrapper &Function, WrapperArgument &Argument) = 0;
+            virtual Wrapper Invoke(Memory::DynamicMemory &memory, Wrapper &Function, WrapperArgument &Argument) = 0;
             virtual void Debug() { std::cout << "Abstract\n"; }
             virtual std::shared_ptr<AbstractInvoker> Clone() const = 0;
             virtual std::vector<std::type_index> GetInType() const { return {}; }
@@ -27,7 +25,7 @@ namespace Yolk
         {
             using Func = std::function<T(F...)>;
 
-            InvokeOutput Invoke(Memory::DynamicMemory &memory, Wrapper &Function, WrapperArgument &Argument)
+            Wrapper Invoke(Memory::DynamicMemory &memory, Wrapper &Function, WrapperArgument &Argument)
             {
                 auto func = Function.field->As<std::function<T(F...)>>();
                 auto out = ArgumentUnwrapper<>::Unwrap<T, F...>::Run(memory, func, Argument);
@@ -63,7 +61,7 @@ namespace Yolk
         template <typename T, typename... F>
         bool InstantiateWrapper();
         
-        InvokeOutput Invoke(WrapperArgument &Argument);
+        Wrapper Invoke(WrapperArgument &Argument);
 
         std::vector<std::type_index> GetInType() const;
         std::type_index GetOutType() const;
@@ -103,7 +101,7 @@ namespace Yolk
             return true;
         return false;
     }
-    inline MethodWrapper::InvokeOutput MethodWrapper::Invoke(WrapperArgument &Argument)
+    inline MethodWrapper::Wrapper MethodWrapper::Invoke(WrapperArgument &Argument)
     {
         if (!invoker){
             throw Exceptions::Exception("Method Wrapper exception: The method invocated has not been created.");

@@ -4,7 +4,7 @@
 TEST(Yolk_Test, Wrapper_FromReference)
 {
     Yolk::Memory::DynamicMemory manager;
-    auto wrapperA = manager.AllocateMemory<int>(7).wrapper;
+    auto wrapperA = manager.AllocateMemory<int>(7);
 
     Yolk::Wrapper fromref(wrapperA);
 
@@ -17,8 +17,8 @@ TEST(Yolk_Test, Wrapper_FromEquality)
 {
     Yolk::Memory::DynamicMemory manager;
 
-    auto a = manager.AllocateMemory<int>(12).wrapper;
-    auto b = manager.AllocateMemory<int>(17).wrapper;
+    auto a = manager.AllocateMemory<int>(12);
+    auto b = manager.AllocateMemory<int>(17);
 
     Yolk::Wrapper wrapper(manager.GetVoidWrapper());
     EXPECT_TRUE(wrapper.field->IsNone());

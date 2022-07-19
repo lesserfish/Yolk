@@ -4,12 +4,17 @@
 
 namespace Yolk
 {
+    namespace VM
+    {
+        class VirtualMachine;
+    }
     namespace Memory
     {
         class MemoryInterface
         {
 
         public:
+            friend class VM::VirtualMachine;
             
             MemoryInterface(DynamicMemory& _memory);
             ~MemoryInterface();

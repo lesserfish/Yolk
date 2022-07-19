@@ -11,8 +11,8 @@ TEST(Yolk_Test, Method_Wrapper_Test_A)
     Yolk::Memory::DynamicMemory manager;
     std::function<void(int, int)> f =  MTyA;
 
-    auto i1 = manager.AllocateMemory<int>(1).wrapper;
-    auto i2 = manager.AllocateMemory<int>(1).wrapper;
+    auto i1 = manager.AllocateMemory<int>(1);
+    auto i2 = manager.AllocateMemory<int>(1);
 
     Yolk::WrapperArgument p = {i1,i2};
 
@@ -30,15 +30,15 @@ TEST(Yolk_Test, Method_Wrapper_Test_B)
     Yolk::Memory::DynamicMemory manager;
     std::function<int(int, int)> f =  MTyB;
 
-    auto i1 = manager.AllocateMemory<int>(1).wrapper;
-    auto i2 = manager.AllocateMemory<int>(1).wrapper;
+    auto i1 = manager.AllocateMemory<int>(1);
+    auto i2 = manager.AllocateMemory<int>(1);
 
     Yolk::WrapperArgument p = {i1,i2};
 
     auto m = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, f);
     auto out = m.Invoke(p);
     
-    EXPECT_EQ(out.wrapper.field->As<int>(), 2);
+    EXPECT_EQ(out.field->As<int>(), 2);
 }
 
 
@@ -53,16 +53,16 @@ TEST(Yolk_Test, Method_Wrapper_Test_C)
     
     std::function<float(float, int)> f =  MTyC;
     
-    auto i1 = manager.AllocateMemory<float>(7.2).wrapper;
-    auto i2 = manager.AllocateMemory<int>(5).wrapper;
+    auto i1 = manager.AllocateMemory<float>(7.2);
+    auto i2 = manager.AllocateMemory<int>(5);
     Yolk::WrapperArgument p = {i1, i2};
 
-    Yolk::MethodWrapper m = manager.AllocateMemory<std::function<float(float, int)>>(f).wrapper;
+    Yolk::MethodWrapper m = manager.AllocateMemory<std::function<float(float, int)>>(f);
     m.InstantiateWrapper<float, float, int>(f);
 
     //auto wrapper = m.Invoke(p);
 
-    //EXPECT_FLOAT_EQ(wrapper.wrapper.field->As<float>(), 2.2);
+    //EXPECT_FLOAT_EQ(wrapper.field->As<float>(), 2.2);
     //EXPECT_TRUE(wrapper.ok);
 }
 
@@ -86,13 +86,13 @@ TEST(Yolk_Test, Method_Wrapper_Test_D)
     Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f =  MTyD;
     
-    auto i1 = manager.AllocateMemory<int>(-1).wrapper;
-    auto i2 = manager.AllocateMemory<int>(1).wrapper;
+    auto i1 = manager.AllocateMemory<int>(-1);
+    auto i2 = manager.AllocateMemory<int>(1);
     Yolk::WrapperArgument p = {i1, i2};
 
     auto m = Yolk::WrapperGenerator<Helper, int, int>::GenerateMethodWrapper(manager, f);
     auto out = m.Invoke(p);
-    EXPECT_EQ(out.wrapper.field->As<Helper>().a, 5);
+    EXPECT_EQ(out.field->As<Helper>().a, 5);
 }
 
 
@@ -101,13 +101,13 @@ TEST(Yolk_Test, Method_Wrapper_Test_E)
     Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f =  MTyD;
     
-    auto i1 = manager.AllocateMemory<int>(-5).wrapper;
-    auto i2 = manager.AllocateMemory<int>(-7).wrapper;
+    auto i1 = manager.AllocateMemory<int>(-5);
+    auto i2 = manager.AllocateMemory<int>(-7);
     Yolk::WrapperArgument p = {i1, i2};
     
     auto m = Yolk::WrapperGenerator<Helper, int, int>::GenerateMethodWrapper(manager, f);
     auto out = m.Invoke(p); 
-    EXPECT_EQ(out.wrapper.field->As<Helper>().a, 6);
+    EXPECT_EQ(out.field->As<Helper>().a, 6);
 }
 
 void f(){}
@@ -136,8 +136,8 @@ TEST(Yolk_Test, Method_Wrapper_By_Reference)
     Yolk::Memory::DynamicMemory manager;
     auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, MTyB);
 
-    auto i1 = manager.AllocateMemory<int>(7).wrapper;
-    auto i2 = manager.AllocateMemory<int>(5).wrapper;
+    auto i1 = manager.AllocateMemory<int>(7);
+    auto i2 = manager.AllocateMemory<int>(5);
 
     Yolk::WrapperArgument a;
     a << i1 << i2;
@@ -148,7 +148,7 @@ TEST(Yolk_Test, Method_Wrapper_By_Reference)
     auto out = m.Invoke(a);
 
 
-    EXPECT_EQ(out.wrapper.field->As<int>(), 12);
+    EXPECT_EQ(out.field->As<int>(), 12);
 
 }
 TEST(Yolk_Test, Method_Wrapper_By_Equality)
@@ -157,9 +157,9 @@ TEST(Yolk_Test, Method_Wrapper_By_Equality)
     auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, MTyB);
     auto fb = Yolk::WrapperGenerator<float, float, int>::GenerateMethodWrapper(manager, MTyC);
 
-    auto i1 = manager.AllocateMemory<int>(7).wrapper;
-    auto i2 = manager.AllocateMemory<int>(5).wrapper;
-    auto f1 = manager.AllocateMemory<float>(3.12f).wrapper;
+    auto i1 = manager.AllocateMemory<int>(7);
+    auto i2 = manager.AllocateMemory<int>(5);
+    auto f1 = manager.AllocateMemory<float>(3.12f);
 
     Yolk::WrapperArgument a;
     a << i1 << i2;
@@ -170,7 +170,7 @@ TEST(Yolk_Test, Method_Wrapper_By_Equality)
     auto out = m.Invoke(a);
     EXPECT_EQ(manager.ViewersCount(fa.ID), 2);
     EXPECT_EQ(manager.ViewersCount(fb.ID), 1);
-    EXPECT_EQ(out.wrapper.field->As<int>(), 12);
+    EXPECT_EQ(out.field->As<int>(), 12);
 
 
     m = fb;
@@ -180,5 +180,5 @@ TEST(Yolk_Test, Method_Wrapper_By_Equality)
 
     EXPECT_EQ(manager.ViewersCount(fa.ID), 1);
     EXPECT_EQ(manager.ViewersCount(fb.ID), 2);
-    EXPECT_FLOAT_EQ(out.wrapper.field->As<float>(), -3.88);
+    EXPECT_FLOAT_EQ(out.field->As<float>(), -3.88);
 }

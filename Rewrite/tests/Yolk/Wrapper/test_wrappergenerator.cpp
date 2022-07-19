@@ -37,7 +37,7 @@ TEST(Yolk_Test, WrapperGenerator__Method)
 
     auto result = o.Invoke(a);
 
-    EXPECT_EQ(result.wrapper.field->As<int>(), 22);
+    EXPECT_EQ(result.field->As<int>(), 22);
 }
 
 TEST(Yolk_Test, Wrapper_Generator_Argument)
@@ -51,6 +51,6 @@ TEST(Yolk_Test, Wrapper_Generator_Argument)
 
     auto result = o.Invoke(i);    
     
-    EXPECT_EQ(result.wrapper.field->As<int>(), 0);
+    EXPECT_EQ(result.field->As<int>(), 0);
 
 }

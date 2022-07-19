@@ -17,11 +17,6 @@ namespace Yolk
         return argument;
     }
 
-    struct UnwrapperOutput
-    {
-        UnwrapperOutput(Wrapper w) : wrapper(w){}
-        Wrapper wrapper;
-    };
     
     template<bool strict = true> 
     class ArgumentUnwrapper
@@ -31,7 +26,7 @@ namespace Yolk
         struct Unwrap
         {
             template <typename Func, typename... Args>
-            static UnwrapperOutput Run(Memory::DynamicMemory& memory, Func &, WrapperArgument& , Args...) {
+            static Wrapper Run(Memory::DynamicMemory& memory, Func &, WrapperArgument& , Args...) {
                 throw Exceptions::Exception("");
             }
         };
@@ -39,7 +34,7 @@ namespace Yolk
         struct Unwrap<ReturnType, U, T...>
         {
             template <typename Func, typename... Args>
-            static UnwrapperOutput Run(Memory::DynamicMemory& memory, Func &function, WrapperArgument& input, Args... args)
+            static Wrapper Run(Memory::DynamicMemory& memory, Func &function, WrapperArgument& input, Args... args)
             {
                 if (input.size() == 0)
                 {
@@ -69,7 +64,7 @@ namespace Yolk
         struct Unwrap<ReturnType>
         {
             template <typename Func, typename... Args>
-            static UnwrapperOutput Run(Memory::DynamicMemory& memory, Func &function, WrapperArgument& input, Args... args)
+            static Wrapper Run(Memory::DynamicMemory& memory, Func &function, WrapperArgument& input, Args... args)
             {
                 if (input.size() > 0)
                 {
@@ -98,18 +93,19 @@ namespace Yolk
 
                 if constexpr(ReturnTypeIsVoid) {
                     function(args...);
-                    return UnwrapperOutput(memory.GetVoidWrapper());
+                    return memory.GetVoidWrapper();
                 } else{
                     ReturnType ret = function(args...);
-                    auto out = memory.AllocateMemory<ReturnType>(ret);
-
-                    if(!out.ok){
+                    try{
+                        auto out = memory.AllocateMemory<ReturnType>(ret);
+                        return out;
+                    } catch(const Exceptions::Exception& exception)
+                    {
                         throw Exceptions::Exception("Argument Unwrapper exception. Failed to allocate for output value.");
                     }
-                    return UnwrapperOutput(out.wrapper);
                 }
                 
-                //return UnwrapperOutput(true, "");
+                //return true, "";
             }
         };
     };

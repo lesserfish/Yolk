@@ -9,7 +9,7 @@ TEST(Yolk_Test, MemoryInterface_Register_Register)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
 
-    auto F1 = manager.AllocateMemory<int>(12).wrapper;
+    auto F1 = manager.AllocateMemory<int>(12);
 
     block.Register(F1, "F1");
 
@@ -19,7 +19,7 @@ TEST(Yolk_Test, MemoryInterface_Register_RegisterTwiceShouldFail)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
 
-    auto F1 = manager.AllocateMemory<int>(12).wrapper;
+    auto F1 = manager.AllocateMemory<int>(12);
     block.Register(F1, "F1");
 
     bool ok = true;
@@ -38,7 +38,7 @@ TEST(Yolk_Test, MemoryInterface_Register)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
 
-    auto F1 = manager.AllocateMemory<int>(12).wrapper;
+    auto F1 = manager.AllocateMemory<int>(12);
     block.Register(F1, "F1");
 
     auto type = block.GetType("F1");
@@ -50,7 +50,7 @@ TEST(Yolk_Test, MemoryInterface_Register_GetByName)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
     
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper;
+    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12);
     block.Register(F1, "F1");
 
     Yolk::Wrapper wrap = block.GetWrapper("F1").wrapper;
@@ -64,7 +64,7 @@ TEST(Yolk_Test, MemoryInterface_Exists)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
 
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper;
+    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12);
     block.Register(F1, "F1");
     bool ok1 = true;
     bool ok2 = true;
@@ -89,7 +89,7 @@ TEST(Yolk_Test, MemoryInterface_Delete_by_Name)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
 
-    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12).wrapper; // 1 Audience
+    Yolk::Wrapper F1 = manager.AllocateMemory<int>(12); // 1 Audience
     block.Register(F1, "F1"); // 2 Audience
     bool t1 = true;
 
@@ -151,12 +151,12 @@ TEST(Yolk_Test, MemoryInterface_RegisterMethod)
 
     auto m2 = block.GetMethodWrapper("memblock_func").wrapper;
 
-    auto input = manager.AllocateMemory<int>(18).wrapper;
+    auto input = manager.AllocateMemory<int>(18);
     Yolk::WrapperArgument p = {input};
 
     auto output = m2.Invoke(p);
 
-    EXPECT_STREQ(output.wrapper.field->Print().c_str(), "18");
+    EXPECT_STREQ(output.field->Print().c_str(), "18");
 
 }
 int memblock_sum(int x, int y)
@@ -168,8 +168,8 @@ TEST(Yolk_Test, MemoryInterface_Combination)
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
     
-    auto i1 = manager.AllocateMemory<int>(12).wrapper;
-    auto i2 = manager.AllocateMemory<int>(7).wrapper;
+    auto i1 = manager.AllocateMemory<int>(12);
+    auto i2 = manager.AllocateMemory<int>(7);
 
     std::function<int(int, int)> f = memblock_sum;
 
@@ -180,10 +180,10 @@ TEST(Yolk_Test, MemoryInterface_Combination)
     block.Register(m, "deal_damage");
 
     Yolk::WrapperArgument i = {block.GetWrapper("hp").wrapper, block.GetWrapper("damage").wrapper};
-    auto funx = block.GetMethodWrapper("deal_damage");
+    auto funx = block.GetMethodWrapper("deal_damage").wrapper;
     
-    auto fun = funx.wrapper;
-    auto out = fun.Invoke(i).wrapper;  //new_hp = deal_damage(hp, damage, "new_hp");
+    auto fun = funx;
+    auto out = fun.Invoke(i);  //new_hp = deal_damage(hp, damage, "new_hp");
 
     block.Register(out, "new_hp");
     
@@ -219,18 +219,18 @@ void GoTest(Yolk::Memory::DynamicMemory& manager, Yolk::Memory::MemoryInterface&
     // Let's GO!
 
     // mov REGA, 2
-    REGA = manager.AllocateMemory<int>(2).wrapper;
+    REGA = manager.AllocateMemory<int>(2);
     // pushar REGA
     ARGREG << REGA;
     // mov REGA, 3.14f
-    REGA = manager.AllocateMemory<float>(3.14f).wrapper;
+    REGA = manager.AllocateMemory<float>(3.14f);
     // pushar REGA
     ARGREG << REGA;
     // movr "GetInfo"
     MREG = memblock.GetMethodWrapper("GetInfo").wrapper;
     // callm
     auto o = MREG.Invoke(ARGREG);
-    REGOUT = o.wrapper;
+    REGOUT = o;
     // mov REGA, REGOUT
     REGA = REGOUT;
     // namel REGA, "output"
@@ -260,7 +260,7 @@ TEST(Yolk_Test, MemoryInterface_Branch)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface memblock(manager);
-    auto i1 = manager.AllocateMemory<int>(12).wrapper;
+    auto i1 = manager.AllocateMemory<int>(12);
     
     memblock.Register(i1, "i1");
    
@@ -269,7 +269,7 @@ TEST(Yolk_Test, MemoryInterface_Branch)
     auto type = memblock.GetType("i1");
     EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::Wrapper);
     
-    auto i2 = manager.AllocateMemory<int>(7).wrapper;
+    auto i2 = manager.AllocateMemory<int>(7);
     memblock.Register(i2, "i2");
     
     type = memblock.GetType("i2");

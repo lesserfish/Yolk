@@ -19,8 +19,16 @@ namespace Yolk
         {
             public:
                 friend class Instruction;
-                Wrapper& SelectRegister(Ovo::Code::Arg&);
+                Wrapper& SelectRegister(uint64_t);
+                std::string SelectText(uint64_t);
+                inline Memory::MemoryInterface* GetInterface() {return memoryInterface; }
+                Memory::DynamicMemory& GetMemory() {return memory;};
             private:
+                Memory::DynamicMemory& memory;
+                
+                Memory::MemoryInterface* memoryInterface;
+                Ovo ovo;
+
                 Wrapper rega;
                 Wrapper regb;
                 Wrapper regc;

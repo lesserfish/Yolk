@@ -34,6 +34,9 @@
 
 // Arithmetic Operator Macros
 
+// Set Macros
+#define SETC(Type) virtual void SET(Type) {}
+#define SETM(Type) void SET(Type input) { return SETHelper(input); }
 // + Macros
 #define PLUSC(Type) virtual void PLUS(Type) {}
 #define PLUSM(Type) void PLUS(Type input) { return PLUSHelper(input); }
@@ -79,8 +82,7 @@ namespace Yolk {
         public:
                 using Pointer = std::shared_ptr<TypedField>;
                 struct CopyByValueOut {
-                    CopyByValueOut(bool o, TypedField::Pointer f, Memory::AbstractData::Pointer d) : ok(o), field(f), datapointer(d) {}
-                    bool ok;
+                    CopyByValueOut(TypedField::Pointer f, Memory::AbstractData::Pointer d) : field(f), datapointer(d) {}
                     TypedField::Pointer field;
                     Memory::AbstractData::Pointer datapointer;
                 };
@@ -97,7 +99,7 @@ namespace Yolk {
                         return new None(); 
                     }
                     virtual CopyByValueOut CopyByValue() {
-                        return CopyByValueOut(false, nullptr, nullptr);
+                        throw TFException("Invalid wrapper. Is none.");
                     }
                     virtual bool Compare(None *) {
                         return false;
@@ -121,6 +123,7 @@ namespace Yolk {
                     virtual bool InvokeGE(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
                     virtual bool InvokeG(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
                     virtual bool InvokeNEQ(None* ){throw  TFException("Invalid wrapper. Is none."); return false;}
+                    virtual void InvokeSET(None* ){throw  TFException("Invalid wrapper. Is none.");}
                     virtual void InvokePLUS(None* ){throw  TFException("Invalid wrapper. Is none.");}
                     virtual void InvokeSUB(None* ){throw  TFException("Invalid wrapper. Is none.");}
                     virtual void InvokePROD(None* ){throw  TFException("Invalid wrapper. Is none.");}
@@ -130,19 +133,20 @@ namespace Yolk {
                     virtual void InvokeOR(None* ){throw  TFException("Invalid wrapper. Is none.");}
                     virtual void InvokeNOT(None* ){throw  TFException("Invalid wrapper. Is none.");}
 
-                    template <typename T> bool EQ(T){throw  TFException("Invalid wrapper. Is none."); return false;}
-                    template <typename T> bool LE(T){throw  TFException("Invalid wrapper. Is none."); return false;}
-                    template <typename T> bool L(T){throw  TFException("Invalid wrapper. Is none."); return false;}
-                    template <typename T> bool GE(T){throw  TFException("Invalid wrapper. Is none."); return false;}
-                    template <typename T> bool G(T){throw  TFException("Invalid wrapper. Is none."); return false;}
-                    template <typename T> bool NEQ(T){throw  TFException("Invalid wrapper. Is none."); return false;}
-                    template <typename T> void PLUS(T){ throw TFException("Invalid wrapper. Is none.");}
-                    template <typename T> void SUB(T){ throw TFException("Invalid wrapper. Is none.");}
-                    template <typename T> void PROD(T){ throw TFException("Invalid wrapper. Is none.");}
-                    template <typename T> void DIV(T){ throw TFException("Invalid wrapper. Is none.");}
-                    template <typename T> void MOD(T){ throw TFException("Invalid wrapper. Is none.");}
-                    template <typename T> void AND(T){ throw TFException("Invalid wrapper. Is none.");}
-                    template <typename T> void OR(T){ throw TFException("Invalid wrapper. Is none.");}
+                    template <typename T> bool EQ(T){throw  TFException("Unsupported types."); return false;}
+                    template <typename T> bool LE(T){throw  TFException("Unsupported types."); return false;}
+                    template <typename T> bool L(T){throw  TFException("Unsupported types."); return false;}
+                    template <typename T> bool GE(T){throw  TFException("Unsupported types."); return false;}
+                    template <typename T> bool G(T){throw  TFException("Unsupported types."); return false;}
+                    template <typename T> bool NEQ(T){throw  TFException("Unsupported types."); return false;}
+                    template <typename T> void SET(T){throw  TFException("Unsupported types.");}
+                    template <typename T> void PLUS(T){ throw TFException("Unsupported types.");}
+                    template <typename T> void SUB(T){ throw TFException("Unsupported types.");}
+                    template <typename T> void PROD(T){ throw TFException("Unsupported types.");}
+                    template <typename T> void DIV(T){ throw TFException("Unsupported types.");}
+                    template <typename T> void MOD(T){ throw TFException("Unsupported types.");}
+                    template <typename T> void AND(T){ throw TFException("Unsupported types.");}
+                    template <typename T> void OR(T){ throw TFException("Unsupported types.");}
                     
                     // Standard operators
                     EQC(TypedField)
@@ -151,6 +155,7 @@ namespace Yolk {
                     GEC(TypedField)
                     GC(TypedField)
                     NEQC(TypedField)
+                    SETC(TypedField)
                     PLUSC(TypedField)
                     SUBC(TypedField)
                     PRODC(TypedField)
@@ -168,6 +173,7 @@ namespace Yolk {
                     GEC(int)
                     GC(int)
                     NEQC(int)
+                    SETC(int)
                     PLUSC(int)
                     SUBC(int)
                     PRODC(int)
@@ -256,9 +262,9 @@ namespace Yolk {
                             Memory::AbstractData::Pointer dptr = std::make_shared<Memory::DynamicData<T>>(lvalue);
                             T& ref = dynamic_pointer_cast<Memory::DynamicData<T>>(dptr)->Get();
                             Pointer tfptr(new TypedField(ref));
-                            return CopyByValueOut(true, tfptr, dptr);
+                            return CopyByValueOut(tfptr, dptr);
                         }
-                        return CopyByValueOut(false, nullptr, nullptr);
+                        throw TFException("Failed to copy by wrapper by value.");
                     }
                     std::string Print() const {
                         std::stringstream buffer;
@@ -341,6 +347,18 @@ namespace Yolk {
                         }
                         throw TFException("Attempted comparison between unsupported types");
 						return false;
+                    }
+                    template<typename F> void SETHelper(F rvalue)
+                    {
+                        constexpr bool canCompare = requires(T lhs, F rhs) {
+                            lhs = rhs;
+                        };
+                        if constexpr(canCompare)
+                        {
+                            lvalue = rvalue;
+                            return;
+                        }
+                        throw TFException("Attempted operation between unsupported types");
                     }
                     template<typename F> void PLUSHelper(F rvalue){
                         constexpr bool canCompare = requires(T lhs, F rhs) {
@@ -545,9 +563,30 @@ namespace Yolk {
                             return other->InvokeNEQ(this);
                         }
                     }
+                    void InvokeSET(None* other) {
+                        other->SET(lvalue);
+                    }
                     void InvokePLUS(None* other){
                         other->PLUS(lvalue);
                     }
+                    void SET(TypedField otherfield) {
+                        None* other = otherfield.data;
+                        if(Type() == other->Type()){
+                            constexpr bool canCompare = requires(T lhs, T rhs){
+                                lhs = rhs;
+                            };
+                            if constexpr(canCompare) {
+                                T othervalue = static_cast<Thing<T> *>(other)->Get();
+                                lvalue = othervalue;
+                                return;
+                            }
+                            throw TFException("Attempted operation between unsupported types");
+							
+                        } else {
+                            other->InvokeSET(this);
+                        }
+                    }
+
                     void PLUS(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
@@ -698,6 +737,7 @@ namespace Yolk {
                     GEM(int)
                     GM(int)
                     NEQM(int)
+                    SETM(int)
                     PLUSM(int)
                     SUBM(int)
                     PRODM(int)
@@ -768,6 +808,7 @@ namespace Yolk {
             template<typename T> bool TryGE(T funvalue);
             template<typename T> bool TryG(T funvalue);
             template<typename T> bool TryNEQ(T funvalue);
+            template<typename T> void TrySET(T funvalue);
             template<typename T> void TryPLUS(T funvalue);
             template<typename T> void TrySUB(T funvalue);
             template<typename T> void TryPROD(T funvalue);
@@ -963,6 +1004,15 @@ namespace Yolk {
             return data->NEQ(funvalue);
         }
         return false;
+    }
+    template<typename T> inline void TypedField::TrySET(T funvalue){
+        constexpr bool isFundamental = requires(T other){
+            data->SET(other);
+        };
+        if constexpr(isFundamental) {
+            return data->SET(funvalue);
+        }
+        
     }
     template<typename T> inline void TypedField::TryPLUS(T funvalue){
         constexpr bool isFundamental = requires(T other){

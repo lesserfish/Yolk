@@ -4,9 +4,9 @@ namespace Yolk
 {
     namespace VM
     {
-        Wrapper& VirtualMachine::SelectRegister(Ovo::Code::Arg& arg)
+        Wrapper& VirtualMachine::SelectRegister(uint64_t value)
         {
-            RegisterType reg = static_cast<RegisterType>(arg.value);
+            RegisterType reg = static_cast<RegisterType>(value);
             switch(reg)
             {
                 case RegisterType::REGA:
@@ -22,9 +22,13 @@ namespace Yolk
                 case RegisterType::REGM:
                     return regm;
                 default:
-                    std::string error = "Received request for non-existent register. Requested register with value " + std::to_string(arg.value);
+                    std::string error = "Received request for non-existent register. Requested register with value " + std::to_string(value);
                     throw std::invalid_argument(error);
             };
+        }
+        std::string VirtualMachine::SelectText(uint64_t value)
+        {
+            return "";
         }
 
     }

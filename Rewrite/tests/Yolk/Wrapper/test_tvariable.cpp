@@ -602,7 +602,6 @@ TEST(Yolk_Test, Typed_Variable_CopyByValue_A){
 
     auto cpy = xr.CopyByValue();
 
-    EXPECT_TRUE(cpy.ok);
     EXPECT_EQ(cpy.field->As<int>(), 12);
 
     xr = 13;
@@ -620,7 +619,6 @@ TEST(Yolk_Test, Typed_Variable_CopyByValue_B){
 
     auto cpy = xr.CopyByValue();
 
-    EXPECT_TRUE(cpy.ok);
     EXPECT_EQ(cpy.field->As<cpyval>().a, 12);
 
     x.a = 13;
@@ -628,4 +626,30 @@ TEST(Yolk_Test, Typed_Variable_CopyByValue_B){
 
     EXPECT_EQ(xr.As<cpyval>().a, 13);
     EXPECT_EQ(cpy.field->As<cpyval>().a, 25);
+}
+TEST(Yolk_Test, Typed_Variable_SET){
+    int x = 12;
+    float y = 5.0;
+
+    Yolk::TypedField xr = x;
+    Yolk::TypedField yr = y;
+
+    yr.TrySET(xr);
+    EXPECT_DOUBLE_EQ(yr.As<float>(), 12.0);
+    int c = 3;
+    yr.TrySET(c);
+
+    EXPECT_DOUBLE_EQ(yr.As<float>(), 3.0f);
+
+
+    bool ok = true;
+    try {
+        cpyval a;
+        yr.TrySET(a);
+    } catch(const Yolk::Exceptions::Exception& )
+    {
+        ok = false;
+    }
+
+    EXPECT_FALSE(ok);
 }
