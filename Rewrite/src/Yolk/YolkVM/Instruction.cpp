@@ -17,6 +17,7 @@ namespace Yolk {
                 throw VMException(message);
             }
         }
+        
         const Instruction* Instruction::Select(const OPCode opcode)
         {
             switch(opcode)
@@ -193,61 +194,71 @@ namespace Yolk {
             // If Arg2 is an Elementary type, copies the value of Arg2 to the value of REGX.
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then copy its value to the value of REGX. 
             
-//            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
-//            Wrapper regx = machine.SelectRegister(arg1.value);
-//            Wrapper regy = machine.GetMemory().GetVoidWrapper();
-//            switch(arg2.type)
-//            {
-//                case ArgType::REGISTER:
-//                    {
-//                        regy = machine.SelectRegister(arg2.value);
-//                        break;
-//                    }
-//                case ArgType::NAME:
-//                    {
-//                        std::string text = machine.SelectText(arg2.value);
-//                        auto find = machine.GetInterface()->GetWrapper(text);  
-//                        regy = find.wrapper;
-//                        break;
-//                    }
-//                case ArgType::INT32:
-//                    {
-//                        int32_t value = (int32_t)arg2.value;
-//                        Wrapper newWrapper = machine.GetMemory().AllocateMemory<int32_t>();
-//                        regy = newWrapper;
-//                        break;
-//                    }
-//                case ArgType::INT64:
-//                    {
-//                        int64_t value = (int64_t)arg2.value;
-//                        Wrapper newWrapper = machine.GetMemory().AllocateMemory<int64_t>();
-//                        regy = newWrapper;
-//                        break;
-//                    }
-//                case ArgType::UINT64:
-//                    {
-//                        break;
-//                    }
-//                case ArgType::DOUBLE:
-//                    {
-//                        break;
-//                    }
-//                case ArgType::CHAR:
-//                    {
-//                        break;
-//                    }
-//                case ArgType::STRING:
-//                    {
-//                        break;
-//                    }
-//                default:
-//                    {
-//                        throw VMException("Wrong argument for MOV instruction");
-//                    }
-//            }
-//
-//            regx.field->Copy(regy);
-//
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TrySET(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TrySET(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TrySET(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TrySET(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TrySET(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TrySET(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TrySET(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TrySET(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TrySET(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for MOV instruction");
+                    }
+            }
 		}
 		void Clone::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{

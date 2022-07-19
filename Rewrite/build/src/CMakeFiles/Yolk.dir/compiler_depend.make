@@ -254,6 +254,9 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: ../src/Yolk/YolkVM/Instru
   /usr/include/c++/10/bits/deque.tcc \
   ../src/Yolk/Core/MethodWrapper.h \
   ../src/Yolk/Core/WrapperGenerator.h \
+  /usr/include/c++/10/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
   ../src/Yolk/YolkVM/VirtualMachine.h \
   ../src/Yolk/Memory/Memory.h \
   ../src/Yolk/Memory/Exceptions.h \
@@ -532,6 +535,10 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.o: ../src/Yolk/YolkVM/Vir
 
 ../src/Yolk/YolkVM/VirtualMachine.h:
 
+/usr/include/string.h:
+
+/usr/include/c++/10/cstring:
+
 ../src/Yolk/Core/WrapperGenerator.h:
 
 /usr/include/c++/10/bits/deque.tcc:
@@ -543,6 +550,8 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.o: ../src/Yolk/YolkVM/Vir
 ../src/Yolk/Core/DynamicMemory.h:
 
 ../src/Yolk/Core/Wrapper.h:
+
+/usr/include/strings.h:
 
 /usr/include/c++/10/bits/sstream.tcc:
 

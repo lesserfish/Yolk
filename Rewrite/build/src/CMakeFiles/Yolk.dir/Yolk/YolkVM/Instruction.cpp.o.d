@@ -206,6 +206,7 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: \
  /usr/include/c++/10/bits/deque.tcc \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/MethodWrapper.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Core/WrapperGenerator.h \
+ /usr/include/c++/10/cstring /usr/include/string.h /usr/include/strings.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Memory.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/../Memory/Exceptions.h \

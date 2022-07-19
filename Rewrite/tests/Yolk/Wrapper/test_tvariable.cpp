@@ -653,3 +653,14 @@ TEST(Yolk_Test, Typed_Variable_SET){
 
     EXPECT_FALSE(ok);
 }
+TEST(Yolk_Test, Typed_Variable_SET_B){
+    double a = 1.13;
+    double b = 1.11;
+
+    Yolk::TypedField ar = a;
+    Yolk::TypedField br = b;
+
+    ar.TrySET(br);
+
+    EXPECT_DOUBLE_EQ(ar.As<double>(), 1.11);
+}

@@ -2,6 +2,7 @@
 
 #include "../Core/Core.h"
 #include <string>
+#include <cstring>
 
 namespace Yolk {
     namespace VM {
@@ -20,6 +21,22 @@ namespace Yolk {
 
         void AssertCondition(int, std::string message = "");
 
+
+        template<typename T, typename F>
+        T Bitcast(F& f)
+        {
+            T t;
+            std::memcpy((void*)&t, (void*)&f, sizeof(T));
+            return t;
+        }
+        template<typename T, typename F>
+        T Bitcast(F&& ff)
+        {
+            T t;
+            F f = ff;
+            std::memcpy((void*)&t, (void*)&f, sizeof(T));
+            return t;
+        }
         struct Instruction {
             const static Instruction* Select(const OPCode op);
             virtual ~Instruction() {}

@@ -286,6 +286,7 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: \
  /usr/include/c++/10/bits/deque.tcc \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/MethodWrapper.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/WrapperGenerator.h \
+ /usr/include/c++/10/cstring \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/VirtualMachine.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/Memory.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Memory/Exceptions.h \

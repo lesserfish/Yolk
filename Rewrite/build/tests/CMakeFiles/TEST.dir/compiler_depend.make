@@ -3469,6 +3469,7 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: ../tests/Yolk/YolkVM/test_
   /usr/include/c++/10/bits/deque.tcc \
   ../src/Yolk/Core/MethodWrapper.h \
   ../src/Yolk/Core/WrapperGenerator.h \
+  /usr/include/c++/10/cstring \
   ../src/Yolk/YolkVM/VirtualMachine.h \
   ../src/Yolk/Memory/Memory.h \
   ../src/Yolk/Memory/Exceptions.h \
@@ -3478,6 +3479,8 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: ../tests/Yolk/YolkVM/test_
 
 
 ../src/Yolk/YolkVM/VirtualMachine.h:
+
+/usr/include/c++/10/cstring:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h:
 
