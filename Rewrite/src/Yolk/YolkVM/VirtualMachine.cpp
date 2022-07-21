@@ -26,7 +26,7 @@ namespace Yolk
                     throw std::invalid_argument(error);
             };
         }
-        std::string VirtualMachine::SelectText(uint64_t value)
+        std::string VirtualMachine::SelectText(uint64_t )
         {
             return "";
         }

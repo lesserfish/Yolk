@@ -664,3 +664,17 @@ TEST(Yolk_Test, Typed_Variable_SET_B){
 
     EXPECT_DOUBLE_EQ(ar.As<double>(), 1.11);
 }
+TEST(Yolk_Test, Typed_Variable_TryBOOL){
+    int i = 13;
+    Yolk::TypedField ir = i;
+
+    bool cmp = ir.TryBOOL();
+
+    EXPECT_TRUE(cmp);
+
+    i = 0;
+
+    cmp = ir.TryBOOL();
+
+    EXPECT_FALSE(cmp);
+}

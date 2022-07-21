@@ -3,10 +3,6 @@
 #include <stdexcept>
 #include <string>
 
-#ifndef Int64
-#define Int64 int64_t
-#endif
-
 namespace Yolk {
     namespace VM {
        
@@ -148,10 +144,6 @@ namespace Yolk {
             };
         }
 
-// TODO: Remove this.
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-
         // Instruction Code Start:
 
 		void Mov::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
@@ -161,7 +153,7 @@ namespace Yolk {
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then copy it onto REGX by reference. 
 
             AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
-            Wrapper* regx = &machine.SelectRegister(arg1.value);
+            Wrapper& regx = machine.SelectRegister(arg1.value);
             Wrapper regy = machine.GetMemory().GetVoidWrapper();
             switch(arg2.type)
             {
@@ -183,7 +175,8 @@ namespace Yolk {
                     }
             }
 
-            *regx = regy;
+            regx = regy;
+
 
 		}
 		void Copy::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
@@ -256,7 +249,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for MOV instruction");
+                        throw VMException("Wrong argument for COPY instruction");
                     }
             }
 		}
@@ -265,58 +258,229 @@ namespace Yolk {
 			// Usage:       REGX, REGY  |   REGX, NAME
             // If Arg2 is a register, clones REGY onto REGX.
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then clones it onto REGX by value. 
+            
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper& regx = machine.SelectRegister(arg1.value);
+            Wrapper regy = machine.GetMemory().GetVoidWrapper();
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        regy = machine.SelectRegister(arg2.value);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        regy = find.wrapper;
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CLONE instruction");
+                    }
+            }
+
+
+            regx = machine.GetMemory().CreateCopy(regy);
+
 		}
 		void New::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
 			// Usage:         REGX, ELEMENTARY
             // Allocates the elementary type onto memory and copies the wrapper to REGX.
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg2.type == ArgType::ELEMENTARY, "Wrong argument for MOV instruction");
+            
+            Wrapper& regx = machine.SelectRegister(arg1.value);
+            EType type = static_cast<EType>(arg2.value);
+
+            switch(type)
+            {
+                case EType::INT32:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<int32_t>();
+                        regx = w;
+                        break;
+                    }
+                case EType::INT64:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<int64_t>();
+                        regx = w;
+                        break;
+                    }
+                case EType::UINT32:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<uint32_t>();
+                        regx = w;
+                        break;
+                    }
+                case EType::UINT64:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<uint64_t>();
+                        regx = w;
+                        break;
+                    }
+                case EType::FLOAT:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<float>();
+                        regx = w;
+                        break;
+                    }
+                case EType::DOUBLE:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<double>();
+                        regx = w;
+                        break;
+                    }
+                case EType::CHAR:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<char>();
+                        regx = w;
+                        break;
+                    }
+                case EType::STRING:
+                    {
+                        Wrapper w = machine.GetMemory().AllocateMemory<std::string>();
+                        regx = w;
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for NEW instruction");
+                    }
+            }
+
 		}
-		void Movm::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Movm::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:        NAME
-            // Searched in memory for a method wrapper with that name and then copy it onto the method register.
+            // Searches in memory for a method wrapper with that name and then copy it onto the method register.
+            AssertCondition(arg1.type == ArgType::NAME, "Wrong argument for MOV instruction");
+            MethodWrapper& regm = machine.SelectMethodRegister();
+            
+            std::string text = machine.SelectText(arg1.value);
+            auto find = machine.GetInterface()->GetMethodWrapper(text);  
+            regm = find.wrapper;
+
 		}
-		void Callm::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Callm::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage:  
             // Invokes the method wrapper in REGM
+            Wrapper& regout = machine.SelectRegister(static_cast<uint64_t>(RegisterType::REGOUT));
+            MethodWrapper regm = machine.SelectMethodRegister();
+            WrapperArgument arguments = machine.SelectArgumentRegister();
+
+            Wrapper out = regm.Invoke(arguments);
+            
+            regout = out;
+
 		}
-		void Pushar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Pushar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:      REGX
             // Pushes REGX onto the Argument stack
+            
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper& regx = machine.SelectRegister(arg1.value);
+            WrapperArgument& arguments = machine.SelectArgumentRegister();
+
+            arguments.push_back(regx);
+
 		}
-		void Popar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Popar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:    None   |   REGX
             // If Arg1 is None, pops the last element of the argument stack
             // If Arg1 is a register, pops the last element of the argument stack onto REGX
+            WrapperArgument& arguments = machine.SelectArgumentRegister();
+            switch(arg1.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper& regx = machine.SelectRegister(arg1.value);
+                        regx = arguments.back();
+                        arguments.pop_back();
+                        break;
+                    }
+                case ArgType::NONE:
+                    {
+                        arguments.pop_back();
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for POPAR instruction");
+                    }
+            }
+
 		}
-		void Clrar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Clrar::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage:    
             // Clears the argument stack
+            WrapperArgument& arguments = machine.SelectArgumentRegister();
+            arguments.clear();
 		}
-		void Push::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Push::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:        REGX    
             // Pushes REGX into the Stack
+            
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper& regx = machine.SelectRegister(arg1.value);
+            WrapperArgument& stack = machine.SelectStack();
+
+            stack.push_back(regx);
+
+
 		}
-		void Pop::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Pop::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:      NONE     |   REGX
             // If Arg1 is None, pops the last element of the stack
             // If Arg1 is a register, pops the last element of the stack onto REGX
+            
+            WrapperArgument& stack = machine.SelectStack();
+            switch(arg1.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper& regx = machine.SelectRegister(arg1.value);
+                        regx = stack.back();
+                        stack.pop_back();
+                        break;
+                    }
+                case ArgType::NONE:
+                    {
+                        stack.pop_back();
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for POP instruction");
+                    }
+            }
+
 		}
-		void Clear::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Clear::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage:    
             // Clears the stack
+            WrapperArgument& stack = machine.SelectStack();
+            stack.clear();
 		}
-		void Cmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:         REGX
             // Casts REGX to bool and check if it's valid.
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            bool& regcmp = machine.SelectCmpRegister();
+
+            regcmp = regx.field->TryBOOL();
 		}
 		void Cmpeq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -324,6 +488,75 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX == REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX == value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX == Wrapper and set it's truth-value onto regcmp.
+            
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regcmp = regx.field->TryEQ(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regcmp = regx.field->TryEQ(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regcmp = regx.field->TryEQ(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regcmp = regx.field->TryEQ(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regcmp = regx.field->TryEQ(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regcmp = regx.field->TryEQ(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regcmp = regx.field->TryEQ(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regcmp = regx.field->TryEQ(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regcmp = regx.field->TryEQ(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
+
 		}
 		void Cmpneq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -331,6 +564,73 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX != REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX != value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX != Wrapper and set it's truth-value onto regcmp.
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regcmp = regx.field->TryNEQ(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regcmp = regx.field->TryNEQ(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regcmp = regx.field->TryNEQ(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regcmp = regx.field->TryNEQ(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regcmp = regx.field->TryNEQ(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regcmp = regx.field->TryNEQ(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regcmp = regx.field->TryNEQ(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regcmp = regx.field->TryNEQ(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regcmp = regx.field->TryNEQ(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 
 		}
 		void Cmpls::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
@@ -339,6 +639,74 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX < REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX < value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX < Wrapper and set it's truth-value onto regcmp.
+            //
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regcmp = regx.field->TryL(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regcmp = regx.field->TryL(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regcmp = regx.field->TryL(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regcmp = regx.field->TryL(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regcmp = regx.field->TryL(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regcmp = regx.field->TryL(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regcmp = regx.field->TryL(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regcmp = regx.field->TryL(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regcmp = regx.field->TryL(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 
 
 		}
@@ -348,6 +716,74 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX > REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX > value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX > Wrapper and set it's truth-value onto regcmp.
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regcmp = regx.field->TryG(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regcmp = regx.field->TryG(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regcmp = regx.field->TryG(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regcmp = regx.field->TryG(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regcmp = regx.field->TryG(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regcmp = regx.field->TryG(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regcmp = regx.field->TryG(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regcmp = regx.field->TryG(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regcmp = regx.field->TryG(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
+
 
 
 		}
@@ -357,6 +793,74 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX <= REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX <= value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX <= Wrapper and set it's truth-value onto regcmp.
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regcmp = regx.field->TryLE(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regcmp = regx.field->TryLE(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regcmp = regx.field->TryLE(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regcmp = regx.field->TryLE(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regcmp = regx.field->TryLE(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regcmp = regx.field->TryLE(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regcmp = regx.field->TryLE(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regcmp = regx.field->TryLE(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regcmp = regx.field->TryLE(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
+
 		}
 		void Cmpgteq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -364,36 +868,210 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX >= REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX >= value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX >= Wrapper and set it's truth-value onto regcmp.
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regcmp = regx.field->TryGE(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regcmp = regx.field->TryGE(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regcmp = regx.field->TryGE(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regcmp = regx.field->TryGE(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regcmp = regx.field->TryGE(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regcmp = regx.field->TryGE(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regcmp = regx.field->TryGE(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regcmp = regx.field->TryGE(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regcmp = regx.field->TryGE(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
+
 		}
-		void Jntrue::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Jntrue::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:      REGX        |   UINT
             // If Arg1 is a register, cast it's value to uint and jumps to that position if regcmp is true
             // If Arg1 is an uint, jump to that value if regcmp is true
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            if(regcmp)
+            {
+                switch(arg1.type)
+                {
+                    case ArgType::REGISTER:
+                        {
+                            Wrapper regx = machine.SelectRegister(arg1.value);
+                            uint64_t position = regx.field->As<uint64_t>();
+                            machine.Jump(position);
+                            break;
+                        }
+                    case ArgType::UINT64:
+                        {
+                            uint64_t position = arg1.value;
+                            machine.Jump(position);
+                            break;
+                        }
+                    default:
+                        {
+                            throw VMException("Wrong argument for POPAR instruction");
+                        }
+                }
+            }
+
 		}
-		void Jnfalse::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Jnfalse::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:     REGX        |   UINT
             // If Arg1 is a register, cast it's value to uint and jumps to that position if regcmp is false
             // If Arg1 is an uint, jump to that value if regcmp is false
+            bool& regcmp = machine.SelectCmpRegister();
+            
+            if(!regcmp)
+            {
+                switch(arg1.type)
+                {
+                    case ArgType::REGISTER:
+                        {
+                            Wrapper regx = machine.SelectRegister(arg1.value);
+                            uint64_t position = regx.field->As<uint64_t>();
+                            machine.Jump(position);
+                            break;
+                        }
+                    case ArgType::UINT64:
+                        {
+                            uint64_t position = arg1.value;
+                            machine.Jump(position);
+                            break;
+                        }
+                    default:
+                        {
+                            throw VMException("Wrong argument for POPAR instruction");
+                        }
+                }
+            }
 		}
-		void Jmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Jmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:         REGX        |   UINT
             // If Arg1 is a register, cast it's value to uint and jumps to that position
             // If Arg1 is an uint, jump to that value
+            switch(arg1.type)
+                {
+                    case ArgType::REGISTER:
+                        {
+                            Wrapper regx = machine.SelectRegister(arg1.value);
+                            uint64_t position = regx.field->As<uint64_t>();
+                            machine.Jump(position);
+                            break;
+                        }
+                    case ArgType::UINT64:
+                        {
+                            uint64_t position = arg1.value;
+                            machine.Jump(position);
+                            break;
+                        }
+                    default:
+                        {
+                            throw VMException("Wrong argument for POPAR instruction");
+                        }
+                }
+            
 		}
-		void Call::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Call::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:        REGX        |   UINT
             // Copies the position of ip onto the stack
             // If Arg1 is a register, cast it's value to uint and jumps to that position
             // If Arg1 is an uint, jump to that value
+            
+            uint64_t current_position = machine.GetPosition();
+            Wrapper w = machine.GetMemory().AllocateMemory<uint64_t>(current_position);
+            
+            WrapperArgument& stack = machine.SelectStack();
+            stack.push_back(w);
+
+            switch(arg1.type)
+                {
+                    case ArgType::REGISTER:
+                        {
+                            Wrapper regx = machine.SelectRegister(arg1.value);
+                            uint64_t position = regx.field->As<uint64_t>();
+                            machine.Jump(position);
+                            break;
+                        }
+                    case ArgType::UINT64:
+                        {
+                            uint64_t position = arg1.value;
+                            machine.Jump(position);
+                            break;
+                        }
+                    default:
+                        {
+                            throw VMException("Wrong argument for POPAR instruction");
+                        }
+                }
 		}
-		void Ret::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Ret::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage: 
             // Pops the stack onto the position of ip.
+            
+            WrapperArgument& stack = machine.SelectStack();
+            Wrapper w = stack.back();
+            stack.pop_back();
+
+            uint64_t jump_position = w.field->As<uint64_t>();
+            machine.Jump(jump_position);
 		}
 		void Add::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -401,6 +1079,74 @@ namespace Yolk {
             // If Arg2 is a register, does REGX += REGY
             // If Arg2 is an elementary value, does REGX += value
             // If Arg2 is a name, search the memory for that wrapper and do REGX += Wrapper
+            
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TryPLUS(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TryPLUS(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TryPLUS(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TryPLUS(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TryPLUS(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TryPLUS(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TryPLUS(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TryPLUS(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TryPLUS(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
+
 		}
 		void Sub::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -408,6 +1154,72 @@ namespace Yolk {
             // If Arg2 is a register, does REGX -= REGY
             // If Arg2 is an elementary value, does REGX -= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX -= Wrapper
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TrySUB(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TrySUB(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TrySUB(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TrySUB(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TrySUB(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TrySUB(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TrySUB(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TrySUB(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TrySUB(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 		}
 		void Mul::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -415,6 +1227,73 @@ namespace Yolk {
             // If Arg2 is a register, does REGX *= REGY
             // If Arg2 is an elementary value, does REGX *= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX *= Wrapper
+            //
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TryPROD(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TryPROD(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TryPROD(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TryPROD(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TryPROD(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TryPROD(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TryPROD(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TryPROD(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TryPROD(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 		}
 		void Div::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -422,6 +1301,72 @@ namespace Yolk {
             // If Arg2 is a register, does REGX /= REGY
             // If Arg2 is an elementary value, does REGX /= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX /= Wrapper
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TryDIV(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TryDIV(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TryDIV(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TryDIV(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TryDIV(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TryDIV(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TryDIV(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TryDIV(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TryDIV(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 		}
 		void Mod::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -429,6 +1374,72 @@ namespace Yolk {
             // If Arg2 is a register, does REGX %= REGY
             // If Arg2 is an elementary value, does REGX %= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX %= Wrapper
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TryMOD(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TryMOD(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TryMOD(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TryMOD(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TryMOD(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TryMOD(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TryMOD(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TryMOD(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TryMOD(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 		}
 		void And::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -436,6 +1447,72 @@ namespace Yolk {
             // If Arg2 is a register, does REGX &&= REGY
             // If Arg2 is an elementary value, does REGX &&= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX &&= Wrapper
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TryAND(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TryAND(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TryAND(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TryAND(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TryAND(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TryAND(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TryAND(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TryAND(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TryAND(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 		}
 		void Or::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -443,6 +1520,72 @@ namespace Yolk {
             // If Arg2 is a register, does REGX ||= REGY
             // If Arg2 is an elementary value, does REGX ||= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX ||= Wrapper
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+            
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->TryOR(regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->TryOR(regy.field);
+                        break;
+                    }
+                case ArgType::INT32:
+                    {
+                        int32_t value = Bitcast<int32_t>(arg2.value);
+                        regx.field->TryOR(value);
+                        break;
+                    }
+                case ArgType::INT64:
+                    {
+                        int64_t value = Bitcast<int64_t>(arg2.value);
+                        regx.field->TryOR(value);
+                        break;
+                    }
+                case ArgType::UINT32:
+                    {
+                        uint32_t value = Bitcast<uint32_t>(arg2.value);
+                        regx.field->TryOR(value);
+                        break;
+                    }
+                case ArgType::UINT64:
+                    {
+                        uint64_t value = arg2.value;
+                        regx.field->TryOR(value);
+                        break;
+                    }
+                case ArgType::DOUBLE:
+                    {
+                        double value = Bitcast<double>(arg2.value);
+                        regx.field->TryOR(value);
+                        break;
+                    }
+                case ArgType::CHAR:
+                    {
+                        char value = Bitcast<char>(arg2.value);
+                        regx.field->TryOR(value);
+                        break;
+                    }
+                case ArgType::STRING:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        regx.field->TryOR(text);
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for CMPEQ instruction");
+                    }
+            }
 		}
 		void Cast::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
@@ -450,50 +1593,152 @@ namespace Yolk {
             // If Arg2 is a register, casts REGX to the type of REGY
             // If Arg2 is a type, casts REGX to that type
             // If Arg2 is a name, search the memory for that wrapper and casts REGX to the type of that wrapper
+            
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper& regx = machine.SelectRegister(arg1.value);
+            switch(arg2.type)
+            {
+                case ArgType::REGISTER:
+                    {
+                        Wrapper regy = machine.SelectRegister(arg2.value);
+                        regx.field->CastAs(*regy.field);
+                        break;
+                    }
+                case ArgType::NAME:
+                    {
+                        std::string text = machine.SelectText(arg2.value);
+                        auto find = machine.GetInterface()->GetWrapper(text);  
+                        Wrapper regy = find.wrapper;
+                        regx.field->CastAs(*regy.field);
+                        break;
+                    }
+                case ArgType::ELEMENTARY:
+                    {
+                        EType type = static_cast<EType>(arg2.value);
+                        switch(type)
+                        {
+                            case EType::INT32:
+                                {
+                                    regx.field->Cast<int32_t>();
+                                    break;
+                                }
+                            case EType::INT64:
+                                {
+                                    regx.field->Cast<int64_t>();
+                                    break;
+                                }
+                            case EType::UINT32:
+                                {
+                                    regx.field->Cast<uint32_t>();
+                                    break;
+                                }
+                            case EType::UINT64:
+                                {
+                                    regx.field->Cast<uint64_t>();
+                                    break;
+                                }
+                            case EType::FLOAT:
+                                {
+                                    regx.field->Cast<float>();
+                                    break;
+                                }
+                            case EType::DOUBLE:
+                                {
+                                    regx.field->Cast<double>();
+                                    break;
+                                }
+                            case EType::CHAR:
+                                {
+                                    regx.field->Cast<char>();
+                                    break;
+                                }
+                            case EType::STRING:
+                                {
+                                    regx.field->Cast<std::string>();
+                                    break;
+                                }
+                            default:
+                                {
+                                    throw VMException("Wrong argument for NEW instruction");
+                                }
+                            }
+                        break;
+                    }
+                default:
+                    {
+                        throw VMException("Wrong argument for MOV instruction");
+                    }
+            }
+
 		}
 		void Name::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
 			// Usage:        REGX, STRING 
             // Copies RegX to the memory under the name in Arg2
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+
+            AssertCondition(arg2.type == ArgType::NAME, "Wrong argument for NAME instruction");
+            std::string name = machine.SelectText(arg2.value);
+
+            machine.GetInterface()->RegisterWrapper(regx, name, false);
+
 		}
 		void Nameg::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
 		{
 			// Usage:       REGX, STRING
             // Copies RegX to the global memory under the name in Arg2
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            Wrapper regx = machine.SelectRegister(arg1.value);
+
+            AssertCondition(arg2.type == ArgType::NAME, "Wrong argument for NAME instruction");
+            std::string name = machine.SelectText(arg2.value);
+
+            machine.GetInterface()->RegisterWrapper(regx, name, true);
 		}
-		void Brup::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Brup::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage: 
             // Branches UP
+            machine.GetInterface()->BranchUp();
 		}
-		void Brdw::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Brdw::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage:     
             // Branches DOWN
+            machine.GetInterface()->BranchDown();
 		}
-		void Brhz::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Brhz::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
 		{
 			// Usage:        STRING    
             // Branches horizontally to the memory under the name in Arg1
+            AssertCondition(arg1.type == ArgType::NAME, "Wrong argument for NAME instruction");
+            std::string name = machine.SelectText(arg1.value);
+
+            auto find = machine.GetInterface()->GetMemoryPointer(name);
+            Memory::MemoryInterface* interface = find.memory;
+
+            machine.UpdateInterface(interface);
 		}
-		void Rsbr::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Rsbr::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage: 
             // Resets Branching.
+            machine.ResetInterface();
 		}
-		void Zero::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Zero::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage:     
             // Does nothing.
 		}
-		void Halt::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Halt::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
 		{
 			// Usage:     
             // Stops the machine.
+            machine.Halt();
 		}
 
         // Instruction Code End:
 
-#pragma GCC diagnostic pop
     }
 }

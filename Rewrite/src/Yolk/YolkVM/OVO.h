@@ -111,13 +111,17 @@ namespace Yolk
 			CHAR,
 			STRING,
 			VOID,
-			TYPE        
+		    ELEMENTARY,
+            NONE
         };
 
         enum class EType : uint8_t
         {
-            INT,
-			UINT,
+            INT32,
+			UINT32,
+            INT64,
+            UINT64,
+            FLOAT,
 			DOUBLE,
 			CHAR,
 			STRING,

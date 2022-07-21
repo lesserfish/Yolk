@@ -1,5 +1,9 @@
 #pragma once
 
+// TODO: Remove this? Without it, it gives a shit ton of warnings.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+
 #include "../Exceptions.h"
 #include "../Common.h"
 #include <typeindex>
@@ -64,6 +68,41 @@
 // ! Macros
 #define NOTC() virtual void NOT() {}
 #define NOTM() void NOT() { return NOTHelper(); }
+// Bool Macros
+#define BOOLC() virtual bool BOOL() {return false;}
+#define BOOLM() bool BOOL() { return BOOLHelper(); }
+
+
+// Elementary Types Macros
+#define ARITHMETICC(Type) EQC(Type) \
+    LEC(Type)\
+    LC(Type)\
+    GEC(Type)\
+    GC(Type)\
+    NEQC(Type)\
+    SETC(Type)\
+    PLUSC(Type)\
+    SUBC(Type)\
+    PRODC(Type)\
+    DIVC(Type)\
+    MODC(Type)\
+    ANDC(Type)\
+    ORC(Type)
+
+#define ARITHMETICM(Type) EQM(Type) \
+    LEM(Type)\
+    LM(Type)\
+    GEM(Type)\
+    GM(Type)\
+    NEQM(Type)\
+    SETM(Type)\
+    PLUSM(Type)\
+    SUBM(Type)\
+    PRODM(Type)\
+    DIVM(Type)\
+    MODM(Type)\
+    ANDM(Type)\
+    ORM(Type)
 
 
 namespace Yolk {
@@ -148,6 +187,10 @@ namespace Yolk {
                     template <typename T> void AND(T){ throw TFException("Unsupported types.");}
                     template <typename T> void OR(T){ throw TFException("Unsupported types.");}
                     
+                    // Non-typed method
+                    NOTC()
+                    BOOLC()
+
                     // Standard operators
                     EQC(TypedField)
                     LEC(TypedField)
@@ -163,24 +206,12 @@ namespace Yolk {
                     MODC(TypedField)
                     ANDC(TypedField)
                     ORC(TypedField)
-                    NOTC()
 
 
                     // int Operations
-                    EQC(int)
-                    LEC(int)
-                    LC(int)
-                    GEC(int)
-                    GC(int)
-                    NEQC(int)
-                    SETC(int)
-                    PLUSC(int)
-                    SUBC(int)
-                    PRODC(int)
-                    DIVC(int)
-                    MODC(int)
-                    ANDC(int)
-                    ORC(int)
+
+                    ARITHMETICC(int)
+                    
             };
 
             template <typename T> struct Thing : public None {
@@ -447,6 +478,16 @@ namespace Yolk {
                         }
                         throw TFException("Attempted operation between unsupported types");
 						
+                    }
+                    bool BOOLHelper(){
+                        constexpr bool canCompare = requires(T lhs, bool a) {
+                            a = (bool)lhs;
+                        };
+                        if constexpr(canCompare) {
+                            bool out = (bool)lvalue;
+                            return out;
+                        }
+                        throw TFException("Attempted operation between unsupported types");
                     }
 
                     bool InvokeEQ(None* other){
@@ -729,23 +770,11 @@ namespace Yolk {
                     }
                     
 
-                    // int Operations 
-                    
-                    EQM(int)
-                    LEM(int)
-                    LM(int)
-                    GEM(int)
-                    GM(int)
-                    NEQM(int)
-                    SETM(int)
-                    PLUSM(int)
-                    SUBM(int)
-                    PRODM(int)
-                    DIVM(int)
-                    MODM(int)
-                    ANDM(int)
-                    ORM(int)
                     NOTM()
+                    BOOLM()
+
+                    // int Operations 
+                    ARITHMETICM(int)
                     
                 private:
                     T& lvalue;
@@ -817,6 +846,7 @@ namespace Yolk {
             template<typename T> void TryAND(T funvalue);
             template<typename T> void TryOR(T funvalue);
             void TryNOT();
+            bool TryBOOL();
         
         private:
             None* data;
@@ -1086,5 +1116,16 @@ namespace Yolk {
         }
         
     }
+    inline bool TypedField::TryBOOL(){
+        constexpr bool isFundamental = requires(){
+            data->BOOL();
+        };
+        if constexpr(isFundamental) {
+            return data->BOOL();
+        }
+        
+    }
 
 }
+
+#pragma GCC diagnostic pop

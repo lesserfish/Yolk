@@ -260,11 +260,18 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
   /usr/include/c++/10/bits/fstream.tcc \
   ../src/Yolk/YolkVM/Instruction.h \
+  /usr/include/c++/10/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
   ../src/Yolk/YolkVM/VirtualMachine.h \
   ../src/Yolk/Memory/Memory.h
 
 
 ../src/Yolk/YolkVM/VirtualMachine.h:
+
+/usr/include/string.h:
+
+/usr/include/c++/10/cstring:
 
 /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h:
 
@@ -291,6 +298,8 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 ../src/Yolk/Core/DynamicMemory.h:
 
 ../src/Yolk/Core/Wrapper.h:
+
+/usr/include/strings.h:
 
 /usr/include/c++/10/bits/sstream.tcc:
 

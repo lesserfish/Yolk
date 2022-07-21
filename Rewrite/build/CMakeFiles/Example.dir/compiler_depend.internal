@@ -261,6 +261,9 @@ CMakeFiles/Example.dir/main.cpp.o
  /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h
  /usr/include/c++/10/bits/fstream.tcc
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/Instruction.h
+ /usr/include/c++/10/cstring
+ /usr/include/string.h
+ /usr/include/strings.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/YolkVM/VirtualMachine.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Memory/Memory.h
 
