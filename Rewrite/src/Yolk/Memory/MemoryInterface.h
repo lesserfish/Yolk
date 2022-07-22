@@ -19,17 +19,18 @@ namespace Yolk
             MemoryInterface(DynamicMemory& _memory);
             ~MemoryInterface();
             
-            void RegisterWrapper(Wrapper wrapper, std::string Name, bool global = false);
-            void RegisterMethodWrapper(MethodWrapper wrapper, std::string Name, bool global = false);
-            void RegisterMemoryPointer(MemoryInterface*, std::string, bool global = false);
+            virtual void RegisterWrapper(Wrapper wrapper, std::string Name, bool global = false);
+            virtual void RegisterMethodWrapper(MethodWrapper wrapper, std::string Name, bool global = false);
+            virtual void RegisterMemoryPointer(MemoryInterface*, std::string, bool global = false);
             
-            void Register(Wrapper wrapper, std::string Name, bool global = false);
-            void Register(MethodWrapper wrapper, std::string Name, bool global = false);
-            void Register(MemoryInterface* , std::string Name, bool global = false);
+            virtual void Register(Wrapper wrapper, std::string Name, bool global = false);
+            virtual void Register(MethodWrapper wrapper, std::string Name, bool global = false);
+            virtual void Register(MemoryInterface* , std::string Name, bool global = false);
             
-            void Delete(std::string Name, bool global = false);
-            void UnsetMemoryPointer(MemoryInterface*);
-
+            virtual void Delete(std::string Name, bool global = false);
+            virtual void UnsetMemoryPointer(MemoryInterface*);
+            
+            virtual bool Exists(std::string Name);
             WrapperOut GetWrapper(std::string);
             MethodWrapperOut GetMethodWrapper(std::string);
             MemoryPointerOut GetMemoryPointer(std::string);
@@ -40,7 +41,7 @@ namespace Yolk
 
             SymbolTableInterface& GetSymbolTableInterface();
             MemoryTable& GetMemoryTable();
-        private:
+        protected:
             DynamicMemory& memory;
             MemoryTable memoryTable;
             SymbolTableInterface symbolTableInterface;
@@ -49,6 +50,9 @@ namespace Yolk
         inline MemoryInterface::MemoryInterface(DynamicMemory& _memory) : memory(_memory), memoryTable(_memory), symbolTableInterface() {}
         inline MemoryInterface::~MemoryInterface() {}
         
+        inline bool MemoryInterface::Exists(std::string Name){
+            return symbolTableInterface.Exists(Name);
+        }
         inline void MemoryInterface::RegisterWrapper(Wrapper wrapper, std::string Name, bool global) {
             if(symbolTableInterface.Exists(Name)){
                 throw MException("Memory exception thrown. Failed to register wrapper. Name already exists.");

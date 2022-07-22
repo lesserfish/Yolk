@@ -621,7 +621,7 @@ namespace Yolk {
                                 lvalue = othervalue;
                                 return;
                             }
-                            throw TFException("Attempted operation between unsupported types");
+                            throw TFException("Attempted SET operation between unsupported types");
 							
                         } else {
                             other->InvokeSET(this);

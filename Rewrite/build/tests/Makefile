@@ -391,6 +391,30 @@ Yolk/Wrapper/test_wrappergenerator.cpp.s:
 	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.s
 .PHONY : Yolk/Wrapper/test_wrappergenerator.cpp.s
 
+Yolk/YolkVM/test_instructions.o: Yolk/YolkVM/test_instructions.cpp.o
+.PHONY : Yolk/YolkVM/test_instructions.o
+
+# target to build an object file
+Yolk/YolkVM/test_instructions.cpp.o:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o
+.PHONY : Yolk/YolkVM/test_instructions.cpp.o
+
+Yolk/YolkVM/test_instructions.i: Yolk/YolkVM/test_instructions.cpp.i
+.PHONY : Yolk/YolkVM/test_instructions.i
+
+# target to preprocess a source file
+Yolk/YolkVM/test_instructions.cpp.i:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.i
+.PHONY : Yolk/YolkVM/test_instructions.cpp.i
+
+Yolk/YolkVM/test_instructions.s: Yolk/YolkVM/test_instructions.cpp.s
+.PHONY : Yolk/YolkVM/test_instructions.s
+
+# target to generate assembly for a file
+Yolk/YolkVM/test_instructions.cpp.s:
+	cd /home/lesserfish/Documents/Code/Yolk/Rewrite/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TEST.dir/build.make tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.s
+.PHONY : Yolk/YolkVM/test_instructions.cpp.s
+
 Yolk/YolkVM/test_ovo.o: Yolk/YolkVM/test_ovo.cpp.o
 .PHONY : Yolk/YolkVM/test_ovo.o
 
@@ -455,6 +479,9 @@ help:
 	@echo "... Yolk/Wrapper/test_wrappergenerator.o"
 	@echo "... Yolk/Wrapper/test_wrappergenerator.i"
 	@echo "... Yolk/Wrapper/test_wrappergenerator.s"
+	@echo "... Yolk/YolkVM/test_instructions.o"
+	@echo "... Yolk/YolkVM/test_instructions.i"
+	@echo "... Yolk/YolkVM/test_instructions.s"
 	@echo "... Yolk/YolkVM/test_ovo.o"
 	@echo "... Yolk/YolkVM/test_ovo.i"
 	@echo "... Yolk/YolkVM/test_ovo.s"

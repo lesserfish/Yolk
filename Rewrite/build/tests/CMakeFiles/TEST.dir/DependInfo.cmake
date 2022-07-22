@@ -17,6 +17,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_tvariable.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o.d"
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrapper.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o.d"
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrappergenerator.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o.d"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/test_instructions.cpp" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o.d"
   "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/test_ovo.cpp" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o.d"
   )
 

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/YolkVM/VM.h"
 
-TEST(Yolk_Test, OVO_LoadSave)
+TEST(OVO, LoadSave)
 {
     Yolk::VM::Ovo ovo;
     

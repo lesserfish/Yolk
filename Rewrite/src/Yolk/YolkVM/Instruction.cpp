@@ -146,7 +146,7 @@ namespace Yolk {
 
         // Instruction Code Start:
 
-		void Mov::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Mov::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, REGY  |   REGX, NAME
             // If Arg2 is a register, copies REGY onto REGX by reference. 
@@ -160,6 +160,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         regy = machine.SelectRegister(arg2.value);
+                        regx = regy;
                         break;
                     }
                 case ArgType::NAME:
@@ -167,6 +168,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         regy = find.wrapper;
+                        regx = regy;
                         break;
                     }
                 default:
@@ -175,11 +177,9 @@ namespace Yolk {
                     }
             }
 
-            regx = regy;
-
 
 		}
-		void Copy::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Copy::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:        REGX, REGY  |   REGX, ELEMENTARY  |   REGX, NAME
             // Copies the value of a wrapper onto the other. This throws an exception if the two wrappers have different types. 
@@ -194,7 +194,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TrySET(regy.field);
+                        regx.field->TrySET(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -202,7 +202,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TrySET(regy.field);
+                        regx.field->TrySET(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -253,7 +253,7 @@ namespace Yolk {
                     }
             }
 		}
-		void Clone::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Clone::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:       REGX, REGY  |   REGX, NAME
             // If Arg2 is a register, clones REGY onto REGX.
@@ -267,6 +267,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         regy = machine.SelectRegister(arg2.value);
+                        regx = machine.GetMemory().CreateCopy(regy);
                         break;
                     }
                 case ArgType::NAME:
@@ -274,6 +275,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         regy = find.wrapper;
+                        regx = machine.GetMemory().CreateCopy(regy);
                         break;
                     }
                 default:
@@ -282,11 +284,8 @@ namespace Yolk {
                     }
             }
 
-
-            regx = machine.GetMemory().CreateCopy(regy);
-
 		}
-		void New::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void New::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, ELEMENTARY
             // Allocates the elementary type onto memory and copies the wrapper to REGX.
@@ -353,7 +352,7 @@ namespace Yolk {
             }
 
 		}
-		void Movm::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Movm::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:        NAME
             // Searches in memory for a method wrapper with that name and then copy it onto the method register.
@@ -365,7 +364,7 @@ namespace Yolk {
             regm = find.wrapper;
 
 		}
-		void Callm::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Callm::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage:  
             // Invokes the method wrapper in REGM
@@ -378,19 +377,19 @@ namespace Yolk {
             regout = out;
 
 		}
-		void Pushar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Pushar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:      REGX
             // Pushes REGX onto the Argument stack
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for Pushar instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
             WrapperArgument& arguments = machine.SelectArgumentRegister();
 
             arguments.push_back(regx);
 
 		}
-		void Popar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Popar::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:    None   |   REGX
             // If Arg1 is None, pops the last element of the argument stack
@@ -417,14 +416,14 @@ namespace Yolk {
             }
 
 		}
-		void Clrar::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Clrar::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage:    
             // Clears the argument stack
             WrapperArgument& arguments = machine.SelectArgumentRegister();
             arguments.clear();
 		}
-		void Push::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Push::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:        REGX    
             // Pushes REGX into the Stack
@@ -437,7 +436,7 @@ namespace Yolk {
 
 
 		}
-		void Pop::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Pop::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:      NONE     |   REGX
             // If Arg1 is None, pops the last element of the stack
@@ -465,14 +464,14 @@ namespace Yolk {
             }
 
 		}
-		void Clear::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Clear::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage:    
             // Clears the stack
             WrapperArgument& stack = machine.SelectStack();
             stack.clear();
 		}
-		void Cmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Cmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:         REGX
             // Casts REGX to bool and check if it's valid.
@@ -482,7 +481,7 @@ namespace Yolk {
 
             regcmp = regx.field->TryBOOL();
 		}
-		void Cmpeq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cmpeq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:       REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
             // if Arg2 is a register, compares REGX == REGY and set it's truth-value onto regcmp.
@@ -498,7 +497,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regcmp = regx.field->TryEQ(regy.field);
+                        regcmp = regx.field->TryEQ(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -506,7 +505,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regcmp = regx.field->TryEQ(regy.field);
+                        regcmp = regx.field->TryEQ(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -558,7 +557,7 @@ namespace Yolk {
             }
 
 		}
-		void Cmpneq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cmpneq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
             // Usage:       REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
             // if Arg2 is a register, compares REGX != REGY and set it's truth-value onto regcmp.
@@ -573,7 +572,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regcmp = regx.field->TryNEQ(regy.field);
+                        regcmp = regx.field->TryNEQ(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -581,7 +580,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regcmp = regx.field->TryNEQ(regy.field);
+                        regcmp = regx.field->TryNEQ(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -633,7 +632,7 @@ namespace Yolk {
             }
 
 		}
-		void Cmpls::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cmpls::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
             // Usage:       REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
             // if Arg2 is a register, compares REGX < REGY and set it's truth-value onto regcmp.
@@ -649,7 +648,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regcmp = regx.field->TryL(regy.field);
+                        regcmp = regx.field->TryL(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -657,7 +656,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regcmp = regx.field->TryL(regy.field);
+                        regcmp = regx.field->TryL(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -710,7 +709,7 @@ namespace Yolk {
 
 
 		}
-		void Cmpgt::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cmpgt::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
             // Usage:       REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
             // if Arg2 is a register, compares REGX > REGY and set it's truth-value onto regcmp.
@@ -725,7 +724,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regcmp = regx.field->TryG(regy.field);
+                        regcmp = regx.field->TryG(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -733,7 +732,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regcmp = regx.field->TryG(regy.field);
+                        regcmp = regx.field->TryG(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -787,7 +786,7 @@ namespace Yolk {
 
 
 		}
-		void Cmplseq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cmplseq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
             // Usage:       REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
             // if Arg2 is a register, compares REGX <= REGY and set it's truth-value onto regcmp.
@@ -802,7 +801,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regcmp = regx.field->TryLE(regy.field);
+                        regcmp = regx.field->TryLE(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -810,7 +809,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regcmp = regx.field->TryLE(regy.field);
+                        regcmp = regx.field->TryLE(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -862,7 +861,7 @@ namespace Yolk {
             }
 
 		}
-		void Cmpgteq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cmpgteq::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
             // Usage:       REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME   
             // if Arg2 is a register, compares REGX >= REGY and set it's truth-value onto regcmp.
@@ -877,7 +876,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regcmp = regx.field->TryGE(regy.field);
+                        regcmp = regx.field->TryGE(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -885,7 +884,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regcmp = regx.field->TryGE(regy.field);
+                        regcmp = regx.field->TryGE(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -937,7 +936,7 @@ namespace Yolk {
             }
 
 		}
-		void Jntrue::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Jntrue::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:      REGX        |   UINT
             // If Arg1 is a register, cast it's value to uint and jumps to that position if regcmp is true
@@ -969,7 +968,7 @@ namespace Yolk {
             }
 
 		}
-		void Jnfalse::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Jnfalse::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:     REGX        |   UINT
             // If Arg1 is a register, cast it's value to uint and jumps to that position if regcmp is false
@@ -1000,7 +999,7 @@ namespace Yolk {
                 }
             }
 		}
-		void Jmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Jmp::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:         REGX        |   UINT
             // If Arg1 is a register, cast it's value to uint and jumps to that position
@@ -1027,7 +1026,7 @@ namespace Yolk {
                 }
             
 		}
-		void Call::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Call::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:        REGX        |   UINT
             // Copies the position of ip onto the stack
@@ -1061,7 +1060,7 @@ namespace Yolk {
                         }
                 }
 		}
-		void Ret::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Ret::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage: 
             // Pops the stack onto the position of ip.
@@ -1073,7 +1072,7 @@ namespace Yolk {
             uint64_t jump_position = w.field->As<uint64_t>();
             machine.Jump(jump_position);
 		}
-		void Add::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Add::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
             // If Arg2 is a register, does REGX += REGY
@@ -1088,7 +1087,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TryPLUS(regy.field);
+                        regx.field->TryPLUS(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -1096,7 +1095,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TryPLUS(regy.field);
+                        regx.field->TryPLUS(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -1148,7 +1147,7 @@ namespace Yolk {
             }
 
 		}
-		void Sub::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Sub::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
             // If Arg2 is a register, does REGX -= REGY
@@ -1162,7 +1161,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TrySUB(regy.field);
+                        regx.field->TrySUB(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -1170,7 +1169,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TrySUB(regy.field);
+                        regx.field->TrySUB(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -1221,7 +1220,7 @@ namespace Yolk {
                     }
             }
 		}
-		void Mul::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Mul::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
             // If Arg2 is a register, does REGX *= REGY
@@ -1236,7 +1235,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TryPROD(regy.field);
+                        regx.field->TryPROD(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -1244,7 +1243,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TryPROD(regy.field);
+                        regx.field->TryPROD(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -1295,7 +1294,7 @@ namespace Yolk {
                     }
             }
 		}
-		void Div::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Div::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
             // If Arg2 is a register, does REGX /= REGY
@@ -1309,7 +1308,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TryDIV(regy.field);
+                        regx.field->TryDIV(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -1317,7 +1316,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TryDIV(regy.field);
+                        regx.field->TryDIV(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -1368,7 +1367,7 @@ namespace Yolk {
                     }
             }
 		}
-		void Mod::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Mod::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
             // If Arg2 is a register, does REGX %= REGY
@@ -1382,7 +1381,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TryMOD(regy.field);
+                        regx.field->TryMOD(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -1390,7 +1389,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TryMOD(regy.field);
+                        regx.field->TryMOD(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -1441,7 +1440,7 @@ namespace Yolk {
                     }
             }
 		}
-		void And::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void And::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:         REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
             // If Arg2 is a register, does REGX &&= REGY
@@ -1455,7 +1454,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TryAND(regy.field);
+                        regx.field->TryAND(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -1463,7 +1462,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TryAND(regy.field);
+                        regx.field->TryAND(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -1514,7 +1513,7 @@ namespace Yolk {
                     }
             }
 		}
-		void Or::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Or::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:          REGX, REGY  |   REGX, ELEMENTARY    |   REGX, NAME
             // If Arg2 is a register, does REGX ||= REGY
@@ -1528,7 +1527,7 @@ namespace Yolk {
                 case ArgType::REGISTER:
                     {
                         Wrapper regy = machine.SelectRegister(arg2.value);
-                        regx.field->TryOR(regy.field);
+                        regx.field->TryOR(*regy.field);
                         break;
                     }
                 case ArgType::NAME:
@@ -1536,7 +1535,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         Wrapper regy = find.wrapper;
-                        regx.field->TryOR(regy.field);
+                        regx.field->TryOR(*regy.field);
                         break;
                     }
                 case ArgType::INT32:
@@ -1587,7 +1586,7 @@ namespace Yolk {
                     }
             }
 		}
-		void Cast::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Cast::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:        REGX, REGY  |   REGX, TYPE          |   REGX, NAME
             // If Arg2 is a register, casts REGX to the type of REGY
@@ -1671,7 +1670,7 @@ namespace Yolk {
             }
 
 		}
-		void Name::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Name::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:        REGX, STRING 
             // Copies RegX to the memory under the name in Arg2
@@ -1684,7 +1683,7 @@ namespace Yolk {
             machine.GetInterface()->RegisterWrapper(regx, name, false);
 
 		}
-		void Nameg::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2)
+		void Nameg::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& arg2) const
 		{
 			// Usage:       REGX, STRING
             // Copies RegX to the global memory under the name in Arg2
@@ -1696,19 +1695,19 @@ namespace Yolk {
 
             machine.GetInterface()->RegisterWrapper(regx, name, true);
 		}
-		void Brup::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Brup::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage: 
             // Branches UP
             machine.GetInterface()->BranchUp();
 		}
-		void Brdw::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Brdw::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage:     
             // Branches DOWN
             machine.GetInterface()->BranchDown();
 		}
-		void Brhz::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& )
+		void Brhz::Execute(VirtualMachine& machine, Ovo::Code::Arg& arg1, Ovo::Code::Arg& ) const
 		{
 			// Usage:        STRING    
             // Branches horizontally to the memory under the name in Arg1
@@ -1720,18 +1719,18 @@ namespace Yolk {
 
             machine.UpdateInterface(interface);
 		}
-		void Rsbr::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Rsbr::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage: 
             // Resets Branching.
             machine.ResetInterface();
 		}
-		void Zero::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Zero::Execute(VirtualMachine& , Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage:     
             // Does nothing.
 		}
-		void Halt::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& )
+		void Halt::Execute(VirtualMachine& machine, Ovo::Code::Arg& , Ovo::Code::Arg& ) const
 		{
 			// Usage:     
             // Stops the machine.

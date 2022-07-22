@@ -6,7 +6,7 @@ void  MTyA(int, int)
 {
     return;   
 }
-TEST(Yolk_Test, Method_Wrapper_Test_A)
+TEST(MethodWrapper, Void_IntInt)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<void(int, int)> f =  MTyA;
@@ -25,7 +25,7 @@ int  MTyB(int x, int y)
 {
     return x + y;   
 }
-TEST(Yolk_Test, Method_Wrapper_Test_B)
+TEST(MethodWrapper, Int_IntInt)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<int(int, int)> f =  MTyB;
@@ -47,7 +47,7 @@ float  MTyC(float x, int y)
 {
     return x - y;   
 }
-TEST(Yolk_Test, Method_Wrapper_Test_C)
+TEST(MethodWrapper, Float_FloatInt)
 {
     Yolk::Memory::DynamicMemory manager;
     
@@ -60,10 +60,9 @@ TEST(Yolk_Test, Method_Wrapper_Test_C)
     Yolk::MethodWrapper m = manager.AllocateMemory<std::function<float(float, int)>>(f);
     m.InstantiateWrapper<float, float, int>(f);
 
-    //auto wrapper = m.Invoke(p);
+    auto wrapper = m.Invoke(p);
 
-    //EXPECT_FLOAT_EQ(wrapper.field->As<float>(), 2.2);
-    //EXPECT_TRUE(wrapper.ok);
+    EXPECT_FLOAT_EQ(wrapper.field->As<float>(), 2.2);
 }
 
 struct Helper
@@ -81,7 +80,7 @@ Helper  MTyD(int x, int y)
     return o;
 }
 
-TEST(Yolk_Test, Method_Wrapper_Test_D)
+TEST(MethodWrapper, Struct_IntInt)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f =  MTyD;
@@ -96,7 +95,7 @@ TEST(Yolk_Test, Method_Wrapper_Test_D)
 }
 
 
-TEST(Yolk_Test, Method_Wrapper_Test_E)
+TEST(MethodWrapper, Struct_IntInt2)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f =  MTyD;
@@ -121,7 +120,7 @@ void Func(Yolk::MethodWrapper& w1, Yolk::Memory::DynamicMemory &manager)
     w1 = o1;
     EXPECT_TRUE(w1.IsValid());
 }
-TEST(Yolk_Test, Method_Wrapper_Clone)
+TEST(MethodWrapper, Clone)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::TypedField::Pointer pointer = std::make_shared<Yolk::TypedField>();
@@ -131,7 +130,7 @@ TEST(Yolk_Test, Method_Wrapper_Clone)
 
     EXPECT_TRUE(wrap.IsValid());
 }
-TEST(Yolk_Test, Method_Wrapper_By_Reference)
+TEST(MethodWrapper, By_Reference)
 {
     Yolk::Memory::DynamicMemory manager;
     auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, MTyB);
@@ -151,7 +150,7 @@ TEST(Yolk_Test, Method_Wrapper_By_Reference)
     EXPECT_EQ(out.field->As<int>(), 12);
 
 }
-TEST(Yolk_Test, Method_Wrapper_By_Equality)
+TEST(MethodWrapper, By_Equality)
 {
     Yolk::Memory::DynamicMemory manager;
     auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, MTyB);

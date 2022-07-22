@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o.d"
   "CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o"
   "CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o.d"
+  "CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o"
+  "CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o.d"
   "CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o"
   "CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o.d"
   "TEST"

@@ -12,32 +12,36 @@ namespace Yolk
         enum class Status : uint8_t {
             RUNNING,
             HALTED,
+            OUTOFBOUNDS,
             ERROR
         };
 
         class VirtualMachine 
         {
             public:
+                VirtualMachine(Memory::DynamicMemory& mem, Memory::MemoryInterface* meminterface);
                 friend class Instruction;
                 Wrapper& SelectRegister(uint64_t);
                 MethodWrapper& SelectMethodRegister() {return regm;}
+                Memory::DynamicMemory& GetMemory() {return memory;};
+                Memory::MemoryInterface* GetInterface() {return currentInterface; }
                 WrapperArgument& SelectArgumentRegister() {return regarg;}
                 WrapperArgument& SelectStack() {return stack;}
                 bool& SelectCmpRegister() {return regcmp; }
-                std::string SelectText(uint64_t);
-                inline Memory::MemoryInterface* GetInterface() {return currentInterface; }
-                void UpdateInterface(Memory::MemoryInterface* );
-                void ResetInterface();
-                void Halt();
-                Memory::DynamicMemory& GetMemory() {return memory;};
-                void Jump(uint64_t);
-                uint64_t GetPosition() const;
-            private:
+                void UpdateInterface(Memory::MemoryInterface* interface) {currentInterface = interface;}
+                void ResetInterface() {currentInterface = baseInterface;}
+                void Jump(uint64_t position) {ip = position;}
+                uint64_t GetPosition() {return ip;}
+                void Halt() {status = Status::HALTED;}
+                virtual std::string SelectText(uint64_t);
+            protected:
                 Memory::DynamicMemory& memory;
                 
-                Memory::MemoryInterface* currentInterface;
                 Memory::MemoryInterface* baseInterface;
+                Memory::MemoryInterface* currentInterface;
                 Ovo ovo;
+
+                Status status;
 
                 Wrapper rega;
                 Wrapper regb;
@@ -48,7 +52,7 @@ namespace Yolk
                 bool regcmp;
                 WrapperArgument regarg;
                 WrapperArgument stack;
-                std::vector<Ovo::Code>::iterator ip;
+                uint64_t ip;
         };
         
     }
