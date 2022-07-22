@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/Core/Core.h"
 
-TEST(Yolk_Test, Wrapper_FromReference)
+TEST(Wrapper, FromReference)
 {
     Yolk::Memory::DynamicMemory manager;
     auto wrapperA = manager.AllocateMemory<int>(7);
@@ -13,7 +13,7 @@ TEST(Yolk_Test, Wrapper_FromReference)
     EXPECT_EQ(manager.UpdateViewersCount(wrapperA.ID, 0), 2);
 }
 
-TEST(Yolk_Test, Wrapper_FromEquality)
+TEST(Wrapper, FromEquality)
 {
     Yolk::Memory::DynamicMemory manager;
 

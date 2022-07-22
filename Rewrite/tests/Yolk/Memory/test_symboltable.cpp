@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/Memory/Memory.h"
 
-TEST(Yolk_Memory, SymbolTableInterface_Basic)
+TEST(SymbolTableInterface, Basic)
 {
 
     Yolk::Memory::SymbolTableInterface systable;
@@ -34,7 +34,7 @@ TEST(Yolk_Memory, SymbolTableInterface_Basic)
     EXPECT_EQ(t5, 0);
 
 }
-TEST(Yolk_Memory, SymbolTableInterface_VerticalBranching)
+TEST(SymbolTableInterface, VerticalBranching)
 {
     Yolk::Memory::SymbolTableInterface systable;
 
@@ -69,7 +69,7 @@ TEST(Yolk_Memory, SymbolTableInterface_VerticalBranching)
     EXPECT_FALSE(t3);
 
 }
-TEST(Yolk_Memory, SymbolTableInterface_GlobalAddAndDelete)
+TEST(SymbolTableInterface, GlobalAddAndDelete)
 {
     Yolk::Memory::SymbolTableInterface systable;
     systable.Add(Yolk::Memory::SymbolKey("Name"), Yolk::Memory::SymbolValue(12, Yolk::Memory::SymbolValue::Type::Wrapper));
@@ -89,7 +89,7 @@ TEST(Yolk_Memory, SymbolTableInterface_GlobalAddAndDelete)
     EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("GlobalAge")));
 
 }
-TEST(Yolk_Memory, SymbolTableInterface_BranchUp)
+TEST(SymbolTableInterface, BranchUp)
 {
     Yolk::Memory::SymbolTableInterface systable;
     systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12, Yolk::Memory::SymbolValue::Type::Wrapper));
@@ -115,7 +115,7 @@ TEST(Yolk_Memory, SymbolTableInterface_BranchUp)
 
     EXPECT_EQ(t2.at(0).second.key, 15);
 }
-TEST(Yolk_Memory, SymboLTable_GlobalAll)
+TEST(SymbolTableInterface, SymboLTable_GlobalAll)
 {
     Yolk::Memory::SymbolTableInterface systable;
     systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12, Yolk::Memory::SymbolValue::Type::Wrapper));
@@ -135,7 +135,7 @@ TEST(Yolk_Memory, SymboLTable_GlobalAll)
     EXPECT_EQ(t2.size(), 1); // A2
 
 }
-//TEST(Yolk_Memory, SymbolTableInterface_Clone)
+//TEST(SymbolTableInterface, Clone)
 //{
 //    Yolk::Memory::SymbolTableInterface systable;
 //    systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12, Yolk::Memory::SymbolValue::Type::Wrapper));
@@ -176,7 +176,7 @@ TEST(Yolk_Memory, SymboLTable_GlobalAll)
 //
 //}
 //
-//TEST(Yolk_Memory, SymbolTableInterface_Clear)
+//TEST(SymbolTableInterface, Clear)
 //{
 //    std::cout << "A!\n";
 //    Yolk::Memory::SymbolTableInterface systable;
@@ -235,7 +235,7 @@ TEST(Yolk_Memory, SymboLTable_GlobalAll)
 //    EXPECT_TRUE(systable.Exists(Yolk::Memory::SymbolKey("C")));
 //}
 
-//TEST(Yolk_Memory, SymbolTableInterface_ClearChildren)
+//TEST(SymbolTableInterface, ClearChildren)
 //{
 //    Yolk::Memory::SymbolTableInterface systable;
 //    systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12, Yolk::Memory::SymbolValue::Type::Wrapper));
@@ -251,7 +251,7 @@ TEST(Yolk_Memory, SymboLTable_GlobalAll)
 //
 //    EXPECT_EQ(w.size(), 3);
 //}
-//TEST(Yolk_Memory, SymbolTableInterface_ClearAll)
+//TEST(SymbolTableInterface, ClearAll)
 //{
 //    Yolk::Memory::SymbolTableInterface systable;
 //    systable.Add(Yolk::Memory::SymbolKey("A"), Yolk::Memory::SymbolValue(12, Yolk::Memory::SymbolValue::Type::Wrapper));

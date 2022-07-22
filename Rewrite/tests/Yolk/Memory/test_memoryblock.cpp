@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-TEST(Yolk_Test, MemoryInterface_Register_Register)
+TEST(MemoryInterface, Register_Register)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -14,7 +14,7 @@ TEST(Yolk_Test, MemoryInterface_Register_Register)
     block.Register(F1, "F1");
 
 }
-TEST(Yolk_Test, MemoryInterface_Register_RegisterTwiceShouldFail)
+TEST(MemoryInterface, Register_RegisterTwiceShouldFail)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -33,7 +33,7 @@ TEST(Yolk_Test, MemoryInterface_Register_RegisterTwiceShouldFail)
     EXPECT_FALSE(ok);
 
 }
-TEST(Yolk_Test, MemoryInterface_Register)
+TEST(MemoryInterface, Register)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -45,7 +45,7 @@ TEST(Yolk_Test, MemoryInterface_Register)
 
     EXPECT_EQ(type, Yolk::Memory::SymbolValue::Type::Wrapper);
 }
-TEST(Yolk_Test, MemoryInterface_Register_GetByName)
+TEST(MemoryInterface, Register_GetByName)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -59,7 +59,7 @@ TEST(Yolk_Test, MemoryInterface_Register_GetByName)
     EXPECT_STREQ(wrap.field->Print().c_str(), "12");
     EXPECT_STREQ(wrap.field->Type().name(), "i");
 }
-TEST(Yolk_Test, MemoryInterface_Exists)
+TEST(MemoryInterface, Exists)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -84,7 +84,7 @@ TEST(Yolk_Test, MemoryInterface_Exists)
     EXPECT_TRUE(ok1);
     EXPECT_FALSE(ok2);
 }
-TEST(Yolk_Test, MemoryInterface_Delete_by_Name)
+TEST(MemoryInterface, Delete_by_Name)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -138,7 +138,7 @@ int memblock_func(int x)
 {
     return x;
 }
-TEST(Yolk_Test, MemoryInterface_RegisterMethod)
+TEST(MemoryInterface, RegisterMethod)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -163,7 +163,7 @@ int memblock_sum(int x, int y)
 {
     return x - y;
 }
-TEST(Yolk_Test, MemoryInterface_Combination)
+TEST(MemoryInterface, Combination)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface block(manager);
@@ -236,7 +236,7 @@ void GoTest(Yolk::Memory::DynamicMemory& manager, Yolk::Memory::MemoryInterface&
     // namel REGA, "output"
     memblock.Register(REGA, "output");
 }
-TEST(Yolk_Test, MemoryInterface_Mini_Assembly)
+TEST(MemoryInterface, Mini_Assembly)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface memblock(manager);
@@ -256,7 +256,7 @@ TEST(Yolk_Test, MemoryInterface_Mini_Assembly)
     EXPECT_EQ(manager.ViewersCount(m.ID), 2); // m and the one in MemBlock
     EXPECT_EQ(manager.ViewersCount(w.ID), 2); // w and the one in MemBlock
 }
-TEST(Yolk_Test, MemoryInterface_Branch)
+TEST(MemoryInterface, Branch)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryInterface memblock(manager);

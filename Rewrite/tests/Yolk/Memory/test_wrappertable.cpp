@@ -2,7 +2,7 @@
 #include "../../../src/Yolk/Memory/MemoryTable.h"
 #include "../../../src/Yolk/Core/Core.h"
 
-TEST(Yolk_Test, Wrapper_Table_Add_Field)
+TEST(WrapperTable, Add_Field)
 {
     Yolk::Memory::DynamicMemory manager;
 
@@ -22,7 +22,7 @@ TEST(Yolk_Test, Wrapper_Table_Add_Field)
 
     EXPECT_EQ(wtable.Size(), 2);
 }
-TEST(Yolk_Test, Wrapper_Table_Add_Field_2)
+TEST(WrapperTable, Add_Field_2)
 {
     Yolk::Memory::DynamicMemory manager;
     auto i1 = manager.AllocateMemory<int>(12);
@@ -53,7 +53,7 @@ int test_wraptable(int x)
 {
     return x + 3;
 }
-TEST(Yolk_Test, Wrapper_Table_Add_Method)
+TEST(WrapperTable, Add_Method)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<int(int)> f = test_wraptable;
@@ -81,7 +81,7 @@ TEST(Yolk_Test, Wrapper_Table_Add_Method)
     wtable.Erase(id3);
     EXPECT_EQ(manager.ViewersCount(i2.ID + 1), 0);
 }
-TEST(Yolk_Test, Wrapper_Table_Erase)
+TEST(WrapperTable, Erase)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryTable table(manager);
@@ -115,7 +115,7 @@ TEST(Yolk_Test, Wrapper_Table_Erase)
     EXPECT_EQ(manager.Size(), 0);
     EXPECT_EQ(table.Size(), 0);
 }
-TEST(Yolk_Test, Wrapper_Table_Get_Field)
+TEST(WrapperTable, Get_Field)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryTable table(manager);
@@ -132,7 +132,7 @@ TEST(Yolk_Test, Wrapper_Table_Get_Field)
     table.Erase(id);
     EXPECT_EQ(manager.ViewersCount(1), 1);
 }
-TEST(Yolk_Test, Wrapper_Table_Get_Method)
+TEST(WrapperTable, Get_Method)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryTable table(manager);
@@ -149,7 +149,7 @@ TEST(Yolk_Test, Wrapper_Table_Get_Method)
 
     EXPECT_EQ(o.field->As<int>(), -9);
 }
-TEST(Yolk_Test, Wrapper_Table_Unset_Method)
+TEST(WrapperTable, Unset_Method)
 {
     Yolk::Memory::DynamicMemory manager;
     Yolk::Memory::MemoryTable table(manager);

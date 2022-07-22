@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/Core/Core.h"
 
-TEST(Yolk_Test, Typed_Variable_Assignment)
+TEST(TypedField, Assignment)
 {
     int a = 5;
     float b = 3.14;
@@ -20,7 +20,7 @@ struct Test_B
     int r;
 };
 
-TEST(Yolk_Test, Typed_Variable_Assignment_B)
+TEST(TypedField, Assignment_B)
 {
     int a = 5;
     Test_B b(7);
@@ -35,7 +35,7 @@ TEST(Yolk_Test, Typed_Variable_Assignment_B)
     EXPECT_EQ(b.r, 3);
 }
 
-TEST(Yolk_Test, Typed_Variable_Assignemnt_C)
+TEST(TypedField, Assignemnt_C)
 {
     int a = 1;
     int b = 2;
@@ -54,7 +54,7 @@ TEST(Yolk_Test, Typed_Variable_Assignemnt_C)
     // Set does not change lvalue
     EXPECT_EQ(b, 2);
 }
-TEST(Yolk_Test, Typed_Variables_Const)
+TEST(TypedField, Typed_Variables_Const)
 {
 	const int a = 5;
 	const float f = 3.14;
@@ -66,7 +66,7 @@ TEST(Yolk_Test, Typed_Variables_Const)
 	EXPECT_FLOAT_EQ(y.As<float>(), 3.14);
 	EXPECT_FALSE(x.Copy(9));
 }
-TEST(Yolk_Test, Typed_Variable_Copy_By_Function)
+TEST(TypedField, Copy_By_Function)
 {
     int a = 1;
     int b = 2;
@@ -92,7 +92,7 @@ TEST(Yolk_Test, Typed_Variable_Copy_By_Function)
     EXPECT_EQ(y.As<int>(), b);
 }
 
-TEST(Yolk_Test, Typed_Variable_Copy_By_Other_Typed_Variable)
+TEST(TypedField, Copy_By_Other_Typed_Variable)
 {
     int a = 2;
     int b = 5;
@@ -110,7 +110,7 @@ struct Test_D
     Test_D() : a(0){}
     int a;
 };
-TEST(Yolk_Test, Typed_Variable_Is_Method)
+TEST(TypedField, Is_Method)
 {
     int a = 4;
     Test_D b;
@@ -123,7 +123,7 @@ TEST(Yolk_Test, Typed_Variable_Is_Method)
     EXPECT_FALSE(x.Is<float>());
 }
 
-TEST(Yolk_Test, Typed_Variable_Compare_A)
+TEST(TypedField, Compare_A)
 {
     int a = 1;
     int b = 1;
@@ -148,7 +148,7 @@ struct CompareB
     int a;
 };
 
-TEST(Yolk_Test, Typed_Variable_Compare_B)
+TEST(TypedField, Compare_B)
 {
     CompareB a(0);
     CompareB b(0);
@@ -166,7 +166,7 @@ TEST(Yolk_Test, Typed_Variable_Compare_B)
     EXPECT_FALSE(x == CompareB(1));
 
 }
-TEST(Yolk_Test, Typed_Variable_Bind)
+TEST(TypedField, Bind)
 {
     int a = 1;
     int b = 2;
@@ -185,7 +185,7 @@ TEST(Yolk_Test, Typed_Variable_Bind)
     EXPECT_EQ(a, -7);
     EXPECT_EQ(b, 3);
 }
-TEST(Yolk_Test, Typed_Variable_EqualComparison)
+TEST(TypedField, EqualComparison)
 {
 
     CompareB a(0);
@@ -205,7 +205,7 @@ TEST(Yolk_Test, Typed_Variable_EqualComparison)
 
 }
 
-TEST(Yolk_Test, Typed_Variable_Equal_Set)
+TEST(TypedField, Equal_Set)
 {
     int a = 5;
     int b = 3;
@@ -234,7 +234,7 @@ struct TypedStructure
 {
     int a;
 };
-TEST(Yolk_Test, Typed_Variable_Type)
+TEST(TypedField, Type)
 {
     int a = 5;
     TypedStructure b;
@@ -247,14 +247,14 @@ TEST(Yolk_Test, Typed_Variable_Type)
     EXPECT_EQ(y.Type(), typeid(TypedStructure));
 }
 
-TEST(Yolk_Test, Typed_Variable_Sizeof)
+TEST(TypedField, Sizeof)
 {
     char c = 'x';
     Yolk::TypedField x = c;
 
     EXPECT_EQ(x.GetSize(), 1);
 }
-TEST(Yolk_Test, Typed_Variable_SafeAs)
+TEST(TypedField, SafeAs)
 {
     int a = 5;
     Yolk::TypedField x(a);
@@ -262,7 +262,7 @@ TEST(Yolk_Test, Typed_Variable_SafeAs)
     x.SafeAs<int>(b);
     EXPECT_EQ(b, 5);
 }
-TEST(Yolk_Test, Typed_Variable_BindToTypedVariable)
+TEST(TypedField, BindToTypedVariable)
 {
     int xi = 5;
     int yi = 12;
@@ -277,7 +277,7 @@ TEST(Yolk_Test, Typed_Variable_BindToTypedVariable)
 
     EXPECT_EQ(xi, 121);
 }
-TEST(Yolk_Test, Typed_Variable_Stability_A)
+TEST(TypedField, Stability_A)
 {
     Yolk::TypedField x;
     Yolk::TypedField y(x);
@@ -312,7 +312,7 @@ TEST(Yolk_Test, Typed_Variable_Stability_A)
     int b;
     x.SafeAs<int>(b);
 }
-TEST(Yolk_Test, Typed_Variable_Print_A)
+TEST(TypedField, Print_A)
 {
     int a = 12;
     float f = 7.1;
@@ -329,13 +329,13 @@ TEST(Yolk_Test, Typed_Variable_Print_A)
 struct TVPB
 {
 };
-TEST(Yolk_Test, Typed_Variable_Print_B)
+TEST(TypedField, Print_B)
 {
     TVPB a;
     Yolk::TypedField x = a;
     EXPECT_STREQ(x.Print().c_str(), "[Unknown Object]");
 }
-TEST(Yolk_Test, Typed_Variable_Comparison_){
+TEST(TypedField, Comparison_){
     int a = 12;
     int b = 6;
 
@@ -389,7 +389,7 @@ TEST(Yolk_Test, Typed_Variable_Comparison_){
     cmp = xa.TryNEQ(12);
     EXPECT_FALSE(cmp);
 }
-TEST(Yolk_Test, Typed_Variable_Operators){
+TEST(TypedField, Operators){
     int a = 12;
     int b = 4;
 
@@ -440,7 +440,7 @@ struct CompIntEQ {
         return value != other;
     }
 };
-TEST(Yolk_Test, Typed_Variable_Comparison_Struct){
+TEST(TypedField, Comparison_Struct){
     auto x = CompIntEQ{12};
     Yolk::TypedField xr(x);
 
@@ -481,7 +481,7 @@ struct ProdInt {
         return value % other;
     }
 };
-TEST(Yolk_Test, Typed_Variable_Arithmetic_Struct){
+TEST(TypedField, Arithmetic_Struct){
     ProdInt x{12};
     Yolk::TypedField xr(x);
 
@@ -500,7 +500,7 @@ TEST(Yolk_Test, Typed_Variable_Arithmetic_Struct){
     xr.TryMOD(16);
     EXPECT_TRUE(xr.TryEQ(24 % 16));
 }
-TEST(Yolk_Test, Typed_Variable_Comparison_DoubleInt){
+TEST(TypedField, Comparison_DoubleInt){
     double x = 12;
     Yolk::TypedField xr(x);
 
@@ -517,7 +517,7 @@ TEST(Yolk_Test, Typed_Variable_Comparison_DoubleInt){
     cmp = xr.TryNEQ(12);
     EXPECT_FALSE(cmp);
 }
-TEST(Yolk_Test, Typed_Variable_Arithmetic_DoubleInt){
+TEST(TypedField, Arithmetic_DoubleInt){
     double x = 12;
     Yolk::TypedField xr(x);
 
@@ -534,7 +534,7 @@ TEST(Yolk_Test, Typed_Variable_Arithmetic_DoubleInt){
     EXPECT_FLOAT_EQ(x, 24.0);
 }
 struct Demo{};
-TEST(Yolk_Test, Typed_Variable_Stability_B){
+TEST(TypedField, Stability_B){
     int x = 12;
     Demo y;
     
@@ -596,7 +596,7 @@ TEST(Yolk_Test, Typed_Variable_Stability_B){
     EXPECT_TRUE(test);
     test = false;
 }
-TEST(Yolk_Test, Typed_Variable_CopyByValue_A){
+TEST(TypedField, CopyByValue_A){
     int x = 12;
     Yolk::TypedField xr = x;
 
@@ -613,7 +613,7 @@ TEST(Yolk_Test, Typed_Variable_CopyByValue_A){
 struct cpyval {
     int a;
 };
-TEST(Yolk_Test, Typed_Variable_CopyByValue_B){
+TEST(TypedField, CopyByValue_B){
     cpyval x {12};
     Yolk::TypedField xr = x;
 
@@ -627,7 +627,7 @@ TEST(Yolk_Test, Typed_Variable_CopyByValue_B){
     EXPECT_EQ(xr.As<cpyval>().a, 13);
     EXPECT_EQ(cpy.field->As<cpyval>().a, 25);
 }
-TEST(Yolk_Test, Typed_Variable_SET){
+TEST(TypedField, SET){
     int x = 12;
     float y = 5.0;
 
@@ -653,7 +653,7 @@ TEST(Yolk_Test, Typed_Variable_SET){
 
     EXPECT_FALSE(ok);
 }
-TEST(Yolk_Test, Typed_Variable_SET_B){
+TEST(TypedField, SET_B){
     double a = 1.13;
     double b = 1.11;
 
@@ -664,7 +664,7 @@ TEST(Yolk_Test, Typed_Variable_SET_B){
 
     EXPECT_DOUBLE_EQ(ar.As<double>(), 1.11);
 }
-TEST(Yolk_Test, Typed_Variable_TryBOOL){
+TEST(TypedField, TryBOOL){
     int i = 13;
     Yolk::TypedField ir = i;
 

@@ -6,7 +6,7 @@ void TyA(int, int)
 {
     return;   
 }
-TEST(Yolk_Test, Typed_Unwrapper_Test_A)
+TEST(ArgumentUnwrapper, Test_A)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<void(int, int)> f = TyA;
@@ -23,7 +23,7 @@ int TyB(int x, int y)
 {
     return x + y;   
 }
-TEST(Yolk_Test, Typed_Unwrapper_Test_B)
+TEST(ArgumentUnwrapper, Test_B)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<int(int, int)> f = TyB;
@@ -44,7 +44,7 @@ float TyC(float x, int y)
 {
     return x - y;   
 }
-TEST(Yolk_Test, Typed_Unwrapper_Test_C)
+TEST(ArgumentUnwrapper, Test_C)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<float(float, int)> f = TyC;
@@ -74,7 +74,7 @@ Helper TyD(int x, int y)
     return o;
 }
 
-TEST(Yolk_Test, Typed_Unwrapper_Test_D)
+TEST(ArgumentUnwrapper, Test_D)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f = TyD;
@@ -90,7 +90,7 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_D)
 }
 
 
-TEST(Yolk_Test, Typed_Unwrapper_Test_E)
+TEST(ArgumentUnwrapper, Test_E)
 {
     Yolk::Memory::DynamicMemory manager;
     std::function<Helper(int, int)> f = TyD;
@@ -108,7 +108,7 @@ TEST(Yolk_Test, Typed_Unwrapper_Test_E)
 float func_over(float x){
     return x;
 }
-TEST(Yolk_Test, Typed_Unwrapper_Test_F){
+TEST(ArgumentUnwrapper, Test_F){
     Yolk::Memory::DynamicMemory manager;
     
     std::function<int(float)> f = func_over;

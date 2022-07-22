@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../../src/Yolk/Core/Core.h"
 
-TEST(Yolk_Test, WrapperGenerator_Dynamic_Field)
+TEST(WrapperGenerator, WrapperGenerator_Dynamic_Field)
 {
     Yolk::Memory::DynamicMemory manager;
     auto o = Yolk::WrapperGenerator<int>::GenerateDynamicWrapper(manager, 127);
@@ -11,7 +11,7 @@ TEST(Yolk_Test, WrapperGenerator_Dynamic_Field)
     EXPECT_EQ(manager.ViewersCount(o.ID), 1);
 }
 
-TEST(Yolk_Test, WrapperGenerator__Static_Field)
+TEST(WrapperGenerator, Static_Field)
 {
     Yolk::Memory::DynamicMemory manager;
     int x = 12;
@@ -27,7 +27,7 @@ TEST(Yolk_Test, WrapperGenerator__Static_Field)
     EXPECT_EQ(x, 15);
 }
 
-TEST(Yolk_Test, WrapperGenerator__Method)
+TEST(WrapperGenerator, Method)
 {
     Yolk::Memory::DynamicMemory manager;
     auto o = Yolk::WrapperGenerator<int, int>::GenerateMethodWrapper(manager, [](int x){return x + 3;});
@@ -40,7 +40,7 @@ TEST(Yolk_Test, WrapperGenerator__Method)
     EXPECT_EQ(result.field->As<int>(), 22);
 }
 
-TEST(Yolk_Test, Wrapper_Generator_Argument)
+TEST(WrapperGenerator, Wrapper_Generator_Argument)
 {
     Yolk::Memory::DynamicMemory manager;
     auto o = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, [](int x, int y){return x + y;});
