@@ -246,6 +246,7 @@ class InstructionTest : public Yolk::VM::VirtualMachine
 		}
 		void PUSHAR(){
             // Already testes in CALLM
+
 		}
 		void POPAR(){
             //

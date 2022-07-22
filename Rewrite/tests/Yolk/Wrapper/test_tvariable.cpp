@@ -144,6 +144,10 @@ TEST(TypedField, Compare_A)
 
 struct CompareB
 {
+    bool operator==(const CompareB& other)
+    {
+        return a == other.a;
+    }
     CompareB(int x) : a(x){}
     int a;
 };
@@ -187,7 +191,6 @@ TEST(TypedField, Bind)
 }
 TEST(TypedField, EqualComparison)
 {
-
     CompareB a(0);
     CompareB b(0);
     CompareB c(1);
@@ -677,4 +680,17 @@ TEST(TypedField, TryBOOL){
     cmp = ir.TryBOOL();
 
     EXPECT_FALSE(cmp);
+}
+TEST(TypedField, Stability_C)
+{
+    Yolk::TypedField x;
+    bool test = false;
+    try{
+        int y = x.As<int>();
+        y = y;
+    } catch(const Yolk::TFException&)
+    {
+        test = true;
+    }
+    EXPECT_TRUE(test);
 }

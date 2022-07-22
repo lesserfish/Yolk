@@ -152,7 +152,7 @@ namespace Yolk {
             // If Arg2 is a register, copies REGY onto REGX by reference. 
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then copy it onto REGX by reference. 
 
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
             Wrapper regy = machine.GetMemory().GetVoidWrapper();
             switch(arg2.type)
@@ -173,7 +173,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for MOV instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -187,7 +187,7 @@ namespace Yolk {
             // If Arg2 is an Elementary type, copies the value of Arg2 to the value of REGX.
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then copy its value to the value of REGX. 
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             switch(arg2.type)
             {
@@ -249,7 +249,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for COPY instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 		}
@@ -259,7 +259,7 @@ namespace Yolk {
             // If Arg2 is a register, clones REGY onto REGX.
             // If Arg2 is a Name, searches in memory for a wrapper with that name and then clones it onto REGX by value. 
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
             Wrapper regy = machine.GetMemory().GetVoidWrapper();
             switch(arg2.type)
@@ -280,7 +280,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CLONE instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -289,8 +289,8 @@ namespace Yolk {
 		{
 			// Usage:         REGX, ELEMENTARY
             // Allocates the elementary type onto memory and copies the wrapper to REGX.
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
-            AssertCondition(arg2.type == ArgType::ELEMENTARY, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
+            AssertCondition(arg2.type == ArgType::ELEMENTARY, "Wrong argument for " + to_string()+ " instruction");
             
             Wrapper& regx = machine.SelectRegister(arg1.value);
             EType type = static_cast<EType>(arg2.value);
@@ -347,7 +347,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for NEW instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -356,7 +356,7 @@ namespace Yolk {
 		{
 			// Usage:        NAME
             // Searches in memory for a method wrapper with that name and then copy it onto the method register.
-            AssertCondition(arg1.type == ArgType::NAME, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::NAME, "Wrong argument for " + to_string()+ " instruction");
             MethodWrapper& regm = machine.SelectMethodRegister();
             
             std::string text = machine.SelectText(arg1.value);
@@ -382,7 +382,7 @@ namespace Yolk {
 			// Usage:      REGX
             // Pushes REGX onto the Argument stack
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for Pushar instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
             WrapperArgument& arguments = machine.SelectArgumentRegister();
 
@@ -411,7 +411,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for POPAR instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -428,7 +428,7 @@ namespace Yolk {
 			// Usage:        REGX    
             // Pushes REGX into the Stack
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
             WrapperArgument& stack = machine.SelectStack();
 
@@ -459,7 +459,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for POP instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -475,7 +475,7 @@ namespace Yolk {
 		{
 			// Usage:         REGX
             // Casts REGX to bool and check if it's valid.
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             bool& regcmp = machine.SelectCmpRegister();
 
@@ -488,7 +488,7 @@ namespace Yolk {
             // If Arg2 is an elementary value, compares RegX == value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX == Wrapper and set it's truth-value onto regcmp.
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             bool& regcmp = machine.SelectCmpRegister();
             
@@ -552,7 +552,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -563,7 +563,7 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX != REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX != value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX != Wrapper and set it's truth-value onto regcmp.
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             bool& regcmp = machine.SelectCmpRegister();
             
@@ -627,7 +627,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -639,7 +639,7 @@ namespace Yolk {
             // If Arg2 is an elementary value, compares RegX < value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX < Wrapper and set it's truth-value onto regcmp.
             //
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             bool& regcmp = machine.SelectCmpRegister();
             
@@ -703,7 +703,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -715,7 +715,7 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX > REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX > value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX > Wrapper and set it's truth-value onto regcmp.
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             bool& regcmp = machine.SelectCmpRegister();
             
@@ -779,7 +779,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -792,7 +792,7 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX <= REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX <= value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX <= Wrapper and set it's truth-value onto regcmp.
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             bool& regcmp = machine.SelectCmpRegister();
             
@@ -856,7 +856,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -867,7 +867,7 @@ namespace Yolk {
             // if Arg2 is a register, compares REGX >= REGY and set it's truth-value onto regcmp.
             // If Arg2 is an elementary value, compares RegX >= value and set it's truth-value onto regcmp.
             // If Arg2 is a name, searches the memory for that wrapper, comapres RegX >= Wrapper and set it's truth-value onto regcmp.
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             bool& regcmp = machine.SelectCmpRegister();
             
@@ -931,7 +931,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -962,7 +962,7 @@ namespace Yolk {
                         }
                     default:
                         {
-                            throw VMException("Wrong argument for POPAR instruction");
+                            throw VMException("Wrong argument for " + to_string()+ " instruction");
                         }
                 }
             }
@@ -994,7 +994,7 @@ namespace Yolk {
                         }
                     default:
                         {
-                            throw VMException("Wrong argument for POPAR instruction");
+                            throw VMException("Wrong argument for " + to_string()+ " instruction");
                         }
                 }
             }
@@ -1021,7 +1021,7 @@ namespace Yolk {
                         }
                     default:
                         {
-                            throw VMException("Wrong argument for POPAR instruction");
+                            throw VMException("Wrong argument for " + to_string()+ " instruction");
                         }
                 }
             
@@ -1056,7 +1056,7 @@ namespace Yolk {
                         }
                     default:
                         {
-                            throw VMException("Wrong argument for POPAR instruction");
+                            throw VMException("Wrong argument for " + to_string()+ " instruction");
                         }
                 }
 		}
@@ -1079,7 +1079,7 @@ namespace Yolk {
             // If Arg2 is an elementary value, does REGX += value
             // If Arg2 is a name, search the memory for that wrapper and do REGX += Wrapper
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             
             switch(arg2.type)
@@ -1142,7 +1142,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -1153,7 +1153,7 @@ namespace Yolk {
             // If Arg2 is a register, does REGX -= REGY
             // If Arg2 is an elementary value, does REGX -= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX -= Wrapper
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             
             switch(arg2.type)
@@ -1216,7 +1216,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 		}
@@ -1227,7 +1227,7 @@ namespace Yolk {
             // If Arg2 is an elementary value, does REGX *= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX *= Wrapper
             //
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             
             switch(arg2.type)
@@ -1290,7 +1290,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 		}
@@ -1300,7 +1300,7 @@ namespace Yolk {
             // If Arg2 is a register, does REGX /= REGY
             // If Arg2 is an elementary value, does REGX /= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX /= Wrapper
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             
             switch(arg2.type)
@@ -1363,7 +1363,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 		}
@@ -1373,7 +1373,7 @@ namespace Yolk {
             // If Arg2 is a register, does REGX %= REGY
             // If Arg2 is an elementary value, does REGX %= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX %= Wrapper
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             
             switch(arg2.type)
@@ -1436,7 +1436,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 		}
@@ -1446,7 +1446,7 @@ namespace Yolk {
             // If Arg2 is a register, does REGX &&= REGY
             // If Arg2 is an elementary value, does REGX &&= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX &&= Wrapper
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             
             switch(arg2.type)
@@ -1509,7 +1509,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 		}
@@ -1519,7 +1519,7 @@ namespace Yolk {
             // If Arg2 is a register, does REGX ||= REGY
             // If Arg2 is an elementary value, does REGX ||= value
             // If Arg2 is a name, search the memory for that wrapper and do REGX ||= Wrapper
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
             
             switch(arg2.type)
@@ -1582,7 +1582,7 @@ namespace Yolk {
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for CMPEQ instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 		}
@@ -1593,7 +1593,7 @@ namespace Yolk {
             // If Arg2 is a type, casts REGX to that type
             // If Arg2 is a name, search the memory for that wrapper and casts REGX to the type of that wrapper
             
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
             switch(arg2.type)
             {
@@ -1658,14 +1658,14 @@ namespace Yolk {
                                 }
                             default:
                                 {
-                                    throw VMException("Wrong argument for NEW instruction");
+                                    throw VMException("Wrong argument for " + to_string()+ " instruction");
                                 }
                             }
                         break;
                     }
                 default:
                     {
-                        throw VMException("Wrong argument for MOV instruction");
+                        throw VMException("Wrong argument for " + to_string()+ " instruction");
                     }
             }
 
@@ -1674,10 +1674,10 @@ namespace Yolk {
 		{
 			// Usage:        REGX, STRING 
             // Copies RegX to the memory under the name in Arg2
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
 
-            AssertCondition(arg2.type == ArgType::NAME, "Wrong argument for NAME instruction");
+            AssertCondition(arg2.type == ArgType::NAME, "Wrong argument for " + to_string()+ " instruction");
             std::string name = machine.SelectText(arg2.value);
 
             machine.GetInterface()->RegisterWrapper(regx, name, false);
@@ -1687,10 +1687,10 @@ namespace Yolk {
 		{
 			// Usage:       REGX, STRING
             // Copies RegX to the global memory under the name in Arg2
-            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for MOV instruction");
+            AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper regx = machine.SelectRegister(arg1.value);
 
-            AssertCondition(arg2.type == ArgType::NAME, "Wrong argument for NAME instruction");
+            AssertCondition(arg2.type == ArgType::NAME, "Wrong argument for " + to_string()+ " instruction");
             std::string name = machine.SelectText(arg2.value);
 
             machine.GetInterface()->RegisterWrapper(regx, name, true);
@@ -1711,7 +1711,7 @@ namespace Yolk {
 		{
 			// Usage:        STRING    
             // Branches horizontally to the memory under the name in Arg1
-            AssertCondition(arg1.type == ArgType::NAME, "Wrong argument for NAME instruction");
+            AssertCondition(arg1.type == ArgType::NAME, "Wrong argument for " + to_string()+ " instruction");
             std::string name = machine.SelectText(arg1.value);
 
             auto find = machine.GetInterface()->GetMemoryPointer(name);

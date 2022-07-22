@@ -210,7 +210,7 @@ namespace Yolk {
 
                     // int Operations
 
-                    ARITHMETICC(int)
+                    ARITHMETICC(int32_t)
                     
             };
 
@@ -503,7 +503,7 @@ namespace Yolk {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue == othervalue;
                             }
-                            throw TFException("Attempted comparison between unsupported types");
+                            throw TFException("operator== is not defined for this object.");
 							return false;
                         } else {
                             return other->InvokeEQ(this);
@@ -780,6 +780,9 @@ namespace Yolk {
                     T& lvalue;
                 };
         public:
+
+            //DEFINITIONS
+            
             TypedField();
             template<typename T> TypedField(T& lvalue);
             TypedField(TypedField& other);
@@ -868,6 +871,10 @@ namespace Yolk {
     }
 
     template<typename T> inline T& TypedField::As() const {
+        if(IsNone())
+        {
+            throw TFException("Attempted TypedField::As in None.");
+        }
         Thing<T>* cast = static_cast<Thing<T> *>(data);
         return cast->Get();
     }
@@ -882,13 +889,16 @@ namespace Yolk {
 
     template<typename T> inline void TypedField::Set(T const& value){
         if(IsNone()) {
-            return;
+            throw TFException("Attempted TypedField::Set in None.");
         }
         Thing<T>* cast = static_cast<Thing<T>*>(data);
         cast->Set(value);
     }
     
     inline bool TypedField::Copy(TypedField& other){
+        if(IsNone()) {
+            throw TFException("Attempted TypedField::Copy in None.");
+        }
         return data->Copy(other.data);
     }
     inline TypedField::CopyByValueOut TypedField::CopyByValue(){
@@ -900,27 +910,37 @@ namespace Yolk {
     }
 
     inline const TypedField& TypedField::operator=(TypedField& rightside) {
-        data->Copy(rightside.data);
+        //data->Copy(rightside.data);
+        data->SET(rightside);
         return *this;
     }
     template<typename T> inline const TypedField& TypedField::operator=(T&& rightside) const {
-        Thing<T> h(rightside);
-        data->Copy(&h);
+        //Thing<T> h(rightside);
+        //data->Copy(&h);
+        T t = rightside;
+        TypedField tw = t;
+        data->SET(tw);
         return *this;
     }
     template<typename T> inline const TypedField& TypedField::operator=(T& rightside) const {
-        Thing<T> h(rightside);
-        data->Copy(&h);
+        //Thing<T> h(rightside);
+        //data->Copy(&h);
+        TypedField tw = rightside;
+        data->SET(tw);
         return *this;
     }
 
     inline bool TypedField::operator==(TypedField& rightside){
-        return data->Compare(rightside.data);
+        return data->EQ(rightside);
+        //return data->Compare(rightside.data);
         
     }
     template<typename T> inline bool TypedField::operator==(T rightside) const {
-        Thing<T> h(rightside);
-        return data->Compare(&h);
+        //Thing<T> h(rightside);
+        // return data->Compare(&h);
+        T t = rightside;
+        TypedField tw = t;
+        return data->EQ(tw);
     }
 
     template<typename T> inline bool TypedField::Is() const {
