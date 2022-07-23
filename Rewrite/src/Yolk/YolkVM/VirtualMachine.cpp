@@ -4,8 +4,8 @@ namespace Yolk
 {
     namespace VM
     {
-        VirtualMachine::VirtualMachine(Memory::DynamicMemory& mem, Memory::MemoryInterface* meminterface) :
-            memory(mem),
+        VirtualMachine::VirtualMachine(Memory::MemoryAllocator& mem, Memory::MemoryInterface* meminterface) :
+            allocator(mem),
             baseInterface(meminterface),
             currentInterface(meminterface),
             rega(mem.GetVoidWrapper()),
@@ -13,7 +13,9 @@ namespace Yolk
             regc(mem.GetVoidWrapper()),
             regd(mem.GetVoidWrapper()),
             regout(mem.GetVoidWrapper()),
-            regm(mem.GetVoidWrapper())
+            regm(mem.GetVoidWrapper()),
+            regcmp(false),
+            ip(0)
         {}
         Wrapper& VirtualMachine::SelectRegister(uint64_t value)
         {

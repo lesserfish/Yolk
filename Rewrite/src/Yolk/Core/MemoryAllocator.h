@@ -10,14 +10,14 @@ namespace Yolk
 {
     namespace Memory
     {
-        class DynamicMemory {
+        class MemoryAllocator {
             private:
-            DynamicMemory(const DynamicMemory&) = delete;
-            DynamicMemory(DynamicMemory&) = delete;
+            MemoryAllocator(const MemoryAllocator&) = delete;
+            MemoryAllocator(MemoryAllocator&) = delete;
             public:
 
-            DynamicMemory();
-            ~DynamicMemory();
+            MemoryAllocator();
+            ~MemoryAllocator();
             
             Wrapper GetVoidWrapper();
 
@@ -48,14 +48,14 @@ namespace Yolk
             std::unordered_map<Identifier, AbstractData::Pointer> AllocatedMemory;
             Wrapper VoidWrapper;
         };
-        inline DynamicMemory::DynamicMemory() : AllocatedMemory(), VoidWrapper(0, TypedField::Pointer(new TypedField), *this){}
-        inline DynamicMemory::~DynamicMemory(){
+        inline MemoryAllocator::MemoryAllocator() : AllocatedMemory(), VoidWrapper(0, TypedField::Pointer(new TypedField), *this){}
+        inline MemoryAllocator::~MemoryAllocator(){
         }
 
-        inline Wrapper DynamicMemory::GetVoidWrapper(){
+        inline Wrapper MemoryAllocator::GetVoidWrapper(){
             return VoidWrapper;
         }
-        template<typename T> inline Wrapper DynamicMemory::AllocateMemory(){
+        template<typename T> inline Wrapper MemoryAllocator::AllocateMemory(){
             constexpr bool canCreate = requires() {
                 new DynamicData<T>();
             };
@@ -77,7 +77,7 @@ namespace Yolk
             }
             throw Exceptions::Exception("Failed to allocated memory.");
         }
-        template<typename T> inline Wrapper DynamicMemory::AllocateMemory(T value){
+        template<typename T> inline Wrapper MemoryAllocator::AllocateMemory(T value){
             constexpr bool canCreate = requires() {
                 new DynamicData<T>(value);
             };
@@ -98,7 +98,7 @@ namespace Yolk
             }
             throw Exceptions::Exception("Failed to allocated memory.");
         }
-        template<typename T> inline Wrapper DynamicMemory::CreateWrapper(T& value){
+        template<typename T> inline Wrapper MemoryAllocator::CreateWrapper(T& value){
             TypedField::Pointer tfptr(new TypedField(value));
             Identifier id = MEMID::Next();
             Wrapper wrapper(id, tfptr, *this);
@@ -106,7 +106,7 @@ namespace Yolk
             return wrapper;
         }
 
-        inline Wrapper DynamicMemory::CreateCopy(Wrapper other){
+        inline Wrapper MemoryAllocator::CreateCopy(Wrapper other){
             try{
                 auto copyattempt = other.field->CopyByValue();
                 Identifier id = copyattempt.datapointer->ID();
@@ -121,7 +121,7 @@ namespace Yolk
             
         }
         
-        inline Viewers DynamicMemory::UpdateViewersCount(Identifier id, Viewers diff){
+        inline Viewers MemoryAllocator::UpdateViewersCount(Identifier id, Viewers diff){
             auto it = AllocatedMemory.find(id);
             if(it == AllocatedMemory.end()){
                 return 0;
@@ -134,18 +134,18 @@ namespace Yolk
             }
             return updatedScore;
         }
-        inline Viewers DynamicMemory::ViewersCount(Identifier id){
+        inline Viewers MemoryAllocator::ViewersCount(Identifier id){
             return UpdateViewersCount(id, 0);
         }
 
-        inline bool DynamicMemory::Exists(Identifier id){
+        inline bool MemoryAllocator::Exists(Identifier id){
             auto it = AllocatedMemory.find(id);
             if(it == AllocatedMemory.end()){
                 return false;
             }
             return true;
         }
-        inline unsigned int DynamicMemory::Size() const {
+        inline unsigned int MemoryAllocator::Size() const {
             return AllocatedMemory.size();
         }
     }

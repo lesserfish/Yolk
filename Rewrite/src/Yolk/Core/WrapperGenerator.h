@@ -12,10 +12,10 @@ namespace Yolk
     template <typename T, typename... F>
     struct WrapperGenerator<T, F...>
     {
-        static MethodWrapper GenerateMethodWrapper(Memory::DynamicMemory &memory, std::function<T(F...)> func)
+        static MethodWrapper GenerateMethodWrapper(Memory::MemoryAllocator &allocator, std::function<T(F...)> func)
         {
-            auto alloc_memory = memory.AllocateMemory<std::function<T(F...)>>(func);
-            MethodWrapper m(alloc_memory);
+            auto alloc_allocator = allocator.AllocateMemory<std::function<T(F...)>>(func);
+            MethodWrapper m(alloc_allocator);
             m.InstantiateWrapper<T, F...>();
             return m;
         }
@@ -24,30 +24,30 @@ namespace Yolk
     template <typename T>
     struct WrapperGenerator<T>
     {
-        static MethodWrapper GenerateMethodWrapper(Memory::DynamicMemory &memory, std::function<T()> func)
+        static MethodWrapper GenerateMethodWrapper(Memory::MemoryAllocator &allocator, std::function<T()> func)
         {
-            auto alloc_memory = memory.AllocateMemory<std::function<T()>>(func);
-            MethodWrapper m(alloc_memory);
+            auto alloc_allocator = allocator.AllocateMemory<std::function<T()>>(func);
+            MethodWrapper m(alloc_allocator);
             m.InstantiateWrapper<T>();
             return m;
         }
-        static Wrapper GenerateStaticWrapper(Memory::DynamicMemory &memory, T &Input)
+        static Wrapper GenerateStaticWrapper(Memory::MemoryAllocator &allocator, T &Input)
         {
-            return memory.CreateWrapper(Input);
+            return allocator.CreateWrapper(Input);
         }
-        static Wrapper GenerateDynamicWrapper(Memory::DynamicMemory &memory, T Input)
+        static Wrapper GenerateDynamicWrapper(Memory::MemoryAllocator &allocator, T Input)
         {
-            return memory.AllocateMemory(Input);
+            return allocator.AllocateMemory(Input);
         }
     };
 
     template <>
     struct WrapperGenerator<void>
     {
-        static MethodWrapper GenerateMethodWrapper(Memory::DynamicMemory &memory, std::function<void()> func)
+        static MethodWrapper GenerateMethodWrapper(Memory::MemoryAllocator &allocator, std::function<void()> func)
         {
-            auto alloc_memory = memory.AllocateMemory<std::function<void()>>(func);
-            MethodWrapper m(alloc_memory);
+            auto alloc_allocator = allocator.AllocateMemory<std::function<void()>>(func);
+            MethodWrapper m(alloc_allocator);
             m.InstantiateWrapper<void>();
             return m;
         }

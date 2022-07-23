@@ -273,7 +273,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/TypedField.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/../Exceptions.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/Wrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/DynamicMemory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/MemoryAllocator.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperRequired.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/../../../src/Yolk/Memory/../Core/WrapperArgument.h \
  /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \

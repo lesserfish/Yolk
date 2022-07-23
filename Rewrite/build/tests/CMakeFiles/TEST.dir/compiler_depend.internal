@@ -239,7 +239,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o
  /usr/include/c++/10/sstream
  /usr/include/c++/10/bits/sstream.tcc
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -588,7 +588,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o
  /usr/include/c++/10/sstream
  /usr/include/c++/10/bits/sstream.tcc
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -1038,7 +1038,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o
  /usr/include/c++/10/typeindex
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -1387,7 +1387,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -1734,7 +1734,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -2080,7 +2080,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -2426,7 +2426,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -2772,7 +2772,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -3118,7 +3118,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -3471,7 +3471,7 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque
@@ -3831,7 +3831,7 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/TypedField.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Exceptions.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/Wrapper.h
- /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/DynamicMemory.h
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/MemoryAllocator.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperRequired.h
  /home/lesserfish/Documents/Code/Yolk/Rewrite/src/Yolk/Core/WrapperArgument.h
  /usr/include/c++/10/deque

@@ -8,7 +8,7 @@ void TyA(int, int)
 }
 TEST(ArgumentUnwrapper, Test_A)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<void(int, int)> f = TyA;
 
     auto i1 = manager.AllocateMemory<int>(1);
@@ -25,7 +25,7 @@ int TyB(int x, int y)
 }
 TEST(ArgumentUnwrapper, Test_B)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<int(int, int)> f = TyB;
     
     auto i1 = manager.AllocateMemory<int>(1);
@@ -46,7 +46,7 @@ float TyC(float x, int y)
 }
 TEST(ArgumentUnwrapper, Test_C)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<float(float, int)> f = TyC;
     
     auto i1 = manager.AllocateMemory<float>(7.2);
@@ -76,7 +76,7 @@ Helper TyD(int x, int y)
 
 TEST(ArgumentUnwrapper, Test_D)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<Helper(int, int)> f = TyD;
     
     auto i1 = manager.AllocateMemory<int>(-1);
@@ -92,7 +92,7 @@ TEST(ArgumentUnwrapper, Test_D)
 
 TEST(ArgumentUnwrapper, Test_E)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<Helper(int, int)> f = TyD;
     
     auto i1 = manager.AllocateMemory<int>(-5);
@@ -109,7 +109,7 @@ float func_over(float x){
     return x;
 }
 TEST(ArgumentUnwrapper, Test_F){
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     
     std::function<int(float)> f = func_over;
     

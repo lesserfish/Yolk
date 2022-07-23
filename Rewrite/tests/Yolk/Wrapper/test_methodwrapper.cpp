@@ -8,7 +8,7 @@ void  MTyA(int, int)
 }
 TEST(MethodWrapper, Void_IntInt)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<void(int, int)> f =  MTyA;
 
     auto i1 = manager.AllocateMemory<int>(1);
@@ -27,7 +27,7 @@ int  MTyB(int x, int y)
 }
 TEST(MethodWrapper, Int_IntInt)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<int(int, int)> f =  MTyB;
 
     auto i1 = manager.AllocateMemory<int>(1);
@@ -49,7 +49,7 @@ float  MTyC(float x, int y)
 }
 TEST(MethodWrapper, Float_FloatInt)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     
     std::function<float(float, int)> f =  MTyC;
     
@@ -82,7 +82,7 @@ Helper  MTyD(int x, int y)
 
 TEST(MethodWrapper, Struct_IntInt)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<Helper(int, int)> f =  MTyD;
     
     auto i1 = manager.AllocateMemory<int>(-1);
@@ -97,7 +97,7 @@ TEST(MethodWrapper, Struct_IntInt)
 
 TEST(MethodWrapper, Struct_IntInt2)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<Helper(int, int)> f =  MTyD;
     
     auto i1 = manager.AllocateMemory<int>(-5);
@@ -110,7 +110,7 @@ TEST(MethodWrapper, Struct_IntInt2)
 }
 
 void f(){}
-void Func(Yolk::MethodWrapper& w1, Yolk::Memory::DynamicMemory &manager)
+void Func(Yolk::MethodWrapper& w1, Yolk::Memory::MemoryAllocator &manager)
 {
     auto func = std::function<void()>(f);
     auto o1 = Yolk::WrapperGenerator<void>::GenerateMethodWrapper(manager, func);
@@ -122,7 +122,7 @@ void Func(Yolk::MethodWrapper& w1, Yolk::Memory::DynamicMemory &manager)
 }
 TEST(MethodWrapper, Clone)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::TypedField::Pointer pointer = std::make_shared<Yolk::TypedField>();
     Yolk::MethodWrapper wrap(0, pointer, manager);
 
@@ -132,7 +132,7 @@ TEST(MethodWrapper, Clone)
 }
 TEST(MethodWrapper, By_Reference)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, MTyB);
 
     auto i1 = manager.AllocateMemory<int>(7);
@@ -152,7 +152,7 @@ TEST(MethodWrapper, By_Reference)
 }
 TEST(MethodWrapper, By_Equality)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto fa = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, MTyB);
     auto fb = Yolk::WrapperGenerator<float, float, int>::GenerateMethodWrapper(manager, MTyC);
 

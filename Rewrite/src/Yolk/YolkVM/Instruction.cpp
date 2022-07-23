@@ -154,7 +154,7 @@ namespace Yolk {
 
             AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
-            Wrapper regy = machine.GetMemory().GetVoidWrapper();
+            Wrapper regy = machine.GetAllocator().GetVoidWrapper();
             switch(arg2.type)
             {
                 case ArgType::REGISTER:
@@ -261,13 +261,13 @@ namespace Yolk {
             
             AssertCondition(arg1.type == ArgType::REGISTER, "Wrong argument for " + to_string()+ " instruction");
             Wrapper& regx = machine.SelectRegister(arg1.value);
-            Wrapper regy = machine.GetMemory().GetVoidWrapper();
+            Wrapper regy = machine.GetAllocator().GetVoidWrapper();
             switch(arg2.type)
             {
                 case ArgType::REGISTER:
                     {
                         regy = machine.SelectRegister(arg2.value);
-                        regx = machine.GetMemory().CreateCopy(regy);
+                        regx = machine.GetAllocator().CreateCopy(regy);
                         break;
                     }
                 case ArgType::NAME:
@@ -275,7 +275,7 @@ namespace Yolk {
                         std::string text = machine.SelectText(arg2.value);
                         auto find = machine.GetInterface()->GetWrapper(text);  
                         regy = find.wrapper;
-                        regx = machine.GetMemory().CreateCopy(regy);
+                        regx = machine.GetAllocator().CreateCopy(regy);
                         break;
                     }
                 default:
@@ -299,49 +299,49 @@ namespace Yolk {
             {
                 case EType::INT32:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<int32_t>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<int32_t>();
                         regx = w;
                         break;
                     }
                 case EType::INT64:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<int64_t>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<int64_t>();
                         regx = w;
                         break;
                     }
                 case EType::UINT32:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<uint32_t>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<uint32_t>();
                         regx = w;
                         break;
                     }
                 case EType::UINT64:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<uint64_t>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<uint64_t>();
                         regx = w;
                         break;
                     }
                 case EType::FLOAT:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<float>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<float>();
                         regx = w;
                         break;
                     }
                 case EType::DOUBLE:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<double>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<double>();
                         regx = w;
                         break;
                     }
                 case EType::CHAR:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<char>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<char>();
                         regx = w;
                         break;
                     }
                 case EType::STRING:
                     {
-                        Wrapper w = machine.GetMemory().AllocateMemory<std::string>();
+                        Wrapper w = machine.GetAllocator().AllocateMemory<std::string>();
                         regx = w;
                         break;
                     }
@@ -1034,7 +1034,7 @@ namespace Yolk {
             // If Arg1 is an uint, jump to that value
             
             uint64_t current_position = machine.GetPosition();
-            Wrapper w = machine.GetMemory().AllocateMemory<uint64_t>(current_position);
+            Wrapper w = machine.GetAllocator().AllocateMemory<uint64_t>(current_position);
             
             WrapperArgument& stack = machine.SelectStack();
             stack.push_back(w);

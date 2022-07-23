@@ -3,7 +3,7 @@
 
 TEST(Wrapper, FromReference)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto wrapperA = manager.AllocateMemory<int>(7);
 
     Yolk::Wrapper fromref(wrapperA);
@@ -15,7 +15,7 @@ TEST(Wrapper, FromReference)
 
 TEST(Wrapper, FromEquality)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
 
     auto a = manager.AllocateMemory<int>(12);
     auto b = manager.AllocateMemory<int>(17);

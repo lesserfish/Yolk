@@ -6,7 +6,7 @@
 
 TEST(MemoryInterface, Register_Register)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
 
     auto F1 = manager.AllocateMemory<int>(12);
@@ -16,7 +16,7 @@ TEST(MemoryInterface, Register_Register)
 }
 TEST(MemoryInterface, Register_RegisterTwiceShouldFail)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
 
     auto F1 = manager.AllocateMemory<int>(12);
@@ -35,7 +35,7 @@ TEST(MemoryInterface, Register_RegisterTwiceShouldFail)
 }
 TEST(MemoryInterface, Register)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
 
     auto F1 = manager.AllocateMemory<int>(12);
@@ -47,7 +47,7 @@ TEST(MemoryInterface, Register)
 }
 TEST(MemoryInterface, Register_GetByName)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
     
     Yolk::Wrapper F1 = manager.AllocateMemory<int>(12);
@@ -61,7 +61,7 @@ TEST(MemoryInterface, Register_GetByName)
 }
 TEST(MemoryInterface, Exists)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
 
     Yolk::Wrapper F1 = manager.AllocateMemory<int>(12);
@@ -86,7 +86,7 @@ TEST(MemoryInterface, Exists)
 }
 TEST(MemoryInterface, Delete_by_Name)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
 
     Yolk::Wrapper F1 = manager.AllocateMemory<int>(12); // 1 Audience
@@ -140,7 +140,7 @@ int memblock_func(int x)
 }
 TEST(MemoryInterface, RegisterMethod)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
     
     std::function<int(int)> f = memblock_func;
@@ -165,7 +165,7 @@ int memblock_sum(int x, int y)
 }
 TEST(MemoryInterface, Combination)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface block(manager);
     
     auto i1 = manager.AllocateMemory<int>(12);
@@ -195,7 +195,7 @@ int FunctionTest(int a, float b)
     int o = a + (int)b;
     return o;
 }
-void GoTest(Yolk::Memory::DynamicMemory& manager, Yolk::Memory::MemoryInterface& memblock)
+void GoTest(Yolk::Memory::MemoryAllocator& manager, Yolk::Memory::MemoryInterface& memblock)
 {
     // Initialize Registers
     Yolk::Wrapper REGA(manager.GetVoidWrapper());
@@ -238,7 +238,7 @@ void GoTest(Yolk::Memory::DynamicMemory& manager, Yolk::Memory::MemoryInterface&
 }
 TEST(MemoryInterface, Mini_Assembly)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface memblock(manager);
 
     auto m = Yolk::WrapperGenerator<int, int, float>::GenerateMethodWrapper(manager, FunctionTest);
@@ -258,7 +258,7 @@ TEST(MemoryInterface, Mini_Assembly)
 }
 TEST(MemoryInterface, Branch)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryInterface memblock(manager);
     auto i1 = manager.AllocateMemory<int>(12);
     

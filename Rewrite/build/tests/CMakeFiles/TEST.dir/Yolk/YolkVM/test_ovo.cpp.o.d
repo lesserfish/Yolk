@@ -279,7 +279,7 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/TypedField.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/../Exceptions.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/Wrapper.h \
- /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/DynamicMemory.h \
+ /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/MemoryAllocator.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/WrapperRequired.h \
  /home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/../../../src/Yolk/YolkVM/../Core/WrapperArgument.h \
  /usr/include/c++/10/deque /usr/include/c++/10/bits/stl_deque.h \

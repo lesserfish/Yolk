@@ -3,7 +3,7 @@
 
 TEST(WrapperGenerator, WrapperGenerator_Dynamic_Field)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto o = Yolk::WrapperGenerator<int>::GenerateDynamicWrapper(manager, 127);
 
     EXPECT_FALSE(o.field->IsNone());
@@ -13,7 +13,7 @@ TEST(WrapperGenerator, WrapperGenerator_Dynamic_Field)
 
 TEST(WrapperGenerator, Static_Field)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     int x = 12;
     
     
@@ -29,7 +29,7 @@ TEST(WrapperGenerator, Static_Field)
 
 TEST(WrapperGenerator, Method)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto o = Yolk::WrapperGenerator<int, int>::GenerateMethodWrapper(manager, [](int x){return x + 3;});
 
     auto i = Yolk::WrapperGenerator<int>::GenerateDynamicWrapper(manager, 19);
@@ -42,7 +42,7 @@ TEST(WrapperGenerator, Method)
 
 TEST(WrapperGenerator, Wrapper_Generator_Argument)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto o = Yolk::WrapperGenerator<int, int, int>::GenerateMethodWrapper(manager, [](int x, int y){return x + y;});
     auto i1 = Yolk::WrapperGenerator<int>::GenerateDynamicWrapper(manager, 5);
     auto i2 = Yolk::WrapperGenerator<int>::GenerateDynamicWrapper(manager, -5);

@@ -26,7 +26,7 @@ namespace Yolk
         struct Unwrap
         {
             template <typename Func, typename... Args>
-            static Wrapper Run(Memory::DynamicMemory& memory, Func &, WrapperArgument& , Args...) {
+            static Wrapper Run(Memory::MemoryAllocator& allocator, Func &, WrapperArgument& , Args...) {
                 throw Exceptions::Exception("");
             }
         };
@@ -34,7 +34,7 @@ namespace Yolk
         struct Unwrap<ReturnType, U, T...>
         {
             template <typename Func, typename... Args>
-            static Wrapper Run(Memory::DynamicMemory& memory, Func &function, WrapperArgument& input, Args... args)
+            static Wrapper Run(Memory::MemoryAllocator& allocator, Func &function, WrapperArgument& input, Args... args)
             {
                 if (input.size() == 0)
                 {
@@ -56,7 +56,7 @@ namespace Yolk
                 }
 
                 U cast = v.field->As<U>();
-                return Unwrap<ReturnType, T...>::Run(memory, function, input, args..., cast);
+                return Unwrap<ReturnType, T...>::Run(allocator, function, input, args..., cast);
             }
         };
 
@@ -64,7 +64,7 @@ namespace Yolk
         struct Unwrap<ReturnType>
         {
             template <typename Func, typename... Args>
-            static Wrapper Run(Memory::DynamicMemory& memory, Func &function, WrapperArgument& input, Args... args)
+            static Wrapper Run(Memory::MemoryAllocator& allocator, Func &function, WrapperArgument& input, Args... args)
             {
                 if (input.size() > 0)
                 {
@@ -93,11 +93,11 @@ namespace Yolk
 
                 if constexpr(ReturnTypeIsVoid) {
                     function(args...);
-                    return memory.GetVoidWrapper();
+                    return allocator.GetVoidWrapper();
                 } else{
                     ReturnType ret = function(args...);
                     try{
-                        auto out = memory.AllocateMemory<ReturnType>(ret);
+                        auto out = allocator.AllocateMemory<ReturnType>(ret);
                         return out;
                     } catch(const Exceptions::Exception& exception)
                     {

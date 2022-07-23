@@ -59,7 +59,7 @@ namespace Yolk
         class MemoryTable
         {
         public:
-            MemoryTable(DynamicMemory&);
+            MemoryTable(MemoryAllocator&);
             ~MemoryTable();
 
             // API
@@ -75,13 +75,13 @@ namespace Yolk
             void UnsetMemoryPointer(MemoryInterface *);
 
         private:
-            DynamicMemory& dynamicMemory;
+            MemoryAllocator& allocator;
             std::unordered_map<MapKey, Wrapper> wrapperTable;
             std::unordered_map<MapKey, MethodWrapper> methodWrapperTable;
             std::unordered_map<MapKey, MPWrapper> memoryPointerTable;
         };
 
-        inline MemoryTable::MemoryTable(Yolk::Memory::DynamicMemory& _dynamicMemory) : dynamicMemory(_dynamicMemory), wrapperTable(), methodWrapperTable(), memoryPointerTable() {}
+        inline MemoryTable::MemoryTable(Yolk::Memory::MemoryAllocator& _allocator) : allocator(_allocator), wrapperTable(), methodWrapperTable(), memoryPointerTable() {}
         inline MemoryTable::~MemoryTable(){}
         
         inline void MemoryTable::Erase(MapKey id)

@@ -4,7 +4,7 @@
 
 TEST(WrapperTable, Add_Field)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
 
     auto i1 = manager.AllocateMemory<int>(12);
     auto i2 = manager.AllocateMemory<float>(3.14);
@@ -24,7 +24,7 @@ TEST(WrapperTable, Add_Field)
 }
 TEST(WrapperTable, Add_Field_2)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto i1 = manager.AllocateMemory<int>(12);
     auto i2 = manager.AllocateMemory<float>(3.14);
 
@@ -55,7 +55,7 @@ int test_wraptable(int x)
 }
 TEST(WrapperTable, Add_Method)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     std::function<int(int)> f = test_wraptable;
     auto i1 = Yolk::WrapperGenerator<int, int>::GenerateMethodWrapper(manager, f);
     auto i2 = Yolk::WrapperGenerator<int, int>::GenerateMethodWrapper(manager, f);
@@ -83,7 +83,7 @@ TEST(WrapperTable, Add_Method)
 }
 TEST(WrapperTable, Erase)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryTable table(manager);
 
     auto a = table.Add(manager.AllocateMemory<int>(1));
@@ -117,7 +117,7 @@ TEST(WrapperTable, Erase)
 }
 TEST(WrapperTable, Get_Field)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryTable table(manager);
 
     auto id = table.Add(manager.AllocateMemory<int>(121));
@@ -134,7 +134,7 @@ TEST(WrapperTable, Get_Field)
 }
 TEST(WrapperTable, Get_Method)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryTable table(manager);
     std::function<int(int)> f = test_wraptable; // f(x) = x + 3;
 
@@ -151,7 +151,7 @@ TEST(WrapperTable, Get_Method)
 }
 TEST(WrapperTable, Unset_Method)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryTable table(manager);
     Yolk::Memory::MemoryInterface* interface;
 

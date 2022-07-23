@@ -238,7 +238,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o: ../tests/Yolk/Me
   /usr/include/c++/10/sstream \
   /usr/include/c++/10/bits/sstream.tcc \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -586,7 +586,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o: ../tests/Yolk/Memo
   /usr/include/c++/10/sstream \
   /usr/include/c++/10/bits/sstream.tcc \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -1035,7 +1035,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o: ../tests/Yolk/Memo
   /usr/include/c++/10/typeindex \
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -1383,7 +1383,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o: ../tests/Yolk/Mem
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -1729,7 +1729,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o: ../tests/Yolk/W
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -2074,7 +2074,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o: ../tests/Yolk/Wrap
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -2419,7 +2419,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o: ../tests/Yolk/Wrapp
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -2764,7 +2764,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o: ../tests/Yolk/Wrapper
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -3109,7 +3109,7 @@ tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o: ../tests/Yol
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -3461,7 +3461,7 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o: ../tests/Yolk/Yol
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -3820,7 +3820,7 @@ tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o: ../tests/Yolk/YolkVM/test_
   ../src/Yolk/Core/TypedField.h \
   ../src/Yolk/Exceptions.h \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -3973,7 +3973,7 @@ _deps/googletest-src/googletest/include/gtest/gtest.h:
 
 ../src/Yolk/Core/WrapperRequired.h:
 
-../src/Yolk/Core/DynamicMemory.h:
+../src/Yolk/Core/MemoryAllocator.h:
 
 ../src/Yolk/Core/Wrapper.h:
 

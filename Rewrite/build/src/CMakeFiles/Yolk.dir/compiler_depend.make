@@ -246,7 +246,7 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/Instruction.cpp.o: ../src/Yolk/YolkVM/Instru
   /usr/include/c++/10/sstream \
   /usr/include/c++/10/bits/sstream.tcc \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -505,7 +505,7 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.o: ../src/Yolk/YolkVM/Vir
   /usr/include/c++/10/sstream \
   /usr/include/c++/10/bits/sstream.tcc \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -547,7 +547,7 @@ src/CMakeFiles/Yolk.dir/Yolk/YolkVM/VirtualMachine.cpp.o: ../src/Yolk/YolkVM/Vir
 
 ../src/Yolk/Core/WrapperRequired.h:
 
-../src/Yolk/Core/DynamicMemory.h:
+../src/Yolk/Core/MemoryAllocator.h:
 
 ../src/Yolk/Core/Wrapper.h:
 

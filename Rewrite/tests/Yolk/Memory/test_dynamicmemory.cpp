@@ -2,22 +2,22 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-TEST(DynamicMemory, Add)
+TEST(MemoryAllocator, Add)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto o = manager.AllocateMemory<int>();
     *(o.field) = 14;
 
     EXPECT_EQ(manager.Size(), 1);
     EXPECT_TRUE(manager.Exists(o.ID));
 }
-void RemoveTest_B(Yolk::Memory::DynamicMemory &manager)
+void RemoveTest_B(Yolk::Memory::MemoryAllocator &manager)
 {
     EXPECT_EQ(manager.Size(), 1);
     auto o = manager.AllocateMemory<float>(1.1);
     EXPECT_EQ(manager.Size(), 2);
 }
-void RemoveTest_A(Yolk::Memory::DynamicMemory &manager)
+void RemoveTest_A(Yolk::Memory::MemoryAllocator &manager)
 {
     EXPECT_EQ(manager.Size(), 0);
     auto o = manager.AllocateMemory<float>(3.14);
@@ -25,15 +25,15 @@ void RemoveTest_A(Yolk::Memory::DynamicMemory &manager)
     RemoveTest_B(manager);
     EXPECT_EQ(manager.Size(), 1);
 }
-TEST(DynamicMemory, Remove)
+TEST(MemoryAllocator, Remove)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     RemoveTest_A(manager);
     EXPECT_EQ(manager.Size(), 0);
 }
-TEST(DynamicMemory, Size)
+TEST(MemoryAllocator, Size)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto o = manager.AllocateMemory<int>();
     int id = o.ID;
 
@@ -44,13 +44,13 @@ TEST(DynamicMemory, Size)
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 3);
 }
 
-void Copy_Test(Yolk::Wrapper, Yolk::Memory::DynamicMemory& manager, int id)
+void Copy_Test(Yolk::Wrapper, Yolk::Memory::MemoryAllocator& manager, int id)
 {
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 4);
 }
-TEST(DynamicMemory, Size_B)
+TEST(MemoryAllocator, Size_B)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto o = manager.AllocateMemory<int>();
     int id = o.ID;
 
@@ -63,9 +63,9 @@ TEST(DynamicMemory, Size_B)
     EXPECT_EQ(manager.UpdateViewersCount(id, 0), 3);
 }
 
-TEST(DynamicMemory, Vector_test)
+TEST(MemoryAllocator, Vector_test)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto o = manager.AllocateMemory<int>();
 
     *(o.field) = 12;
@@ -88,9 +88,9 @@ TEST(DynamicMemory, Vector_test)
     EXPECT_STREQ(o.field->Print().c_str(), "15");
 }
 
-TEST(DynamicMemory, LostMemory_Test)
+TEST(MemoryAllocator, LostMemory_Test)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     manager.AllocateMemory<int>(121);
     manager.AllocateMemory<int>(121);
     manager.AllocateMemory<int>(121);
@@ -100,9 +100,9 @@ TEST(DynamicMemory, LostMemory_Test)
     EXPECT_EQ(manager.Size(), 0); // Since no Wrapper was stored, the memory stack should be empty.
 }
 
-TEST(DynamicMemory, CreateCopy_Dynamic)
+TEST(MemoryAllocator, CreateCopy_Dynamic)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     auto w = manager.AllocateMemory<int>(12);
     auto wcopy = manager.CreateCopy(w);
 
@@ -114,9 +114,9 @@ TEST(DynamicMemory, CreateCopy_Dynamic)
     EXPECT_EQ(w.field->As<int>(), 12);
     EXPECT_EQ(wcopy.field->As<int>(), 14);
 }
-TEST(DynamicMemory, CreateCopy_Static)
+TEST(MemoryAllocator, CreateCopy_Static)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
     int x = 12;
     auto w = manager.CreateWrapper(x);
 
@@ -130,9 +130,9 @@ TEST(DynamicMemory, CreateCopy_Static)
     EXPECT_EQ(w.field->As<int>(), 12);
     EXPECT_EQ(wcopy.field->As<int>(), 14);
 }
-//TEST(DynamicMemory, CopyByReference_NewEntry)
+//TEST(MemoryAllocator, CopyByReference_NewEntry)
 //{
-//    Yolk::Memory::DynamicMemory manager;
+//    Yolk::Memory::MemoryAllocator manager;
 //    int x = 12;
 //    auto w = manager.CreateWrapper(x);
 //
@@ -146,9 +146,9 @@ TEST(DynamicMemory, CreateCopy_Static)
 //    EXPECT_EQ(w.field->As<int>(), 14);
 //    EXPECT_EQ(wcopy.field->As<int>(), 14);
 //}
-//TEST(DynamicMemory, CopyByReference_NoNewEntry)
+//TEST(MemoryAllocator, CopyByReference_NoNewEntry)
 //{
-//    Yolk::Memory::DynamicMemory manager;
+//    Yolk::Memory::MemoryAllocator manager;
 //    int x = 12;
 //    auto w = manager.CreateWrapper(x);
 //
@@ -163,9 +163,9 @@ TEST(DynamicMemory, CreateCopy_Static)
 //    EXPECT_EQ(wcopy.field->As<int>(), 14);
 //}
 
-TEST(DynamicMemory, Delete)
+TEST(MemoryAllocator, Delete)
 {
-    Yolk::Memory::DynamicMemory manager;
+    Yolk::Memory::MemoryAllocator manager;
 
     Yolk::Wrapper a = manager.AllocateMemory<int>(5);
     Yolk::Wrapper b = manager.AllocateMemory<int>(7);

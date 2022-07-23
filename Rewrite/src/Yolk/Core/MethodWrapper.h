@@ -14,7 +14,7 @@ namespace Yolk
         struct AbstractInvoker
         {
             virtual ~AbstractInvoker(){}
-            virtual Wrapper Invoke(Memory::DynamicMemory &memory, Wrapper &Function, WrapperArgument &Argument) = 0;
+            virtual Wrapper Invoke(Memory::MemoryAllocator &allocator, Wrapper &Function, WrapperArgument &Argument) = 0;
             virtual void Debug() { std::cout << "Abstract\n"; }
             virtual std::shared_ptr<AbstractInvoker> Clone() const = 0;
             virtual std::vector<std::type_index> GetInType() const { return {}; }
@@ -25,10 +25,10 @@ namespace Yolk
         {
             using Func = std::function<T(F...)>;
 
-            Wrapper Invoke(Memory::DynamicMemory &memory, Wrapper &Function, WrapperArgument &Argument)
+            Wrapper Invoke(Memory::MemoryAllocator &allocator, Wrapper &Function, WrapperArgument &Argument)
             {
                 auto func = Function.field->As<std::function<T(F...)>>();
-                auto out = ArgumentUnwrapper<>::Unwrap<T, F...>::Run(memory, func, Argument);
+                auto out = ArgumentUnwrapper<>::Unwrap<T, F...>::Run(allocator, func, Argument);
                 return out;
             }
 
@@ -50,7 +50,7 @@ namespace Yolk
         };
 
     public:
-        MethodWrapper(Identifier _ID, TypedField::Pointer _field, Memory::DynamicMemory &memory);
+        MethodWrapper(Identifier _ID, TypedField::Pointer _field, Memory::MemoryAllocator &allocator);
         MethodWrapper(const Wrapper &copy);
         MethodWrapper(const MethodWrapper &copy);
         ~MethodWrapper();
@@ -72,8 +72,8 @@ namespace Yolk
         std::shared_ptr<AbstractInvoker> invoker;
     };
 
-    inline MethodWrapper::MethodWrapper(Identifier _ID, TypedField::Pointer _field, Memory::DynamicMemory &memory)
-        : Wrapper(_ID, _field, memory, WrapperType::MethodWrapper), invoker(nullptr)
+    inline MethodWrapper::MethodWrapper(Identifier _ID, TypedField::Pointer _field, Memory::MemoryAllocator &allocator)
+        : Wrapper(_ID, _field, allocator, WrapperType::MethodWrapper), invoker(nullptr)
     {
     }
     inline MethodWrapper::MethodWrapper(const Wrapper &copy) : Wrapper(copy), invoker(nullptr)
@@ -106,7 +106,7 @@ namespace Yolk
         if (!invoker){
             throw Exceptions::Exception("Method Wrapper exception: The method invocated has not been created.");
         }
-        return invoker->Invoke(memory, *this, Argument);
+        return invoker->Invoke(allocator, *this, Argument);
     }
     template <typename T, typename... F>
     inline bool MethodWrapper::InstantiateWrapper(std::function<T(F...)> _function)

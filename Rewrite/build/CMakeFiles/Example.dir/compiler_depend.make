@@ -239,7 +239,7 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
   /usr/include/c++/10/sstream \
   /usr/include/c++/10/bits/sstream.tcc \
   ../src/Yolk/Core/Wrapper.h \
-  ../src/Yolk/Core/DynamicMemory.h \
+  ../src/Yolk/Core/MemoryAllocator.h \
   ../src/Yolk/Core/WrapperRequired.h \
   ../src/Yolk/Core/WrapperArgument.h \
   /usr/include/c++/10/deque \
@@ -295,7 +295,7 @@ CMakeFiles/Example.dir/main.cpp.o: ../main.cpp \
 
 ../src/Yolk/Core/WrapperRequired.h:
 
-../src/Yolk/Core/DynamicMemory.h:
+../src/Yolk/Core/MemoryAllocator.h:
 
 ../src/Yolk/Core/Wrapper.h:
 

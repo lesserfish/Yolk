@@ -19,11 +19,11 @@ namespace Yolk
         class VirtualMachine 
         {
             public:
-                VirtualMachine(Memory::DynamicMemory& mem, Memory::MemoryInterface* meminterface);
+                VirtualMachine(Memory::MemoryAllocator& mem, Memory::MemoryInterface* meminterface);
                 friend class Instruction;
                 Wrapper& SelectRegister(uint64_t);
                 MethodWrapper& SelectMethodRegister() {return regm;}
-                Memory::DynamicMemory& GetMemory() {return memory;};
+                Memory::MemoryAllocator& GetAllocator() {return allocator;};
                 Memory::MemoryInterface* GetInterface() {return currentInterface; }
                 WrapperArgument& SelectArgumentRegister() {return regarg;}
                 WrapperArgument& SelectStack() {return stack;}
@@ -35,7 +35,7 @@ namespace Yolk
                 void Halt() {status = Status::HALTED;}
                 virtual std::string SelectText(uint64_t);
             protected:
-                Memory::DynamicMemory& memory;
+                Memory::MemoryAllocator& allocator;
                 
                 Memory::MemoryInterface* baseInterface;
                 Memory::MemoryInterface* currentInterface;
