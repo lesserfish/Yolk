@@ -26,7 +26,7 @@ namespace Yolk
         struct Unwrap
         {
             template <typename Func, typename... Args>
-            static Wrapper Run(Memory::MemoryAllocator& allocator, Func &, WrapperArgument& , Args...) {
+            static Wrapper Run(Memory::MemoryAllocator& , Func &, WrapperArgument& , Args...) {
                 throw Exceptions::Exception("");
             }
         };

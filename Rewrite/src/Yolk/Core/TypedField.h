@@ -252,7 +252,7 @@ namespace Yolk {
                         if(other->Type() != Type()){
                             return false;
                         } 
-                        constexpr bool canCompare = requires(T lhs, T rhs){
+                        constexpr bool canCompare = requires(T& lhs, T& rhs){
                             lhs == rhs;
                         };
                         
@@ -496,15 +496,14 @@ namespace Yolk {
                     bool EQ(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs == rhs;
                             };
                             if constexpr(canCompare) {
                                 T othervalue = static_cast<Thing<T> *>(other)->Get();
                                 return lvalue == othervalue;
                             }
-                            throw TFException("operator== is not defined for this object.");
-							return false;
+                            throw TFException("operator== is not defined for this object: " + std::string(typeid(T).name()));
                         } else {
                             return other->InvokeEQ(this);
                         }
@@ -515,7 +514,7 @@ namespace Yolk {
                     bool LE(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs <= rhs;
                             };
                             if constexpr(canCompare) {
@@ -534,7 +533,7 @@ namespace Yolk {
                     bool L(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs < rhs;
                             };
                             if constexpr(canCompare) {
@@ -553,7 +552,7 @@ namespace Yolk {
                     bool GE(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs >= rhs;
                             };
                             if constexpr(canCompare) {
@@ -572,7 +571,7 @@ namespace Yolk {
                     bool G(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs > rhs;
                             };
                             if constexpr(canCompare) {
@@ -591,7 +590,7 @@ namespace Yolk {
                     bool NEQ(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs != rhs;
                             };
                             if constexpr(canCompare) {
@@ -613,7 +612,7 @@ namespace Yolk {
                     void SET(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = rhs;
                             };
                             if constexpr(canCompare) {
@@ -631,7 +630,7 @@ namespace Yolk {
                     void PLUS(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = lhs + rhs;
                             };
                             if constexpr(canCompare) {
@@ -651,7 +650,7 @@ namespace Yolk {
                     void SUB(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = lhs - rhs;
                             };
                             if constexpr(canCompare) {
@@ -671,7 +670,7 @@ namespace Yolk {
                     void PROD(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = lhs * rhs;
                             };
                             if constexpr(canCompare) {
@@ -691,7 +690,7 @@ namespace Yolk {
                     void DIV(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = lhs / rhs;
                             };
                             if constexpr(canCompare) {
@@ -711,7 +710,7 @@ namespace Yolk {
                     void MOD(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = lhs % rhs;
                             };
                             if constexpr(canCompare) {
@@ -731,7 +730,7 @@ namespace Yolk {
                     void AND(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = lhs && rhs;
                             };
                             if constexpr(canCompare) {
@@ -751,7 +750,7 @@ namespace Yolk {
                     void OR(TypedField otherfield) {
                         None* other = otherfield.data;
                         if(Type() == other->Type()){
-                            constexpr bool canCompare = requires(T lhs, T rhs){
+                            constexpr bool canCompare = requires(T& lhs, T& rhs){
                                 lhs = lhs || rhs;
                             };
                             if constexpr(canCompare) {

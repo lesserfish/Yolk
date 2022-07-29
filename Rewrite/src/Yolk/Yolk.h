@@ -3,5 +3,4 @@
 #include "YolkVM/VM.h"
 
 namespace Yolk {
-
 }

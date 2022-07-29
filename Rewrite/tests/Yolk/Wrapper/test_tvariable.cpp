@@ -144,14 +144,22 @@ TEST(TypedField, Compare_A)
 
 struct CompareB
 {
-    bool operator==(const CompareB& other)
-    {
-        return a == other.a;
-    }
     CompareB(int x) : a(x){}
     int a;
+    friend bool operator==(const CompareB& lhs, const CompareB& rhs)
+    {
+        return lhs.a == rhs.a;
+    }
 };
 
+
+TEST(TypedField, Compare_BDemo)
+{
+    constexpr bool canCompare = requires(CompareB lhs, CompareB rhs){
+        lhs == rhs;
+    };
+    EXPECT_TRUE(canCompare);
+}
 TEST(TypedField, Compare_B)
 {
     CompareB a(0);

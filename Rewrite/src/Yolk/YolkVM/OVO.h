@@ -143,12 +143,13 @@ namespace Yolk
         {
             struct Code
             {
-                bool operator==(const Code& other)
+                bool operator==(const Code& other) const
                 {
                     return (opcode == other.opcode) && (arg1.type == other.arg1.type) && (arg1.value == other.arg1.value) && (arg2.type == other.arg2.type) && (arg2.value == other.arg2.value);
                 }
                 struct Arg
                 {
+                    Arg(ArgType t, uint64_t v) : type(t), value(v) {}
                     ArgType type;
                     uint64_t value;
                 };
@@ -159,7 +160,7 @@ namespace Yolk
             };
             struct Text
             {
-                bool operator==(const Text& other)
+                bool operator==(const Text& other) const
                 {
                     if(size != other.size){
                         return false;
@@ -217,7 +218,7 @@ namespace Yolk
                 const uint64_t size;
                 
             };
-            bool operator==(const Ovo& other)
+            bool operator==(const Ovo& other) const
             {
                 if(version != other.version){
                     return false;
@@ -499,5 +500,8 @@ namespace Yolk
             // END
             return true;
         }
+        
+        OPCode OPFromString(std::string);
+
     }
 }

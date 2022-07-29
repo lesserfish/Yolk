@@ -16,7 +16,7 @@ namespace Yolk
         public:
             friend class VM::VirtualMachine;
             
-            MemoryInterface(MemoryAllocator& _allocator);
+            MemoryInterface(MemoryAllocator& );
             ~MemoryInterface();
             
             virtual void RegisterWrapper(Wrapper wrapper, std::string Name, bool global = false);

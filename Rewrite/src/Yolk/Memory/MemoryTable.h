@@ -75,13 +75,12 @@ namespace Yolk
             void UnsetMemoryPointer(MemoryInterface *);
 
         private:
-            MemoryAllocator& allocator;
             std::unordered_map<MapKey, Wrapper> wrapperTable;
             std::unordered_map<MapKey, MethodWrapper> methodWrapperTable;
             std::unordered_map<MapKey, MPWrapper> memoryPointerTable;
         };
 
-        inline MemoryTable::MemoryTable(Yolk::Memory::MemoryAllocator& _allocator) : allocator(_allocator), wrapperTable(), methodWrapperTable(), memoryPointerTable() {}
+        inline MemoryTable::MemoryTable(Yolk::Memory::MemoryAllocator& ) : wrapperTable(), methodWrapperTable(), memoryPointerTable() {}
         inline MemoryTable::~MemoryTable(){}
         
         inline void MemoryTable::Erase(MapKey id)

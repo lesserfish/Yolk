@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../src/Yolk/Memory/MemoryTable.h"
+#include "../../../src/Yolk/Memory/Memory.h"
 #include "../../../src/Yolk/Core/Core.h"
 
 TEST(WrapperTable, Add_Field)
@@ -153,14 +153,14 @@ TEST(WrapperTable, Unset_Method)
 {
     Yolk::Memory::MemoryAllocator manager;
     Yolk::Memory::MemoryTable table(manager);
-    Yolk::Memory::MemoryInterface* interface;
+    Yolk::Memory::MemoryInterface interface(manager);
 
-    auto key = table.Add(interface);
+    auto key = table.Add(&interface);
 
     auto out = table.GetMemory(key);
-    EXPECT_EQ(out.memory, interface);
+    EXPECT_EQ(out.memory, &interface);
 
-    table.UnsetMemoryPointer(interface);
+    table.UnsetMemoryPointer(&interface);
     
     bool ok = true;
     try {

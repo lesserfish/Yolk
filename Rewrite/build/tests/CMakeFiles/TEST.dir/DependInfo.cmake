@@ -1,24 +1,27 @@
-
-# Consider dependencies only in project.
-set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
-
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
+  "CXX"
   )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_dynamicmemory.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_memoryblock.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_symboltable.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_wrappertable.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_methodwrapper.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_tunwrapper.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_tvariable.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrapper.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrappergenerator.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/test_instructions.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o"
+  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/test_ovo.cpp" "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o"
+  )
+set(CMAKE_CXX_COMPILER_ID "Clang")
 
-# The set of dependency files which are needed:
-set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_dynamicmemory.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_dynamicmemory.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_memoryblock.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_memoryblock.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_symboltable.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_symboltable.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Memory/test_wrappertable.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Memory/test_wrappertable.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_methodwrapper.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_methodwrapper.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_tunwrapper.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tunwrapper.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_tvariable.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_tvariable.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrapper.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrapper.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/Wrapper/test_wrappergenerator.cpp" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/test_instructions.cpp" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o.d"
-  "/home/lesserfish/Documents/Code/Yolk/Rewrite/tests/Yolk/YolkVM/test_ovo.cpp" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o" "gcc" "tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o.d"
+# The include file search paths:
+set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "_deps/googletest-src/googletest/include"
+  "_deps/googletest-src/googletest"
   )
 
 # Targets to which this target links.

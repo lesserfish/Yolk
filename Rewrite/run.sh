@@ -1,1 +1,1 @@
-cmake -S . -B build/ -DCMAKE_CXX_COMPILER=g++-10
+cmake -S . -B build/ -DCMAKE_CXX_COMPILER=clang++-10 -DCMAKE_EXPORT_COMPILE_COMMANDS=1

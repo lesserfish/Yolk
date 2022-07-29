@@ -20,7 +20,6 @@ namespace Yolk
         {
             public:
                 VirtualMachine(Memory::MemoryAllocator& mem, Memory::MemoryInterface* meminterface);
-                friend class Instruction;
                 Wrapper& SelectRegister(uint64_t);
                 MethodWrapper& SelectMethodRegister() {return regm;}
                 Memory::MemoryAllocator& GetAllocator() {return allocator;};
