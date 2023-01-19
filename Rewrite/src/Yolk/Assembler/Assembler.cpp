@@ -247,11 +247,6 @@ namespace Yolk
 
                     output.code.push_back(instruction);
 
-                    std::cout << "INSTRUCTION: " << instruction << "\t TEXT: ";
-                    for(auto x : output.text) {
-                        std::cout << x.as_string() << " , ";
-                    }
-                    std::cout << " ;\n";
                 }
                 else if(it->symbol == Symbol::SPACE || it->symbol == Symbol::EOL) {
                     continue;

@@ -17,5 +17,14 @@ int main(){
                         "MOV REGB \"The string is valid\"";
                         
 
-    Yolk::Assembler::Assemble(source);
+    auto ovo = Yolk::Assembler::Assemble(source);
+    std::cout << "Instructions: \n";
+    for(auto i : ovo.code)
+    {
+        std::cout << "\t" << i << std::endl;
+    }
+    std::cout << "\n\nText: \n";
+    for(auto x : ovo.text) {
+        std::cout << "\t" << x.as_string() << std::endl;
+    }
 }
