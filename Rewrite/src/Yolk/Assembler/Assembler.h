@@ -83,7 +83,7 @@ namespace Yolk{
             Symbol::NAME,
                 [](std::string input) -> std::string
                 {
-                    return "Name(" + input + ")";
+                    return input;
                 },
                 regex("^\\w+$"),
                 regex("\\W|^$|^\n$"),
@@ -103,7 +103,7 @@ namespace Yolk{
             Symbol::ELEMENTARY,
                 [](std::string input) -> std::string
                 {
-                    return "ELEMENTARY(" + input + ")";
+                    return input;
                 },
                 regex("^int32$|^int64$|^uint32$|^uint64$|^float$|^double$|^char$|^string$|^void$"),
                 regex("\\W|^$|^\n$"),
@@ -113,7 +113,7 @@ namespace Yolk{
             Symbol::NUMBER,
                 [](std::string input) -> std::string
                 {
-                    return "NUMBER(" + input + ")";
+                    return input;
                 },
                 regex("^-*\\d+$"),
                 regex("^(?!\\d|\\.).*$|^$|^\n$"),
@@ -123,7 +123,7 @@ namespace Yolk{
             Symbol::DOUBLE,
                 [](std::string input) -> std::string
                 {
-                    return "DOUBLE(" + input + ")";
+                    return input;
                 },
                 regex("^-*\\d+\\.\\d+$"),
                 regex("\\D|^$|^\n$"),
@@ -133,7 +133,7 @@ namespace Yolk{
             Symbol::STRING,
                 [](std::string input) -> std::string
                 {
-                    return "STRING(" + input.substr(1, input.length() - 2) + ")";
+                    return input.substr(1, input.length() - 2);
                 },
                 regex("^\".*\"$"),
                 regex(".|^$|^\n$"),
@@ -143,7 +143,7 @@ namespace Yolk{
             Symbol::COMMENT,
                 [](std::string input) -> std::string
                 {
-                    return "COMMENT(" + input + ")";
+                    return input;
                 },
                 regex("^//.*$"),
                 regex("^\n$|^$|^\n$"),
@@ -153,10 +153,20 @@ namespace Yolk{
             Symbol::KEYPOINT,
                 [](std::string input) -> std::string
                 {
-                    return "KEYPOINT(" + input + ")";
+                    return input;
                 },
                 regex("^\\.[A-Z]+$"),
                 regex("^(?![A-Z]).*$|^$|^\n$"),
+                1
+        };
+        static const Pattern PT_REGISTER { 
+            Symbol::REGISTER,
+                [](std::string input) -> std::string
+                {
+                    return input;
+                },
+                regex("^REGA$|^REGB$|^REGC$|^REGD$|^REGCMP$|^REGOUT$"),
+                regex("\\W|^$|^\n$"),
                 1
         };
 
@@ -171,7 +181,8 @@ namespace Yolk{
             PT_DOUBLE,
             PT_STRING,
             PT_COMMENT,
-            PT_KEYPOINT
+            PT_KEYPOINT,
+            PT_REGISTER
         };
 
     }

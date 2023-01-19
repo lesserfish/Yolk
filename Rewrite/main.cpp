@@ -17,11 +17,5 @@ int main(){
                         "MOV REGB \"The string is valid\"";
                         
 
-    auto output = Yolk::Assembler::Tokenize(source);
-    
-    std::cout << "Got " << output.size() << " elements. Showing them in order: \n";
-
-    for(auto& i : output){
-        std::cout << i.content << "\n";
-    }
+    Yolk::Assembler::Assemble(source);
 }

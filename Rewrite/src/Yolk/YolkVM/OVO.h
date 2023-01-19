@@ -139,6 +139,15 @@ namespace Yolk
             RECMP,
         };
 
+        std::string ArgTypeToString(ArgType);
+        std::string ElementaryToString(EType);
+        EType ElementaryFromString(std::string);
+        OPCode OPFromString(std::string);
+        std::string OPToString(OPCode);
+        RegisterType RegisterTypeFromString(std::string );
+        std::string RegisterTypeToString(RegisterType);
+        std::string ArgumentValueToString(ArgType , uint64_t );
+
         struct Ovo
         {
             struct Code
@@ -149,10 +158,22 @@ namespace Yolk
                 }
                 struct Arg
                 {
+                    Arg() : type(ArgType::NONE), value(0) {}
                     Arg(ArgType t, uint64_t v) : type(t), value(v) {}
+                    inline friend std::ostream & operator << (std::ostream &out, const Arg& arg)
+                    {
+                        out << ArgTypeToString(arg.type) << "(" <<  ArgumentValueToString(arg.type, arg.value) << ")";
+                        return out;
+                    }
                     ArgType type;
                     uint64_t value;
                 };
+
+                inline friend std::ostream & operator << (std::ostream &out, const Code& code)
+                {
+                    out << OPToString(code.opcode) << "  :  " << code.arg1 << " ; " << code.arg2;
+                    return out;
+                }
                 
                 OPCode opcode;
                 Arg arg1;
@@ -501,7 +522,5 @@ namespace Yolk
             return true;
         }
         
-        OPCode OPFromString(std::string);
-
     }
 }
