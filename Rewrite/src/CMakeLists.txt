@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED)
 
 project(Yolk VERSION 1.0 DESCRIPTION "Yolk library")
 
-add_library(${PROJECT_NAME} SHARED ./Yolk/YolkVM/Instruction.cpp Yolk/YolkVM/VirtualMachine.cpp Yolk/YolkVM/OVO.cpp)
+add_library(${PROJECT_NAME} SHARED ./Yolk/YolkVM/Instruction.cpp Yolk/YolkVM/VirtualMachine.cpp Yolk/YolkVM/OVO.cpp Yolk/Assembler/Assembler.cpp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
                 VERSION ${PROJECT_VERSION}

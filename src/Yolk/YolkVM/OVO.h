@@ -12,62 +12,62 @@ namespace Yolk
     {
         struct OVO
         {
-            using Byte = int8_t;
+            using Byte = uint8_t;
             using Usize = uint64_t;
             using Rvalue = int64_t;
             struct Instruction
             {
-                enum INSTRUCTION
+                enum INSTRUCTION : Byte
                 {
-                    MOV,     // Moves ARG2 onto ARG1. ARG1 is a Register. ARG2 is either a Register or a Data consisting of the name of a Wrapper.
-                    CLONE,   // ARG1 is a new wrapper with new Typed Field with same value as ARG2
-                    MOVM,    // Moves ARG1 onto Method Register
+                    MOV,
+                    CLONE,
+                    MOVM,
                     NEW,
-                    CALLM,   // Invokes Method Register with current Argument Register, puts output in output Register
-                    PUSHAR,  // Pushes ARG1 onto Argument Register
-                    POPAR,   // Pops Argument Register onto ARG1
-                    CLRAR,   // Clears Argument Register
-                    PUSH,    // Pushes to Stack
-                    POP,     // Pops from Stack
-                    CLEAR,   // Clear Stack
-                    CMP,     // ARG1 == true? (as a wrapper).
-                    CMPEQ,   // Compares whether ARG1 equals ARG2
+                    CALLM,
+                    PUSHAR,
+                    POPAR,
+                    CLRAR,
+                    PUSH,
+                    POP,
+                    CLEAR,
+                    CMP,
+                    CMPEQ,
                     CMPNEQ,
-                    CMPLS,   // Compares whether ARG1 < ARG2
-                    CMPGT,   // Compares whether ARG1 > ARG2
-                    CMPLSEQ, // Compares whether ARG1 <= ARG2
-                    CMPGTEQ, // Compares whether ARG1 >= ARG2
-                    JNTRUE,  // Jumps to ARG1 if comparison register is true
-                    JNFALSE, // Jumps at ARG1 if comparison register is false
-                    JMP,     // Unconditionally jumps to ARG1
+                    CMPLS,
+                    CMPGT,
+                    CMPLSEQ,
+                    CMPGTEQ,
+                    JNTRUE,
+                    JNFALSE,
+                    JMP,
                     CALL,
                     RET,
-                    ADD,     // ARG1 = ARG1 + ARG2
-                    SUB,     // ARG1 = ARG1 - ARG2
-                    MUL,     // ARG1 = ARG1 * ARG2
-                    DIV,     // ARG1 = ARG1 / ARG2
-                    MOD,     // ARG1 = ARG1 % ARG2
-                    AND,     // ARG1 = ARG1 && ARG2 (?)
-                    OR,      // ARG1 = ARG1 || ARG2 (?)
-                    CAST,    // Casts ARG1 to ARG2. ARG2 can by a Symbol representing elementary type, or DATA with the Name of a wrapper.
-                    COPY,    // Copies the value of ARG2 onto ARG1
-                    NAMEL,   // Stores the wrapper in ARG1 onto the memory block of YolkVM with name ARG2
-                    NAMEG,   // Stores the wrapper in ARG1 onto the memory block of the object with name ARG2.
-                    BRUP,    // Branches up
-                    BRDW,    // Branches down
-                    BRHZ,    // Branches horizontally
+                    ADD,
+                    SUB,
+                    MUL,
+                    DIV,
+                    MOD,
+                    AND,
+                    OR,
+                    CAST,
+                    COPY,
+                    NAMEL,
+                    NAMEG,
+                    BRUP,
+                    BRDW,
+                    BRHZ,
                     RSBR,
-                    ZERO,    // Does nothing
-                    HALT     // Stops the processor.
+                    ZERO,
+                    HALT
                 };
                 struct ARG
                 {
-                    enum MODE
+                    enum MODE : Byte
                     {
-                        NONE,   // Argument is Empty
-                        SYMBOL, // Argument represents a Symbol (Which pretty much means Integer. Used only for deciding between subinstructions).
+                        NONE,
+                        SYMBOL,
                         REG,
-                        DATA,   // Argument represents Data
+                        DATA,
                     };
                     MODE mode; // Mode of the argument
                     Rvalue value; // Argument value

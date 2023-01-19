@@ -90,6 +90,7 @@ namespace Yolk
             Message = "Started!";
             clock = 0;
 
+            std::chrono::steady_clock Clock;
 
             JumpToInstruction(0);
 
@@ -100,7 +101,12 @@ namespace Yolk
                 auto current_instruction = instructionPointer;
                 instructionPointer++;
             
+                //auto start = Clock.now();
                 HandleInstruction(*current_instruction);
+                //auto end = Clock.now();
+
+                //std::cout << (end - start).count() << " - ";
+                //PrintInstruction(*current_instruction);
 
                 if(instructionPointer == ovo.InstructionSet.end() && Running)
                 {
@@ -112,7 +118,6 @@ namespace Yolk
                 }
             }
 
-            //Debug();
             return;
         }
 

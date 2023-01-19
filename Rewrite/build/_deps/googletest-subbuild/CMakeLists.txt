@@ -1,7 +1,7 @@
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
 # file Copyright.txt or https://cmake.org/licensing for details.
 
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 3.22.1)
 
 # We name the project and the target for the ExternalProject_Add() call
 # to something that will highlight to the user what we are working on if
@@ -9,11 +9,13 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(googletest-populate NONE)
 
+
+
 include(ExternalProject)
 ExternalProject_Add(googletest-populate
                      "UPDATE_DISCONNECTED" "False" "URL" "https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip"
-                    SOURCE_DIR          "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src"
-                    BINARY_DIR          "/home/lesserfish/Documents/Code/Yolk/Rewrite/build/_deps/googletest-build"
+                    SOURCE_DIR          "/home/vchavauty/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src"
+                    BINARY_DIR          "/home/vchavauty/Documents/Code/Yolk/Rewrite/build/_deps/googletest-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""
@@ -21,3 +23,5 @@ ExternalProject_Add(googletest-populate
                     USES_TERMINAL_DOWNLOAD  YES
                     USES_TERMINAL_UPDATE    YES
 )
+
+
