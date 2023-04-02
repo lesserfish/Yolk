@@ -12,7 +12,6 @@ namespace Yolk
         enum class Status : uint8_t {
             RUNNING,
             HALTED,
-            OUTOFBOUNDS,
             ERROR
         };
 
@@ -21,18 +20,20 @@ namespace Yolk
             public:
                 VirtualMachine(Memory::MemoryAllocator& mem, Memory::MemoryInterface* meminterface);
                 Wrapper& SelectRegister(uint64_t);
+                virtual std::string SelectText(uint64_t);
+
+                // Inline Methods
                 MethodWrapper& SelectMethodRegister() {return regm;}
                 Memory::MemoryAllocator& GetAllocator() {return allocator;};
                 Memory::MemoryInterface* GetInterface() {return currentInterface; }
                 WrapperArgument& SelectArgumentRegister() {return regarg;}
                 WrapperArgument& SelectStack() {return stack;}
                 bool& SelectCmpRegister() {return regcmp; }
+                uint64_t GetPosition() const {return ip;}
                 void UpdateInterface(Memory::MemoryInterface* interface) {currentInterface = interface;}
                 void ResetInterface() {currentInterface = baseInterface;}
                 void Jump(uint64_t position) {ip = position;}
-                uint64_t GetPosition() {return ip;}
                 void Halt() {status = Status::HALTED;}
-                virtual std::string SelectText(uint64_t);
             protected:
                 Memory::MemoryAllocator& allocator;
                 

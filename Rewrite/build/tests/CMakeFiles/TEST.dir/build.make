@@ -252,9 +252,9 @@ tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/Wrapper/test_wrappergenerator.cpp.o
 tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_instructions.cpp.o
 tests/TEST: tests/CMakeFiles/TEST.dir/Yolk/YolkVM/test_ovo.cpp.o
 tests/TEST: tests/CMakeFiles/TEST.dir/build.make
-tests/TEST: lib/libgtest_main.a
+tests/TEST: lib/libgtest_maind.a
 tests/TEST: src/libYolk.so.1.0
-tests/TEST: lib/libgtest.a
+tests/TEST: lib/libgtestd.a
 tests/TEST: tests/CMakeFiles/TEST.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/vchavauty/Documents/Code/Yolk/Rewrite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable TEST"
 	cd /home/vchavauty/Documents/Code/Yolk/Rewrite/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TEST.dir/link.txt --verbose=$(VERBOSE)

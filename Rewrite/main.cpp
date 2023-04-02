@@ -13,6 +13,7 @@ int main(){
                         ".LOOP:\n"
                         "CMPEQ REGA REGB\n"
                         "JMP .LOOP\n"
+                        "BRDW\n"
                         "MOV REGA Text\n"
                         "MOV REGB \"The string is valid\"";
                         

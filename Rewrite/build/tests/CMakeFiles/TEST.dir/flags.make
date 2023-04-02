@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -isystem /home/vchavauty/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest/include -isystem /home/vchavauty/Documents/Code/Yolk/Rewrite/build/_deps/googletest-src/googletest
 
-CXX_FLAGS = -Wall -Wextra -Wpedantic -std=gnu++20
+CXX_FLAGS = -g -Wall -Wextra -Wpedantic -std=gnu++20
 

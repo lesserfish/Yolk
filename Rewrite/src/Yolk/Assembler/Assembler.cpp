@@ -241,11 +241,18 @@ namespace Yolk
                     Yolk::VM::OPCode opcode = VM::OPFromString(it->content);
                     GotoNextToken(it, tokens);
                     Yolk::VM::Ovo::Code::Arg arg1 = ExtractArg(it, tokens, keymap, output);
-                    GotoNextToken(it, tokens);
-                    Yolk::VM::Ovo::Code::Arg arg2 = ExtractArg(it, tokens, keymap, output);
-                    Yolk::VM::Ovo::Code instruction {opcode, arg1, arg2};
 
-                    output.code.push_back(instruction);
+                    if(arg1.type == VM::ArgType::NONE) {
+                        Yolk::VM::Ovo::Code instruction {opcode, arg1, arg1};
+                        output.code.push_back(instruction);
+                    }
+                    else {
+                        GotoNextToken(it, tokens);
+                        Yolk::VM::Ovo::Code::Arg arg2 = ExtractArg(it, tokens, keymap, output);
+                        Yolk::VM::Ovo::Code instruction {opcode, arg1, arg2};
+
+                        output.code.push_back(instruction);
+                    }
 
                 }
                 else if(it->symbol == Symbol::SPACE || it->symbol == Symbol::EOL) {

@@ -6,5 +6,5 @@ CXX_DEFINES = -DYolk_EXPORTS
 
 CXX_INCLUDES = 
 
-CXX_FLAGS = -fPIC -Wall -Wextra -Wpedantic -std=gnu++20
+CXX_FLAGS = -g -fPIC -Wall -Wextra -Wpedantic -std=gnu++20
 

@@ -165,7 +165,7 @@ namespace Yolk{
                 {
                     return input;
                 },
-                regex("^REGA$|^REGB$|^REGC$|^REGD$|^REGCMP$|^REGOUT$"),
+                regex("^REGA$|^REGB$|^REGC$|^REGD$|^REGCMP$|^REGOUT$|^REGM$"),
                 regex("\\W|^$|^\n$"),
                 1
         };
