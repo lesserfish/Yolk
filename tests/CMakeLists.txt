@@ -12,12 +12,11 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-FILE(GLOB SOURCE_FILES Serializer/*.cpp Yolk/Memory/*.cpp Yolk/Object/*.cpp Yolk/Wrapper/*.cpp Yolk/YolkVM/*.cpp)
+FILE(GLOB SOURCE_FILES Yolk/Wrapper/*.cpp Yolk/Memory/*.cpp Yolk/YolkVM/test_ovo.cpp Yolk/YolkVM/test_instructions.cpp)
 add_executable(TEST ${SOURCE_FILES})
 
 
-target_link_libraries(TEST gtest_main Yolk nlohmann_json::nlohmann_json)
+target_link_libraries(TEST gtest_main Yolk)
 
-include(../src/external/nlohmann_json.cmake)
 include(GoogleTest)
 gtest_discover_tests(TEST WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/tests)

@@ -50,12 +50,12 @@ class YKPlayer : public Yolk::Object
 
     void SetHealth(int newHealth)
     {
-        GetMemoryBlock().GetFieldWrapperByName("Health").wrapper.field->Copy(newHealth);
+        GetMemoryBlock().GetFieldWrapperByName("Health").field->Copy(newHealth);
     }
 
     int GetHealth()
     {
-        return GetMemoryBlock().GetFieldWrapperByName("Health").wrapper.field->As<int>();
+        return GetMemoryBlock().GetFieldWrapperByName("Health").field->As<int>();
     }
 
     void SetPos(int x, int y)
@@ -135,12 +135,12 @@ class MethodDemo : public Yolk::Object
 
     void ChangeValue(int new_value)
     {
-        GetMemoryBlock().GetFieldWrapperByName("value").wrapper.field->Copy(new_value);
+        GetMemoryBlock().GetFieldWrapperByName("value").field->Copy(new_value);
     }
     int EvaluateSum(Yolk::Wrapper x, Yolk::Wrapper y)
     {
         auto p = Yolk::WrapperGenerator<>::GenerateArgumentWrapper(x, y);
-        auto result = GetMemoryBlock().GetMethodWrapperByName("Sum").wrapper.Invoke(p);
+        auto result = GetMemoryBlock().GetMethodWrapperByName("Sum").Invoke(p);
 
         EXPECT_TRUE(result.ok);
         return result.output.field->As<int>();

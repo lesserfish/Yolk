@@ -1,60 +1,31 @@
-#include "src/Yolk/YolkVM/Elementary.h"
-#include "src/Yolk/Wrapper/WrapperGenerator.h"
-#include "src/Yolk/YolkVM/Assembler.h"
+#include "src/Yolk/Yolk.h"
+#include "src/Yolk/Assembler/Assembler.h"
+#include <cstdint>
 #include <iostream>
-#include <chrono>
+#include <string>
+#include <cstdio>
 
-void Print(int x)
-{
-    std::cout << "Result: " << x << std::endl;
-}
-int main()
-{
+int main(){
+    std::string source= "MOV REGA REGB\n"
+                        "ADD REGB REGC\n"
+                        "ADD REGA uint64:128\n"
+                        "SUB REGB double:-127.35 // We Add something to the register\n"
+                        ".LOOP:\n"
+                        "CMPEQ REGA REGB\n"
+                        "JMP .LOOP\n"
+                        "BRDW\n"
+                        "MOV REGA Text\n"
+                        "MOV REGB \"The string is valid\"";
+                        
 
-    // TODO: INC and DEC instructions. Should have the form
-    // INC REGX
-    // DEC REGX
-    // INC REGX symbol containing an integer
-    // DEC REGX symbol containing an integer
-    //
-    // ADD and DEC should have the possibility of elementary additions, like
-    // ADD REGX, i32.127.
-    // Same for MUL, DIV, MOD, AND and OR.
-
-    std::string Content = 
-    "MOVM str:Print\n"
-    "CLONE REGA, i32:1\n"
-    "CLONE REGC, i32:0\n"
-    "NEW REGB, INT\n"
-    ".loop_begin:\n"
-    "CMPEQ REGB, i32:100000\n"
-    "JNTRUE .loop_end\n"
-    "ADD REGB, REGA\n"
-    "ADD REGC, REGB\n"
-    "JMP .loop_begin\n"
-    ".loop_end:\n"
-    "PUSHAR REGC\n"
-    "CALLM\n";
-
-    auto ovo = Yolk::VM::Assembler::Assemble(Content);
-
-    Yolk::Memory::MemoryManager manager;
-    Yolk::Memory::WrapperTable wtable(manager);
-    Yolk::Memory::MemoryBlock memblock(manager, wtable);
-
-    auto w = Yolk::WrapperGenerator<void,int>::GenerateMethodWrapper(Print, manager);
-    memblock.RegisterWrapper("Print", w);
-
-    Yolk::VM::YVM vm(manager, wtable);
-    Yolk::VM::Elementary::GenerateElementaryOperations(vm.GetOpHandler());
-
-    std::chrono::steady_clock Clock;
-
-    auto start = Clock.now();
-    vm.Run(ovo, memblock.GetSymbolTable());
-    auto stop = Clock.now();
-    std::cout << "Timer: " << std::chrono::duration<double, std::micro>(stop - start).count() << std::endl;
-    std::cout << vm.GetMessage() << std::endl << vm.GetClock() << std::endl;
-
-
+    auto ovo = Yolk::Assembler::Assemble(source);
+    std::cout << "Instructions: \n";
+    for(auto i : ovo.code)
+    {
+        std::cout << "\t" << i << std::endl;
+    }
+    std::cout << "\n\nText: \n";
+    for(auto x : ovo.text) {
+        std::cout << "\t" << x.as_string() << std::endl;
+    }
 }
