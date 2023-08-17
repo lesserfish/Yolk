@@ -1,361 +1,526 @@
 #pragma once
 
-#include "../Wrapper/Wrapper.h"
-#include "../Memory/MemoryManager/MemoryManager.h"
+#include <vector>
+#include <string>
+#include <fstream>
 #include <array>
-#include <cstring>
-#include <deque>
 
 namespace Yolk
 {
     namespace VM
     {
-        struct OVO
+        static const char MAGIC[] = "sunny side up!";
+
+        enum class OPCode : uint8_t
         {
-            using Byte = uint8_t;
-            using Usize = uint64_t;
-            using Rvalue = int64_t;
-            struct Instruction
-            {
-                enum INSTRUCTION : Byte
-                {
-                    MOV,
-                    CLONE,
-                    MOVM,
-                    NEW,
-                    CALLM,
-                    PUSHAR,
-                    POPAR,
-                    CLRAR,
-                    PUSH,
-                    POP,
-                    CLEAR,
-                    CMP,
-                    CMPEQ,
-                    CMPNEQ,
-                    CMPLS,
-                    CMPGT,
-                    CMPLSEQ,
-                    CMPGTEQ,
-                    JNTRUE,
-                    JNFALSE,
-                    JMP,
-                    CALL,
-                    RET,
-                    ADD,
-                    SUB,
-                    MUL,
-                    DIV,
-                    MOD,
-                    AND,
-                    OR,
-                    CAST,
-                    COPY,
-                    NAMEL,
-                    NAMEG,
-                    BRUP,
-                    BRDW,
-                    BRHZ,
-                    RSBR,
-                    ZERO,
-                    HALT
-                };
-                struct ARG
-                {
-                    enum MODE : Byte
-                    {
-                        NONE,
-                        SYMBOL,
-                        REG,
-                        DATA,
-                    };
-                    MODE mode; // Mode of the argument
-                    Rvalue value; // Argument value
-                };
-
-                INSTRUCTION instruction;
-                ARG arg1;
-                ARG arg2;
-            };
-            struct Data
-            {
-                enum Mode : Byte
-                {
-                    VOID,
-                    INT,
-                    UINT,
-                    LONG,
-                    ULONG,
-                    FLOAT,
-                    DOUBLE,
-                    BOOL,
-                    CHAR,
-                    UCHAR,
-                    STRING
-                };
-                std::vector<Byte> content;
-                Usize size;
-                Mode mode;
-                
-                Data();
-                template<typename T>
-                Data(T _content);
-                Data(void *_content, Usize _size, Mode _mode);
-                
-                
-                static void ToContainer(std::vector<Byte> *destiny, const void *origin, Usize size);
-                static void FromContainer(void *destiny, std::vector<Byte> *origin, Usize size);
-                static Wrapper ToWrapper(Data data, Memory::MemoryManager &manager);
-                template <typename T>
-                static Data GenerateData(T value);
-                static Data FromString(std::string Input);
-                static std::string ToString(Data data);
-
-                private:
-
-                static Mode GetModeFromString(void*& string);
-                static Usize GetSizeFromString(void*& string);
-                static void PutModeFromData(Mode mode, void*& string);
-                static void PutSizeFromData(Usize size, void*& string);
-            };
-
-            std::deque<Instruction> InstructionSet;
-            std::deque<Data> DataSet;
-
-            std::string ToString();
-            OVO FromString(std::string File);
+            MOV,
+            COPY,
+            CLONE,
+            NEW,
+            MOVM,
+            CALLM,
+            PUSHAR,
+            POPAR,
+            CLRAR,
+            PUSH,
+            POP,
+            CLEAR,
+            CMP,
+            CMPEQ,
+            CMPNEQ,
+            CMPLS,
+            CMPGT,
+            CMPLSEQ,
+            CMPGTEQ,
+            JNTRUE,
+            JNFALSE,
+            JMP,
+            CALL,
+            RET,
+            ADD,
+            SUB,
+            MUL,
+            DIV,
+            MOD,
+            AND,
+            OR,
+            CAST,
+            NAME,
+            NAMEG,
+            BRUP,
+            BRDW,
+            BRHZ,
+            RSBR,
+            ZERO,
+            HALT
         };
 
-        inline void OVO::Data::ToContainer(std::vector<Byte> *destiny, const void *origin, Usize size)
+        const std::array<OPCode, 40> AllOPCodes = {
+            OPCode::MOV,
+            OPCode::COPY,
+            OPCode::CLONE,
+            OPCode::NEW,
+            OPCode::MOVM,
+            OPCode::CALLM,
+            OPCode::PUSHAR,
+            OPCode::POPAR,
+            OPCode::CLRAR,
+            OPCode::PUSH,
+            OPCode::POP,
+            OPCode::CLEAR,
+            OPCode::CMP,
+            OPCode::CMPEQ,
+            OPCode::CMPNEQ,
+            OPCode::CMPLS,
+            OPCode::CMPGT,
+            OPCode::CMPLSEQ,
+            OPCode::CMPGTEQ,
+            OPCode::JNTRUE,
+            OPCode::JNFALSE,
+            OPCode::JMP,
+            OPCode::CALL,
+            OPCode::RET,
+            OPCode::ADD,
+            OPCode::SUB,
+            OPCode::MUL,
+            OPCode::DIV,
+            OPCode::MOD,
+            OPCode::AND,
+            OPCode::OR,
+            OPCode::CAST,
+            OPCode::NAME,
+            OPCode::NAMEG,
+            OPCode::BRUP,
+            OPCode::BRDW,
+            OPCode::BRHZ,
+            OPCode::RSBR,
+            OPCode::ZERO,
+            OPCode::HALT
+        };
+
+        enum class ArgType : uint8_t       
         {
-            Usize i = 0;
-            Byte *byte = (Byte *) origin;
-            for(; i < size / sizeof(Byte); i++, byte++)
-            {
-                Byte c = *byte;
-                destiny->push_back(c);
-            }
-        }
-        inline void OVO::Data::FromContainer(void *destiny, std::vector<Byte>* origin, Usize size)
+            REGISTER,
+			NAME,
+            INT32,
+			INT64,
+			UINT32,
+            UINT64,
+            FLOAT,
+			DOUBLE,
+			CHAR,
+			STRING,
+			VOID,
+		    ELEMENTARY,
+            NONE
+        };
+
+        enum class EType : uint8_t
         {
-            Usize i = 0;
-            Byte *byte = (Byte *) destiny;
-            for(; i < size / sizeof(Byte); i++, byte++)
-            {
-                *byte = origin->at(i);
-            }
-        }
-        inline Wrapper OVO::Data::ToWrapper(Data data, Memory::MemoryManager &manager)
+            INT32,
+			UINT32,
+            INT64,
+            UINT64,
+            FLOAT,
+			DOUBLE,
+			CHAR,
+			STRING,
+			VOID
+        };
+
+        enum class RegisterType : uint64_t
         {
-            switch(data.mode)
+            REGA,
+            REGB,
+            REGC,
+            REGD,
+            REGOUT,
+            REGM,
+            RECMP,
+        };
+
+        std::string ArgTypeToString(ArgType);
+        std::string ElementaryToString(EType);
+        EType ElementaryFromString(std::string);
+        OPCode OPFromString(std::string);
+        std::string OPToString(OPCode);
+        RegisterType RegisterTypeFromString(std::string );
+        std::string RegisterTypeToString(RegisterType);
+        std::string ArgumentValueToString(ArgType , uint64_t );
+
+        struct Ovo
+        {
+            struct Code
             {
-                case Data::INT:
+                bool operator==(const Code& other) const
                 {
-                    int value_int;
-                    FromContainer(&value_int, &data.content, sizeof(int));
-                    return manager.AllocateMemory<int>(value_int);
+                    return (opcode == other.opcode) && (arg1.type == other.arg1.type) && (arg1.value == other.arg1.value) && (arg2.type == other.arg2.type) && (arg2.value == other.arg2.value);
                 }
-                case Data::UINT:
+                struct Arg
                 {
-                    unsigned int value_uint;
-                    FromContainer(&value_uint, &data.content, sizeof(unsigned int));
-                    return manager.AllocateMemory<unsigned int>(value_uint);
-                }
-                case Data::LONG:
-                {
-                    long value_long;
-                    FromContainer(&value_long, &data.content, sizeof(long));
-                    return manager.AllocateMemory<long>(value_long);
-                }
-                case Data::ULONG:
-                {
-                    unsigned long value_ulong;
-                    FromContainer(&value_ulong, &data.content, sizeof(unsigned long));
-                    return manager.AllocateMemory<unsigned long>(value_ulong);
-                }
-                case Data::FLOAT:
-                {
-                    float value_float;
-                    FromContainer(&value_float, &data.content, sizeof(float));
-                    return manager.AllocateMemory<float>(value_float);
-                }
-                case Data::DOUBLE:
-                {
-                    double value_double;
-                    FromContainer(&value_double, &data.content, sizeof(double));
-                    return manager.AllocateMemory<double>(value_double);
-                }
-                case Data::BOOL:
-                {
-                    bool value_bool;
-                    FromContainer(&value_bool, &data.content, sizeof(bool));
-                    return manager.AllocateMemory<bool>(value_bool);
-                }
-                case Data::CHAR:
-                {
-                    char value_char;
-                    FromContainer(&value_char, &data.content, sizeof(char));
-                    return manager.AllocateMemory<char>(value_char);
-                }
-                case Data::UCHAR:
-                {
-                    unsigned char value_uchar;
-                    FromContainer(&value_uchar, &data.content, sizeof(unsigned char));
-                    return manager.AllocateMemory<unsigned char>(value_uchar);
-                }
-                case Data::STRING:
-                {
-                    std::string value_string = "";
-                    for(auto byte : data.content)
+                    Arg() : type(ArgType::NONE), value(0) {}
+                    Arg(ArgType t, uint64_t v) : type(t), value(v) {}
+                    inline friend std::ostream & operator << (std::ostream &out, const Arg& arg)
                     {
-                        char character = (char) byte;
-                        value_string.insert(value_string.end(), character);
+                        out << ArgTypeToString(arg.type) << "(" <<  ArgumentValueToString(arg.type, arg.value) << ")";
+                        return out;
                     }
-                    return manager.AllocateMemory<std::string>(value_string);
-                }
-                case Data::VOID:
+                    ArgType type;
+                    uint64_t value;
+                };
+
+                inline friend std::ostream & operator << (std::ostream &out, const Code& code)
                 {
-                    return manager.GenerateVoidWrapper();
+                    out << OPToString(code.opcode) << "  :  " << code.arg1 << " ; " << code.arg2;
+                    return out;
                 }
-                default:
+                
+                OPCode opcode;
+                Arg arg1;
+                Arg arg2;
+            };
+            struct Text
+            {
+                bool operator==(const Text& other) const
                 {
-                    return manager.GenerateVoidWrapper();
+                    if(size != other.size){
+                        return false;
+                    }
+                    for(uint64_t i = 0; i < size; i++){
+                        if(content[i] != other.content[i]){
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                static uint64_t get_length(const char* c) {
+                    uint64_t l = 0;
+                    while(*c != '\0'){
+                        l++;
+                        c++;
+                    }
+                    return l;
+                }
+                std::string as_string()
+                {
+                    std::string out = "";
+                    for(uint64_t i = 0; i < size; i++){
+                        out += content[i];
+                    }
+                    return out;
+                }
+                Text(const char *c) : content(new char(get_length(c))), size(get_length(c)) 
+                {
+                    for(uint64_t i = 0; i < size; i++)
+                    {
+                        content[i] = c[i];
+                    }
+                }
+                Text(const char* c, uint64_t s) : content(new char(s)), size(s)
+                {
+                    for(uint64_t i = 0; i < s; i++)
+                    {
+                        content[i] = c[i];
+                    }
+                }
+                Text(const Text& other) : content(new char(other.size)), size(other.size)
+                {
+                    for(uint64_t i = 0; i < other.size; i++)
+                    {
+                        content[i] = other.content[i];
+                    }
+                }
+                ~Text()
+                {
+                    delete content;
+                }
+                private:
+                char* content;
+                const uint64_t size;
+                
+            };
+            bool operator==(const Ovo& other) const
+            {
+                if(version != other.version){
+                    return false;
+                }
+                if(code.size() != other.code.size()){
+                    return false;
+                }
+
+                for(uint64_t i = 0; i < code.size(); i++)
+                {
+                    if(code.at(i) != other.code.at(i)){
+                        return false;
+                    }
+                }
+                if(text.size() != other.text.size()){
+                    return false;
+                }
+                for(uint64_t i = 0; i < text.size(); i++){
+                    if(text.at(i) != other.text.at(i)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            double version;
+            std::vector<Code> code;
+            std::vector<Text> text;
+
+            bool ToFile(std::string);
+            bool FromFile(std::string);
+
+        };
+
+        static bool IsLowEndian()
+        {
+            int n = 1;
+            if(*(char *)&n == 1){
+                return true;
+            }
+            return false;
+        }
+
+        // EndianMemCpy:
+        // EndianMemCpy is used to write/read Ovo files.
+        // CPU <----- EndianMemcpy -----> File
+        //
+        // In Low Endian systems, EndianMemcpy behaves exactly like memcpy, so it becomes:
+        //
+        // (Low endian binary cpu data) <---- Memcpy ------> (Low Endian binary file data)
+        //
+        // However, in high endian systems, it first inverts the endianness of the data, so this becomces:
+        //
+        // (High endian binary cpu data) <----- Invert and Memcpy -------> (Low Endian binary file data)
+        //
+        // Note that in both cases, files follow the standard of having data written in low endian.
+        //
+
+        static void EndianMemcpy(char* origin, char* destiny, uint64_t size) 
+        {
+            if(IsLowEndian()) {
+                for(uint64_t i = 0; i < size; i++)
+                {
+                    destiny[i] = origin[i]; 
+                }
+            }
+            else {
+                for(uint64_t i = 0; i < size; i++)
+                {
+                    destiny[i] = origin[size - 1 - i]; 
                 }
             }
         }
-        template<typename T>
-        inline OVO::Data OVO::Data::GenerateData(T _content)
+        inline bool Ovo::FromFile(std::string path)
         {
-            return Data(_content);
-        }
-        template<typename T>
-        inline OVO::Data::Data(T) : content(), size(0), mode(Mode::VOID)
-        {
-        }
-        template<> inline OVO::Data::Data(int _content) : content(), size(sizeof(int)), mode(Mode::INT)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(unsigned int _content) : content(), size(sizeof(unsigned int)), mode(Mode::UINT)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(long _content) : content(), size(sizeof(long)), mode(Mode::LONG)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(unsigned long _content) : content(), size(sizeof(unsigned long)), mode(Mode::ULONG)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(float _content) : content(), size(sizeof(float)), mode(Mode::FLOAT)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(double _content) : content(), size(sizeof(double)), mode(Mode::DOUBLE)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(bool _content) : content(), size(sizeof(bool)), mode(Mode::BOOL)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(char _content) : content(), size(sizeof(char)), mode(Mode::CHAR)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(unsigned char _content) : content(), size(sizeof(unsigned char)), mode(Mode::UCHAR)
-        {
-            ToContainer(&content, &_content, size);   
-        }
-        template<> inline OVO::Data::Data(std::string _content) : content(), size(sizeof(char) * _content.length()), mode(Mode::STRING)
-        { 
-            const char* as_cstr = _content.c_str();
-            ToContainer(&content, as_cstr, size);
-        }
-        inline OVO::Data::Data() : content(), size(0), mode(Mode::VOID) {}
-        inline OVO::Data::Data(void *_content, Usize _size, Mode _mode) : content(), size(_size), mode(_mode)
-        {
-            ToContainer(&content, _content, _size);
-        }
-        inline OVO::Usize OVO::Data::GetSizeFromString(void*& string)
-        {
-            Usize *sizeptr = (Usize *) string;
-            Usize out = *sizeptr;
+            code.clear();
+            text.clear();
 
-            sizeptr++;
+            std::ifstream file;
+            file.open(path, std::ios::binary | std::ios::in);
 
-            string = (void *) sizeptr;
+            if(file.fail())
+            {
+                return false;
+            }
 
-            return out;
-        }
-        inline void OVO::Data::PutSizeFromData(Usize size, void*& out)
-        {
-            Usize *sizeptr = (Usize *) out;
-            *sizeptr = size;
-
-            sizeptr++;
-
-            out = (void *) sizeptr;
-        }
-        inline void OVO::Data::PutModeFromData(Mode mode, void*& out)
-        {
-            Mode *modeptr = (Mode *) out;
-            *modeptr = mode;
-
-            modeptr++;
-
-            out = (void *) modeptr;
-        }
-        inline OVO::Data::Mode OVO::Data::GetModeFromString(void*& string)
-        {
-            Mode *modeptr = (Mode *) string;
-            Mode mode = *modeptr;
-
-            modeptr++;
-
-            string = (void *) modeptr;
-
-            return mode;
-        } 
-        inline OVO::Data OVO::Data::FromString(std::string _content)
-        {
-            Usize content_size = _content.length() * sizeof(char);
-            Usize header_size = sizeof(Usize) + sizeof(Mode);
-
-            if(header_size >= content_size) // If there is no content.
-                return Data();
+            // Read Magic Numbers:
             
-            const char* as_cstr = _content.c_str();
-            void *ptr = (void *) as_cstr;
-
-            Usize size = GetSizeFromString(ptr);
-            Mode mode = GetModeFromString(ptr);
-
-            return Data(ptr, size, mode);
-
-        }
-        inline std::string OVO::Data::ToString(Data data)
-        {
-            const Usize usize_size = sizeof(Usize);
-            const Usize mode_size = sizeof(Mode);
-            const Usize content_size = data.size;
-
-            const Usize total_size = usize_size + mode_size + content_size;
+            char magic[sizeof(MAGIC) - 1]; // Ignore \0
             
-            Byte *byte_content = new Byte[total_size];
+            file.read(magic, sizeof(MAGIC) - 1);
 
-            void *ptr = (void *) byte_content;
+            for(uint64_t i = 0; i < sizeof(MAGIC) - 1; i++)
+            {
+                if(magic[i] != MAGIC[i]){
+                    return false;
+                }
+            }
 
-            PutSizeFromData(data.size, ptr);
-            PutModeFromData(data.mode, ptr);
-            FromContainer(ptr, &data.content, data.size);
+            // Read OVO Version:
+            
+            char version_cstr[sizeof(double)];
+            file.read(version_cstr, sizeof(version_cstr));
+            
+            EndianMemcpy(version_cstr, (char *)&version, sizeof(version_cstr));
 
-            std::string output(reinterpret_cast<char const *>(byte_content), total_size);
-            free(byte_content);
+            // Read Code Array:
+            
+            // Read Size of Code Array:
+            
+            char codesize_cstr[sizeof(uint64_t)];
+            file.read(codesize_cstr, sizeof(codesize_cstr));
+            
+            uint64_t codesize = code.size();
+            EndianMemcpy(codesize_cstr, (char *)&codesize, sizeof(codesize_cstr));
 
-            return output;
+            // Read each line of code
+
+            for(uint64_t t = 0; t < codesize; t++)
+            {
+                char opcode_cstr[sizeof(OPCode)];
+                file.read(opcode_cstr, sizeof(opcode_cstr));
+                
+                uint8_t opcode;
+                EndianMemcpy(opcode_cstr, (char *)&opcode, sizeof(opcode_cstr));
+
+                char arg1arg_cstr[sizeof(ArgType)];
+                file.read(arg1arg_cstr, sizeof(arg1arg_cstr));
+                
+                uint8_t arg1arg;
+                EndianMemcpy(arg1arg_cstr, (char *)&arg1arg, sizeof(arg1arg_cstr));
+                
+                char arg1val_cstr[sizeof(uint64_t)];
+                file.read(arg1val_cstr, sizeof(arg1val_cstr));
+                
+                uint64_t arg1val;
+                EndianMemcpy(arg1val_cstr, (char *)&arg1val, sizeof(arg1val_cstr));
+
+                char arg2arg_cstr[sizeof(ArgType)];
+                file.read(arg2arg_cstr, sizeof(arg2arg_cstr));
+                
+                uint8_t arg2arg;
+                EndianMemcpy(arg2arg_cstr, (char *)&arg2arg, sizeof(arg2arg_cstr));
+                
+                char arg2val_cstr[sizeof(uint64_t)];
+                file.read(arg2val_cstr, sizeof(arg2val_cstr));
+                
+                uint64_t arg2val;
+                EndianMemcpy(arg2val_cstr, (char *)&arg2val, sizeof(arg2val_cstr));
+
+                code.push_back( Code {
+                                        static_cast<OPCode>(opcode),
+                                        Code::Arg { static_cast<ArgType>(arg1arg), 
+                                                    arg1val },
+                                        Code::Arg { static_cast<ArgType>(arg2arg), 
+                                                    arg2val },
+                                });
+
+            }
+            
+            // Read Text Array:
+
+            // Read Size of Text Array:
+            
+            char textarraysize_cstr[sizeof(uint64_t)];
+            file.read(textarraysize_cstr, sizeof(textarraysize_cstr));
+            
+            uint64_t textarraysize;
+            EndianMemcpy(textarraysize_cstr, (char *)&textarraysize, sizeof(textarraysize_cstr));
+
+            // Read each line of text:
+            
+            for(uint64_t t = 0; t < textarraysize; t++)
+            {
+                char textsize_cstr[sizeof(uint64_t)];
+                file.read(textsize_cstr, sizeof(textsize_cstr));
+                
+                uint64_t textsize;
+                EndianMemcpy(textsize_cstr, (char *)&textsize, sizeof(textsize_cstr));
+
+                char* content_cstr = new char(textsize);
+                file.read(content_cstr, textsize);
+                
+                text.push_back(Text(content_cstr, textsize));
+                delete content_cstr;
+            }
+
+            file.close();
+            // END
+            return true;
+
         }
- 
+        inline bool Ovo::ToFile(std::string path)
+        {
+            std::ofstream file;
+            file.open(path, std::ios::binary | std::ios::out);
+
+            if(file.fail())
+            {
+                return false;
+            }
+
+            // Write Magic Numbers:
+            
+            file.write(MAGIC, sizeof(MAGIC) - 1); // Ignore \0
+
+            // Write OVO Version:
+            
+            char version_cstr[sizeof(double)];
+            EndianMemcpy((char *) &version, version_cstr, sizeof(version_cstr));
+            file.write(version_cstr, sizeof(version_cstr));
+
+            // Write Code Array:
+            
+            // Write Size of Code Array:
+            
+            uint64_t codesize = code.size();
+            char codesize_cstr[sizeof(codesize)];
+            EndianMemcpy((char*)&codesize, codesize_cstr, sizeof(codesize_cstr));
+
+            file.write(codesize_cstr, sizeof(codesize_cstr));
+
+            // Write each line of code
+
+            for(auto codeline = code.begin(); codeline != code.end(); codeline++)
+            {
+                uint8_t opcode = static_cast<uint8_t>(codeline->opcode);
+                char opcode_cstr[sizeof(opcode)];
+                EndianMemcpy((char *)&opcode, opcode_cstr, sizeof(opcode_cstr));
+
+                uint8_t arg1arg = static_cast<uint8_t>(codeline->arg1.type);
+                char arg1arg_cstr[sizeof(arg1arg)];
+                EndianMemcpy((char *)&arg1arg, arg1arg_cstr, sizeof(arg1arg_cstr));
+                
+                uint64_t arg1val = codeline->arg1.value;
+                char arg1val_cstr[sizeof(arg1val)];
+                EndianMemcpy((char *)&arg1val, arg1val_cstr, sizeof(arg1val_cstr));
+
+                uint8_t arg2arg = static_cast<uint8_t>(codeline->arg2.type);
+                char arg2arg_cstr[sizeof(arg2arg)];
+                EndianMemcpy((char *)&arg2arg, arg2arg_cstr, sizeof(arg2arg_cstr));
+                
+                uint64_t arg2val = codeline->arg2.value;
+                char arg2val_cstr[sizeof(arg2val)];
+                EndianMemcpy((char *)&arg2val, arg2val_cstr, sizeof(arg2val_cstr));
+                
+
+                file.write(opcode_cstr, sizeof(opcode_cstr));
+                file.write(arg1arg_cstr, sizeof(arg1arg_cstr));
+                file.write(arg1val_cstr, sizeof(arg1val_cstr));
+                file.write(arg2arg_cstr, sizeof(arg2arg_cstr));
+                file.write(arg2val_cstr, sizeof(arg2val_cstr));
+            }
+            
+            // Write Text Array:
+
+            // Write Size of Text Array:
+            
+            uint64_t textarraysize = text.size();
+            char textarraysize_cstr[sizeof(textarraysize)];
+            EndianMemcpy((char *)&textarraysize, textarraysize_cstr, sizeof(textarraysize_cstr));
+
+            file.write(textarraysize_cstr, sizeof(textarraysize_cstr));
+
+            // Write each line of text:
+            
+            for(auto line = text.begin(); line != text.end(); line++)
+            {
+                std::string textcontent = line->as_string();
+                
+                uint64_t textsize = textcontent.size() * sizeof(char);
+                char textsize_cstr[sizeof(textsize)];
+                EndianMemcpy((char *)&textsize, textsize_cstr, sizeof(textsize_cstr));
+                
+                file.write(textsize_cstr, sizeof(textsize_cstr));
+                file.write(textcontent.c_str(), textsize); // Writing Text array is Writing Byte array which does not require Endian conversion
+            }
+            
+            file.close();
+            // END
+            return true;
+        }
+        
     }
 }
