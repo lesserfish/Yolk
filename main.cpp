@@ -1,58 +1,31 @@
-#include "src/Yolk/YolkVM/Elementary.h"
-#include "src/Yolk/Wrapper/WrapperGenerator.h"
-#include "src/Yolk/YolkVM/Assembler.h"
+#include "src/Yolk/Yolk.h"
+#include "src/Yolk/Assembler/Assembler.h"
+#include <cstdint>
 #include <iostream>
-#include <chrono>
+#include <string>
+#include <cstdio>
 
-void Print(unsigned long x)
-{
-    std::cout << "Result: " << x << std::endl;
-}
-int main()
-{
-    // TODO: INC and DEC instructions. Should have the form
-    // INC REGX
-    // DEC REGX
-    // INC REGX symbol containing an integer
-    // DEC REGX symbol containing an integer
-    //
-    // ADD and DEC should have the possibility of elementary additions, like
-    // ADD REGX, i32.127.
-    // Same for MUL, DIV, MOD, AND and OR.
+int main(){
+    std::string source= "MOV REGA REGB\n"
+                        "ADD REGB REGC\n"
+                        "ADD REGA uint64:128\n"
+                        "SUB REGB double:-127.35 // We Add something to the register\n"
+                        ".LOOP:\n"
+                        "CMPEQ REGA REGB\n"
+                        "JMP .LOOP\n"
+                        "BRDW\n"
+                        "MOV REGA Text\n"
+                        "MOV REGB \"The string is valid\"";
+                        
 
-    std::string Content = 
-    "MOVM str:Print\n"
-    "CLONE REGA, u64:1\n"
-    "CLONE REGC, u64\n"
-    "CLONE REGB, u64\n"
-    ".loop_begin:\n"
-    "CMPEQ REGB, 100000\n"
-    "JNTRUE .loop_end\n"
-    "ADD REGB, 1\n"
-    "ADD REGC, REGB\n"
-    "JMP .loop_begin\n"
-    ".loop_end:\n"
-    "PUSHAR REGC\n"
-    "CALLM\n"
-    "HALT\n";
-
-    auto ovo = Yolk::VM::Assembler::Assemble(Content);
-
-    Yolk::Memory::MemoryManager manager;
-
-    auto w1 = manager.AllocateMemory(7);
-    auto w2 = manager.AllocateMemory(3);
-
-    Yolk::Memory::WrapperTable wtable(manager);
-    Yolk::Memory::MemoryBlock memblock(manager, wtable);
-
-    auto w = Yolk::WrapperGenerator<void,unsigned long>::GenerateMethodWrapper(Print, manager);
-    memblock.RegisterWrapper("Print", w);
-
-    Yolk::VM::YVM vm(manager, wtable);
-    Yolk::VM::Elementary::GenerateElementaryOperations(vm.GetOpHandler());
-
-    vm.Run(ovo, memblock.GetSymbolTable());
-    std::cout << vm.GetMessage() << std::endl << "Clock: " << vm.GetClock() << std::endl;
-
+    auto ovo = Yolk::Assembler::Assemble(source);
+    std::cout << "Instructions: \n";
+    for(auto i : ovo.code)
+    {
+        std::cout << "\t" << i << std::endl;
+    }
+    std::cout << "\n\nText: \n";
+    for(auto x : ovo.text) {
+        std::cout << "\t" << x.as_string() << std::endl;
+    }
 }
