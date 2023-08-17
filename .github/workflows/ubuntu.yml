@@ -20,7 +20,7 @@ jobs:
       run:  mkdir ${{github.workspace}}/Build
       
     - name: Install dependencies
-      run: apt install clang-14
+      run: sudo apt install clang-14
     
     - name: Build with CMake
       working-directory: ${{github.workspace}}/Build
