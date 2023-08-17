@@ -19,14 +19,12 @@ jobs:
     - name: Create Build Directory
       run:  mkdir ${{github.workspace}}/Build
       
+    - name: Install dependencies
+      run: apt install clang-14
     
-    - name: Configure CMake
+    - name: Build with CMake
       working-directory: ${{github.workspace}}/Build
-      run: cmake -S ${{github.workspace}} -B . -DCMAKE_CXX_COMPILER=clang++-11
-
-    - name: Build
-      run: cmake --build ${{github.workspace}}/Build --config ${{env.BUILD_TYPE}}
-
+      run: cmake -S ${{github.workspace}} -B . -DCMAKE_CXX_COMPILER=clang++-14
 
     - name: Test
       working-directory: ${{github.workspace}}/Build/tests
