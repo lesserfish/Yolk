@@ -22,9 +22,14 @@ jobs:
     - name: Install dependencies
       run: sudo apt install clang-14
     
-    - name: Build with CMake
+    - name: CMake
       working-directory: ${{github.workspace}}/Build
       run: cmake -S ${{github.workspace}} -B . -DCMAKE_CXX_COMPILER=clang++-14
+    
+    - name: Build
+      working-directory: ${{github.workspace}}/Build
+      run: make
+
 
     - name: Test
       working-directory: ${{github.workspace}}/Build/tests
